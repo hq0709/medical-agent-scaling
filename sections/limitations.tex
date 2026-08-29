@@ -6,9 +6,10 @@ taking, no test ordering, no longitudinal follow-up, and the exact-match endpoin
 option-selection component of diagnosis only. The $T=0$ property that makes the design clean also
 bounds what it licenses. Results here do not extrapolate to tool-using clinical agents.
 
-All models are from a single vendor. The heterogeneity arm of the original design, which mixes
-vendors within a capability tier, is here restricted to mixing separately trained OpenAI families;
-genuine cross-vendor error decorrelation may be larger than what we measure.
+All models come from one vendor, so the heterogeneity arm mixes separately trained OpenAI
+families rather than distinct vendors. This bears directly on our central claim: cross-vendor
+panels may decorrelate more than $\varphi = 0.73$, and the effective panel size we report is
+therefore a lower bound on what heterogeneous deployments could achieve.
 
 Panels are nested by construction (\S2.2), so the reported curves estimate accuracy as a routed
 panel is extended, not the expected accuracy of independently redrawn panels at each size. The
@@ -25,12 +26,3 @@ Difficulty strata are defined by the pass rate of mid-tier models, some of which
 the evaluation ladder. This inflates the level of the hard-stratum results but not the
 within-item slope across panel sizes, which is computed on identical items.
 
-\subsection{Success per 1K tokens}
-
-Token efficiency separates the architectures more sharply than accuracy does. Successes per
-1{,}000 tokens: Hybrid $0.80$, self-consistency $0.47$, Independent $0.39$, Decentralized
-$0.33$, Centralized $0.19$. The architecture that produced every significant accuracy gain in
-this study is also the least token-efficient, by $4.3\times$. Reported per question at list
-prices, a Centralized panel at $N{=}3$ costs \$1.4 per 1{,}000 MedXpertQA questions against
-\$0.21 for a single chain-of-thought call. That is a $6.7\times$ premium for $+7.6$ pp, and only
-inside the window. Outside it the same premium buys nothing.

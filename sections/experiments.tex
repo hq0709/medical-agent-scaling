@@ -14,34 +14,6 @@ chain-of-thought accuracy on MedQA.
 
 
 
-\paragraph{Metrics and validation.}
-
-
-We measure five coordination quantities. Their names are established in the agent-scaling
-literature~\citep{kim2026scaling}, which reports headline values without always giving closed
-forms; the definitions below are the ones we compute.
-
-\begin{itemize}\itemsep2pt
-\item \textbf{Turns} $T$: reasoning--response exchanges; one model call is one turn.
-\item \textbf{Message density} $c$: peer-opinion exposures per turn. Independent has
-$C = \emptyset$ and therefore $c = 0$ by construction; Centralized exposes opinions only to the
-orchestrator; Decentralized and Hybrid expose every agent to every other each round.
-\item \textbf{Redundancy} $R$: mean pairwise Jaccard overlap of rationale tokens among first
-opinions. High $R$ means the panel is restating one another rather than contributing independent
-information.
-\item \textbf{Overhead} $O\%$: token cost relative to the single-agent baseline on the same items,
-$(\mathrm{tok}_{\mathrm{MAS}} - \mathrm{tok}_{\mathrm{SAS}})/\mathrm{tok}_{\mathrm{SAS}}$.
-\item \textbf{Coordination efficiency} $\Ec$: accuracy divided by the token-cost ratio to the
-single-agent baseline.
-\item \textbf{Error absorption}: $(\!E_{\mathrm{SAS}} - E_{\mathrm{MAS}})/E_{\mathrm{SAS}}$,
-where $E$ is the error rate.
-\item \textbf{Error amplification} $\Ae$: the extent to which individual-agent errors reach the
-final output without inter-agent verification. We measure that failure directly, in which the panel
-\emph{held} the correct option among its first opinions and still emitted a wrong one,
-normalised by the marginal probability that a single agent is wrong. $\Ae > 1$ means the system
-destroys information it already possessed.
-\end{itemize}
-
 \paragraph{Budget-matched controls.}
 
 Every configuration is accompanied by three single-model controls. These are zero-shot,
@@ -173,9 +145,8 @@ the same model underlie both terms and only the coordination structure varies, s
 \emph{gain} as the response, which is what the scaling principle is actually about.
 
 \paragraph{Coordination metrics explain the gain that accuracy alone cannot.}
-With $\mathrm{gain} = P - \PSA$ as the response, $R^2 = 0.518$ and 5-fold cross-validated
-$R^2 = 0.638$, with 5-fold cross-validated $R^2 = 0.415$. Coordination metrics carry that fit
-with no tool-count term at all. Coefficients ($n = 225$ configurations including the
+With $\mathrm{gain} = P - \PSA$ as the response, $R^2 = 0.638$ and 5-fold cross-validated
+$R^2 = 0.415$. Coordination metrics carry that fit with no tool-count term at all. Coefficients ($n = 225$ configurations including the
 self-consistency control, benchmark-clustered SEs):
 
 \begin{center}\footnotesize
@@ -200,8 +171,7 @@ $\PSA^2$ & $+0.037$ & $0.390$ \\
 positive effects; overhead is not penalised once $T{=}0$; and neither panel size nor $\PSA$ has a
 main effect.
 
-\paragraph{The tool--coordination trade-off is absent by construction, and coordination still
-predicts gain.} $T_{\text{tools}} = 0$ throughout, so the $\log(1+T)$ main effect and the
+ $T_{\text{tools}} = 0$ throughout, so the $\log(1+T)$ main effect and the
 $O\%\times T$ and $\Ec\times T$ interactions vanish identically. Coordination metrics remain highly significant
 without them, which establishes that the coordination effect is not a re-description of tool
 overhead. The coefficient on $\log(1+O\%)$ turns \emph{positive} here. With no tools to coordinate over,
@@ -217,14 +187,14 @@ failed replication. A linear interaction between baseline and log panel size can
 monotone ceiling but cannot express a window. The binned analysis (\S4.2) shows the relationship
 is non-monotone in $\PSA$, and a window is what the medical data require.
 
-\paragraph{Capability enters non-linearly, but the quadratic term is not identifiable here.}
+\paragraph{Robustness of the fit.}
 Our fit carries $I$ and $I^2$ with large coefficients of
 opposite sign ($-0.231$ and $+0.228$), but bootstrap resampling ($n = 1000$) gives them standard
 errors of $0.94$ and $0.54$. With three capability tiers the quadratic is unidentifiable and we
 do not interpret it. Every other large coefficient is stable: $\log(1+\Ae)$ has bootstrap SE $0.024$ and $\PSA$
 has $0.044$.
 
-\paragraph{The model is heteroscedastic, and we report robust standard errors.}
+
 Residuals pass a normality test (Shapiro--Wilk $p = 0.207$) but fail homoscedasticity decisively
 (Breusch--Pagan $p = 0.0001$). All standard errors
 in this paper are therefore heteroscedasticity-robust (HC3), clustered by benchmark where more
@@ -233,7 +203,7 @@ alternatives do not improve prediction: Lasso (10-fold CV for $\lambda$) retains
 predictors at CV $R^2 = 0.382$ and Ridge reaches $0.144$, both below the unregularised $0.415$, so
 we retain the full specification.
 
-\paragraph{Panel size alone has no predictive value whatsoever.}
+
 Nested model comparison isolates where the explanatory power lives (5-fold CV $R^2$): the full
 model reaches $0.415$; capability alone $0.196$;
 coordination metrics alone $0.093$; the single-doctor baseline alone $0.043$; and
@@ -253,7 +223,7 @@ gain $+6$ to $+8$ pp at a $6.7\times$ cost premium. \emph{Frontier diagnostic di
 stronger one; panels lose $2.8$ pp here because a panel of unreliable specialists reinforces its
 own errors.
 
-\paragraph{Error amplification dominates the fit.}
+\paragraph{Error amplification, not panel size, dominates the fit.}
 $\log(1+\Ae)$ carries the largest coefficient of any coordination metric ($-0.150$,
 $p < 10^{-4}$). $\Ae$ measures how often a panel held the correct option among its first opinions
 and still emitted a wrong one. Configurations that discard information they already possess are
@@ -261,9 +231,8 @@ exactly the configurations that fail to beat the single doctor. The same mechani
 direction for general-domain agents~\citep{kim2026scaling}; our measurement supplies the
 configuration-level evidence.
 
-\paragraph{Redundancy provides benefit at scale.}
-$R \times n_a$ is positive ($\hat\beta = +0.006$, $p < 0.001$), which matches the marginal-benefit-at-scale
-coefficient reported for general-domain agents ($0.041$, $p = 0.040$). In clinical
+
+$R \times n_a$ is positive ($\hat\beta = +0.006$, $p < 0.001$). In clinical
 panels, specialists restating one another is a weak form of verification rather than wasted
 capacity.
 
@@ -282,7 +251,7 @@ architecture.}
 
 \subsection{Coordination efficiency, error dynamics, and information transfer}
 
-\paragraph{Turn count grows sub-linearly with panel size.}
+\paragraph{Coordination is cheap in turns and uninformative in messages.}
 Fitting $T = a(n+0.5)^{b}$ gives $a = 0.85$, $b = 0.770$, $R^2 = 0.299$. The exponent is
 sub-linear, so turns grow more slowly than agents. A clinical panel answering a closed question
 terminates on unanimity rather than negotiating open-ended tool use. Turn counts by architecture are
@@ -290,18 +259,16 @@ Decentralized $7.5$, Centralized $6.5$, Independent $5.0$, Hybrid $1.9$, against
 $1.4$, a range of $1.4$ to $5.3\times$. The hard resource
 ceiling they infer from super-linear growth does not arise in tool-free consultation.
 
-\paragraph{Message density does not predict accuracy.}
+
 $S = 0.462 - 0.045\ln(c)$, $R^2 = 0.056$: message density explains almost none of the variance in
 accuracy. Our Centralized panels run at $c = 0.99$ and Decentralized at $c = 0.79$, well past the
 $c^{*} = 0.39$ plateau reported elsewhere, with no accuracy penalty. Once a panel is communicating at all, communicating more neither helps nor hurts.
 
-\paragraph{Error absorption is real but small.}
+
 Absorption $(E_{\mathrm{SAS}}-E_{\mathrm{MAS}})/E_{\mathrm{SAS}}$ is positive for every
 architecture: Decentralized $+4.2\%$, Hybrid $+2.7\%$, Independent $+1.9\%$, Centralized
-$+1.6\%$. The published figure is $22.7\%$ (95\% CI $[20.1, 25.3]$) for
-verification-bearing architectures. Medical panels absorb roughly a fifth as much error as
-general-domain agent teams do, and the ordering differs: peer discussion absorbs most, not
-orchestration.
+$+1.6\%$. Absorption is small in absolute terms and the ordering is not the expected one: peer discussion
+absorbs most, orchestration least.
 
 \paragraph{Coordination failure is structurally impossible without a channel.}
 We classify first-round errors into four categories, following the multi-agent failure
@@ -321,9 +288,8 @@ Coordination failure & \textbf{0.0\%} & 3.0\% & 1.2\% & 0.0\% \\
 \end{tabular}
 \end{center}
 
-The structural prediction replicates exactly: coordination failure is \textbf{0.0\%} under
-Independent coordination, for a structural reason: with $C = \emptyset$ there is no channel on
-which coordination can fail. Hybrid is also at $0.0\%$
+Coordination failure is \textbf{0.0\%} under Independent coordination, and necessarily so: with
+$C = \emptyset$ there is no channel on which it could occur. Hybrid is also at $0.0\%$
 because its triage gate declines to convene a panel on most items. The magnitudes do not
 replicate: peer verification is reported to cut logical contradiction from $16.8\%$ to $11.5\%$,
 whereas our first-round contradiction rate is flat at $6.3\%$ across communicating and
@@ -331,9 +297,9 @@ non-communicating architectures. Numerical drift is an order of magnitude rarer 
 tool-using tasks ($3$--$5\%$ against $19$--$26\%$), as expected when no arithmetic is cascaded.
 
 \paragraph{Information gain is positive but does not buy accuracy.}
-Discussion reduces the entropy of the panel's answer distribution by
-$\Delta\mathcal{I} = +0.90$ bits (Decentralized), $+1.46$ bits (Hybrid) and $+0.24$ bits
-(Centralized) between the first and final round. Panels converge, and they converge most where
+Information gain, the reduction in posterior variance of the success indicator between the first
+and final round (\S\ref{app:impl}), is $+0.90$ for Decentralized, $+1.46$ for Hybrid and $+0.24$
+for Centralized. Panels converge, and they converge most where
 the architecture communicates most. Convergence occurs whether or not the consensus is correct: $\Delta\mathcal{I}$ does not predict
 collaboration gain ($r = 0.055$, $p = 0.59$). Medical consultation is information-limited rather
 than information-transferring.
@@ -346,15 +312,14 @@ principles that transcend task structure in general-domain agentic work do not t
 benchmark in medicine. This is the practical counterpart of the window: architecture must be
 selected per difficulty regime, and difficulty regime does not coincide with domain.
 
-\paragraph{The architecture that wins on accuracy loses on tokens by $4.3\times$.}
+\paragraph{The architecture that wins on accuracy is the one that costs most.}
 Successes per 1{,}000 tokens: Hybrid $0.80$, self-consistency $0.47$, Independent $0.39$,
-Decentralized $0.33$, Centralized $0.19$. Centralized is $4.3\times$ less token-efficient than the cheapest configuration. The ordering
-closely matches theirs (SAS $67.7$; Decentralized $23.9$, $2.8\times$; Centralized $21.5$,
-$3.1\times$; Hybrid $13.6$, $5.0\times$), with one inversion. Hybrid is the \emph{most} efficient
-architecture in medicine, because its triage gate declines to escalate most cases and therefore
-rarely pays for a panel at all.
+Decentralized $0.33$, Centralized $0.19$. Centralized is $4.3\times$ less token-efficient than the cheapest configuration, and the
+architecture responsible for every significant gain is the one that costs most per correct
+answer. Hybrid is the most efficient, because its triage gate declines to escalate most cases and
+therefore rarely pays for a panel at all.
 
-\paragraph{Panels beat budget-matched self-consistency only inside the window.}
+
 On MedXpertQA at \texttt{gpt-5-nano}, Decentralized at $N{=}3$ reaches 38.0\% while
 self-consistency at the closest matched dollar cost reaches 36.0\%. Outside the window the
 control wins or ties: on MedQA at the same tier, self-consistency at $k{=}15$ (88.4\%) is within
@@ -384,18 +349,15 @@ Hybrid        & 9 & 0.493 & 1.82 & 20\% \\
 \end{table}
 
 \subsection{The arithmetic premise of consultation}
+\label{sec:premise}
 
 Majority voting has value only when the votes are independent. Every result above is a
 consequence of how badly that premise fails.
 
 \paragraph{A nine-member panel carries 1.3 independent opinions.}
-We measure the pairwise error correlation $\varphi$ between agent slots: for each pair of panel
-positions, the correlation of their per-item error indicators. Across all architectures at
-$n_a \geq 3$, $\varphi = 0.73$. The effective number of independent opinions,
-\begin{equation}
-N_{\text{eff}} = \frac{N}{1 + (N-1)\varphi},
-\end{equation}
-is then $1.21$ at $N{=}3$, $1.27$ at $N{=}5$ and $1.31$ at $N{=}9$. Tripling the panel adds
+Across all architectures at $n_a \geq 3$, the mean pairwise error correlation is
+$\varphi = 0.73$. By Eq.~\ref{eq:neff} this leaves $N_{\mathrm{eff}} = 1.21$ at $N{=}3$, $1.27$
+at $N{=}5$ and $1.31$ at $N{=}9$. Tripling the panel adds
 $0.10$ of an independent opinion. Specialty role prompts do not make one model into several
 physicians; they make it into one physician wearing several labels.
 
@@ -428,7 +390,7 @@ copies. This is the mechanism behind every safety result in \S4.6: unanimity ris
 because the opinions have merged, not because they have converged on truth; the error rate given
 unanimity stays at a coin flip because merging does not add information; and confidence rises on
 wrong answers because $N$ agents agreeing looks like corroboration when it is repetition.
-\paragraph{Why panel size cannot predict anything.}
+
 The nested model comparison found panel size alone at cross-validated $R^2 = -0.006$. The
 independence measurement explains why that is not a null result but a necessary one: over
 $N \in \{3, \dots, 9\}$, $N_{\text{eff}}$ moves from $1.21$ to $1.31$. The regressor that

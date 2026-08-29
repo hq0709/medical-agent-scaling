@@ -1,77 +1,53 @@
 \section{Related work}
 
-\paragraph{Why pooled opinions help, and when they stop.}
+\paragraph{Why pooled judgements help, and what they require.}
 Collective-intelligence results in medicine rest on error independence: pooling independent
 diagnostic judgements improves accuracy~\citep{kurvers2016boosting, wolf2015collective},
 plateauing at roughly five raters~\citep{kammer2017}, and groups of nine outperform individuals on
-the Human Dx platform~\citep{barnett2019}. This is the clinical instance of a general
+the Human Dx platform~\citep{barnett2019}, the clinical instance of a general
 principle~\citep{surowiecki2004wisdom} that multidisciplinary tumour boards
-institutionalise~\citep{radcliffe2019tumorboard}. The framing question is not whether two heads beat one
-but when~\citep{hautz2024}. The same literature documents what happens when independence fails:
-conformity to a unanimous majority~\citep{asch1956conformity} and groupthink in deliberating
-groups~\citep{janis1972groupthink} are the human analogues of the correlation collapse we measure.
-Correlated errors across models bound ensemble benefit in general~\citep{correlated2025}, and
-analyses of multi-agent debate show consensus can converge on confident-but-wrong
-answers~\citep{demystifying_mad}. Diagnostic error is common enough in ordinary
-practice~\citep{graber2013diagnosticerror, singh2014frequency} that a consultation mechanism which
-manufactures unwarranted agreement is a safety concern rather than an efficiency one.
+institutionalise~\citep{radcliffe2019tumorboard}. The framing question is not whether two heads
+beat one but when~\citep{hautz2024}. The same literature documents what happens when independence
+fails: conformity to a unanimous majority~\citep{asch1956conformity} and groupthink in
+deliberating groups~\citep{janis1972groupthink}. Correlated errors across models bound ensemble
+benefit in general~\citep{correlated2025}, and multi-agent debate can converge on
+confident-but-wrong answers~\citep{demystifying_mad}. This paper measures that failure directly in
+clinical panels, where diagnostic error is already common enough in ordinary
+practice~\citep{graber2013diagnosticerror, singh2014frequency} that manufactured agreement is a
+safety concern rather than an efficiency one.
 
+\paragraph{Medical language models and multi-agent systems.}
+Medical question answering became a capability benchmark once models matched licensing-exam
+thresholds~\citep{kung2023usmle, nori2023capabilities, singhal2023medpalm, singhal2025medpalm2},
+and later work moved to conducting encounters~\citep{tu2025amie, mcduff2025amie}. Prompting
+strategy carries much of that progress~\citep{nori2024medprompt}, which is why architectural
+claims need budget-matched controls. On the multi-agent side, MedAgents~\citep{tang2024medagents}
+introduced role-played specialist collaboration, MDAgents~\citep{kim2024mdagents} added adaptive
+routing, and MAC~\citep{chen2025mac} and TeamMedAgents~\citep{teammedagents} formalised teamwork
+components, the latter sweeping team sizes 2--5. Every published medical ablation stops at
+$N \leq 5$, none reports a dose--response curve, and none runs a budget-matched single-model
+control. Skeptical evaluations find that orchestration often fails to beat well-prompted single
+models at substantially higher cost~\citep{medagentboard, npjdm2026, confagents}; our independence
+measurement supplies the mechanism those results lack.
 
-\paragraph{Medical language models and their evaluation.}
-Medical question answering became a benchmark for general capability once models began matching
-licensing-exam thresholds~\citep{kung2023usmle, nori2023capabilities}, and Med-PaLM established
-expert-level performance as an explicit target~\citep{singhal2023medpalm, singhal2025medpalm2}.
-Subsequent work moved from answering questions to conducting encounters, with AMIE demonstrating
-diagnostic dialogue and differential-diagnosis generation at physician
-level~\citep{tu2025amie, mcduff2025amie}. Prompting strategy alone carries much of this
-progress~\citep{nori2024medprompt}, which is precisely why architectural claims require
-budget-matched controls. A panel must be shown to beat the same model prompted harder, not merely
-to beat the same model prompted once.
-
-\paragraph{Medical multi-agent systems.}
-MedAgents~\citep{tang2024medagents} introduced role-played specialist collaboration;
-MDAgents~\citep{kim2024mdagents} added adaptive routing between solo and group modes;
-MAC~\citep{chen2025mac} and TeamMedAgents~\citep{teammedagents} formalised teamwork components,
-the latter sweeping team sizes 2--5 under a Pareto-efficiency framing. Every published medical
-ablation stops at $N \leq 5$, none reports a dose--response curve, and none runs a budget-matched
-single-model control.
-
-\paragraph{Skeptical evaluations.}
-MedAgentBoard~\citep{medagentboard} and a large npj Digital Medicine benchmarking
-study~\citep{npjdm2026} independently report that multi-agent orchestration frequently fails to
-beat well-prompted single models on clinical tasks at substantially higher cost.
-ConfAgents~\citep{confagents} quantifies the overhead at roughly $50\times$ the latency of a single
-generation for marginal gain. Our economics analysis extends this line quantitatively, and our
-independence measurement supplies the mechanism it lacks.
-
-\paragraph{Multi-agent coordination in general domains.}
-Debate-style protocols improve factuality on reasoning tasks~\citep{du2024debate} and are argued
-to counteract degeneration of thought through enforced divergence~\citep{liang2024encouraging};
-agent frameworks such as MetaGPT~\citep{hong2024metagpt} and AutoGen~\citep{wu2024autogen} have
-made these patterns easy to deploy, and systematic studies compare collaboration
-mechanisms~\citep{zhang2024exploring}. \citet{kim2026scaling} is the most complete treatment: a
-predictive scaling principle fitted across five architectures, three model families and six
-agentic benchmarks under matched budgets, from which the 45\% capability ceiling and the
-error-amplification asymmetry are derived. We replicate its design in the medical, tool-free
-regime.
-
-\paragraph{Scaling and test-time compute.}
-Parameter and data scaling laws~\citep{kaplan2020scaling, hoffmann2022chinchilla} have analogues
-at inference time, where repeated sampling~\citep{brown2024monkeys} and adaptive test-time
-compute~\citep{snell2024scaling} trade computation for accuracy. ``More agents is all you
-need''~\citep{li2024more} reported monotone gains from ensemble size;
-\citet{chen2024morecalls} showed the relationship is non-monotone, with an inverted-U in the
-number of LLM calls on hard instances. \citet{mas_scaling2606} confirmed the inverted-U in agent
-count, and \citet{diversity2602} attributed the fast-then-slow shape to opinion diversity, showing
-two diverse agents can match sixteen homogeneous ones. Self-consistency~\citep{wang2023selfconsistency}
-over chain-of-thought~\citep{wei2022cot} is the natural budget-matched control for any such claim,
-and is the control we run at every cell.
+\paragraph{Scaling agents, and scaling inference.}
+Debate protocols improve factuality~\citep{du2024debate, liang2024encouraging} and frameworks such
+as MetaGPT~\citep{hong2024metagpt} and AutoGen~\citep{wu2024autogen} made the pattern easy to
+deploy~\citep{zhang2024exploring}. On how far it scales, ``more agents is all you
+need''~\citep{li2024more} reported monotone gains, while \citet{chen2024morecalls} showed the
+relationship is non-monotone and \citet{mas_scaling2606} confirmed an inverted-U in agent count;
+\citet{diversity2602} attributed the shape to opinion diversity, showing two diverse agents can
+match sixteen homogeneous ones. \citet{kim2026scaling} fit a predictive scaling principle across
+architectures, model families and agentic benchmarks, and supply the architecture taxonomy and
+controlled-comparison design our grid is built on. Test-time compute offers the alternative to
+adding agents~\citep{kaplan2020scaling, hoffmann2022chinchilla, brown2024monkeys,
+snell2024scaling}, and self-consistency~\citep{wang2023selfconsistency} over
+chain-of-thought~\citep{wei2022cot} is the budget-matched control we run at every cell.
 
 \paragraph{Confidence and calibration.}
-Our safety analysis depends on whether a stated confidence is informative. Language models are
-partially aware of what they know~\citep{kadavath2022know}, but elicited confidence is weakly
-calibrated and sensitive to how it is asked~\citep{xiong2024can}, a failure mode with a long
-history in neural classifiers~\citep{guo2024calibration}. Clinical evaluations report fluent but
-unreliable responses~\citep{goodman2024accuracy}, and demographic biases propagate through
-medical LLM outputs~\citep{omiye2023bias, zack2024bias}. We add a coordination-specific finding:
-deliberation degrades the discriminative power of confidence rather than improving it.
+Our safety analysis depends on whether stated confidence is informative. Models are partially
+aware of what they know~\citep{kadavath2022know}, but elicited confidence is weakly calibrated and
+sensitive to how it is asked~\citep{xiong2024can, guo2024calibration}, and clinical evaluations
+report fluent but unreliable responses~\citep{goodman2024accuracy} with demographic biases that
+propagate~\citep{omiye2023bias, zack2024bias}. We add a coordination-specific finding: deliberation
+degrades the discriminative power of confidence rather than improving it.

@@ -35,9 +35,14 @@ Hybrid & $+a_{\mathrm{orch}}$, star + peer, both & $O(rnk{+}pn)$ & Tiered referr
 \paragraph{Independent.} $N$ specialists receive the item and answer without seeing one another.
 Aggregation is majority vote, ties broken by mean self-reported confidence and then by option
 order. A confidence-weighted variant is logged throughout.
-This design gives the panel a single point at which errors can be caught before they reach
-the output. It is the architecture we find responsible for both the largest gain and the
-largest loss in the study.
+
+\paragraph{Centralized (attending physician).} An orchestrator receives the $N$ specialist
+opinions on a star topology and is instructed to \emph{audit before aggregating}. It must name the
+single opinion most likely to be wrong and justify that, then either commit to an answer or
+re-task one named specialty. A re-tasked specialist re-answers with the orchestrator's critique in
+hand. The star topology is preserved, since specialists never see each other. This design gives
+the panel a single point at which errors can be caught before they reach the output, and it is the
+architecture responsible for both the largest gain and the largest loss in the study.
 
 \paragraph{Decentralized (MDT discussion).} $N$ specialists give first opinions, then exchange
 opinions on a complete graph for up to three rounds, each free to revise. Rounds stop early only
@@ -65,6 +70,54 @@ measure \emph{accuracy as the same routed panel is extended}, not the expected a
 independently redrawn panels at each size. Paired McNemar tests on item-level outcomes remain
 valid under this coupling; regression models must cluster at the item level rather than treat
 configurations as independent.
+
+\subsection{What we measure}
+\label{sec:metrics}
+
+Accuracy alone cannot distinguish a panel that pools complementary evidence from one that repeats
+itself, so we instrument each episode with five coordination quantities and one derived quantity
+that the rest of the paper turns on.
+
+We measure five coordination quantities. Their names are established in the agent-scaling
+literature~\citep{kim2026scaling}, which reports headline values without always giving closed
+forms; the definitions below are the ones we compute.
+
+\begin{itemize}\itemsep2pt
+\item \textbf{Turns} $T$: reasoning--response exchanges; one model call is one turn.
+\item \textbf{Message density} $c$: peer-opinion exposures per turn. Independent has
+$C = \emptyset$ and therefore $c = 0$ by construction; Centralized exposes opinions only to the
+orchestrator; Decentralized and Hybrid expose every agent to every other each round.
+\item \textbf{Redundancy} $R$: mean pairwise Jaccard overlap of rationale tokens among first
+opinions. High $R$ means the panel is restating one another rather than contributing independent
+information.
+\item \textbf{Overhead} $O\%$: token cost relative to the single-agent baseline on the same items,
+$(\mathrm{tok}_{\mathrm{MAS}} - \mathrm{tok}_{\mathrm{SAS}})/\mathrm{tok}_{\mathrm{SAS}}$.
+\item \textbf{Coordination efficiency} $\Ec$: accuracy divided by the token-cost ratio to the
+single-agent baseline.
+\item \textbf{Error absorption}: $(\!E_{\mathrm{SAS}} - E_{\mathrm{MAS}})/E_{\mathrm{SAS}}$,
+where $E$ is the error rate.
+\item \textbf{Error amplification} $\Ae$: the extent to which individual-agent errors reach the
+final output without inter-agent verification. We measure that failure directly, in which the panel
+\emph{held} the correct option among its first opinions and still emitted a wrong one,
+normalised by the marginal probability that a single agent is wrong. $\Ae > 1$ means the system
+destroys information it already possessed.
+\end{itemize}
+
+\paragraph{Effective independent opinions.}
+Majority voting converts independent judgements into accuracy; correlated judgements it merely
+repeats. We therefore summarise a panel not by its size but by how many independent opinions it
+carries. Writing $\varphi$ for the mean pairwise error correlation between panel positions,
+measured as the correlation of their per-item error indicators, the effective number of
+independent opinions in a panel of $N$ agents is
+\begin{equation}
+N_{\mathrm{eff}} = \frac{N}{1 + (N-1)\varphi}.
+\label{eq:neff}
+\end{equation}
+At $\varphi = 0$ the $N$ opinions are fully independent and $N_{\mathrm{eff}} = N$; at
+$\varphi = 1$ they are one opinion copied $N$ times and $N_{\mathrm{eff}} = 1$. This is the
+standard design-effect correction for clustered observations, and it makes the arithmetic premise
+of consultation measurable rather than assumed. Reporting $N_{\mathrm{eff}}$ alongside $N$ turns
+out to explain why panel size predicts so little (\S\ref{sec:premise}).
 
 \subsection{Clinical tasks and benchmarks}
 
