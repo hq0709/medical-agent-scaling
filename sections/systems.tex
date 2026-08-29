@@ -1,10 +1,18 @@
 \section{Agent systems and tasks}
 
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig0_architectures.pdf}
+\caption{\textbf{The five canonical architectures}, following the formalisation of
+\citet{kim2026scaling}, with the clinical instantiation used here. $A$ is the agent set, $C$ the
+communication graph, $\Omega$ the aggregation rule.}
+\label{fig:arch}
+\end{figure}
+
 \subsection{System definition}
 
 We adopt the formalisation of \citet{kim2026scaling} without modification. An agent system is a
 triple $(A, C, \Omega)$: a set of agents $A$, a communication graph $C$, and an aggregation rule
-$\Omega$. Table~\ref{tab:arch} gives the five canonical configurations together with the clinical
+$\Omega$. Figure~\ref{fig:arch} and Table~\ref{tab:arch} give the five canonical configurations together with the clinical
 instantiation we use for each. Only the coordination logic differs across architectures; the item
 rendering, the answer schema, the role prompts and the decoding parameters are shared.
 

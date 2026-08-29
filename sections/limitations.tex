@@ -28,4 +28,10 @@ within-item slope across panel sizes, which is computed on identical items.
 
 \subsection{Success per 1K tokens}
 
-[RESULTS]
+Token efficiency separates the architectures more sharply than accuracy does. Successes per
+1{,}000 tokens: Hybrid $0.80$, self-consistency $0.47$, Independent $0.39$, Decentralized
+$0.33$, Centralized $0.19$. The architecture that produced every significant accuracy gain in
+this study is also the least token-efficient, by $4.3\times$. Reported per question at list
+prices, a Centralized panel at $N{=}3$ costs \$1.4 per 1{,}000 MedXpertQA questions against
+\$0.21 for a single chain-of-thought call --- a $6.7\times$ premium for $+7.6$ pp, and only
+inside the window. Outside it the same premium buys nothing.

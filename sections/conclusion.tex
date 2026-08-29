@@ -1,24 +1,28 @@
 \section{Conclusion}
 
-We set out to test whether the scaling principles established for general-domain agent systems
-hold in medicine, in the one regime those systems cannot reach: tasks with no tools. Three results
-follow.
+We tested whether the scaling principles established for general-domain agent systems hold in
+medicine, in the one regime those systems cannot reach: tasks with no tools. Three results follow.
 
 The capability ceiling transfers, but as one edge of a two-sided window. Collaboration pays when a
-single physician model scores roughly 25--50\% and not otherwise, and this is a sharper and more
-useful statement than a ceiling because it identifies both failure modes: on easy cases there is
+single physician model scores roughly 25--50\% and not otherwise. This is a sharper and more
+useful statement than a ceiling because it names both failure modes: on easy cases there is
 nothing to gain, and on the hardest cases a panel of unreliable specialists reinforces its own
-errors rather than correcting them. The general-domain data are consistent with a monotone ceiling
-only because their benchmarks never descend into the difficult regime.
+errors rather than correcting them. Splitting the data at the window separates it more than twice
+as well as splitting at the ceiling ($t = 8.42$ against $t = 3.46$). The general-domain data are
+consistent with a monotone ceiling only because their benchmarks never descend into the difficult
+regime.
 
 Coordination structure dominates panel size. Panel size does not predict collaboration gain at
-all, gains saturate at three agents, and the only significant improvements come from centralized
+all, gains saturate at three agents, and the largest improvements come from centralized
 coordination in which an attending physician audits specialist opinions before committing. Where
-coordination has no verification channel, error amplification --- the single strongest term in our
+coordination has no verification channel, error amplification --- the strongest term in our
 scaling model --- goes uncontrolled and the panel discards correct answers it already held.
+Coordination failure occurs at exactly $0.0\%$ under independent coordination, in this study as in
+the general-domain one, because there is no channel on which it could occur.
 
-The economics do not favour consultation outside the window. A panel costs between $2\times$ and
-$5\times$ a single call per correct answer, and outside the window a budget-matched
-self-consistency control matches or beats every architecture we tested. For medical deployments
-this converts an architectural question into a triage question: measure the single-model baseline
-on the case mix first, and consult only where the window says consultation will pay.
+The economics do not favour consultation outside the window. The architecture responsible for
+every significant gain is also the least token-efficient by $4.3\times$, and outside the window a
+budget-matched self-consistency control matches or beats every architecture we tested. For medical
+deployments this converts an architectural question into a triage question: measure the
+single-model baseline on the intended case mix first, and consult only where the window says
+consultation will pay.
