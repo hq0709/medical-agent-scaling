@@ -88,62 +88,6 @@ bias call-heavy architectures downward.
 
 
 
-\paragraph{Specialist capability matters four times more than the orchestrator's.}
-Replacing the whole panel with weak models costs $34.4$ pp (49.2\% to 14.8\%). Splitting that
-substitution isolates where the loss comes from. Downgrading only the \emph{orchestrator}, keeping
-strong specialists, costs $3.6$ pp, so the panel retains 90\% of the homogeneous-high span.
-Downgrading only the \emph{specialists}, keeping a strong orchestrator, costs $14.8$ pp, retaining
-57\%. A strong attending physician recovers more than half of what a weak panel loses, but a weak
-attending physician barely dents a strong one. The asymmetry is $4.1\times$. In a centralized clinical panel, capability should therefore be
-spent on the agents doing the reasoning rather than on the agent doing the auditing.
-
-\paragraph{An orchestrator too weak to audit is worse than no orchestrator at all.}
-The largest single degradation anywhere in this study is a Centralized panel with a weak model on
-MedQA at $\PSA = 66.0\%$: $-13.60$ pp, $p = 10^{-5}$. Inspection of those episodes shows the
-mechanism directly. The orchestrator overrides a correct specialist majority. This is the error-amplification term in its most extreme form. It is also the counterpart to the
-previous result. The audit is what makes centralized coordination work, so an auditor that cannot audit converts
-the architecture's strength into its worst liability.
-
-\paragraph{Mixed-capability panels land between their components, with no emergent benefit.}
-A panel of one strong, one mid and one weak specialist reaches 40.8\% under Centralized and 44.0\%
-under Decentralized, against 49.2\% and 47.6\% for homogeneous-high. Both sit below the strong
-homogeneous panel and well above the weak one, roughly where a capability-weighted average would
-put them. We find no medical analogue of the heterogeneous-mixing advantage reported for one model
-family~\citep{kim2026scaling}, in which a low-capability orchestrator with
-high-capability sub-agents outperformed a homogeneous high-capability panel by 31\%. In our data
-that configuration is the second-best Centralized cell but still $7\%$ below homogeneous-high,
-directionally matching what they observe for OpenAI models, where heterogeneous centralized
-configurations degrade.
-
-
-\begin{table*}[t]\centering\small
-\caption{Main results. For each capability tier and benchmark: the single-agent baseline, then
-each architecture at its best panel size, and the gain of the best architecture over the single
-agent. The complete 180-configuration grid is Table~\ref{tab:full}.}
-\label{tab:main}
-\input{tables/main_results_compact.tex}
-\end{table*}
-
-\begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig1_capability.pdf}
-\caption{\textbf{Agent scaling across model capability and system architecture.} Performance
-against the task-grounded capability index $I$ (mean single-doctor accuracy across the three
-benchmarks), for each architecture, on each benchmark. Each architecture is shown at its
-best-performing panel size. Dashed grey: single-agent baseline. Green arrows give the gain of the
-best architecture over the single agent at the strongest model.}
-\label{fig:capability}
-\end{figure*}
-
-\begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig3_window.pdf}
-\caption{\textbf{Collaboration pays only inside a window of task difficulty.} (a) Collaboration
-gain against the single-doctor baseline $\PSA$ for every multi-agent configuration; The shaded band
-marks the 25--50\% window; the dashed line is the previously reported 45\% capability ceiling. (b) The same
-data binned; annotations give the fraction of configurations in each bin that improve on the
-single doctor.}
-\label{fig:window}
-\end{figure*}
-
 \subsection{Main results}
 
 Across 180 multi-agent configurations and 63{,}499 episodes we find that collaboration in medicine is
@@ -228,7 +172,7 @@ the same model underlie both terms and only the coordination structure varies, s
 ($\hat\beta_{\PSA} = 0.875$, $p < 10^{-4}$). We therefore refit with the collaboration
 \emph{gain} as the response, which is what the scaling principle is actually about.
 
-\paragraph{The gain model recovers the general-domain level of explanatory power.}
+\paragraph{Coordination metrics explain the gain that accuracy alone cannot.}
 With $\mathrm{gain} = P - \PSA$ as the response, $R^2 = 0.518$ and 5-fold cross-validated
 $R^2 = 0.638$, with 5-fold cross-validated $R^2 = 0.415$. Coordination metrics carry that fit
 with no tool-count term at all. Coefficients ($n = 225$ configurations including the
@@ -338,7 +282,7 @@ architecture.}
 
 \subsection{Coordination efficiency, error dynamics, and information transfer}
 
-\paragraph{Turn count does not follow the general-domain power law.}
+\paragraph{Turn count grows sub-linearly with panel size.}
 Fitting $T = a(n+0.5)^{b}$ gives $a = 0.85$, $b = 0.770$, $R^2 = 0.299$. The exponent is
 sub-linear, so turns grow more slowly than agents. A clinical panel answering a closed question
 terminates on unanimity rather than negotiating open-ended tool use. Turn counts by architecture are
@@ -359,7 +303,7 @@ verification-bearing architectures. Medical panels absorb roughly a fifth as muc
 general-domain agent teams do, and the ordering differs: peer discussion absorbs most, not
 orchestration.
 
-\paragraph{Error taxonomy reproduces the structural signature, not the magnitudes.}
+\paragraph{Coordination failure is structurally impossible without a channel.}
 We classify first-round errors into four categories, following the multi-agent failure
 taxonomy of \citet{mast2025}:
 
@@ -475,12 +419,35 @@ Hybrid        & 43.9\%  & 59.7\%           & 2.1 \\
 \end{tabular}
 \end{table}
 
+\paragraph{Discussion drives the effective panel size to one.}
+Peer discussion raises $\varphi$ from $0.751$ before the exchange to $\mathbf{0.986}$ after it
+(paired $t = 20.9$, $p = 8 \times 10^{-7}$). At $\varphi = 0.986$ a six-agent panel has
+$N_{\text{eff}} = 1.01$. A multidisciplinary consultation, at the moment it reaches consensus, is
+informationally equivalent to one physician, and the vote taken at that moment is a vote among
+copies. This is the mechanism behind every safety result in \S4.6: unanimity rises to 98\%
+because the opinions have merged, not because they have converged on truth; the error rate given
+unanimity stays at a coin flip because merging does not add information; and confidence rises on
+wrong answers because $N$ agents agreeing looks like corroboration when it is repetition.
+\paragraph{Why panel size cannot predict anything.}
+The nested model comparison found panel size alone at cross-validated $R^2 = -0.006$. The
+independence measurement explains why that is not a null result but a necessary one: over
+$N \in \{3, \dots, 9\}$, $N_{\text{eff}}$ moves from $1.21$ to $1.31$. The regressor that
+matters barely varies, so the regressor we can control cannot predict. Any design effort spent on
+how many agents to deploy is spent on the wrong variable.
+\paragraph{What independence does not explain.}
+Error correlation accounts for the size and consensus results; it does not account for the
+window. $\varphi$ correlates only weakly with the single-doctor baseline ($r = -0.215$,
+$p = 0.018$: harder items do carry more correlated errors) and not at all with collaboration gain
+($r = -0.083$, $p = 0.37$), and a model containing $\varphi$ alone reaches $R^2 = 0.007$. The
+window and the independence collapse are two separate facts about medical consultation: the first
+says when a panel can help, the second says why it cannot help much, and why its agreement should
+not be read as evidence.
+
 \subsection{Clinical safety: what consultation does to confidence}
 
-The general-domain study measures whether coordination changes accuracy. In medicine the more
-consequential question is what coordination does to the \emph{signals a clinician would act on}.
-Three measurements, none of which has an analogue in the general-domain design, and all of which
-point the same way.
+Accuracy is not the only thing coordination changes. In medicine the more consequential question
+is what it does to the \emph{signals a clinician would act on}. Three measurements, all pointing
+the same way.
 
 \paragraph{Self-reported confidence barely discriminates right from wrong, and discussion makes it
 worse.} Across all configurations, mean confidence on correct answers exceeds that on wrong

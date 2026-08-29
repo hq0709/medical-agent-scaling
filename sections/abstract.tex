@@ -1,29 +1,16 @@
-Multi-agent ``consultation'' has become the default design pattern in medical language-model
-systems, on the intuition that a panel of specialists diagnoses better than one physician. That
-intuition inherits an arithmetic premise from human medicine: pooling helps because the opinions
-pooled are independent. We find the premise does not hold. Across 180 multi-agent
-configurations and 63{,}499 episodes, spanning three capability tiers, three medical benchmarks,
-five canonical architectures and panel sizes $N \in \{1,3,5,7,9\}$, the mean pairwise error
-correlation between panel members is $\varphi = 0.73$. A nine-member panel therefore carries
-$1.31$ effective independent opinions, and peer discussion raises $\varphi$ to $0.986$, leaving a
-six-agent consultation informationally equivalent to $1.01$ physicians at the moment it reaches
-consensus.
-
-Three consequences follow, and they are the same fact seen three ways. Panel size carries no
-predictive value whatsoever (cross-validated $R^2 = -0.006$ alone), because tripling the panel
-adds one tenth of an independent opinion. Discussion raises unanimity from 66\% to 98\% while the
-error rate given unanimity stays at 50\%, and raises confidence on wrong answers more than on
-right ones, compressing the gap that separates them by 45\%. Agreement among copies looks like corroboration. The benefit that does exist is confined to a \emph{window} of task
-difficulty rather than bounded by a ceiling. Configurations whose single-doctor baseline falls
-between 25\% and 50\% gain $+2.48$ pp while those outside lose $0.31$ pp (Welch $t = 8.42$,
-$p < 10^{-6}$), with all 20 significant improvements inside the window and all 10 significant
-degradations outside it.
-
-The medical setting is what makes these quantities measurable. Multiple-choice clinical reasoning
-uses no tools, so the tool--coordination trade-off that dominates the
-general-domain law vanishes identically, and expert-level items drive single-agent accuracy to
-15\%, far below any existing agentic benchmark. The reported 45\% capability ceiling
-reproduces as the window's upper edge. Its lower edge is visible only at medical difficulty. What
-does not reproduce is the value of coordination itself. An attending-physician architecture that
-audits before aggregating yields the study's largest gain ($+7.6$ pp, $p = 2\times10^{-5}$) and,
-when the auditor is too weak, its largest loss ($-13.6$ pp, $p = 10^{-5}$).
+Multi-agent consultation has become the default design pattern in medical language-model systems,
+on the intuition that a panel of specialists diagnoses better than one physician. That intuition
+inherits an arithmetic premise from human medicine: pooling judgements helps because the
+judgements pooled are independent. Does it hold for language models? We measure the pairwise error
+correlation between panel members across 180 multi-agent configurations and 63{,}499 episodes,
+spanning three capability tiers, three medical benchmarks, five architectures and panel sizes
+$N \in \{1,3,5,7,9\}$. It is $\varphi = 0.73$, which leaves a nine-member panel with $1.31$
+\textbf{effective independent opinions}. Peer discussion raises the correlation to $0.986$, so a
+six-agent consultation is informationally equivalent to $1.01$ physicians at the moment it reaches
+consensus. Two consequences follow. Panel size predicts collaboration gain at cross-validated
+$R^2 = -0.006$, because tripling a panel adds a tenth of an opinion. And unanimity rises from
+66\% to 98\% while accuracy given unanimity stays at chance, with confidence rising most on wrong
+answers, because agreement among copies reads as corroboration. The benefit that survives is
+confined to a window of task difficulty between 25\% and 50\% single-doctor accuracy, inside which
+all 20 significant improvements fall and outside which all 10 significant degradations do. Making
+medical panels agree is easy. Making them independent is the open problem.

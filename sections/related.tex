@@ -1,5 +1,22 @@
 \section{Related work}
 
+\paragraph{Why pooled opinions help, and when they stop.}
+Collective-intelligence results in medicine rest on error independence: pooling independent
+diagnostic judgements improves accuracy~\citep{kurvers2016boosting, wolf2015collective},
+plateauing at roughly five raters~\citep{kammer2017}, and groups of nine outperform individuals on
+the Human Dx platform~\citep{barnett2019}. This is the clinical instance of a general
+principle~\citep{surowiecki2004wisdom} that multidisciplinary tumour boards
+institutionalise~\citep{radcliffe2019tumorboard}. The framing question is not whether two heads beat one
+but when~\citep{hautz2024}. The same literature documents what happens when independence fails:
+conformity to a unanimous majority~\citep{asch1956conformity} and groupthink in deliberating
+groups~\citep{janis1972groupthink} are the human analogues of the correlation collapse we measure.
+Correlated errors across models bound ensemble benefit in general~\citep{correlated2025}, and
+analyses of multi-agent debate show consensus can converge on confident-but-wrong
+answers~\citep{demystifying_mad}. Diagnostic error is common enough in ordinary
+practice~\citep{graber2013diagnosticerror, singh2014frequency} that a consultation mechanism which
+manufactures unwarranted agreement is a safety concern rather than an efficiency one.
+
+
 \paragraph{Medical language models and their evaluation.}
 Medical question answering became a benchmark for general capability once models began matching
 licensing-exam thresholds~\citep{kung2023usmle, nori2023capabilities}, and Med-PaLM established
@@ -49,22 +66,6 @@ count, and \citet{diversity2602} attributed the fast-then-slow shape to opinion 
 two diverse agents can match sixteen homogeneous ones. Self-consistency~\citep{wang2023selfconsistency}
 over chain-of-thought~\citep{wei2022cot} is the natural budget-matched control for any such claim,
 and is the control we run at every cell.
-
-\paragraph{Why pooled opinions help, and when they stop.}
-Collective-intelligence results in medicine rest on error independence: pooling independent
-diagnostic judgements improves accuracy~\citep{kurvers2016boosting, wolf2015collective},
-plateauing at roughly five raters~\citep{kammer2017}, and groups of nine outperform individuals on
-the Human Dx platform~\citep{barnett2019}. This is the clinical instance of a general
-principle~\citep{surowiecki2004wisdom} that multidisciplinary tumour boards
-institutionalise~\citep{radcliffe2019tumorboard}. The framing question is not whether two heads beat one
-but when~\citep{hautz2024}. The same literature documents what happens when independence fails:
-conformity to a unanimous majority~\citep{asch1956conformity} and groupthink in deliberating
-groups~\citep{janis1972groupthink} are the human analogues of the correlation collapse we measure.
-Correlated errors across models bound ensemble benefit in general~\citep{correlated2025}, and
-analyses of multi-agent debate show consensus can converge on confident-but-wrong
-answers~\citep{demystifying_mad}. Diagnostic error is common enough in ordinary
-practice~\citep{graber2013diagnosticerror, singh2014frequency} that a consultation mechanism which
-manufactures unwarranted agreement is a safety concern rather than an efficiency one.
 
 \paragraph{Confidence and calibration.}
 Our safety analysis depends on whether a stated confidence is informative. Language models are

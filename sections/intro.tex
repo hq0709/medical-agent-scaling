@@ -12,44 +12,37 @@ intuition. A panel of specialists should diagnose better than one generalist, th
 because a tumour board diagnoses better than one physician. The pattern is being deployed faster
 than it is being measured.
 
-The most complete measurement to date is not in medicine. \citet{kim2026scaling} evaluated 180
-controlled configurations across five canonical architectures, three model families and six
-agentic benchmarks under matched token budgets, and derived a quantitative scaling principle for
-agent systems. Three findings bear directly on clinical deployment. A \emph{capability ceiling}
-($\beta = -0.408$, $p<0.001$): once a single agent exceeds roughly 45\% accuracy, additional
-agents yield negative returns. A \emph{tool--coordination trade-off} ($\beta = -0.330$,
-$p<0.001$): tool-heavy tasks pay an overhead that erodes any collaborative gain. And
-\emph{architecture-dependent error amplification}: independent panels amplify individual errors
-$17.2\times$ relative to a single agent, while centralized coordination contains them to
-$4.4\times$ through a validation bottleneck at the orchestrator.
+The intuition is not merely an analogy; it is an inheritance. Pooling diagnostic judgements
+improves accuracy in human medicine for a specific reason, namely that physicians trained
+differently make different mistakes~\citep{kurvers2016boosting, kammer2017}. Majority voting
+converts that independence into accuracy. Strip the independence away and the arithmetic stops
+working, however many voters remain. Nobody has checked whether language-model panels satisfy the
+premise they borrow.
 
-Medicine was excluded from that study, and the exclusion is more interesting than it looks. The
-45\% threshold sits exactly where expert-level medical question answering lives. Frontier models
-score 38--56\% on MedXpertQA~\citep{zuo2025medxpertqa} while exceeding 90\% on
-MedQA~\citep{jin2021medqa}, so a single medical benchmark suite straddles the threshold from both
-sides. And the tool--coordination trade-off, the strongest confound in the general-domain result,
-is absent by construction from medical multiple-choice reasoning, because the task uses
-\emph{no tools at all}. Medicine is therefore the $T = 0$ limiting case of the scaling principle. It is the one slice of
-the design space where coordination can be measured with the tool-overhead term removed, and the
-one regime hard enough to reveal what happens below the threshold rather than above it.
+They do not. Measuring the pairwise error correlation between panel members across 180 multi-agent
+configurations, we find $\varphi = 0.73$: agents prompted into different medical specialties fail
+on the same items. A nine-member panel therefore carries $1.31$ effective independent opinions,
+and peer discussion drives the correlation to $0.986$, at which point a six-agent consultation is
+informationally equivalent to $1.01$ physicians. The panel does not converge on an answer. It
+collapses onto one.
 
-We run 180 multi-agent configurations and 63{,}499 episodes across three capability tiers, three
-medical benchmarks, five architectures, panel sizes $N \in \{1,3,5,7,9\}$, and a budget-matched
-single-model control at every cell. Two measurements are new here. The error correlation between
-panel members, which turns out to govern everything else, is not reported in prior agent-scaling
-work; nor is the effect of coordination on the calibration of the panel's own confidence.
+Three observable consequences follow, and they are the same fact seen three ways. Panel size
+predicts nothing, because tripling the panel adds a tenth of an opinion. Consensus carries no
+information, because it is agreement among copies: unanimity reaches 98\% while accuracy given
+unanimity stays at chance, and confidence rises most on the answers that are wrong. And the
+benefit that survives is confined to a narrow \emph{window} of task difficulty rather than bounded
+by a ceiling, roughly 25--50\% single-doctor accuracy, inside which every significant improvement
+we measure falls and outside which every significant degradation does.
 
-Our central finding is that consultation in medicine violates the arithmetic premise it inherits
-from human practice. Pooling judgements helps physicians because physicians fail
-differently~\citep{kurvers2016boosting, kammer2017}. Language-model agents prompted into different
-specialties do not fail differently. Their pairwise error correlation is $\varphi = 0.73$, which
-leaves a nine-member panel with $1.31$ effective independent opinions, and peer discussion raises
-the correlation to $0.986$. The panel does not converge on an answer. It collapses onto one.
-
-Three observable consequences follow. Panel size predicts nothing, because tripling the panel adds
-a tenth of an opinion. Consensus carries no information, because it is agreement among copies:
-unanimity reaches 98\% while accuracy given unanimity stays at chance, and confidence rises most
-on the answers that are wrong. The benefit that survives is confined to a narrow \emph{window} of
-task difficulty rather than bounded by a ceiling. General-domain benchmarks never descend far
-enough to see the window's lower edge, which is why a ceiling is reported there where the medical
-data show a band.
+Establishing this requires a grid large enough to separate architecture from panel size from task
+difficulty: 180 multi-agent configurations and 63{,}499 episodes across three capability tiers,
+three medical benchmarks, five canonical architectures, panel sizes $N \in \{1,3,5,7,9\}$, and a
+budget-matched single-model control at every cell. Medicine makes the measurement possible in two
+ways that general-domain agentic benchmarks cannot. Multiple-choice clinical reasoning uses no
+tools, so coordination can be measured without the confound of tool-call overhead. And
+expert-level items drive single-agent accuracy down to 15\%, far enough into the difficult regime
+to expose the lower edge of the window, which is invisible at benchmark difficulties where
+single agents already succeed. Scaling principles for general-domain agent
+systems~\citep{kim2026scaling} supply the architecture taxonomy and the controlled-comparison
+design our grid is built on; the error-correlation and confidence-calibration measurements that
+carry our argument are new here.
