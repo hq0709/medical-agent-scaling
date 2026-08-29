@@ -14,7 +14,14 @@ benefit in general~\citep{correlated2025}, and multi-agent debate can converge o
 confident-but-wrong answers~\citep{demystifying_mad}. This paper measures that failure directly in
 clinical panels, where diagnostic error is already common enough in ordinary
 practice~\citep{graber2013diagnosticerror, singh2014frequency} that manufactured agreement is a
-safety concern rather than an efficiency one.
+safety concern rather than an efficiency one. The strongest evidence that the independence premise
+is what matters comes from the hybrid case: pooling $40{,}762$ physician differentials with five
+frontier models over $2{,}133$ open-ended vignettes, \citet{zoller2025hybrid} find that
+human--model collectives beat physician collectives \emph{and} model ensembles, and attribute the
+margin to humans and models making different kinds of errors. Their result is the consequence; the
+quantity that produces it is the one we measure. It also establishes the regime: independence
+arrives when the added judgement comes from outside the model ecosystem, which is the boundary our
+diversity ladder (\S\ref{sec:premise}) locates from the inside.
 
 \paragraph{Medical language models and multi-agent systems.}
 Medical question answering became a capability benchmark once models matched licensing-exam
@@ -35,9 +42,11 @@ for multimodal input---and \citet{liu2025medchat} adds a director to coordinate 
 \citet{ma2025medla} replaces majority voting with logical contradiction resolution and
 \citet{li2025macd} lets agents accumulate diagnostic knowledge across a cohort, both of which are
 attempts to escape a voting rule rather than to escape the correlation that makes voting weak.
-\citet{fan2024aihospital} and \citet{sanghvi2026medxagent} move the setting itself, from
-single-shot selection to simulated and interactive encounters where agents must ask before they
-answer. These are complementary: each varies the aggregation rule, the roster or the interaction
+\citet{fan2024aihospital}, \citet{sanghvi2026medxagent} and \citet{sviridov2025threemdbench}
+move the setting itself, from single-shot selection to simulated, interactive and multimodal
+encounters where agents must ask before they answer, and \citet{chen2026map} and
+\citet{shi2026phoagents} carry the pattern into inpatient pathways and outcome prediction, where
+triage, diagnosis and treatment are separate coordinated stages. These are complementary: each varies the aggregation rule, the roster or the interaction
 protocol, and each is a candidate for raising the capture rate we define in \S\ref{sec:ceiling}.
 None of them measures the error correlation among its own agents, so none can say whether the
 signal its mechanism is competing for is present.

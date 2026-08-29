@@ -16,6 +16,20 @@ trust cue in a clinical interface. The same property makes these systems attract
 medical misinformation that reads as authoritative, since apparent expert consensus is cheap to
 manufacture and, as we show, uninformative.
 
-We report this as a measured property of systems already being built and deployed, not as a novel
-capability. The mitigation it points to---verification of individual opinions rather than richer
-consensus protocols---is the same direction our positive results recommend.
+Our measurements point to three specific mitigations rather than a general caution. First, do not
+surface unanimity or aggregate confidence as a trust cue: in our data a unanimous panel is wrong
+$50\%$ of the time, and no statistic a panel can compute about itself---stated confidence, answer
+entropy, majority share, minimum member confidence---separates its right answers from its wrong
+ones better than $\mathrm{AUC} = 0.60$. An interface that reports ``all five specialists agree''
+is reporting a quantity with almost no diagnostic content while implying the opposite. Second,
+surface the panel's \emph{disagreements} instead, and surface them unresolved: on $9.6\%$ of items
+exactly one member is right, which is where the panel's whole value lies, and a resolved consensus
+destroys precisely that information before the clinician sees it. Third, route verification
+outward. The one intervention our diversity ladder shows to be large is a judgement from outside
+the model ecosystem, consistent with the hybrid human--model collectives of
+\citet{zoller2025hybrid}; verification against retrieved evidence or a clinician is a different
+kind of signal from more agreement among models, and only the different kind changes the
+arithmetic.
+
+We report the failure mode as a measured property of systems already being built and deployed,
+not as a novel capability.

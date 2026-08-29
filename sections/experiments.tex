@@ -72,13 +72,14 @@ single doctor.}
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig1_capability.pdf}
-\caption{\textbf{Agent scaling across model capability and system architecture.} Performance
+\caption{\textbf{Agent scaling across model capability and system architecture.} Top: performance
 against the task-grounded capability index $I$ (mean single-doctor accuracy across the three
-benchmarks), for each architecture, on each benchmark. Ticks mark the three GPT tiers at their
-measured $I$ of $34.0$, $50.8$ and $59.2$. Each architecture is shown at its best-performing panel
-size; grey is the single doctor. The corner figure is the gain of the best architecture over the
-single doctor at the strongest model. Capability moves performance by tens of points; architecture
-moves it by a few.}
+benchmarks), each architecture at its best-performing panel size, grey the single doctor. Ticks
+mark the three GPT tiers at their measured $I$ of $34.0$, $50.8$ and $59.2$, and the corner figure
+is the best architecture's gain at the strongest model. The three benchmarks occupy different
+accuracy ranges, so the bottom row replots the same configurations as gain over the single doctor
+on one shared scale, where architecture effects are directly comparable across benchmarks. They
+span $-4$ to $+8$\,pp while capability moves performance by tens of points.}
 \label{fig:capability}
 \end{figure*}
 
@@ -172,16 +173,21 @@ therefore report the window as an interval of task difficulty and not as an esti
 spurious standard error; the boundary is where the data place it, and the data place it to within
 one cell.
 
-\paragraph{Architecture matters more than panel size.}
-Within the window, the ordering is stable: Centralized and Decentralized lead, Hybrid trails, and
-Independent voting is indistinguishable from the single doctor. On \texttt{gpt-5-nano} /
+\paragraph{Inside the window every architecture beats the single doctor and none beats another.}
+Convening a panel matters; which panel does not. Taking each architecture at its best panel size
+in each of the four cells inside the window gives $24$ pairwise architecture contrasts, and
+\textbf{none of them is significant} (paired McNemar, all $p \geq 0.064$, largest difference
+$4.0$\,pp). The same four cells contain $20$ contrasts that significantly beat the single doctor.
+The decision that carries signal is whether to convene at all; the topology---star, complete,
+tiered, or no edges---does not separate. Panel size behaves the same way. On \texttt{gpt-5-nano} /
 MedXpertQA, Independent moves from 31.8\% at $N{=}1$ to 32.6\% at $N{=}9$, which is 0.8 pp for
 nine times the calls, while Decentralized reaches 38.0\% at $N{=}3$ and stays there. Gains saturate
 at $N{=}3$ in every cell where they occur, and no architecture in any cell improves beyond $N{=}5$.
 
-\paragraph{The best architecture changes with capability tier.}
-The best architecture depends on the tier. At T2 the peak is Decentralized (38.0\%, $+6.0$ pp);
-at T3 it is Centralized (49.2\%, $+7.6$ pp). Family-dependent architectural preferences have been reported for general-domain
+\paragraph{The best architecture changes with capability tier, within noise.}
+Which architecture posts the highest point estimate does depend on the tier---at T2 it is
+Decentralized (38.0\%, $+6.0$ pp) and at T3 Centralized (49.2\%, $+7.6$ pp)---though as above the
+gap between them is not resolvable at this sample size. Family-dependent architectural preferences have been reported for general-domain
 agents~\citep{kim2026scaling}, and the pattern here is the medical counterpart. The stronger model exploits an orchestrator's
 audit, whereas the weaker model benefits more from peer exchange, whose redundancy compensates
 for individually unreliable opinions.
@@ -287,9 +293,14 @@ direction for general-domain agents~\citep{kim2026scaling}; our measurement supp
 configuration-level evidence.
 
 
-$R \times n_a$ is positive ($\hat\beta = +0.006$, $p < 0.001$). In clinical
-panels, specialists restating one another is a weak form of verification rather than wasted
-capacity.
+$R \times n_a$ is positive ($\hat\beta = +0.006$, $p < 0.001$), and resolving $R$ against the
+ground truth says what it is measuring. Mean rationale overlap is $0.426$ for pairs that are both
+right, $0.377$ for pairs that are both wrong and $0.227$ for pairs that split
+($t = 95.0$ between the first two, $p < 10^{-300}$). $R$ therefore separates \emph{agreeing} from
+\emph{disagreeing} by $0.15$--$0.20$ and agreeing-and-right from agreeing-and-wrong by $0.049$:
+it is a detector of whether two specialists took the same path, and only weakly of whether the
+path was correct. Its positive coefficient is best read as restatement tracking the items where
+the model is on familiar ground, not as deliberative verification.
 
 
 
@@ -385,6 +396,45 @@ control wins or ties: on MedQA at the same tier, self-consistency at $k{=}15$ (8
 noise of the best panel (89.6\%) at lower cost, and on MedAgentsBench at T1 self-consistency
 (20.0\%) beats every architecture. Coordination buys something beyond repetition, and only where
 the window says it should.
+
+\paragraph{What a point of accuracy costs.}
+Expressing each cell's best configuration as accuracy bought per dollar of additional spend makes
+the deployment rule concrete (Table~\ref{tab:ppd}). The premium ranges from $1.9\times$ to
+$11.5\times$ the single doctor, and the return on it varies by two orders of magnitude:
+$8.5$ and $4.3$ percentage points per additional dollar per thousand questions on the two
+MedXpertQA cells inside the window, against $0.34$ on MedAgentsBench at T3, where a $+2.4$\,pp
+gain costs $11.5\times$. On MedQA at T3 the best configuration is Hybrid at $n_a{=}1$, which is
+\emph{cheaper} than the single-doctor baseline because its gate almost never escalates. The
+window is a statement about where the money goes as much as where the accuracy does.
+
+\begin{table}[t]\centering\small
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.02}
+\caption{\textbf{Accuracy per dollar.} For each cell, the best configuration of any architecture
+and panel size: its gain over the single doctor, the additional spend per $1{,}000$ questions, the
+cost multiple, and the ratio. Shaded cells are inside the window.}
+\label{tab:ppd}
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+Benchmark & Tier & gain & extra \$/1k & $\times$cost & pp/\$ \\
+\midrule
+\winrow
+MedXpertQA    & T1 & $+3.6$ & 0.08 & 1.9 & \gp{\textbf{44.5}} \\
+\winrow
+MedXpertQA    & T2 & $+6.0$ & 0.70 & 4.4 & \gp{8.5} \\
+\winrow
+MedXpertQA    & T3 & $+7.6$ & 1.76 & 3.5 & \gp{4.3} \\
+\winrow
+MedAgentsBench & T2 & $+2.4$ & 0.28 & 2.5 & \gp{8.5} \\
+\winrow
+MedAgentsBench & T3 & $+2.4$ & 7.12 & 11.5 & \gn{0.34} \\
+MedAgentsBench & T1 & $+1.2$ & 0.39 & 6.2 & 3.1 \\
+MedQA         & T1 & $+1.6$ & 0.27 & 4.2 & 6.0 \\
+MedQA         & T2 & $+1.6$ & 0.49 & 4.1 & 3.3 \\
+MedQA         & T3 & $+2.0$ & $-0.14$ & 0.8 & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{table}[t]\centering\small
 \caption{\textbf{Effective independent opinions.} $\varphi$ is the mean pairwise error
@@ -484,14 +534,25 @@ because the opinions have merged, not because they have converged on truth; the 
 unanimity stays at a coin flip because merging does not add information; and confidence rises on
 wrong answers because $N$ agents agreeing looks like corroboration when it is repetition.
 
+\paragraph{What discussion actually moves.}
+The collapse is not agents falling silent. Across $18{,}196$ (item, panel position) pairs,
+$38.6\%$ of opinions change between the first round and the last, so deliberation is doing
+something. Where it takes them is the point. Of the changes, $34.6\%$ go from wrong to right,
+$22.2\%$ from right to wrong, and $\mathbf{43.2\%}$ from one wrong answer to a different wrong
+one. Two-thirds of all movement ends somewhere other than the correct option. The net effect on
+individual opinions is mildly positive---$872$ more corrections than corruptions, or $+4.8$\,pp of
+positions---and the net effect on the panel is not, because the same exchange that corrects an
+individual is what makes the others agree with him. Deliberation buys a small improvement in each
+member and pays for it with the independence that made pooling members worth anything.
+
 The nested model comparison found panel size alone at cross-validated $R^2 = -0.006$. The
 independence measurement explains why that is not a null result but a necessary one: over
 $N \in \{3, \dots, 9\}$, $N_{\text{eff}}$ moves from $1.21$ to $1.31$. The regressor that
 matters barely varies, so the regressor we can control cannot predict. Any design effort spent on
 how many agents to deploy is spent on the wrong variable.
 \paragraph{Correlation has a ceiling, and half of the reported decorrelation is that ceiling.}
-Two binary error indicators with unequal marginals cannot reach $\varphi = 1$. For error rates
-$p \le q$ the attainable maximum is
+Two binary error indicators with unequal marginals cannot reach $\varphi = 1$. Writing $p$ and
+$q$ for the two members' error rates, ordered $p \le q$, the attainable maximum is
 \begin{equation}
 \varphi_{\max} = \sqrt{\tfrac{p\,(1-q)}{q\,(1-p)}},
 \label{eq:phimax}
@@ -651,6 +712,49 @@ $<25\%$        & 24 & $+6.8$\,pp  & \gn{$-21.0\%$} & \gn{$-0.96$} \\
 $25$--$50\%$   & 56 & \textbf{$+15.5$\,pp} & \gp{\textbf{$+17.3\%$}} & \gp{\textbf{$+2.55$}} \\
 $50$--$70\%$   & 12 & $+6.7$\,pp  & \gn{$-4.4\%$}  & \gn{$-0.23$} \\
 $>70\%$        & 27 & $+5.7$\,pp  & $+9.3\%$       & $+0.50$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The headroom is item-level routing value, not a better specialty.}
+Two oracles separate what a fixed roster could deliver from what per-item routing could. Always
+trusting whichever specialty slot turns out best over the whole benchmark---a post-hoc choice no
+deployment could make in advance---is worth $50.2\%$ against $48.0\%$ for the single doctor.
+Choosing a correct opinion item by item is worth $60.7\%$. Of the $12.7$\,pp of headroom, $2.2$
+is available from picking a better specialist and $10.5$ requires changing which member you
+believe from case to case. The design question is therefore not which specialists to convene but
+whether anything can arbitrate between them once convened.
+
+\paragraph{No signal the panel can compute tells it when it is right.}
+Stated confidence is the obvious arbiter, and the natural objection is that a better one exists.
+We tested every quantity a panel can compute from its own first round: mean stated confidence,
+the entropy of the answer distribution, the majority share, the lowest member confidence and the
+spread of confidences. Against the outcome the arbiter needs to predict---whether this panel will
+answer correctly---all five land between $\mathrm{AUC} = 0.563$ and $0.598$
+(Table~\ref{tab:signals}), a range of $0.035$. Answer entropy and majority share are marginally
+the best and still separate right from wrong with Youden $J = 0.185$. The problem is not the
+choice of signal. A panel whose members share $73\%$ of their errors cannot distinguish the case
+where it agrees because the answer is easy from the case where it agrees because its members share
+a blind spot, and every statistic computable from its own outputs inherits that ambiguity.
+
+\begin{table}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.02}
+\caption{\textbf{Every arbiter a panel could use.} Discrimination of each first-round signal
+against whether the panel's final answer is correct, over all $28{,}711$ panel episodes at
+$n_a \geq 3$. The spread across signals is $0.035$ of AUC.}
+\label{tab:signals}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+First-round signal & AUC & Youden $J$ \\
+\midrule
+\winrow
+Answer entropy            & \textbf{0.598} & \textbf{0.185} \\
+\winrow
+Majority share            & 0.596 & \textbf{0.185} \\
+Mean stated confidence    & 0.593 & 0.127 \\
+Lowest member confidence  & 0.591 & 0.149 \\
+Confidence spread         & 0.563 & 0.118 \\
 \bottomrule
 \end{tabular}
 \end{table}
