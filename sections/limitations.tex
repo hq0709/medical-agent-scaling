@@ -1,0 +1,31 @@
+\section{Limitations and future works}
+
+
+Our tasks are multiple-choice examination items, not clinical encounters: they carry no history
+taking, no test ordering, no longitudinal follow-up, and the exact-match endpoint rewards the
+option-selection component of diagnosis only. The $T=0$ property that makes the design clean also
+bounds what it licenses --- results here do not extrapolate to tool-using clinical agents, which
+is precisely the regime the general-domain study covers.
+
+All models are from a single vendor. The heterogeneity arm of the original design, which mixes
+vendors within a capability tier, is here restricted to mixing separately trained OpenAI families;
+genuine cross-vendor error decorrelation may be larger than what we measure.
+
+Panels are nested by construction (\S2.2), so the reported curves estimate accuracy as a routed
+panel is extended, not the expected accuracy of independently redrawn panels at each size. The
+coupling reduces variance on the architecture contrasts we care about and does not bias
+within-item paired tests, but a reader interested in the independent-panel estimand should read
+the curves accordingly.
+
+The specialty router ranks by relevance, so larger panels append progressively less relevant
+specialists. ``More experts'' and ``weaker experts'' are therefore entangled in the specialty-role
+condition; we separate them with the generic-internist control, in which every panelist is an
+undifferentiated internist and panel size is the only thing that varies.
+
+Difficulty strata are defined by the pass rate of mid-tier models, some of which also appear in
+the evaluation ladder. This inflates the level of the hard-stratum results but not the
+within-item slope across panel sizes, which is computed on identical items.
+
+\subsection{Success per 1K tokens}
+
+[RESULTS]

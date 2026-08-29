@@ -1,0 +1,80 @@
+\section{Agent systems and tasks}
+
+\subsection{System definition}
+
+We adopt the formalisation of \citet{kim2026scaling} without modification. An agent system is a
+triple $(A, C, \Omega)$: a set of agents $A$, a communication graph $C$, and an aggregation rule
+$\Omega$. Table~\ref{tab:arch} gives the five canonical configurations together with the clinical
+instantiation we use for each. Only the coordination logic differs across architectures; the item
+rendering, the answer schema, the role prompts and the decoding parameters are shared.
+
+\begin{table}[t]\centering\small
+\caption{The five architectures, their formalisation~\citep{kim2026scaling}, and our clinical
+instantiation. $n$ is the panel size, $k$ reasoning iterations, $r$ orchestration rounds,
+$d$ debate rounds.}
+\label{tab:arch}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Architecture & $(A, C, \Omega)$ & Cost & Clinical instantiation \\
+\midrule
+Single-agent (SAS) & $\{a\}$ & $O(k)$ & One physician, zero-shot or CoT \\
+Independent & $\{a_1..a_n\}$, $C=\emptyset$, synthesis & $O(nk)$ & Specialists answer blind; majority vote \\
+Centralized & $+a_{\mathrm{orch}}$, star, hierarchical & $O(rnk)$ & \textbf{Attending physician} audits, then decides \\
+Decentralized & $\{a_1..a_n\}$, complete, consensus & $O(dnk)$ & Multidisciplinary team discussion \\
+Hybrid & $+a_{\mathrm{orch}}$, star + peer, both & $O(rnk{+}pn)$ & Tiered referral: triage $\rightarrow$ panel $\rightarrow$ MDT \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Independent.} $N$ specialists receive the item and answer without seeing one another.
+Aggregation is majority vote, ties broken by mean self-reported confidence and then by option
+order. A confidence-weighted variant is logged throughout.
+
+\paragraph{Centralized (attending physician).} An orchestrator receives the $N$ specialist
+opinions on a star topology and is instructed to \emph{audit before aggregating}: it must name the
+single opinion most likely to be wrong and justify that, then either commit to an answer or
+re-task one named specialty. A re-tasked specialist re-answers with the orchestrator's critique in
+hand; the star topology is preserved, as specialists never see each other. This is the
+``validation bottleneck'' to which \citet{kim2026scaling} attribute error containment.
+
+\paragraph{Decentralized (MDT discussion).} $N$ specialists give first opinions, then exchange
+opinions on a complete graph for up to three rounds, each free to revise. Rounds stop early only
+on true unanimity, defined as every agent emitting the same \emph{valid} option; a panel
+containing unparsed answers is not unanimous.
+
+\paragraph{Hybrid (tiered referral).} A generalist answers first with a stated confidence. Below a
+frozen threshold $\theta$ the case is referred to the $N$-specialist panel; if that panel has no
+majority the case escalates to full MDT discussion. $\theta$ is calibrated once on a 100-item
+development slice disjoint from every evaluation set (\S\ref{sec:theta}) and then frozen.
+
+\paragraph{Panel composition.} A cheap router (\texttt{gpt-4.1-nano}, temperature 0) ranks the
+nine most relevant specialties for each item from a fixed 17-specialty roster; a panel of size $N$
+is the first $N$ of that ranking. Panels are therefore \emph{nested}: the $N{=}9$ panel contains
+the $N{=}5$ panel, which contains the $N{=}3$ panel.
+
+\subsection{Nested panels as common random numbers}
+
+Every agent's first opinion is keyed on $(\text{item}, \text{specialty}_i, \text{seed}, i)$ and
+never on $N$ or on the architecture. Consequently the first opinions of a panel of size $N$ are a
+superset of those for any $N' < N$, and all four multi-agent architectures reuse the same first
+opinions. This is a deliberate common-random-numbers coupling. It reduces the variance of
+within-item contrasts between architectures and panel sizes, and it changes the estimand: we
+measure \emph{accuracy as the same routed panel is extended}, not the expected accuracy of
+independently redrawn panels at each size. Paired McNemar tests on item-level outcomes remain
+valid under this coupling; regression models must cluster at the item level rather than treat
+configurations as independent.
+
+\subsection{Clinical tasks and benchmarks}
+
+Three benchmarks, 500 items each, sampled with a fixed seed:
+MedXpertQA-Text~\citep{zuo2025medxpertqa} (10 options; stratified by the 12 body systems $\times$
+3 task types), MedQA-USMLE~\citep{jin2021medqa} (4 options), and the contamination-screened hard
+split of MedAgentsBench~\citep{medagentsbench} (894 items excluding the
+\texttt{medqa\_5options} subset; the first 500 after stratified shuffling). The primary endpoint
+is exact match against the dataset's own gold option key --- there is no LLM judge anywhere in the
+evaluation path.
+
+Every item is additionally tagged easy / medium / hard by the pass rate of three mid-tier models
+at $k{=}5$ samples, following the stratification protocol of the study design. On MedXpertQA the
+strata are heavily skewed hard (13 / 62 / 125 on the pilot sample), which is the intended regime.
+

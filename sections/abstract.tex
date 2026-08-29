@@ -1,0 +1,25 @@
+Multi-agent ``consultation'' is the dominant design pattern in medical language-model systems, yet
+the conditions under which it helps have been established only for general-domain agentic tasks,
+from which medicine was explicitly excluded. We replicate that design in the medical, tool-free
+regime: 175 configurations and 50{,}749 episodes spanning three capability tiers, three medical
+benchmarks, five canonical architectures (single-agent plus Independent, Centralized,
+Decentralized and Hybrid coordination) and panel sizes $N \in \{1,3,5,7,9\}$, under matched
+budgets and with a budget-matched single-model control at every cell. Because medical
+multiple-choice reasoning uses no tools, the tool--coordination trade-off that dominates the
+general-domain result vanishes identically, isolating coordination itself.
+
+We find that collaboration in medicine is governed by a \emph{window} of task difficulty rather
+than a ceiling. All 40 configurations whose single-doctor baseline falls between 25\% and 50\%
+improve on the single doctor (mean $+3.6$ to $+4.7$ pp); outside that band fewer than 70\% do, and
+below 25\% the mean gain is negative. The reported 45\% capability ceiling is reproduced as the
+window's upper edge, but expert-level medical items reach a difficulty regime the general-domain
+benchmarks never approach, revealing a lower edge as well: when a task is hard enough, adding
+physicians does not help either. The two statistically significant gains in the study both sit
+inside the window and both come from the attending-physician architecture at $N{=}3$
+($+7.6$ pp, $p<10^{-4}$; $+6.4$ pp, $p=0.0037$); panel size predicts nothing
+($\hat\beta_{\log(1+n_a)} = -0.005$, $p = 0.67$) and no architecture improves beyond $N{=}5$
+anywhere. A scaling model on collaboration gain attains cross-validated $R^2 = 0.531$ without any
+tool term, matching the general-domain fit, with error amplification as the dominant penalty.
+Architecture rankings do not transfer across benchmarks (Kendall $\tau = -0.07$ against $0.89$ in
+general domains), so the coordination structure must be selected per difficulty regime rather than
+per domain.

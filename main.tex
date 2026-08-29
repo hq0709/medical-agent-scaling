@@ -1,0 +1,35 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,graphicx,xcolor,microtype}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{authblk}
+\usepackage{caption}
+\usepackage{multirow}
+\captionsetup{font=small,labelfont=bf}
+\newcommand{\PSA}{P_{\mathrm{SA}}}
+\newcommand{\Ec}{E_{c}}
+\newcommand{\Ae}{A_{e}}
+\title{\bf Does the collaboration threshold hold in medicine?\\
+Scaling multi-agent LLM consultation in the tool-free limit}
+\author[1]{Anonymous}
+\affil[1]{Anonymous}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\input{sections/intro}          % 1 Introduction
+\input{sections/related}        % 2 Related Work
+\input{sections/systems}        % 3 Agent Systems and Tasks
+\input{sections/experiments}    % 4 Experiments & Results
+\input{sections/limitations}    % 5 Limitations and Future Works
+\input{sections/conclusion}     % 6 Conclusion
+
+\bibliographystyle{unsrtnat}
+\bibliography{refs}
+\end{document}

@@ -1,0 +1,37 @@
+\section{Related work}
+
+\paragraph{Medical multi-agent systems.} MedAgents~\citep{tang2024medagents} introduced
+role-played specialist collaboration for medical QA; MDAgents~\citep{kim2024mdagents} added
+adaptive routing between solo and group modes; MAC~\citep{chen2025mac} and
+TeamMedAgents~\citep{teammedagents} formalised teamwork components, the latter sweeping team
+sizes 2--5 and framing the result as a Pareto-efficiency question. Every published medical
+ablation stops at $N \leq 5$; none reports a dose--response curve, and none runs a budget-matched
+single-model control.
+
+\paragraph{Skeptical evaluations.} MedAgentBoard~\citep{medagentboard} and the npj Digital
+Medicine benchmarking study~\citep{npjdm2026} independently report that multi-agent
+orchestration frequently fails to beat well-prompted single models on clinical tasks, at
+substantially higher cost. ConfAgents~\citep{confagents} quantifies the overhead at roughly
+$50\times$ the latency of a single generation for marginal accuracy gain. Our economics analysis
+is a direct quantitative extension of this line.
+
+\paragraph{Scaling theory for agent systems.} ``More agents is all you need''~\citep{li2024more}
+reported monotone gains from ensemble size; \citet{chen2024morecalls} showed the relationship is
+non-monotone, with an inverted-U in the number of LLM calls on hard instances.
+\citet{mas_scaling2606} confirmed the inverted-U in agent count for general-domain multi-agent
+systems, and \citet{diversity2602} attributed the fast-then-slow shape to opinion diversity,
+showing that two diverse agents can match sixteen homogeneous ones. \citet{kim2026scaling} is the
+most complete treatment: a predictive scaling principle fitted across architectures, model
+families and domains, from which the 45\% capability threshold and the error-amplification
+asymmetry are derived. We replicate its design in the medical, tool-free regime.
+
+\paragraph{Mechanisms.} Correlated errors across models limit ensemble
+benefit~\citep{correlated2025}; analyses of multi-agent debate show consensus can converge on
+confident-but-wrong answers~\citep{demystifying_mad}. Our unanimity and error-amplification
+measurements instantiate these mechanisms on clinical items.
+
+\paragraph{Human anchors.} Collective-intelligence studies in medicine find diagnostic accuracy
+plateaus at roughly five independent raters~\citep{kammer2017}, that groups of nine outperform
+individuals on the Human Dx platform~\citep{barnett2019}, and that the useful question is not
+whether two heads are better than one but \emph{when}~\citep{hautz2024}. The dose--response curve
+we measure for AI panels is the machine analogue of that literature.
