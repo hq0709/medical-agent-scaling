@@ -186,25 +186,9 @@ agent. The complete 180-configuration grid is Table~\ref{tab:full}.}
 \input{tables/main_results_compact.tex}
 \end{table*}
 
-\begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig1_capability.pdf}
-\caption{\textbf{Agent scaling across model capability and system architecture.} Performance
-against the task-grounded capability index $I$ (mean single-doctor accuracy across the three
-benchmarks), for each architecture, on each benchmark. Each architecture is shown at its
-best-performing panel size. Dashed grey: single-agent baseline. Green arrows give the gain of the
-best architecture over the single agent at the strongest model.}
-\label{fig:capability}
-\end{figure*}
 
-\begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig3_window.pdf}
-\caption{\textbf{Collaboration pays only inside a window of task difficulty.} (a) Collaboration
-gain against the single-doctor baseline $\PSA$ for every multi-agent configuration; The shaded band
-marks the 25--50\% window; the dashed line is the previously reported 45\% capability ceiling. (b) The same
-data binned; annotations give the fraction of configurations in each bin that improve on the
-single doctor.}
-\label{fig:window}
-\end{figure*}
+
+
 
 
 
@@ -305,3 +289,15 @@ Tier & Task type & $n$ & single doctor & best panel & gain \\
 \multicolumn{6}{@{}l}{\scriptsize $^{*}p<0.05$, $^{**}p<0.01$} \\
 \end{tabular}
 \end{table*}
+
+\section{Effect sizes by configuration}
+\label{app:forest}
+
+\begin{figure*}[t]\centering
+\includegraphics[width=0.86\textwidth]{figures/fig7_forest.pdf}
+\caption{Collaboration gain with 95\% confidence intervals for the 38 configurations with the
+strongest evidence, grouped by the single-doctor baseline of their cell and ordered by it. Shaded
+band: configurations inside the 25--50\% window. Intervals crossing zero are consistent with no
+effect.}
+\label{fig:forest}
+\end{figure*}
