@@ -35,20 +35,20 @@ single-agent baseline.
 \item \textbf{Error absorption}: $(\!E_{\mathrm{SAS}} - E_{\mathrm{MAS}})/E_{\mathrm{SAS}}$,
 exactly as defined by \citet{kim2026scaling}, where $E$ is the error rate.
 \item \textbf{Error amplification} $\Ae$: they describe this as individual-agent errors reaching
-the final output without inter-agent verification. We measure exactly that failure --- the panel
-\emph{held} the correct option among its first opinions and still emitted a wrong one ---
+the final output without inter-agent verification. We measure exactly that failure, in which the panel
+\emph{held} the correct option among its first opinions and still emitted a wrong one,
 normalised by the marginal probability that a single agent is wrong. $\Ae > 1$ means the system
 destroys information it already possessed.
 \end{itemize}
 
 \paragraph{Budget-matched controls.}
 
-Every configuration is accompanied by three single-model controls: zero-shot, chain-of-thought,
-and \textbf{self-consistency at a matched budget}. The self-consistency pool is built from cached
-$n{=}8$ sampling calls (the API maximum), so any $k$ is a prefix of the same samples; nominal cost
+Every configuration is accompanied by three single-model controls. These are zero-shot,
+chain-of-thought, and \textbf{self-consistency at a matched budget}. The self-consistency pool is built from cached
+$n{=}8$ sampling calls (the API maximum), so any $k$ is a prefix of the same samples. Nominal cost
 is charged as $\lceil k/8 \rceil$ prompts plus $k$ completions, which is what an efficient
 implementation would actually pay. Panels are compared against the self-consistency cell whose
-mean per-item \emph{dollar} cost is closest, not the one with a matching sample count: matching on
+mean per-item \emph{dollar} cost is closest, not the one with a matching sample count. Matching on
 samples silently favours the panel, because a panel pays the prompt once per agent while
 self-consistency amortises it across a batch.
 
@@ -57,7 +57,7 @@ economics figures report what a configuration would cost to run, not what our ca
 
 \paragraph{Scaling law.}
 
-We fit the functional form of \citet{kim2026scaling},
+We fit the functional form used for general-domain agent systems~\citep{kim2026scaling},
 \begin{align}
 P = \beta_0 &+ \beta_1 I + \beta_2 I^2 + \beta_3 \log(1{+}T_{\text{tools}}) \nonumber\\
 &+ \beta_4 \log(1{+}n_a) + \beta_5 \log(1{+}O\%) \nonumber\\
@@ -66,18 +66,18 @@ P = \beta_0 &+ \beta_1 I + \beta_2 I^2 + \beta_3 \log(1{+}T_{\text{tools}}) \non
 \end{align}
 with interactions $I{\times}\Ec$, $\Ae{\times}\PSA$, $R{\times}n_a$, $c{\times}I$ and
 $\PSA{\times}\log(1{+}n_a)$. Our tasks use no tools, so $T_{\text{tools}} = 0$ identically and
-every term containing it vanishes: we fit the $T{=}0$ slice, which is the point of the study.
-Standard errors are clustered by benchmark; cross-validated $R^2$ is reported over five folds.
+every term containing it vanishes. We fit the $T{=}0$ slice, which is the point of the study.
+Standard errors are clustered by benchmark, and cross-validated $R^2$ is reported over five folds.
 
 \paragraph{Statistics.}
 
 Paired McNemar tests with exact binomial $p$-values on identical item sets, Holm-corrected within
 each family of comparisons. Wilson 95\% confidence intervals for all accuracies. Power was
-calibrated on a 200-item pilot: median discordance between configurations is 8.5\%, giving a
+calibrated on a 200-item pilot. Median discordance between configurations is 8.5\%, giving a
 minimum detectable difference of 5.7 percentage points at $n{=}200$ and 2.6 points at $n{=}1000$
 with 80\% power. Configurations that fail for infrastructure reasons (rate limits, timeouts) are
-recorded with an error status and excluded from accuracy; they are never scored as wrong answers,
-which would bias call-heavy architectures downward.
+recorded with an error status and excluded from accuracy. Scoring them as wrong answers would
+bias call-heavy architectures downward.
 
 
 
@@ -90,19 +90,18 @@ which would bias call-heavy architectures downward.
 \paragraph{Specialist capability matters four times more than the orchestrator's.}
 Replacing the whole panel with weak models costs $34.4$ pp (49.2\% to 14.8\%). Splitting that
 substitution isolates where the loss comes from. Downgrading only the \emph{orchestrator}, keeping
-strong specialists, costs $3.6$ pp --- the panel retains 90\% of the homogeneous-high span.
+strong specialists, costs $3.6$ pp, so the panel retains 90\% of the homogeneous-high span.
 Downgrading only the \emph{specialists}, keeping a strong orchestrator, costs $14.8$ pp, retaining
 57\%. A strong attending physician recovers more than half of what a weak panel loses, but a weak
-attending physician barely dents a strong one. The asymmetry is $4.1\times$, and it points
-somewhere specific: in a centralized clinical panel, capability should be spent on the agents
-doing the reasoning, not on the agent doing the auditing.
+attending physician barely dents a strong one. The asymmetry is $4.1\times$. In a centralized clinical panel, capability should therefore be
+spent on the agents doing the reasoning rather than on the agent doing the auditing.
 
 \paragraph{An orchestrator too weak to audit is worse than no orchestrator at all.}
 The largest single degradation anywhere in this study is a Centralized panel with a weak model on
 MedQA at $\PSA = 66.0\%$: $-13.60$ pp, $p = 10^{-5}$. Inspection of those episodes shows the
-mechanism directly --- the orchestrator overrides a correct specialist majority. This is the error-amplification term in its most extreme form. It is also the counterpart to the
-previous result. The audit is what makes centralized coordination work; an auditor that cannot
-audit converts the architecture's strength into its worst liability.
+mechanism directly. The orchestrator overrides a correct specialist majority. This is the error-amplification term in its most extreme form. It is also the counterpart to the
+previous result. The audit is what makes centralized coordination work, so an auditor that cannot audit converts
+the architecture's strength into its worst liability.
 
 \paragraph{Mixed-capability panels land between their components, with no emergent benefit.}
 A panel of one strong, one mid and one weak specialist reaches 40.8\% under Centralized and 44.0\%
@@ -111,7 +110,7 @@ homogeneous panel and well above the weak one, roughly where a capability-weight
 put them. We find no medical analogue of the heterogeneous-mixing advantage
 \citet{kim2026scaling} report for one model family, in which a low-capability orchestrator with
 high-capability sub-agents outperformed a homogeneous high-capability panel by 31\%. In our data
-that configuration is the second-best Centralized cell but still $7\%$ below homogeneous-high ---
+that configuration is the second-best Centralized cell but still $7\%$ below homogeneous-high,
 directionally matching what they observe for OpenAI models, where heterogeneous centralized
 configurations degrade.
 
@@ -168,14 +167,14 @@ $>70\%$    & 40 & $+0.55$ pp & 68\% \\
 \end{tabular}
 \end{center}
 
-Configurations inside the 25--50\% band gain $+2.48$ pp on average; those outside it lose
+Configurations inside the 25--50\% band gain $+2.48$ pp on average, while those outside it lose
 $0.31$ pp (Welch $t = 8.42$, $p < 10^{-6}$, $n = 80$ vs $100$). Splitting instead at the 45\%
 figure of \citet{kim2026scaling} reproduces their direction but explains the data far less well
 ($+1.36$ pp below versus $+0.07$ pp above; $t = 3.46$, $p = 0.0007$). The ceiling they report is
 the \emph{upper} edge of a window whose lower edge our design reaches, because expert-level
-medical items drive single-agent accuracy down to 15\% --- below anything in their benchmark
-suite. A window is not a weaker version of a ceiling: it identifies two distinct failure modes,
-and it is the better description of the data by a factor of $2.4$ in $t$.
+medical items drive single-agent accuracy down to 15\%, below anything in their benchmark
+suite. A window is not a weaker version of a ceiling. It identifies two distinct failure modes, and it
+describes the data better by a factor of $2.4$ in $t$.
 
 \paragraph{The window separates significant help from significant harm, with no overlap.}
 Thirty of the 180 configurations differ significantly from the single doctor (McNemar
@@ -193,27 +192,26 @@ outside the window ($n = 100$) & \textbf{0}  & \textbf{10} \\
 \end{tabular}
 \end{center}
 
-Every configuration that significantly beats the single doctor lies inside the window; every
+Every configuration that significantly beats the single doctor lies inside the window. Every
 configuration that significantly loses to it lies outside. The largest gain is the
 attending-physician (Centralized) panel at $N{=}3$: $+7.60$ pp at $\PSA = 41.6\%$
 (\texttt{gpt-5-mini}, $p = 2\times10^{-5}$), with $+6.40$ pp at $\PSA = 32.0\%$
 (\texttt{gpt-5-nano}, $p = 0.0037$). The largest loss is also a Centralized panel, at
 $\PSA = 66.0\%$ with a weak model: $-13.60$ pp ($p = 10^{-5}$), where an orchestrator too weak to
-audit its own specialists overrides answers the panel had right. The window is not merely a
-description of where gains concentrate; it is a two-sided boundary, and the harm on the far side
-is as significant as the benefit within.
+audit its own specialists overrides answers the panel had right. The window is not only a description of where gains concentrate. It is a two-sided boundary, and
+the harm on the far side is as significant as the benefit within.
 
 \paragraph{Architecture matters more than panel size.}
 Within the window, the ordering is stable: Centralized and Decentralized lead, Hybrid trails, and
 Independent voting is indistinguishable from the single doctor. On \texttt{gpt-5-nano} /
-MedXpertQA, Independent moves from 31.8\% at $N{=}1$ to 32.6\% at $N{=}9$ --- 0.8 pp for nine
-times the calls --- while Decentralized reaches 38.0\% at $N{=}3$ and stays there. Gains saturate
-at $N{=}3$ in every cell where they occur; no architecture in any cell improves beyond $N{=}5$.
+MedXpertQA, Independent moves from 31.8\% at $N{=}1$ to 32.6\% at $N{=}9$, which is 0.8 pp for
+nine times the calls, while Decentralized reaches 38.0\% at $N{=}3$ and stays there. Gains saturate
+at $N{=}3$ in every cell where they occur, and no architecture in any cell improves beyond $N{=}5$.
 
 \paragraph{The best architecture changes with capability tier.}
 The best architecture depends on the tier. At T2 the peak is Decentralized (38.0\%, $+6.0$ pp);
 at T3 it is Centralized (49.2\%, $+7.6$ pp). This mirrors the family-dependent architectural
-preferences reported by \citet{kim2026scaling}: the stronger model exploits an orchestrator's
+preferences reported by \citet{kim2026scaling}. The stronger model exploits an orchestrator's
 audit, whereas the weaker model benefits more from peer exchange, whose redundancy compensates
 for individually unreliable opinions.
 
@@ -223,9 +221,9 @@ for individually unreliable opinions.
 \subsection{Scaling principles}
 
 \paragraph{With accuracy as the response, the fit is degenerate.}
-Fitting the functional form of \citet{kim2026scaling} directly gives $R^2 = 0.997$ (5-fold
+Fitting that form directly gives $R^2 = 0.997$ (5-fold
 cross-validated $R^2 = 0.996$). That is not a replication but an artefact of our tighter design.
-Their response is accuracy and one predictor is $\PSA$; across six heterogeneous benchmarks and
+Their response is accuracy and one predictor is $\PSA$. Across six heterogeneous benchmarks and
 three model families that predictor leaves ample residual variance, and they report
 cross-validated $R^2 = 0.513$. Here the same items and the same model underlie both terms and
 only the coordination structure varies, so $\PSA$ alone nearly determines accuracy
@@ -234,8 +232,8 @@ only the coordination structure varies, so $\PSA$ alone nearly determines accura
 
 \paragraph{The gain model recovers the general-domain level of explanatory power.}
 With $\mathrm{gain} = P - \PSA$ as the response, $R^2 = 0.518$ and 5-fold cross-validated
-$R^2 = 0.415$ --- the same regime as the $0.513$ reported for the general-domain fit, obtained
-here with no tool-count term at all. Coefficients ($n = 225$ configurations including the
+$R^2 = 0.415$, the same regime as the $0.513$ reported for the general-domain fit, obtained here
+with no tool-count term at all. Coefficients ($n = 225$ configurations including the
 self-consistency control, benchmark-clustered SEs):
 
 \begin{center}\footnotesize
@@ -262,28 +260,28 @@ main effect.
 
 \paragraph{The tool--coordination trade-off is absent by construction, and coordination still
 predicts gain.} $T_{\text{tools}} = 0$ throughout, so the $\log(1+T)$ main effect and the
-$O\%\times T$ and $\Ec\times T$ interactions --- carrying $\hat\beta = -0.330$ in the
-general-domain fit --- are identically zero. Coordination metrics remain highly significant
+$O\%\times T$ and $\Ec\times T$ interactions, which carry $\hat\beta = -0.330$ in the
+general-domain fit, are identically zero here. Coordination metrics remain highly significant
 without them, which establishes that the coordination effect is not a re-description of tool
-overhead. Notably $\log(1+O\%)$ turns \emph{positive} here: with no tools to coordinate over,
+overhead. The coefficient on $\log(1+O\%)$ turns \emph{positive} here. With no tools to coordinate over,
 spending more tokens on deliberation is mildly beneficial rather than costly.
 
 \paragraph{The decision boundary is not identifiable in the tool-free slice.}
-\citet{kim2026scaling} derive their threshold as
+The published threshold is derived as a coefficient ratio,
 $\PSA^{*} = \hat\beta_{4}/\hat\beta_{17} \approx 0.063/0.408 = 0.154$ in standardised units,
-$\approx 0.45$ after denormalisation. In our fit $\hat\beta_{\log(1+n_a)} = +0.0005$ ($p = 0.95$)
-and $\hat\beta_{\PSA\times\log(1+n_a)} = +0.0074$ ($p = 0.50$); the ratio, $0.064$, rests on two
+or $\approx 0.45$ after denormalisation~\citep{kim2026scaling}. In our fit $\hat\beta_{\log(1+n_a)} = +0.0005$ ($p = 0.95$)
+and $\hat\beta_{\PSA\times\log(1+n_a)} = +0.0074$ ($p = 0.50$). The ratio, $0.064$, rests on two
 null coefficients and carries no information. This is a statement about functional form, not a
-failed replication: a linear interaction between baseline and log panel size can express a
+failed replication. A linear interaction between baseline and log panel size can express a
 monotone ceiling but cannot express a window. The binned analysis (\S4.2) shows the relationship
 is non-monotone in $\PSA$, and a window is what the medical data require.
 
 \paragraph{Capability enters non-linearly, but the quadratic term is not identifiable here.}
-\citet{kim2026scaling} report accelerating returns to intelligence
-($\hat\beta_{I^2} = 0.256$, $p = 0.010$). Our fit carries $I$ and $I^2$ with large coefficients of
+Accelerating returns to intelligence have been reported for general-domain agents
+($\hat\beta_{I^2} = 0.256$, $p = 0.010$; \citealp{kim2026scaling}). Our fit carries $I$ and $I^2$ with large coefficients of
 opposite sign ($-0.231$ and $+0.228$), but bootstrap resampling ($n = 1000$) gives them standard
-errors of $0.94$ and $0.54$ --- two orders of magnitude above the $<0.015$ they report for terms
-of this size. With three capability tiers the quadratic is unidentifiable, and we do not interpret
+errors of $0.94$ and $0.54$, two orders of magnitude above the $<0.015$ they report for terms of
+this size. With three capability tiers the quadratic is unidentifiable, and we do not interpret
 it. Every other large coefficient is stable: $\log(1+\Ae)$ has bootstrap SE $0.024$ and $\PSA$
 has $0.044$.
 
@@ -295,13 +293,13 @@ than two clusters exist. Residual standard error is $\hat\sigma = 0.017$ against
 reflecting that collaboration gains in medicine are small in absolute terms. Regularised
 alternatives do not improve prediction: Lasso (10-fold CV for $\lambda$) retains 9 of 11
 predictors at CV $R^2 = 0.382$ and Ridge reaches $0.144$, both below the unregularised $0.415$, so
-we retain the full specification --- the same conclusion they reach.
+we retain the full specification.
 
 \paragraph{Panel size alone has no predictive value whatsoever.}
 Nested model comparison isolates where the explanatory power lives (5-fold CV $R^2$): the full
 model reaches $0.415$; capability alone $0.196$ (they report $0.28$ for intelligence alone);
 coordination metrics alone $0.093$; the single-doctor baseline alone $0.043$; and
-\textbf{panel size alone $-0.006$} --- worse than predicting the mean. Any account of medical
+\textbf{panel size alone $-0.006$}, worse than predicting the mean. Any account of medical
 consultation that treats ``how many agents'' as the design variable is fitting noise.
 
 \paragraph{The scaling principle selects an architecture, given a case mix.}
@@ -321,12 +319,13 @@ own errors.
 $\log(1+\Ae)$ carries the largest coefficient of any coordination metric ($-0.150$,
 $p < 10^{-4}$). $\Ae$ measures how often a panel held the correct option among its first opinions
 and still emitted a wrong one. Configurations that discard information they already possess are
-exactly the configurations that fail to beat the single doctor --- the same mechanism
-\citet{kim2026scaling} identify, reached from the opposite direction.
+exactly the configurations that fail to beat the single doctor. The same mechanism has been proposed from the opposite
+direction for general-domain agents~\citep{kim2026scaling}; our measurement supplies the
+configuration-level evidence.
 
 \paragraph{Redundancy provides benefit at scale.}
-$R \times n_a$ is positive ($\hat\beta = +0.006$, $p < 0.001$), reproducing their
-marginal-benefit-at-scale result ($\hat\beta_{R \times n_a} = 0.041$, $p = 0.040$). In clinical
+$R \times n_a$ is positive ($\hat\beta = +0.006$, $p < 0.001$), which matches the marginal-benefit-at-scale
+coefficient reported for general-domain agents ($0.041$, $p = 0.040$). In clinical
 panels, specialists restating one another is a weak form of verification rather than wasted
 capacity.
 
@@ -352,7 +351,7 @@ $b = 1.724$, $R^2 = 0.974$. The exponent is sub-linear here and super-linear the
 structural: their agents negotiate open-ended tool use with unbounded exchange, whereas a clinical
 panel answering a closed question terminates on unanimity. Turn counts by architecture are
 Decentralized $7.5$, Centralized $6.5$, Independent $5.0$, Hybrid $1.9$, against a single-agent
-$1.4$ --- a $1.4$--$5.3\times$ range, where they report $3.6$--$6.2\times$. The hard resource
+$1.4$, a $1.4$ to $5.3\times$ range against the $3.6$ to $6.2\times$ they report. The hard resource
 ceiling they infer from super-linear growth does not arise in tool-free consultation.
 
 \paragraph{Message density does not predict accuracy.}
@@ -370,9 +369,8 @@ general-domain agent teams do, and the ordering differs: peer discussion absorbs
 orchestration.
 
 \paragraph{Error taxonomy reproduces the structural signature, not the magnitudes.}
-Following the multi-agent failure taxonomy of \citet{mast2025}, adopted by
-\citet{kim2026scaling},
-we apply the four-category taxonomy across all configurations:
+We classify first-round errors into four categories, following the multi-agent failure
+taxonomy of \citet{mast2025}:
 
 \begin{center}\footnotesize
 \setlength{\tabcolsep}{3.5pt}
@@ -389,7 +387,7 @@ Coordination failure & \textbf{0.0\%} & 3.0\% & 1.2\% & 0.0\% \\
 \end{center}
 
 The structural prediction replicates exactly: coordination failure is \textbf{0.0\%} under
-Independent coordination, as it is in the general-domain study, and for the same reason --- with
+Independent coordination, as it is in the general-domain study, and for the same reason: with
 $C = \emptyset$ there is no channel on which coordination can fail. Hybrid is also at $0.0\%$
 because its triage gate declines to convene a panel on most items. The magnitudes do not
 replicate: they report peer verification cutting logical contradiction from $16.8\%$ to $11.5\%$,
@@ -403,7 +401,7 @@ $\Delta\mathcal{I} = +0.90$ bits (Decentralized), $+1.46$ bits (Hybrid) and $+0.
 (Centralized) between the first and final round. Panels converge, and they converge most where
 the architecture communicates most. In the general-domain study $\Delta\mathcal{I}$ correlates
 with the multi-agent advantage at $r = 0.71$ in structured domains; here convergence occurs
-whether or not the consensus is correct --- the information-limited regime they report for
+whether or not the consensus is correct. This is the information-limited regime they report for
 open-world browsing rather than the structured-domain one.
 
 \paragraph{Architecture rankings do not generalise across benchmarks.}
@@ -472,8 +470,8 @@ physicians; they make it into one physician wearing several labels.
 \setlength{\tabcolsep}{3.5pt}
 \caption{Clinical safety. Unanimity is measured on the last round with two or more agents;
 $P(\mathrm{wr.}\!\mid\!\mathrm{un.})$ is the chance a fully agreeing panel is wrong; the last
-column is the confidence gap between correct and incorrect answers --- the signal a clinician
-would use to discount an answer.}
+column is the confidence gap between correct and incorrect answers, which is the signal a
+clinician would use to discount an answer.}
 \label{tab:safety}
 \begin{tabular}{@{}lrrr@{}}
 \toprule
@@ -506,8 +504,8 @@ ran before the main experiments, where the best achievable referral gate on stat
 reached a Youden $J$ of only $0.071$.
 
 \paragraph{Discussion manufactures consensus without manufacturing correctness.}
-Unanimity --- every panelist emitting the same valid option in the last round with two or more
-agents --- rises from $66.2\%$ under independent voting to $98.3\%$ under peer discussion.
+Unanimity, defined as every panelist emitting the same valid option in the last round with two or
+more agents, rises from $66.2\%$ under independent voting to $98.3\%$ under peer discussion.
 Conditional accuracy does not follow: $P(\text{wrong} \mid \text{unanimous})$ is $46.5\%$ for
 Independent and $49.9\%$ for Decentralized. A unanimous medical panel is wrong about half the time
 in both cases; discussion simply produces far more unanimous panels. Centralized coordination is
@@ -518,7 +516,7 @@ error-containment role the orchestrator is supposed to play.
 Taken together: consultation drives panels to near-total agreement, leaves the error rate given
 agreement at a coin flip, and raises confidence most on the answers that are wrong while shrinking
 the confidence gap that would let a reader tell the difference. The configuration a clinician
-would most readily act on --- a unanimous, high-confidence multidisciplinary recommendation ---
+would most readily act on, a unanimous and high-confidence multidisciplinary recommendation,
 carries essentially the same error rate as a divided one, and advertises itself more strongly.
 Accuracy gains of $6$--$8$ pp inside the window are real, but they are purchased alongside a
 degradation in the calibration of the signal that would let a clinician catch the remaining

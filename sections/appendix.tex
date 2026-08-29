@@ -3,13 +3,13 @@
 \section{Model capability index}
 \label{app:capability}
 
-\citet{kim2026scaling} score models on a published Intelligence Index and report that a
+Prior work scores models on a published Intelligence Index and reports that a
 \emph{task-grounded} capability metric explains more variance ($R^2 = 0.413$) than the generic one
 ($R^2 = 0.373$). We therefore use the task-grounded form throughout: $I$ is a model's mean
 single-doctor chain-of-thought accuracy across the three benchmarks. Table~\ref{tab:capability}
 gives the components. The three tiers span $I = 34.0$ to $59.2$, and their single-benchmark
-baselines span 15.6\% to 91.6\% --- crossing the 45\% region from both sides, which is what makes
-the capability-ceiling test possible at all.
+baselines span 15.6\% to 91.6\%, crossing the 45\% region from both sides. That crossing is what
+makes the capability-ceiling test possible at all.
 
 \begin{table*}[t]\centering\small
 \caption{Capability index and its components (single-doctor CoT accuracy, \%).}
@@ -21,8 +21,8 @@ the capability-ceiling test possible at all.
 \label{app:complexity}
 
 \subsection{Complexity metric construction}
-Following \citet{kim2026scaling}, domain complexity $D \in [0,1]$ is the arithmetic mean of three
-complementary measures: the \textbf{performance ceiling} $1 - p_{\max}$, where $p_{\max}$ is the
+Domain complexity $D \in [0,1]$ is the arithmetic mean of three complementary
+measures~\citep{kim2026scaling}: the \textbf{performance ceiling} $1 - p_{\max}$, where $p_{\max}$ is the
 highest performance any evaluated system reaches; the \textbf{coefficient of variation}
 $\sigma/\mu$ of performance across all configurations, a scale-invariant measure of relative
 spread; and the \textbf{best-model baseline} $1 - p_{\text{best}}$, where $p_{\text{best}}$ is the
@@ -40,16 +40,17 @@ MedXpertQA and MedAgentsBench-hard are high-complexity and nearly indistinguisha
 \end{table*}
 
 \subsection{The critical threshold does not transfer}
-\citet{kim2026scaling} identify a critical complexity threshold at $D \approx 0.40$: below it
+A critical complexity threshold at $D \approx 0.40$ has been reported for general-domain
+agents~\citep{kim2026scaling}: below it
 multi-agent architectures yield net positive returns, above it coordination overhead consumes
 resources otherwise spent on reasoning. Our data do not support a benchmark-level threshold of any
 value. MedXpertQA ($D = 0.489$) and MedAgentsBench-hard ($D = 0.478$) differ by $0.011$ in
-complexity yet by $3.5$ pp in mean multi-agent gain ($+3.09$ pp versus $-0.37$ pp) --- opposite
-signs at effectively the same $D$. A benchmark-level statistic cannot separate them because the
+complexity yet by $3.5$ pp in mean multi-agent gain ($+3.09$ pp versus $-0.37$ pp), giving
+opposite signs at effectively the same $D$. A benchmark-level statistic cannot separate them because the
 quantity that does separate them varies \emph{within} each benchmark: on MedAgentsBench-hard the
 per-tier gains run $-2.78$, $+1.02$, $+0.66$ pp as $\PSA$ moves from 20.4\% through 32.4\% to
 44.4\%, entering the window between the first tier and the second. Domain complexity is the right
-idea at the wrong granularity for medicine; the configuration-level baseline $\PSA$ is what
+idea at the wrong granularity for medicine. The configuration-level baseline $\PSA$ is what
 carries the signal.
 
 \section{Datasets}
@@ -101,14 +102,14 @@ decorrelated from the top-ranked specialty.
 \textbf{Sample sizes.} 250 items per benchmark, 180 multi-agent configurations, 63{,}499 episodes.
 \textbf{Controls.} All architectures share the item rendering, answer schema, role-prompt template
 and decoding parameters; only coordination logic differs. Model weights are frozen. The primary
-endpoint is exact match against the dataset's own gold option key --- there is no LLM judge in the
-evaluation path. Episodes that fail for infrastructure reasons carry an error status and are
+endpoint is exact match against the dataset's own gold option key. No LLM judge appears anywhere
+in the evaluation path. Episodes that fail for infrastructure reasons carry an error status and are
 excluded from accuracy rather than scored as wrong, which would bias call-heavy architectures
 downward. Cost accounting is nominal: cached calls are charged at list price, so reported
 economics describe what a configuration would cost to run.
 
 \subsection{Information gain computation}
-Following \citet{kim2026scaling}, information gain is the Bayesian posterior variance reduction
+Information gain is the Bayesian posterior variance reduction~\citep{kim2026scaling}
 \begin{equation}
 \Delta\mathcal{I} = \tfrac12 \log \frac{\mathrm{Var}[Y \mid \mathbf{s}_{\text{pre}}]}
 {\mathrm{Var}[Y \mid \mathbf{s}_{\text{post}}]},
@@ -117,7 +118,7 @@ with $\mathrm{Var}[Y \mid \mathbf{s}] = \hat p(\mathbf{s})(1 - \hat p(\mathbf{s}
 $Y \in \{0,1\}$ the success indicator. They estimate $\hat p$ from $K{=}10$ sampled reasoning
 traces at temperature 0.7. In multiple-choice consultation the panel already supplies such a
 sample: $\hat p$ is the fraction of the round's opinions that name the gold option, Laplace
-smoothed as $(k{+}1)/(n{+}2)$. Smoothing rather than clipping matters: a Centralized panel's final
+smoothed as $(k{+}1)/(n{+}2)$. Smoothing rather than clipping matters. A Centralized panel's final
 round contains only the orchestrator, and clipping would pin $\hat p$ at $0.5$ and force
 $\Delta\mathcal{I}$ negative by construction.
 
@@ -207,7 +208,7 @@ Homogeneous low               & 14.8\% & 0\% & 17.2\% & 0\% \\
 Peer discussion raises $\varphi$ from $0.751$ before the exchange to $\mathbf{0.986}$ after it
 (paired $t = 20.9$, $p = 8 \times 10^{-7}$). At $\varphi = 0.986$ a six-agent panel has
 $N_{\text{eff}} = 1.01$. A multidisciplinary consultation, at the moment it reaches consensus, is
-informationally equivalent to one physician --- and the vote taken at that moment is a vote among
+informationally equivalent to one physician, and the vote taken at that moment is a vote among
 copies. This is the mechanism behind every safety result in \S4.6: unanimity rises to 98\%
 because the opinions have merged, not because they have converged on truth; the error rate given
 unanimity stays at a coin flip because merging does not add information; and confidence rises on

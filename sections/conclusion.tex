@@ -1,19 +1,19 @@
 \section{Conclusion}
 
 Consultation works in human medicine because physicians fail differently. Our measurements say
-that language-model panels do not: agents prompted into different specialties make the same
+that language-model panels do not. Agents prompted into different specialties make the same
 mistakes ($\varphi = 0.73$), and discussion pushes them into near-perfect agreement
 ($\varphi = 0.986$), leaving a six-member consultation with $1.01$ effective independent
 opinions. Every other result in this paper is a shadow of that one.
 
-Panel size cannot matter, because it does not change what the panel knows: across
+Panel size cannot matter, because it does not change what the panel knows. Across
 $N \in \{3, \dots, 9\}$ the effective number of opinions moves from $1.21$ to $1.31$, and panel
 size alone predicts collaboration gain at cross-validated $R^2 = -0.006$. Consensus cannot be
-trusted, because it is agreement among copies: unanimity reaches 98\% while the error rate given
+trusted, because it is agreement among copies. Unanimity reaches 98\% while the error rate given
 unanimity stays at 50\%, and the confidence signal that would let a clinician catch the difference
 is compressed by 45\%. What remains is a narrow window of task difficulty, roughly 25--50\%
-single-doctor accuracy, inside which coordination recovers enough complementary information to
-pay for itself --- and outside which it reliably does not.
+single-doctor accuracy. Inside it, coordination recovers enough complementary information to pay
+for itself. Outside it, coordination reliably does not.
 
 Two design conclusions follow for medical deployments. First, the variable worth controlling is
 not how many agents but whether a competent one audits the others before the system commits:

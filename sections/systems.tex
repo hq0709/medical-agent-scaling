@@ -10,10 +10,10 @@ communication graph, $\Omega$ the aggregation rule.}
 
 \subsection{System definition}
 
-We adopt the formalisation of \citet{kim2026scaling} without modification. An agent system is a
-triple $(A, C, \Omega)$: a set of agents $A$, a communication graph $C$, and an aggregation rule
-$\Omega$. Figure~\ref{fig:arch} and Table~\ref{tab:arch} give the five canonical configurations together with the clinical
-instantiation we use for each. Only the coordination logic differs across architectures; the item
+We describe an agent system as a triple $(A, C, \Omega)$: a set of agents $A$, a communication graph $C$, and an aggregation rule
+$\Omega$. Figure~\ref{fig:arch} and Table~\ref{tab:arch} give the five configurations we evaluate, each paired with the clinical role
+it instantiates. The taxonomy is the one used for general-domain agent
+systems~\citep{kim2026scaling}; the clinical instantiations are ours. Only the coordination logic differs across architectures. The item
 rendering, the answer schema, the role prompts and the decoding parameters are shared.
 
 \begin{table*}[t]\centering\small
@@ -37,17 +37,13 @@ Hybrid & $+a_{\mathrm{orch}}$, star + peer, both & $O(rnk{+}pn)$ & Tiered referr
 \paragraph{Independent.} $N$ specialists receive the item and answer without seeing one another.
 Aggregation is majority vote, ties broken by mean self-reported confidence and then by option
 order. A confidence-weighted variant is logged throughout.
-
-\paragraph{Centralized (attending physician).} An orchestrator receives the $N$ specialist
-opinions on a star topology and is instructed to \emph{audit before aggregating}: it must name the
-single opinion most likely to be wrong and justify that, then either commit to an answer or
-re-task one named specialty. A re-tasked specialist re-answers with the orchestrator's critique in
-hand; the star topology is preserved, as specialists never see each other. This is the
-``validation bottleneck'' to which \citet{kim2026scaling} attribute error containment.
+This design gives the panel a single point at which errors can be caught before they reach
+the output. It is the architecture we find responsible for both the largest gain and the
+largest loss in the study.
 
 \paragraph{Decentralized (MDT discussion).} $N$ specialists give first opinions, then exchange
 opinions on a complete graph for up to three rounds, each free to revise. Rounds stop early only
-on true unanimity, defined as every agent emitting the same \emph{valid} option; a panel
+on true unanimity, defined as every agent emitting the same \emph{valid} option. A panel
 containing unparsed answers is not unanimous.
 
 \paragraph{Hybrid (tiered referral).} A generalist answers first with a stated confidence. Below a
@@ -79,7 +75,7 @@ MedXpertQA-Text~\citep{zuo2025medxpertqa} (10 options; stratified by the 12 body
 3 task types), MedQA-USMLE~\citep{jin2021medqa} (4 options), and the contamination-screened hard
 split of MedAgentsBench~\citep{medagentsbench} (894 items excluding the
 \texttt{medqa\_5options} subset; the first 250 after stratified shuffling). The primary endpoint
-is exact match against the dataset's own gold option key --- there is no LLM judge anywhere in the
+is exact match against the dataset's own gold option key. No LLM judge appears anywhere in the
 evaluation path.
 
 Every item is additionally tagged easy / medium / hard by the pass rate of three mid-tier models

@@ -1,11 +1,11 @@
 \section{Limitations and future works}
 
 
-Our tasks are multiple-choice examination items, not clinical encounters: they carry no history
+Our tasks are multiple-choice examination items, not clinical encounters. They carry no history
 taking, no test ordering, no longitudinal follow-up, and the exact-match endpoint rewards the
 option-selection component of diagnosis only. The $T=0$ property that makes the design clean also
-bounds what it licenses --- results here do not extrapolate to tool-using clinical agents, which
-is precisely the regime the general-domain study covers.
+bounds what it licenses. Results here do not extrapolate to tool-using clinical agents, which is
+precisely the regime the general-domain study covers.
 
 All models are from a single vendor. The heterogeneity arm of the original design, which mixes
 vendors within a capability tier, is here restricted to mixing separately trained OpenAI families;
@@ -19,7 +19,7 @@ the curves accordingly.
 
 The specialty router ranks by relevance, so larger panels append progressively less relevant
 specialists. ``More experts'' and ``weaker experts'' are therefore entangled in the specialty-role
-condition; we separate them with the generic-internist control, in which every panelist is an
+condition. We separate them with the generic-internist control, in which every panelist is an
 undifferentiated internist and panel size is the only thing that varies.
 
 Difficulty strata are defined by the pass rate of mid-tier models, some of which also appear in
@@ -33,5 +33,5 @@ Token efficiency separates the architectures more sharply than accuracy does. Su
 $0.33$, Centralized $0.19$. The architecture that produced every significant accuracy gain in
 this study is also the least token-efficient, by $4.3\times$. Reported per question at list
 prices, a Centralized panel at $N{=}3$ costs \$1.4 per 1{,}000 MedXpertQA questions against
-\$0.21 for a single chain-of-thought call --- a $6.7\times$ premium for $+7.6$ pp, and only
+\$0.21 for a single chain-of-thought call. That is a $6.7\times$ premium for $+7.6$ pp, and only
 inside the window. Outside it the same premium buys nothing.
