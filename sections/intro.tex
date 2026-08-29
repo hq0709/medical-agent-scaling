@@ -1,8 +1,9 @@
 \section{Introduction}
 
-Ask three AI specialists a hard clinical question and let them confer, and they will agree with one
-another 98\% of the time. They will also be wrong half the time they agree. Those two facts are the
-subject of this paper.
+Ask six AI specialists a hard clinical question and let them confer. They will reach unanimity 98\%
+of the time, be wrong half the times they agree, and --- by the moment they agree --- carry
+$1.01$ independent opinions between them. Those three facts are one fact, and it is the subject of
+this paper.
 
 Multi-agent ``consultation'' has become the default design pattern in medical language-model
 systems. MedAgents~\citep{tang2024medagents}, MDAgents~\citep{kim2024mdagents},
@@ -37,13 +38,17 @@ We run that experiment at matched scale: 180 multi-agent configurations, 63{,}49
 capability tiers, three medical benchmarks, five architectures, panel sizes $N \in
 \{1,3,5,7,9\}$, and a budget-matched single-model control at every cell.
 
-Three results follow, and the third is the one a clinician should care about. First, the
-capability ceiling transfers, but as one edge of a two-sided \emph{window}: collaboration pays
-when a single physician model scores roughly 25--50\% and not otherwise. The general-domain
-benchmarks never descend into the difficult regime, which is why they see a ceiling where the
-medical data show a window. Second, panel size is not the design variable --- it has no predictive
-value at all, and what matters is whether a competent agent audits the panel before it commits.
-Third, consultation systematically degrades the signal a clinician would use to catch its
-mistakes: it drives panels to near-unanimity, leaves the error rate given unanimity at a coin
-flip, and raises confidence most on the answers that are wrong. The output a clinician would most
-readily act on is the one that has been made least diagnostic.
+Our central finding is that consultation in medicine violates the arithmetic premise it inherits
+from human practice. Pooling judgements helps physicians because physicians fail
+differently~\citep{kurvers2016boosting, kammer2017}. Language-model agents prompted into different
+specialties do not: their pairwise error correlation is $\varphi = 0.73$, so a nine-member panel
+carries $1.31$ effective independent opinions, and peer discussion raises the correlation to
+$0.986$. The panel does not converge on an answer; it collapses onto one.
+
+Three observable consequences follow, and they are the same fact seen three ways. Panel size
+predicts nothing, because tripling the panel adds a tenth of an opinion. Consensus carries no
+information, because it is agreement among copies --- unanimity reaches 98\% while accuracy given
+unanimity stays at chance, and confidence rises most on the answers that are wrong. And the
+benefit that survives is confined to a narrow \emph{window} of task difficulty rather than bounded
+by a ceiling: the general-domain benchmarks never descend far enough to see the window's lower
+edge, which is why they report a ceiling where the medical data show a band.

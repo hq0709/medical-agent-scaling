@@ -1,32 +1,31 @@
 Multi-agent ``consultation'' has become the default design pattern in medical language-model
-systems, on the intuition that a panel of specialists diagnoses better than one physician. We test
-that intuition at the scale at which it has been tested for general-domain agents, and in the one
-regime those studies cannot reach. Medical multiple-choice reasoning uses no tools, so the
-tool--coordination trade-off that dominates the general-domain scaling law vanishes identically,
-isolating coordination itself; and expert-level medical items drive single-agent accuracy down to
-15\%, far below anything in existing agentic benchmarks. Across 180 multi-agent configurations and
-63{,}499 episodes --- three capability tiers, three medical benchmarks, five canonical
-architectures, panel sizes $N \in \{1,3,5,7,9\}$, budget-matched single-model controls throughout
---- three results follow.
+systems, on the intuition that a panel of specialists diagnoses better than one physician. That
+intuition inherits an arithmetic premise from human medicine --- pooling helps because the
+opinions pooled are independent --- and we find the premise does not hold. Across 180 multi-agent
+configurations and 63{,}499 episodes, spanning three capability tiers, three medical benchmarks,
+five canonical architectures and panel sizes $N \in \{1,3,5,7,9\}$, the mean pairwise error
+correlation between panel members is $\varphi = 0.73$. A nine-member panel therefore carries
+$1.31$ effective independent opinions, and peer discussion raises $\varphi$ to $0.986$, leaving a
+six-agent consultation informationally equivalent to $1.01$ physicians at the moment it reaches
+consensus.
 
-Collaboration is bounded by a \emph{window} of task difficulty, not a ceiling. Configurations
-whose single-doctor baseline falls between 25\% and 50\% gain $+2.48$ pp; those outside lose
-$0.31$ pp (Welch $t = 8.42$, $p < 10^{-6}$). The separation is two-sided and without overlap: all
-20 configurations that significantly beat the single doctor lie inside the window, all 10 that
-significantly lose to it lie outside. The 45\% capability ceiling reported for general-domain
-agents is reproduced as the window's upper edge; its lower edge is visible only at medical
-difficulty.
+Three consequences follow, and they are the same fact seen three ways. Panel size carries no
+predictive value whatsoever (cross-validated $R^2 = -0.006$ alone), because tripling the panel
+adds one tenth of an independent opinion. Discussion raises unanimity from 66\% to 98\% while the
+error rate given unanimity stays at 50\%, and raises confidence on wrong answers more than on
+right ones, compressing the gap that separates them by 45\%: agreement among copies looks like
+corroboration. And the benefit that does exist is confined to a \emph{window} of task
+difficulty rather than bounded by a ceiling --- configurations whose single-doctor baseline falls
+between 25\% and 50\% gain $+2.48$ pp while those outside lose $0.31$ pp (Welch $t = 8.42$,
+$p < 10^{-6}$), with all 20 significant improvements inside the window and all 10 significant
+degradations outside it.
 
-Panel size is not the design variable. It carries no predictive value whatsoever
-(cross-validated $R^2 = -0.006$ alone), gains saturate at three agents, and what distinguishes the
-best architecture from the worst is whether a competent agent audits the panel before it commits.
-Specialist capability matters $4.1\times$ more than the orchestrator's, and an orchestrator too
-weak to audit produces the largest degradation in the study ($-13.6$ pp, $p = 10^{-5}$) by
-overriding a correct majority.
-
-Consultation degrades the signal a clinician would use to catch its errors. Peer discussion raises
-unanimity from 66\% to 98\% while leaving the error rate given unanimity at 50\%; it raises
-confidence on wrong answers more than on right ones, compressing the confidence gap that separates
-them by 45\%. Accuracy gains of $6$--$8$ pp inside the window are real, but the panel output a
-clinician would most readily act on --- unanimous and confident --- has been made the least
-diagnostic of its own reliability.
+We reach these results by replicating, in medicine, the design used to establish scaling
+principles for general-domain agents. Medical multiple-choice reasoning contributes the one
+regime that design cannot reach: it uses no tools, so the tool--coordination trade-off that
+dominates the general-domain law vanishes identically, and expert-level items drive single-agent
+accuracy to 15\%, far below any existing agentic benchmark. The reported 45\% capability ceiling
+reproduces as the window's upper edge; its lower edge is visible only at medical difficulty. What
+does not reproduce is the value of coordination itself: an attending-physician architecture that
+audits before aggregating yields the study's largest gain ($+7.6$ pp, $p = 2\times10^{-5}$) and,
+when the auditor is too weak, its largest loss ($-13.6$ pp, $p = 10^{-5}$).

@@ -1,31 +1,31 @@
 \section{Conclusion}
 
-We tested whether the scaling principles established for general-domain agent systems hold in
-medicine, in the one regime those systems cannot reach: tasks with no tools. Three results follow.
+Consultation works in human medicine because physicians fail differently. Our measurements say
+that language-model panels do not: agents prompted into different specialties make the same
+mistakes ($\varphi = 0.73$), and discussion pushes them into near-perfect agreement
+($\varphi = 0.986$), leaving a six-member consultation with $1.01$ effective independent
+opinions. Every other result in this paper is a shadow of that one.
 
-The capability ceiling transfers, but as one edge of a two-sided window. Collaboration pays when a
-single physician model scores roughly 25--50\% and not otherwise. This is a sharper and more
-useful statement than a ceiling because it names both failure modes: on easy cases there is
-nothing to gain, and on the hardest cases a panel of unreliable specialists reinforces its own
-errors rather than correcting them. Splitting the data at the window separates it more than twice
-as well as splitting at the ceiling ($t = 8.42$ against $t = 3.46$). The general-domain data are
-consistent with a monotone ceiling only because their benchmarks never descend into the difficult
-regime.
+Panel size cannot matter, because it does not change what the panel knows: across
+$N \in \{3, \dots, 9\}$ the effective number of opinions moves from $1.21$ to $1.31$, and panel
+size alone predicts collaboration gain at cross-validated $R^2 = -0.006$. Consensus cannot be
+trusted, because it is agreement among copies: unanimity reaches 98\% while the error rate given
+unanimity stays at 50\%, and the confidence signal that would let a clinician catch the difference
+is compressed by 45\%. What remains is a narrow window of task difficulty, roughly 25--50\%
+single-doctor accuracy, inside which coordination recovers enough complementary information to
+pay for itself --- and outside which it reliably does not.
 
-Coordination structure dominates panel size. Panel size does not predict collaboration gain at
-all: a model containing it alone reaches cross-validated $R^2 = -0.006$, worse than predicting the
-mean. Gains saturate at three agents. The largest improvements come from centralized coordination
-in which an attending physician audits specialist opinions before committing. The
-same architecture produces the largest loss in the study when the orchestrator is too weak to
-audit ($-13.6$ pp), so the benefit is attributable to the audit, not to the topology. Where
-coordination has no verification channel, error amplification --- the strongest term in our
-scaling model --- goes uncontrolled and the panel discards correct answers it already held.
-Coordination failure occurs at exactly $0.0\%$ under independent coordination, in this study as in
-the general-domain one, because there is no channel on which it could occur.
+Two design conclusions follow for medical deployments. First, the variable worth controlling is
+not how many agents but whether a competent one audits the others before the system commits:
+centralized coordination with a capable orchestrator produces the largest gain we measure, and the
+same architecture with a weak orchestrator produces the largest loss. Specialist capability
+matters $4.1\times$ more than the orchestrator's, so capability belongs on the agents doing the
+reasoning. Second, the deployment decision should be made by measuring the single-model baseline
+on the intended case mix before choosing an architecture at all. Outside the window, a
+budget-matched self-consistency control matches or beats every architecture we tested, at a
+fraction of the cost.
 
-The economics do not favour consultation outside the window. The architecture responsible for
-every significant gain is also the least token-efficient by $4.3\times$, and outside the window a
-budget-matched self-consistency control matches or beats every architecture we tested. For medical
-deployments this converts an architectural question into a triage question: measure the
-single-model baseline on the intended case mix first, and consult only where the window says
-consultation will pay.
+The broader caution is about what a consulting AI system advertises. A unanimous,
+high-confidence multidisciplinary recommendation is the output a clinician is most likely to act
+on, and in these experiments it is the output whose reliability is least legible from its own
+signals. Making panels agree is easy. Making them independent is the open problem.
