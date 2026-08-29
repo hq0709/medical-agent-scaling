@@ -2,9 +2,8 @@
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig0_architectures.pdf}
-\caption{\textbf{The five canonical architectures}, following the formalisation of
-\citet{kim2026scaling}, with the clinical instantiation used here. $A$ is the agent set, $C$ the
-communication graph, $\Omega$ the aggregation rule.}
+\caption{\textbf{The five architectures we evaluate}, with the clinical role each instantiates.
+$A$ is the agent set, $C$ the communication graph, $\Omega$ the aggregation rule.}
 \label{fig:arch}
 \end{figure*}
 
@@ -17,8 +16,7 @@ systems~\citep{kim2026scaling}; the clinical instantiations are ours. Only the c
 rendering, the answer schema, the role prompts and the decoding parameters are shared.
 
 \begin{table*}[t]\centering\small
-\caption{The five architectures, their formalisation~\citep{kim2026scaling}, and our clinical
-instantiation. $n$ is the panel size, $k$ reasoning iterations, $r$ orchestration rounds,
+\caption{Architectures, their coordination structure, and the clinical role each instantiates. $n$ is the panel size, $k$ reasoning iterations, $r$ orchestration rounds,
 $d$ debate rounds.}
 \label{tab:arch}
 \begin{tabular}{@{}llll@{}}
@@ -79,6 +77,6 @@ is exact match against the dataset's own gold option key. No LLM judge appears a
 evaluation path.
 
 Every item is additionally tagged easy / medium / hard by the pass rate of three mid-tier models
-at $k{=}5$ samples, following the stratification protocol of the study design. On MedXpertQA the
+at $k{=}5$ samples. On MedXpertQA the
 strata are heavily skewed hard (13 / 62 / 125 on the pilot sample), which is the intended regime.
 

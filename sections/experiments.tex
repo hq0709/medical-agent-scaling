@@ -6,10 +6,10 @@
 
 Three OpenAI models form a capability ladder, measured rather than assumed
 (Table~\ref{tab:tiers}). The ladder is monotone on both benchmarks and spans single-doctor
-accuracy from 25\% to 55\% on MedXpertQA, straddling the 45\% threshold of
-\citet{kim2026scaling} from both sides. Following their observation that a task-grounded
-capability metric explains more variance than a generic intelligence index, we use each model's
-single-doctor chain-of-thought accuracy on MedQA as the capability index $I$.
+accuracy from 25\% to 55\% on MedXpertQA, straddling the previously reported 45\% threshold
+from both sides. A task-grounded capability metric explains more variance than a generic
+intelligence index~\citep{kim2026scaling}, so we take $I$ to be each model's single-doctor
+chain-of-thought accuracy on MedQA.
 
 
 
@@ -17,8 +17,9 @@ single-doctor chain-of-thought accuracy on MedQA as the capability index $I$.
 \paragraph{Metrics and validation.}
 
 
-We measure the coordination quantities of \citet{kim2026scaling}. Where they give a metric name
-and headline value but not a closed form, we state ours explicitly.
+We measure five coordination quantities. Their names are established in the agent-scaling
+literature~\citep{kim2026scaling}, which reports headline values without always giving closed
+forms; the definitions below are the ones we compute.
 
 \begin{itemize}\itemsep2pt
 \item \textbf{Turns} $T$: reasoning--response exchanges; one model call is one turn.
@@ -33,9 +34,9 @@ $(\mathrm{tok}_{\mathrm{MAS}} - \mathrm{tok}_{\mathrm{SAS}})/\mathrm{tok}_{\math
 \item \textbf{Coordination efficiency} $\Ec$: accuracy divided by the token-cost ratio to the
 single-agent baseline.
 \item \textbf{Error absorption}: $(\!E_{\mathrm{SAS}} - E_{\mathrm{MAS}})/E_{\mathrm{SAS}}$,
-exactly as defined by \citet{kim2026scaling}, where $E$ is the error rate.
-\item \textbf{Error amplification} $\Ae$: they describe this as individual-agent errors reaching
-the final output without inter-agent verification. We measure exactly that failure, in which the panel
+where $E$ is the error rate.
+\item \textbf{Error amplification} $\Ae$: the extent to which individual-agent errors reach the
+final output without inter-agent verification. We measure that failure directly, in which the panel
 \emph{held} the correct option among its first opinions and still emitted a wrong one,
 normalised by the marginal probability that a single agent is wrong. $\Ae > 1$ means the system
 destroys information it already possessed.
@@ -107,8 +108,8 @@ the architecture's strength into its worst liability.
 A panel of one strong, one mid and one weak specialist reaches 40.8\% under Centralized and 44.0\%
 under Decentralized, against 49.2\% and 47.6\% for homogeneous-high. Both sit below the strong
 homogeneous panel and well above the weak one, roughly where a capability-weighted average would
-put them. We find no medical analogue of the heterogeneous-mixing advantage
-\citet{kim2026scaling} report for one model family, in which a low-capability orchestrator with
+put them. We find no medical analogue of the heterogeneous-mixing advantage reported for one model
+family~\citep{kim2026scaling}, in which a low-capability orchestrator with
 high-capability sub-agents outperformed a homogeneous high-capability panel by 31\%. In our data
 that configuration is the second-best Centralized cell but still $7\%$ below homogeneous-high,
 directionally matching what they observe for OpenAI models, where heterogeneous centralized
@@ -136,8 +137,9 @@ best architecture over the single agent at the strongest model.}
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig3_window.pdf}
 \caption{\textbf{Collaboration pays only inside a window of task difficulty.} (a) Collaboration
-gain against the single-doctor baseline $\PSA$ for every multi-agent configuration; shaded band
-marks the 25--50\% window, dashed line the 45\% ceiling of \citet{kim2026scaling}. (b) The same
+gain against the single-doctor baseline $\PSA$ for every multi-agent configuration; The shaded band
+marks the 25--50\% window we identify; the dashed line is the 45\% ceiling previously reported for
+general-domain agents. (b) The same
 data binned; annotations give the fraction of configurations in each bin that improve on the
 single doctor.}
 \label{fig:window}
@@ -210,8 +212,8 @@ at $N{=}3$ in every cell where they occur, and no architecture in any cell impro
 
 \paragraph{The best architecture changes with capability tier.}
 The best architecture depends on the tier. At T2 the peak is Decentralized (38.0\%, $+6.0$ pp);
-at T3 it is Centralized (49.2\%, $+7.6$ pp). This mirrors the family-dependent architectural
-preferences reported by \citet{kim2026scaling}. The stronger model exploits an orchestrator's
+at T3 it is Centralized (49.2\%, $+7.6$ pp). Family-dependent architectural preferences have been reported for general-domain
+agents~\citep{kim2026scaling}, and the pattern here is the medical counterpart. The stronger model exploits an orchestrator's
 audit, whereas the weaker model benefits more from peer exchange, whose redundancy compensates
 for individually unreliable opinions.
 
@@ -280,16 +282,16 @@ is non-monotone in $\PSA$, and a window is what the medical data require.
 Accelerating returns to intelligence have been reported for general-domain agents
 ($\hat\beta_{I^2} = 0.256$, $p = 0.010$; \citealp{kim2026scaling}). Our fit carries $I$ and $I^2$ with large coefficients of
 opposite sign ($-0.231$ and $+0.228$), but bootstrap resampling ($n = 1000$) gives them standard
-errors of $0.94$ and $0.54$, two orders of magnitude above the $<0.015$ they report for terms of
+errors of $0.94$ and $0.54$, two orders of magnitude above the $<0.015$ published for terms of
 this size. With three capability tiers the quadratic is unidentifiable, and we do not interpret
 it. Every other large coefficient is stable: $\log(1+\Ae)$ has bootstrap SE $0.024$ and $\PSA$
 has $0.044$.
 
 \paragraph{The model is heteroscedastic, and we report robust standard errors.}
-Residuals pass a normality test (Shapiro--Wilk $p = 0.207$; they report $0.412$) but fail
-homoscedasticity decisively (Breusch--Pagan $p = 0.0001$; they report $0.298$). All standard errors
+Residuals pass a normality test (Shapiro--Wilk $p = 0.207$, against a published $0.412$) but fail
+homoscedasticity decisively (Breusch--Pagan $p = 0.0001$, against $0.298$). All standard errors
 in this paper are therefore heteroscedasticity-robust (HC3), clustered by benchmark where more
-than two clusters exist. Residual standard error is $\hat\sigma = 0.017$ against their $0.118$,
+than two clusters exist. Residual standard error is $\hat\sigma = 0.017$ against a published $0.118$,
 reflecting that collaboration gains in medicine are small in absolute terms. Regularised
 alternatives do not improve prediction: Lasso (10-fold CV for $\lambda$) retains 9 of 11
 predictors at CV $R^2 = 0.382$ and Ridge reaches $0.144$, both below the unregularised $0.415$, so
@@ -297,7 +299,7 @@ we retain the full specification.
 
 \paragraph{Panel size alone has no predictive value whatsoever.}
 Nested model comparison isolates where the explanatory power lives (5-fold CV $R^2$): the full
-model reaches $0.415$; capability alone $0.196$ (they report $0.28$ for intelligence alone);
+model reaches $0.415$; capability alone $0.196$ (against $0.28$ for intelligence alone in general domains);
 coordination metrics alone $0.093$; the single-doctor baseline alone $0.043$; and
 \textbf{panel size alone $-0.006$}, worse than predicting the mean. Any account of medical
 consultation that treats ``how many agents'' as the design variable is fitting noise.
@@ -337,8 +339,8 @@ capacity.
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig6_coordination.pdf}
 \caption{\textbf{Coordination dynamics.} (a) Turn count against agent count, with our fit and the
-general-domain power law of \citet{kim2026scaling}. (b) Performance against message density; their
-$c^{*}=0.39$ plateau is marked. (c) Error amplification $\Ae$ and error absorption by
+published general-domain power law for comparison. (b) Performance against message density, with the
+plateau reported for general-domain agents marked at $c^{*}=0.39$. (c) Error amplification $\Ae$ and error absorption by
 architecture.}
 \label{fig:coord}
 \end{figure*}
@@ -363,7 +365,7 @@ penalty. Once a panel is communicating at all, communicating more neither helps 
 \paragraph{Error absorption is real but small.}
 Absorption $(E_{\mathrm{SAS}}-E_{\mathrm{MAS}})/E_{\mathrm{SAS}}$ is positive for every
 architecture: Decentralized $+4.2\%$, Hybrid $+2.7\%$, Independent $+1.9\%$, Centralized
-$+1.6\%$. The general-domain study reports $22.7\%$ (95\% CI $[20.1, 25.3]$) for
+$+1.6\%$. The published figure is $22.7\%$ (95\% CI $[20.1, 25.3]$) for
 verification-bearing architectures. Medical panels absorb roughly a fifth as much error as
 general-domain agent teams do, and the ordering differs: peer discussion absorbs most, not
 orchestration.
@@ -390,7 +392,7 @@ The structural prediction replicates exactly: coordination failure is \textbf{0.
 Independent coordination, as it is in the general-domain study, and for the same reason: with
 $C = \emptyset$ there is no channel on which coordination can fail. Hybrid is also at $0.0\%$
 because its triage gate declines to convene a panel on most items. The magnitudes do not
-replicate: they report peer verification cutting logical contradiction from $16.8\%$ to $11.5\%$,
+replicate: peer verification is reported to cut logical contradiction from $16.8\%$ to $11.5\%$,
 whereas our first-round contradiction rate is flat at $6.3\%$ across communicating and
 non-communicating architectures. Numerical drift is an order of magnitude rarer than in
 tool-using tasks ($3$--$5\%$ against $19$--$26\%$), as expected when no arithmetic is cascaded.
@@ -401,13 +403,14 @@ $\Delta\mathcal{I} = +0.90$ bits (Decentralized), $+1.46$ bits (Hybrid) and $+0.
 (Centralized) between the first and final round. Panels converge, and they converge most where
 the architecture communicates most. In the general-domain study $\Delta\mathcal{I}$ correlates
 with the multi-agent advantage at $r = 0.71$ in structured domains; here convergence occurs
-whether or not the consensus is correct. This is the information-limited regime they report for
-open-world browsing rather than the structured-domain one.
+whether or not the consensus is correct. That places medical consultation in the
+information-limited regime described for open-world browsing rather than the structured-domain
+one.
 
 \paragraph{Architecture rankings do not generalise across benchmarks.}
 Kendall's $\tau$ between the architecture rankings of any two benchmarks averages $+0.067$
-(pairwise $-0.200$, $+0.400$, $0.000$; none significant), against $\tau = 0.89$ across their four
-domains. Leave-one-benchmark-out cross-validation gives $R^2 = -0.015$ against their $0.89$: a
+(pairwise $-0.200$, $+0.400$, $0.000$; none significant), against $\tau = 0.89$ across four general-domain
+benchmarks. Leave-one-benchmark-out cross-validation gives $R^2 = -0.015$ against a published $0.89$: a
 model fitted on two medical benchmarks predicts the third no better than the mean. Coordination
 principles that transcend task structure in general-domain agentic work do not transcend
 benchmark in medicine. This is the practical counterpart of the window: architecture must be
