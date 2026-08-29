@@ -1,26 +1,32 @@
-Multi-agent ``consultation'' is the dominant design pattern in medical language-model systems,
-yet the conditions under which it helps have been established only for general-domain agentic
-tasks, from which medicine was explicitly excluded. We replicate that design in the medical,
-tool-free regime: 180 multi-agent configurations and 63{,}499 episodes spanning three capability
-tiers, three medical benchmarks, five canonical architectures (single-agent plus Independent,
-Centralized, Decentralized and Hybrid coordination) and panel sizes $N \in \{1,3,5,7,9\}$, under
-matched budgets and with a budget-matched single-model control at every cell. Because medical
-multiple-choice reasoning uses no tools, the tool--coordination trade-off that dominates the
-general-domain result vanishes identically, isolating coordination itself.
+Multi-agent ``consultation'' has become the default design pattern in medical language-model
+systems, on the intuition that a panel of specialists diagnoses better than one physician. We test
+that intuition at the scale at which it has been tested for general-domain agents, and in the one
+regime those studies cannot reach. Medical multiple-choice reasoning uses no tools, so the
+tool--coordination trade-off that dominates the general-domain scaling law vanishes identically,
+isolating coordination itself; and expert-level medical items drive single-agent accuracy down to
+15\%, far below anything in existing agentic benchmarks. Across 180 multi-agent configurations and
+63{,}499 episodes --- three capability tiers, three medical benchmarks, five canonical
+architectures, panel sizes $N \in \{1,3,5,7,9\}$, budget-matched single-model controls throughout
+--- three results follow.
 
-Collaboration in medicine is governed by a \emph{window} of task difficulty rather than a
-ceiling. Configurations whose single-doctor baseline falls between 25\% and 50\% gain $+2.48$ pp
-on average; those outside it lose $0.31$ pp (Welch $t = 8.42$, $p < 10^{-6}$). All thirty
-configurations that improve significantly on the single doctor lie inside this band, and not one
-of the hundred outside it reaches significance at any panel size under any architecture. The
-reported 45\% capability ceiling is reproduced as the window's upper edge, but expert-level
-medical items reach a difficulty regime the general-domain benchmarks never approach, revealing a
-lower edge as well: when a task is hard enough, adding physicians does not help either. The
-largest gains come from an attending-physician architecture at $N{=}3$ ($+7.6$ pp,
-$p = 2\times10^{-5}$); panel size itself predicts nothing
-($\hat\beta_{\log(1+n_a)} = -0.003$, $p = 0.70$) and no architecture improves beyond $N{=}5$
-anywhere. A scaling model on collaboration gain attains cross-validated $R^2 = 0.415$ with no
-tool term, with error amplification as the dominant penalty. Architecture rankings do not
-transfer across benchmarks (Kendall $\tau = +0.07$ against $0.89$ in general domains;
-leave-one-benchmark-out $R^2 = -0.015$), so coordination structure must be selected per
-difficulty regime rather than per domain.
+Collaboration is bounded by a \emph{window} of task difficulty, not a ceiling. Configurations
+whose single-doctor baseline falls between 25\% and 50\% gain $+2.48$ pp; those outside lose
+$0.31$ pp (Welch $t = 8.42$, $p < 10^{-6}$). The separation is two-sided and without overlap: all
+20 configurations that significantly beat the single doctor lie inside the window, all 10 that
+significantly lose to it lie outside. The 45\% capability ceiling reported for general-domain
+agents is reproduced as the window's upper edge; its lower edge is visible only at medical
+difficulty.
+
+Panel size is not the design variable. It carries no predictive value whatsoever
+(cross-validated $R^2 = -0.006$ alone), gains saturate at three agents, and what distinguishes the
+best architecture from the worst is whether a competent agent audits the panel before it commits.
+Specialist capability matters $4.1\times$ more than the orchestrator's, and an orchestrator too
+weak to audit produces the largest degradation in the study ($-13.6$ pp, $p = 10^{-5}$) by
+overriding a correct majority.
+
+Consultation degrades the signal a clinician would use to catch its errors. Peer discussion raises
+unanimity from 66\% to 98\% while leaving the error rate given unanimity at 50\%; it raises
+confidence on wrong answers more than on right ones, compressing the confidence gap that separates
+them by 45\%. Accuracy gains of $6$--$8$ pp inside the window are real, but the panel output a
+clinician would most readily act on --- unanimous and confident --- has been made the least
+diagnostic of its own reliability.

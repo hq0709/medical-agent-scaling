@@ -157,7 +157,7 @@ governed by task difficulty, not by panel size. Figure~\ref{fig:capability} give
 dose--response surface; Table~\ref{tab:main} the underlying numbers.
 
 \paragraph{Collaboration pays only inside a window of task difficulty.}
-Binning the 140 multi-agent configurations by the single-doctor baseline $\PSA$ of their cell
+Binning all 180 multi-agent configurations by the single-doctor baseline $\PSA$ of their cell
 reveals a window rather than a ceiling (Fig.~\ref{fig:window}):
 
 \begin{center}\small
@@ -183,14 +183,30 @@ medical items drive single-agent accuracy down to 15\% --- below anything in the
 suite. A window is not a weaker version of a ceiling: it identifies two distinct failure modes,
 and it is the better description of the data by a factor of $2.4$ in $t$.
 
-\paragraph{Every significant effect lives inside the window.}
-Thirty of the 180 configurations improve significantly on the single doctor (McNemar
-$p < 0.05$). \emph{All thirty} are MedXpertQA cells at $\PSA = 32.0\%$ or $41.6\%$ --- both
-inside the window. The largest are the attending-physician (Centralized) panel at $N{=}3$,
-$+7.60$ pp ($\PSA = 41.6\%$, \texttt{gpt-5-mini}, $p = 2\times10^{-5}$) and $+6.40$ pp
-($\PSA = 32.0\%$, \texttt{gpt-5-nano}, $p = 0.0037$), followed by Centralized at $N{=}5$
-($+6.80$ pp) and Decentralized at $N{=}5$ ($+6.40$ pp). Not one of the 100 configurations
-outside the window reaches significance, at any panel size, under any architecture.
+\paragraph{The window separates significant help from significant harm, with no overlap.}
+Thirty of the 180 configurations differ significantly from the single doctor (McNemar
+$p < 0.05$), and they partition perfectly:
+
+\begin{center}\small
+\begin{tabular}{@{}lrr@{}}
+\toprule
+& significantly better & significantly worse \\
+\midrule
+inside the window ($n = 80$)  & \textbf{20} & \textbf{0} \\
+outside the window ($n = 100$) & \textbf{0}  & \textbf{10} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Every configuration that significantly beats the single doctor lies inside the window; every
+configuration that significantly loses to it lies outside. The largest gain is the
+attending-physician (Centralized) panel at $N{=}3$: $+7.60$ pp at $\PSA = 41.6\%$
+(\texttt{gpt-5-mini}, $p = 2\times10^{-5}$), with $+6.40$ pp at $\PSA = 32.0\%$
+(\texttt{gpt-5-nano}, $p = 0.0037$). The largest loss is also a Centralized panel, at
+$\PSA = 66.0\%$ with a weak model: $-13.60$ pp ($p = 10^{-5}$), where an orchestrator too weak to
+audit its own specialists overrides answers the panel had right. The window is not merely a
+description of where gains concentrate; it is a two-sided boundary, and the harm on the far side
+is as significant as the benefit within.
 
 \paragraph{Architecture matters more than panel size.}
 Within the window, the ordering is stable: Centralized and Decentralized lead, Hybrid trails, and
@@ -199,12 +215,52 @@ MedXpertQA, Independent moves from 31.8\% at $N{=}1$ to 32.6\% at $N{=}9$ --- 0.
 times the calls --- while Decentralized reaches 38.0\% at $N{=}3$ and stays there. Gains saturate
 at $N{=}3$ in every cell where they occur; no architecture in any cell improves beyond $N{=}5$.
 
-\paragraph{Architecture--capability tier interactions.}
+\paragraph{The best architecture changes with capability tier.}
 The best architecture depends on the tier. At T2 the peak is Decentralized (38.0\%, $+6.0$ pp);
 at T3 it is Centralized (49.2\%, $+7.6$ pp). This mirrors the family-dependent architectural
 preferences reported by \citet{kim2026scaling}: the stronger model exploits an orchestrator's
 audit, whereas the weaker model benefits more from peer exchange, whose redundancy compensates
 for individually unreliable opinions.
+
+\subsection{Where capability belongs inside a panel}
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig4_heterogeneity.pdf}
+\caption{\textbf{Agent heterogeneity.} Performance of Centralized and Decentralized panels at
+$n_a{=}3$ on MedXpertQA under five capability placements. High capability is
+\texttt{gpt-5-mini}, low is \texttt{gpt-4.1-nano}. Annotations give the change relative to the
+homogeneous high-capability panel (dashed line). Decentralized coordination has no orchestrator,
+so the two orchestrator-capability conditions are structurally undefined there and are omitted.}
+\label{fig:hetero}
+\end{figure}
+
+\paragraph{Specialist capability matters four times more than the orchestrator's.}
+Replacing the whole panel with weak models costs $34.4$ pp (49.2\% to 14.8\%). Splitting that
+substitution isolates where the loss comes from. Downgrading only the \emph{orchestrator}, keeping
+strong specialists, costs $3.6$ pp --- the panel retains 90\% of the homogeneous-high span.
+Downgrading only the \emph{specialists}, keeping a strong orchestrator, costs $14.8$ pp, retaining
+57\%. A strong attending physician recovers more than half of what a weak panel loses, but a weak
+attending physician barely dents a strong one. The asymmetry is $4.1\times$, and it points
+somewhere specific: in a centralized clinical panel, capability should be spent on the agents
+doing the reasoning, not on the agent doing the auditing.
+
+\paragraph{An orchestrator too weak to audit is worse than no orchestrator at all.}
+The largest single degradation anywhere in this study is a Centralized panel with a weak model on
+MedQA at $\PSA = 66.0\%$: $-13.60$ pp, $p = 10^{-5}$. Inspection of those episodes shows the
+mechanism directly --- the orchestrator overrides a correct specialist majority. This is the error-amplification term in its most extreme form. It is also the counterpart to the
+previous result. The audit is what makes centralized coordination work; an auditor that cannot
+audit converts the architecture's strength into its worst liability.
+
+\paragraph{Mixed-capability panels land between their components, with no emergent benefit.}
+A panel of one strong, one mid and one weak specialist reaches 40.8\% under Centralized and 44.0\%
+under Decentralized, against 49.2\% and 47.6\% for homogeneous-high. Both sit below the strong
+homogeneous panel and well above the weak one, roughly where a capability-weighted average would
+put them. We find no medical analogue of the heterogeneous-mixing advantage
+\citet{kim2026scaling} report for one model family, in which a low-capability orchestrator with
+high-capability sub-agents outperformed a homogeneous high-capability panel by 31\%. In our data
+that configuration is the second-best Centralized cell but still $7\%$ below homogeneous-high ---
+directionally matching what they observe for OpenAI models, where heterogeneous centralized
+configurations degrade.
 
 \subsection{Scaling principles}
 
@@ -258,6 +314,45 @@ null coefficients and carries no information. This is a statement about function
 failed replication: a linear interaction between baseline and log panel size can express a
 monotone ceiling but cannot express a window. The binned analysis (\S4.2) shows the relationship
 is non-monotone in $\PSA$, and a window is what the medical data require.
+
+\paragraph{Capability enters non-linearly, but the quadratic term is not identifiable here.}
+\citet{kim2026scaling} report accelerating returns to intelligence
+($\hat\beta_{I^2} = 0.256$, $p = 0.010$). Our fit carries $I$ and $I^2$ with large coefficients of
+opposite sign ($-0.231$ and $+0.228$), but bootstrap resampling ($n = 1000$) gives them standard
+errors of $0.94$ and $0.54$ --- two orders of magnitude above the $<0.015$ they report for terms
+of this size. With three capability tiers the quadratic is unidentifiable, and we do not interpret
+it. Every other large coefficient is stable: $\log(1+\Ae)$ has bootstrap SE $0.024$ and $\PSA$
+has $0.044$.
+
+\paragraph{The model is heteroscedastic, and we report robust standard errors.}
+Residuals pass a normality test (Shapiro--Wilk $p = 0.207$; they report $0.412$) but fail
+homoscedasticity decisively (Breusch--Pagan $p = 0.0001$; they report $0.298$). All standard errors
+in this paper are therefore heteroscedasticity-robust (HC3), clustered by benchmark where more
+than two clusters exist. Residual standard error is $\hat\sigma = 0.017$ against their $0.118$,
+reflecting that collaboration gains in medicine are small in absolute terms. Regularised
+alternatives do not improve prediction: Lasso (10-fold CV for $\lambda$) retains 9 of 11
+predictors at CV $R^2 = 0.382$ and Ridge reaches $0.144$, both below the unregularised $0.415$, so
+we retain the full specification --- the same conclusion they reach.
+
+\paragraph{Panel size alone has no predictive value whatsoever.}
+Nested model comparison isolates where the explanatory power lives (5-fold CV $R^2$): the full
+model reaches $0.415$; capability alone $0.196$ (they report $0.28$ for intelligence alone);
+coordination metrics alone $0.093$; the single-doctor baseline alone $0.043$; and
+\textbf{panel size alone $-0.006$} --- worse than predicting the mean. Any account of medical
+consultation that treats ``how many agents'' as the design variable is fitting noise.
+
+\paragraph{The scaling principle selects an architecture, given a case mix.}
+The fitted model converts into a design rule. For a clinical deployment characterised by its
+single-doctor baseline $\PSA$, expected collaboration gain is positive only for
+$\PSA \in [25\%, 50\%]$, is maximised by centralized coordination at $n_a = 3$, and is negative
+below 25\%. Three archetypes make this concrete. \emph{Board-style examination triage}
+($\PSA \approx 0.90$, MedQA-like): use a single model; no architecture we tested returns a
+significant gain and every panel costs $2$--$5\times$ more. \emph{Specialist referral review}
+($\PSA \approx 0.35$, MedXpertQA-like): use an attending-physician panel at $n_a = 3$; expected
+gain $+6$ to $+8$ pp at a $6.7\times$ cost premium. \emph{Frontier diagnostic difficulty}
+($\PSA < 0.25$, MedAgentsBench-like at weak tiers): use a single model and spend the budget on a
+stronger one; panels lose $2.8$ pp here because a panel of unreliable specialists reinforces its
+own errors.
 
 \paragraph{Error amplification dominates the fit.}
 $\log(1+\Ae)$ carries the largest coefficient of any coordination metric ($-0.150$,
@@ -340,13 +435,13 @@ principles that transcend task structure in general-domain agentic work do not t
 benchmark in medicine. This is the practical counterpart of the window: architecture must be
 selected per difficulty regime, and difficulty regime does not coincide with domain.
 
-\paragraph{Economic efficiency and tier-specific trade-offs.}
+\paragraph{The architecture that wins on accuracy loses on tokens by $4.3\times$.}
 Successes per 1{,}000 tokens: Hybrid $0.80$, self-consistency $0.47$, Independent $0.39$,
-Decentralized $0.33$, Centralized $0.19$. Centralized is $4.3\times$ less token-efficient than
-the cheapest configuration, closely matching their ordering (SAS $67.7$; Decentralized $23.9$,
-$2.8\times$; Centralized $21.5$, $3.1\times$; Hybrid $13.6$, $5.0\times$) with one inversion:
-Hybrid is the \emph{most} efficient architecture in medicine, because its triage gate declines to
-escalate most cases and therefore rarely pays for a panel at all.
+Decentralized $0.33$, Centralized $0.19$. Centralized is $4.3\times$ less token-efficient than the cheapest configuration. The ordering
+closely matches theirs (SAS $67.7$; Decentralized $23.9$, $2.8\times$; Centralized $21.5$,
+$3.1\times$; Hybrid $13.6$, $5.0\times$), with one inversion. Hybrid is the \emph{most} efficient
+architecture in medicine, because its triage gate declines to escalate most cases and therefore
+rarely pays for a panel at all.
 
 \paragraph{Panels beat budget-matched self-consistency only inside the window.}
 On MedXpertQA at \texttt{gpt-5-nano}, Decentralized at $N{=}3$ reaches 38.0\% while
@@ -355,3 +450,57 @@ control wins or ties: on MedQA at the same tier, self-consistency at $k{=}15$ (8
 noise of the best panel (89.6\%) at lower cost, and on MedAgentsBench at T1 self-consistency
 (20.0\%) beats every architecture. Coordination buys something beyond repetition, and only where
 the window says it should.
+
+\subsection{Clinical safety: what consultation does to confidence}
+
+The general-domain study measures whether coordination changes accuracy. In medicine the more
+consequential question is what coordination does to the \emph{signals a clinician would act on}.
+Three measurements, none of which has an analogue in the general-domain design, and all of which
+point the same way.
+
+\paragraph{Self-reported confidence barely discriminates right from wrong, and discussion makes it
+worse.} Across all configurations, mean confidence on correct answers exceeds that on wrong
+answers by only $3.3$ points for a single doctor (86.0 vs 82.6; AUC $= 0.597$). Peer discussion
+compresses that gap by $45\%$, to $1.8$ points (88.4 vs 86.6; AUC $= 0.577$). The compression is
+not a rescaling: discussion raises confidence on \emph{wrong} answers by $4.0$ points while
+raising it on correct answers by $2.4$. A panel that has deliberated is more sure of itself, and
+disproportionately so when it is mistaken. This is consistent with the threshold calibration we
+ran before the main experiments, where the best achievable referral gate on stated confidence
+reached a Youden $J$ of only $0.071$.
+
+\paragraph{Discussion manufactures consensus without manufacturing correctness.}
+Unanimity --- every panelist emitting the same valid option in the last round with two or more
+agents --- rises from $66.2\%$ under independent voting to $98.3\%$ under peer discussion.
+Conditional accuracy does not follow: $P(\text{wrong} \mid \text{unanimous})$ is $46.5\%$ for
+Independent and $49.9\%$ for Decentralized. A unanimous medical panel is wrong about half the time
+in both cases; discussion simply produces far more unanimous panels. Centralized coordination is
+the only architecture that lowers the conditional error rate ($44.6\%$), which is the
+error-containment role the orchestrator is supposed to play.
+
+\paragraph{The most trustworthy-looking output is the least trustworthy.}
+Taken together: consultation drives panels to near-total agreement, leaves the error rate given
+agreement at a coin flip, and raises confidence most on the answers that are wrong while shrinking
+the confidence gap that would let a reader tell the difference. The configuration a clinician
+would most readily act on --- a unanimous, high-confidence multidisciplinary recommendation ---
+carries essentially the same error rate as a divided one, and advertises itself more strongly.
+Accuracy gains of $6$--$8$ pp inside the window are real, but they are purchased alongside a
+degradation in the calibration of the signal that would let a clinician catch the remaining
+errors.
+
+\subsection{Where in medicine collaboration pays}
+
+\paragraph{Collaboration helps diagnosis most, and it is the only task type significant at both
+tiers.} MedXpertQA labels each item as Diagnosis, Treatment, or Basic Science. Splitting the
+window-resident cells by label, the best panel gains $+9.5$ pp on Diagnosis at
+\texttt{gpt-5-nano} ($p = 0.008$) and $+10.7$ pp at \texttt{gpt-5-mini} ($p = 0.004$), against
+$+7.1$ and $+8.3$ pp on Treatment and $+7.3$ and $+8.5$ pp on Basic Science. Diagnosis is the only
+category significant at both tiers. This is the pattern clinical intuition predicts and the
+general-domain benchmarks cannot express: differential diagnosis is the medical task that most
+resembles pooling independent perspectives, and it is where pooling pays.
+
+\paragraph{The difficulty stratification is where the window shows up within a single benchmark.}
+On MedXpertQA at \texttt{gpt-5-mini}, the best configuration gains $+7.7$ pp on easy items
+($n{=}13$), $+6.5$ pp on medium ($n{=}62$) and $+9.6$ pp on hard ($n{=}125$). Gains are positive
+in every stratum for this tier, which sits inside the window; the sign flips only for tiers whose
+baseline falls outside it. Item difficulty and configuration baseline are two views of the same
+quantity. The window is defined on the view that can be measured before deployment.

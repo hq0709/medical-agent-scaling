@@ -1,0 +1,122 @@
+\appendix
+
+\section{Model capability index}
+\label{app:capability}
+
+\citet{kim2026scaling} score models on a published Intelligence Index and report that a
+\emph{task-grounded} capability metric explains more variance ($R^2 = 0.413$) than the generic one
+($R^2 = 0.373$). We therefore use the task-grounded form throughout: $I$ is a model's mean
+single-doctor chain-of-thought accuracy across the three benchmarks. Table~\ref{tab:capability}
+gives the components. The three tiers span $I = 34.0$ to $59.2$, and their single-benchmark
+baselines span 15.6\% to 91.6\% --- crossing the 45\% region from both sides, which is what makes
+the capability-ceiling test possible at all.
+
+\begin{table}[h]\centering\small
+\caption{Capability index and its components (single-doctor CoT accuracy, \%).}
+\label{tab:capability}
+\input{tables/table6_capability_index.tex}
+\end{table}
+
+\section{Domain complexity}
+\label{app:complexity}
+
+\subsection{Complexity metric construction}
+Following \citet{kim2026scaling}, domain complexity $D \in [0,1]$ is the arithmetic mean of three
+complementary measures: the \textbf{performance ceiling} $1 - p_{\max}$, where $p_{\max}$ is the
+highest performance any evaluated system reaches; the \textbf{coefficient of variation}
+$\sigma/\mu$ of performance across all configurations, a scale-invariant measure of relative
+spread; and the \textbf{best-model baseline} $1 - p_{\text{best}}$, where $p_{\text{best}}$ is the
+strongest single-model performance on the dataset.
+
+\subsection{Domain characterisation}
+Table~\ref{tab:complexity} gives the components. MedQA is a low-complexity domain ($D = 0.097$);
+MedXpertQA and MedAgentsBench-hard are high-complexity and nearly indistinguishable
+($D = 0.489$ and $0.478$).
+
+\begin{table}[h]\centering\small
+\caption{Domain complexity of the three medical benchmarks.}
+\label{tab:complexity}
+\input{tables/table7_domain_complexity.tex}
+\end{table}
+
+\subsection{The critical threshold does not transfer}
+\citet{kim2026scaling} identify a critical complexity threshold at $D \approx 0.40$: below it
+multi-agent architectures yield net positive returns, above it coordination overhead consumes
+resources otherwise spent on reasoning. Our data do not support a benchmark-level threshold of any
+value. MedXpertQA ($D = 0.489$) and MedAgentsBench-hard ($D = 0.478$) differ by $0.011$ in
+complexity yet by $3.5$ pp in mean multi-agent gain ($+3.09$ pp versus $-0.37$ pp) --- opposite
+signs at effectively the same $D$. A benchmark-level statistic cannot separate them because the
+quantity that does separate them varies \emph{within} each benchmark: on MedAgentsBench-hard the
+per-tier gains run $-2.78$, $+1.02$, $+0.66$ pp as $\PSA$ moves from 20.4\% through 32.4\% to
+44.4\%, entering the window between the first tier and the second. Domain complexity is the right
+idea at the wrong granularity for medicine; the configuration-level baseline $\PSA$ is what
+carries the signal.
+
+\section{Datasets}
+\label{app:data}
+
+\textbf{MedXpertQA-Text}~\citep{zuo2025medxpertqa}: 2{,}450 expert-level items, ten options each,
+tagged by 12 body systems and 3 task types. We draw a stratified sample interleaved across
+(body system $\times$ task) so that any prefix is approximately balanced, then take the first 250.
+\textbf{MedQA-USMLE}~\citep{jin2021medqa}: 1{,}273 four-option test items; randomly shuffled with a
+fixed seed, first 250. \textbf{MedAgentsBench-hard}~\citep{medagentsbench}: the
+contamination-screened hard split, 894 items after excluding the \texttt{medqa\_5options} subset,
+stratified-interleaved across the ten source subsets, first 250. All samples are nested prefixes,
+so a larger sample re-uses every call of a smaller one.
+
+Item difficulty is additionally tagged easy/medium/hard by the pass rate of three mid-tier models
+at $k{=}5$; on the MedXpertQA sample this yields 13/62/125 items.
+
+\section{Implementation details}
+\label{app:impl}
+
+\subsection{Technical infrastructure}
+All models are accessed through one OpenAI-compatible client with a content-addressed disk cache,
+exponential backoff with rate-limit-aware retry, a per-call JSONL ledger recording tokens, latency
+and cost, and a cross-process spend journal guarded by an OS file lock. Every LLM call is cached
+on the full request (model, system, messages, temperature, seed, max tokens, effort, JSON mode,
+tag), so a re-run is a replay.
+
+\subsection{Agent configuration}
+Single agents answer in one call. Independent panels deploy $N$ specialists with
+synthesis-only aggregation. Centralized systems use one orchestrator over $N$ sub-agents with a
+maximum of 2 orchestration rounds and one re-task per round. Decentralized systems run $N$ agents
+through up to 3 discussion rounds, stopping early only on true unanimity. Hybrid systems combine a
+generalist triage gate with the specialist panel and escalate to full discussion when the panel
+has no majority. Agent temperature is 0.7 within panels, 0.3 for single-doctor baselines and for
+orchestrator/moderator turns; reasoning models are called at \texttt{effort=low} with a minimum
+completion budget of 1{,}600 tokens, since reasoning tokens are drawn from the same budget and a
+smaller cap returns empty output.
+
+\subsection{Prompt compilation}
+Every agent receives the same rendered item (stem, then options as \texttt{(A) ...}) and the same
+answer schema: JSON with \texttt{answer}, \texttt{confidence} (0--100) and \texttt{reason}
+(at most 45 words). Only the system prompt differs, naming the specialty. Peer context in
+communicating architectures is capped at a fixed 900-character budget, balanced-truncated across
+peers and \emph{independent of $N$}, so a panel-size effect cannot be a context-length effect.
+Peer ordering is deterministically rotated per (item, round) so that the first-listed speaker is
+decorrelated from the top-ranked specialty.
+
+\subsection{Evaluation methodology}
+\textbf{Sample sizes.} 250 items per benchmark, 180 multi-agent configurations, 63{,}499 episodes.
+\textbf{Controls.} All architectures share the item rendering, answer schema, role-prompt template
+and decoding parameters; only coordination logic differs. Model weights are frozen. The primary
+endpoint is exact match against the dataset's own gold option key --- there is no LLM judge in the
+evaluation path. Episodes that fail for infrastructure reasons carry an error status and are
+excluded from accuracy rather than scored as wrong, which would bias call-heavy architectures
+downward. Cost accounting is nominal: cached calls are charged at list price, so reported
+economics describe what a configuration would cost to run.
+
+\subsection{Information gain computation}
+Following \citet{kim2026scaling}, information gain is the Bayesian posterior variance reduction
+\begin{equation}
+\Delta\mathcal{I} = \tfrac12 \log \frac{\mathrm{Var}[Y \mid \mathbf{s}_{\text{pre}}]}
+{\mathrm{Var}[Y \mid \mathbf{s}_{\text{post}}]}, \qquad
+\mathrm{Var}[Y \mid \mathbf{s}] = \hat p(\mathbf{s})\,(1 - \hat p(\mathbf{s})),
+\end{equation}
+with $Y \in \{0,1\}$ the success indicator. They estimate $\hat p$ from $K{=}10$ sampled reasoning
+traces at temperature 0.7. In multiple-choice consultation the panel already supplies such a
+sample: $\hat p$ is the fraction of the round's opinions that name the gold option, Laplace
+smoothed as $(k{+}1)/(n{+}2)$. Smoothing rather than clipping matters: a Centralized panel's final
+round contains only the orchestrator, and clipping would pin $\hat p$ at $0.5$ and force
+$\Delta\mathcal{I}$ negative by construction.

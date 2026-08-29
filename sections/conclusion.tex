@@ -13,8 +13,11 @@ consistent with a monotone ceiling only because their benchmarks never descend i
 regime.
 
 Coordination structure dominates panel size. Panel size does not predict collaboration gain at
-all, gains saturate at three agents, and the largest improvements come from centralized
-coordination in which an attending physician audits specialist opinions before committing. Where
+all: a model containing it alone reaches cross-validated $R^2 = -0.006$, worse than predicting the
+mean. Gains saturate at three agents. The largest improvements come from centralized coordination
+in which an attending physician audits specialist opinions before committing. The
+same architecture produces the largest loss in the study when the orchestrator is too weak to
+audit ($-13.6$ pp), so the benefit is attributable to the audit, not to the topology. Where
 coordination has no verification channel, error amplification --- the strongest term in our
 scaling model --- goes uncontrolled and the panel discards correct answers it already held.
 Coordination failure occurs at exactly $0.0\%$ under independent coordination, in this study as in
