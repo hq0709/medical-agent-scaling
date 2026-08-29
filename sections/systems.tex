@@ -1,12 +1,12 @@
 \section{Agent systems and tasks}
 
-\begin{figure}[t]\centering
+\begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig0_architectures.pdf}
 \caption{\textbf{The five canonical architectures}, following the formalisation of
 \citet{kim2026scaling}, with the clinical instantiation used here. $A$ is the agent set, $C$ the
 communication graph, $\Omega$ the aggregation rule.}
 \label{fig:arch}
-\end{figure}
+\end{figure*}
 
 \subsection{System definition}
 
@@ -16,7 +16,7 @@ $\Omega$. Figure~\ref{fig:arch} and Table~\ref{tab:arch} give the five canonical
 instantiation we use for each. Only the coordination logic differs across architectures; the item
 rendering, the answer schema, the role prompts and the decoding parameters are shared.
 
-\begin{table}[t]\centering\small
+\begin{table*}[t]\centering\small
 \caption{The five architectures, their formalisation~\citep{kim2026scaling}, and our clinical
 instantiation. $n$ is the panel size, $k$ reasoning iterations, $r$ orchestration rounds,
 $d$ debate rounds.}
@@ -32,7 +32,7 @@ Decentralized & $\{a_1..a_n\}$, complete, consensus & $O(dnk)$ & Multidisciplina
 Hybrid & $+a_{\mathrm{orch}}$, star + peer, both & $O(rnk{+}pn)$ & Tiered referral: triage $\rightarrow$ panel $\rightarrow$ MDT \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 \paragraph{Independent.} $N$ specialists receive the item and answer without seeing one another.
 Aggregation is majority vote, ties broken by mean self-reported confidence and then by option
@@ -53,7 +53,7 @@ containing unparsed answers is not unanimous.
 \paragraph{Hybrid (tiered referral).} A generalist answers first with a stated confidence. Below a
 frozen threshold $\theta$ the case is referred to the $N$-specialist panel; if that panel has no
 majority the case escalates to full MDT discussion. $\theta$ is calibrated once on a 100-item
-development slice disjoint from every evaluation set (\S\ref{sec:theta}) and then frozen.
+development slice disjoint from every evaluation set and then frozen.
 
 \paragraph{Panel composition.} A cheap router (\texttt{gpt-4.1-nano}, temperature 0) ranks the
 nine most relevant specialties for each item from a fixed 17-specialty roster; a panel of size $N$
@@ -74,11 +74,11 @@ configurations as independent.
 
 \subsection{Clinical tasks and benchmarks}
 
-Three benchmarks, 500 items each, sampled with a fixed seed:
+Three benchmarks, 250 items each, sampled with a fixed seed:
 MedXpertQA-Text~\citep{zuo2025medxpertqa} (10 options; stratified by the 12 body systems $\times$
 3 task types), MedQA-USMLE~\citep{jin2021medqa} (4 options), and the contamination-screened hard
 split of MedAgentsBench~\citep{medagentsbench} (894 items excluding the
-\texttt{medqa\_5options} subset; the first 500 after stratified shuffling). The primary endpoint
+\texttt{medqa\_5options} subset; the first 250 after stratified shuffling). The primary endpoint
 is exact match against the dataset's own gold option key --- there is no LLM judge anywhere in the
 evaluation path.
 

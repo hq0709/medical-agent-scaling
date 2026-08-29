@@ -59,9 +59,10 @@ economics figures report what a configuration would cost to run, not what our ca
 
 We fit the functional form of \citet{kim2026scaling},
 \begin{align}
-P = \beta_0 &+ \beta_1 I + \beta_2 I^2 + \beta_3 \log(1{+}T_{\text{tools}}) + \beta_4 \log(1{+}n_a)
- + \beta_5 \log(1{+}O\%) + \beta_6 c + \beta_7 R \nonumber\\
-&+ \beta_8 \Ec + \beta_9 \log(1{+}\Ae) + \beta_{10} \PSA + \textstyle\sum_j \beta_j (\text{interactions}),
+P = \beta_0 &+ \beta_1 I + \beta_2 I^2 + \beta_3 \log(1{+}T_{\text{tools}}) \nonumber\\
+&+ \beta_4 \log(1{+}n_a) + \beta_5 \log(1{+}O\%) \nonumber\\
+&+ \beta_6 c + \beta_7 R + \beta_8 \Ec + \beta_9 \log(1{+}\Ae) \nonumber\\
+&+ \beta_{10} \PSA + \textstyle\sum_j \beta_j (\text{interactions}),
 \end{align}
 with interactions $I{\times}\Ec$, $\Ae{\times}\PSA$, $R{\times}n_a$, $c{\times}I$ and
 $\PSA{\times}\log(1{+}n_a)$. Our tasks use no tools, so $T_{\text{tools}} = 0$ identically and
@@ -115,15 +116,15 @@ directionally matching what they observe for OpenAI models, where heterogeneous 
 configurations degrade.
 
 
-\begin{table}[t]\centering\small
+\begin{table*}[t]\centering\small
 \caption{Main results. For each capability tier and benchmark: the single-agent baseline, then
 each architecture at its best panel size, and the gain of the best architecture over the single
 agent. The complete 180-configuration grid is Table~\ref{tab:full}.}
 \label{tab:main}
 \input{tables/main_results_compact.tex}
-\end{table}
+\end{table*}
 
-\begin{figure}[t]\centering
+\begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig1_capability.pdf}
 \caption{\textbf{Agent scaling across model capability and system architecture.} Performance
 against the task-grounded capability index $I$ (mean single-doctor accuracy across the three
@@ -131,9 +132,9 @@ benchmarks), for each architecture, on each benchmark. Each architecture is show
 best-performing panel size. Dashed grey: single-agent baseline. Green arrows give the gain of the
 best architecture over the single agent at the strongest model.}
 \label{fig:capability}
-\end{figure}
+\end{figure*}
 
-\begin{figure}[t]\centering
+\begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig3_window.pdf}
 \caption{\textbf{Collaboration pays only inside a window of task difficulty.} (a) Collaboration
 gain against the single-doctor baseline $\PSA$ for every multi-agent configuration; shaded band
@@ -141,7 +142,7 @@ marks the 25--50\% window, dashed line the 45\% ceiling of \citet{kim2026scaling
 data binned; annotations give the fraction of configurations in each bin that improve on the
 single doctor.}
 \label{fig:window}
-\end{figure}
+\end{figure*}
 
 \subsection{Main results}
 
@@ -180,10 +181,11 @@ and it is the better description of the data by a factor of $2.4$ in $t$.
 Thirty of the 180 configurations differ significantly from the single doctor (McNemar
 $p < 0.05$), and they partition perfectly:
 
-\begin{center}\small
+\begin{center}\footnotesize
+\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}lrr@{}}
 \toprule
-& significantly better & significantly worse \\
+& sig.\ better & sig.\ worse \\
 \midrule
 inside the window ($n = 80$)  & \textbf{20} & \textbf{0} \\
 outside the window ($n = 100$) & \textbf{0}  & \textbf{10} \\
@@ -236,22 +238,27 @@ $R^2 = 0.415$ --- the same regime as the $0.513$ reported for the general-domain
 here with no tool-count term at all. Coefficients ($n = 225$ configurations including the
 self-consistency control, benchmark-clustered SEs):
 
-\begin{center}\small
-\begin{tabular}{@{}lrrl@{}}
+\begin{center}\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrr@{}}
 \toprule
-term & $\hat\beta$ & $p$ & interpretation \\
+term & $\hat\beta$ & $p$ \\
 \midrule
-$\log(1+\Ae)$ & $-0.150$ & $<0.001$ & error amplification is the dominant penalty \\
-$R$ (redundancy) & $+0.082$ & $<0.001$ & overlapping rationales help, not hurt \\
-$c$ (message density) & $+0.006$ & $<0.001$ & communication carries a small positive effect \\
-$\log(1+O\%)$ & $+0.005$ & $0.024$ & overhead is not penalised once $T{=}0$ \\
-$\PSA \times \log(1{+}n_a)$ & $+0.027$ & $0.048$ & \multirow{2}{*}{no main effect of panel size} \\
-$\log(1+n_a)$ & $-0.003$ & $0.701$ & \\
-$\PSA$ & $-0.113$ & $0.051$ & \multirow{2}{*}{$\PSA$ is not linear or quadratic} \\
-$\PSA^2$ & $+0.037$ & $0.390$ & \\
+$\log(1+\Ae)$ & $-0.150$ & $<0.001$ \\
+$R$ (redundancy) & $+0.082$ & $<0.001$ \\
+$c$ (message density) & $+0.006$ & $<0.001$ \\
+$\log(1+O\%)$ & $+0.005$ & $0.024$ \\
+$\PSA \times \log(1{+}n_a)$ & $+0.027$ & $0.048$ \\
+$\log(1+n_a)$ & $-0.003$ & $0.701$ \\
+$\PSA$ & $-0.113$ & $0.051$ \\
+$\PSA^2$ & $+0.037$ & $0.390$ \\
 \bottomrule
 \end{tabular}
 \end{center}
+
+\noindent Error amplification is the dominant penalty; redundancy and message density carry small
+positive effects; overhead is not penalised once $T{=}0$; and neither panel size nor $\PSA$ has a
+main effect.
 
 \paragraph{The tool--coordination trade-off is absent by construction, and coordination still
 predicts gain.} $T_{\text{tools}} = 0$ throughout, so the $\log(1+T)$ main effect and the
@@ -328,14 +335,14 @@ capacity.
 
 
 
-\begin{figure}[t]\centering
+\begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig6_coordination.pdf}
 \caption{\textbf{Coordination dynamics.} (a) Turn count against agent count, with our fit and the
 general-domain power law of \citet{kim2026scaling}. (b) Performance against message density; their
 $c^{*}=0.39$ plateau is marked. (c) Error amplification $\Ae$ and error absorption by
 architecture.}
 \label{fig:coord}
-\end{figure}
+\end{figure*}
 
 \subsection{Coordination efficiency, error dynamics, and information transfer}
 
@@ -367,10 +374,11 @@ Following the multi-agent failure taxonomy of \citet{mast2025}, adopted by
 \citet{kim2026scaling},
 we apply the four-category taxonomy across all configurations:
 
-\begin{center}\small
+\begin{center}\footnotesize
+\setlength{\tabcolsep}{3.5pt}
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
-& Independent & Centralized & Decentralized & Hybrid \\
+& Indep. & Centr. & Decentr. & Hybrid \\
 \midrule
 Logical contradiction & 6.3\% & 6.3\% & 6.3\% & 3.4\% \\
 Numerical drift & 4.5\% & 4.7\% & 4.8\% & 3.1\% \\

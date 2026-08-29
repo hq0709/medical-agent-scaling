@@ -11,11 +11,11 @@ gives the components. The three tiers span $I = 34.0$ to $59.2$, and their singl
 baselines span 15.6\% to 91.6\% --- crossing the 45\% region from both sides, which is what makes
 the capability-ceiling test possible at all.
 
-\begin{table}[h]\centering\small
+\begin{table*}[t]\centering\small
 \caption{Capability index and its components (single-doctor CoT accuracy, \%).}
 \label{tab:capability}
 \input{tables/table6_capability_index.tex}
-\end{table}
+\end{table*}
 
 \section{Domain complexity}
 \label{app:complexity}
@@ -33,11 +33,11 @@ Table~\ref{tab:complexity} gives the components. MedQA is a low-complexity domai
 MedXpertQA and MedAgentsBench-hard are high-complexity and nearly indistinguishable
 ($D = 0.489$ and $0.478$).
 
-\begin{table}[h]\centering\small
+\begin{table*}[t]\centering\small
 \caption{Domain complexity of the three medical benchmarks.}
 \label{tab:complexity}
 \input{tables/table7_domain_complexity.tex}
-\end{table}
+\end{table*}
 
 \subsection{The critical threshold does not transfer}
 \citet{kim2026scaling} identify a critical complexity threshold at $D \approx 0.40$: below it
@@ -111,10 +111,10 @@ economics describe what a configuration would cost to run.
 Following \citet{kim2026scaling}, information gain is the Bayesian posterior variance reduction
 \begin{equation}
 \Delta\mathcal{I} = \tfrac12 \log \frac{\mathrm{Var}[Y \mid \mathbf{s}_{\text{pre}}]}
-{\mathrm{Var}[Y \mid \mathbf{s}_{\text{post}}]}, \qquad
-\mathrm{Var}[Y \mid \mathbf{s}] = \hat p(\mathbf{s})\,(1 - \hat p(\mathbf{s})),
+{\mathrm{Var}[Y \mid \mathbf{s}_{\text{post}}]},
 \end{equation}
-with $Y \in \{0,1\}$ the success indicator. They estimate $\hat p$ from $K{=}10$ sampled reasoning
+with $\mathrm{Var}[Y \mid \mathbf{s}] = \hat p(\mathbf{s})(1 - \hat p(\mathbf{s}))$ and
+$Y \in \{0,1\}$ the success indicator. They estimate $\hat p$ from $K{=}10$ sampled reasoning
 traces at temperature 0.7. In multiple-choice consultation the panel already supplies such a
 sample: $\hat p$ is the fraction of the round's opinions that name the gold option, Laplace
 smoothed as $(k{+}1)/(n{+}2)$. Smoothing rather than clipping matters: a Centralized panel's final
@@ -127,26 +127,26 @@ $\Delta\mathcal{I}$ negative by construction.
 
 \section{Additional results}
 \label{app:extra}
-\begin{figure}[t]\centering
+\begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig2_nscaling.pdf}
 \caption{\textbf{Number-of-agents scaling.} Performance against panel size $n_a \in
 \{1,3,5,7,9\}$ for every architecture, model and benchmark. Dashed grey: single-agent baseline.
 Dotted: budget-matched self-consistency. Where gains occur they are captured by $n_a = 3$.}
 \label{fig:nscaling}
-\end{figure}
-\begin{figure}[t]\centering
+\end{figure*}
+\begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig5_distribution.pdf}
 \caption{\textbf{Single-agent versus multi-agent performance distributions.} Box plots over all
 configurations of each architecture, with individual configurations overlaid. Annotations give
 the change in mean relative to the single-agent baseline.}
 \label{fig:dist}
-\end{figure}
-\begin{figure}[t]\centering
+\end{figure*}
+\begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig4_cost.pdf}
 \caption{\textbf{Cost--performance trade-offs.} Mean performance against nominal cost per 1{,}000
 questions, with SEM error bars on both axes. Each point is one configuration.}
 \label{fig:cost}
-\end{figure}
+\end{figure*}
 \subsection{Where capability belongs inside a panel}
 
 
@@ -157,7 +157,7 @@ questions, with SEM error bars on both axes. Each point is one configuration.}
 
 
 
-\begin{figure}[t]\centering
+\begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig4_heterogeneity.pdf}
 \caption{\textbf{Agent heterogeneity.} Performance of Centralized and Decentralized panels at
 $n_a{=}3$ on MedXpertQA under five capability placements. High capability is
@@ -165,10 +165,11 @@ $n_a{=}3$ on MedXpertQA under five capability placements. High capability is
 homogeneous high-capability panel (dashed line). Decentralized coordination has no orchestrator,
 so the two orchestrator-capability conditions are structurally undefined there and are omitted.}
 \label{fig:hetero}
-\end{figure}
-\begin{table}[t]\centering\small
+\end{figure*}
+\begin{table*}[t]\centering\small
 \caption{Capability ladder, measured on 40 items per benchmark with single-doctor CoT.}
 \label{tab:tiers}
+\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}lllrrr@{}}
 \toprule
 Tier & Model & Effort & MedXpertQA & MedQA & USD / 1k items \\
@@ -178,13 +179,14 @@ T2 & \texttt{gpt-5-nano} & low & 37.5\% & 95.0\% & 0.17 \\
 T3 & \texttt{gpt-5-mini} & low & 55.0\% & 97.5\% & 0.64 \\
 \bottomrule
 \end{tabular}
-\end{table}
-\begin{table}[t]\centering\small
+\end{table*}
+\begin{table*}[t]\centering\small
 \caption{Agent heterogeneity at $n_a{=}3$ on MedXpertQA. High capability is
 \texttt{gpt-5-mini}, low is \texttt{gpt-4.1-nano}. ``Span retained'' is the fraction of the
 homogeneous-high minus homogeneous-low range that the configuration preserves. Decentralized
 coordination has no orchestrator, so those conditions are structurally undefined.}
 \label{tab:hetero}
+\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
 Capability placement & \multicolumn{2}{c}{Centralized} & \multicolumn{2}{c}{Decentralized} \\
@@ -198,7 +200,7 @@ Mixed-capability panel        & 40.8\% & 76\% & 44.0\% & 88\% \\
 Homogeneous low               & 14.8\% & 0\% & 17.2\% & 0\% \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 
 \paragraph{Discussion drives the effective panel size to one.}
@@ -255,11 +257,12 @@ quantity. The window is defined on the view that can be measured before deployme
 
 
 
-\begin{table}[t]\centering\small
+\begin{table*}[t]\centering\small
 \caption{Collaboration gain by clinical task type on MedXpertQA, for the two tiers inside the
 window. Gain is the best panel configuration over the single doctor on the same items; $p$ from
 paired McNemar.}
 \label{tab:tasktype}
+\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}llrrrl@{}}
 \toprule
 Tier & Task type & $n$ & single doctor & best panel & gain \\
@@ -274,4 +277,4 @@ Tier & Task type & $n$ & single doctor & best panel & gain \\
 \bottomrule
 \multicolumn{6}{@{}l}{\scriptsize $^{*}p<0.05$, $^{**}p<0.01$} \\
 \end{tabular}
-\end{table}
+\end{table*}
