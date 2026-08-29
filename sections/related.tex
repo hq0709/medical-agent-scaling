@@ -28,7 +28,30 @@ components, the latter sweeping team sizes 2--5. Every published medical ablatio
 $N \leq 5$, none reports a dose--response curve, and none runs a budget-matched single-model
 control. Skeptical evaluations find that orchestration often fails to beat well-prompted single
 models at substantially higher cost~\citep{medagentboard, npjdm2026, confagents}; our independence
-measurement supplies the mechanism those results lack.
+measurement supplies the mechanism those results lack. The pattern has since diversified along
+every axis except the one measured here. \citet{chen2024rareagents} and \citet{zhou2025mam}
+specialise the roster---an MDT for rare disease, role-assigned radiologist and generalist agents
+for multimodal input---and \citet{liu2025medchat} adds a director to coordinate them.
+\citet{ma2025medla} replaces majority voting with logical contradiction resolution and
+\citet{li2025macd} lets agents accumulate diagnostic knowledge across a cohort, both of which are
+attempts to escape a voting rule rather than to escape the correlation that makes voting weak.
+\citet{fan2024aihospital} and \citet{sanghvi2026medxagent} move the setting itself, from
+single-shot selection to simulated and interactive encounters where agents must ask before they
+answer. These are complementary: each varies the aggregation rule, the roster or the interaction
+protocol, and each is a candidate for raising the capture rate we define in \S\ref{sec:ceiling}.
+None of them measures the error correlation among its own agents, so none can say whether the
+signal its mechanism is competing for is present.
+
+Closest to our central question, \citet{yuan2026mixedvendor} compare single-vendor and
+mixed-vendor panels of three frontier models on rare-disease diagnosis and report that mixed-vendor
+teams win, attributing the gain to complementary inductive biases surfaced by an overlap analysis.
+That is the same lever we isolate in Table~\ref{tab:diversity}, measured with a different
+instrument and in the regime our results predict is the favourable one---three models of
+comparable strength, where decorrelation carries no quality penalty. Two of our findings bear on
+how such comparisons should be read. Raw overlap and raw correlation are depressed mechanically
+when members differ in accuracy (Eq.~\ref{eq:phimax}), so vendor-diversity effects should be
+reported normalised; and within an ecosystem the lever is real but small, moving a nine-member
+panel from $1.31$ to $2.60$ effective opinions rather than towards nine.
 
 \paragraph{Scaling agents, and scaling inference.}
 Debate protocols improve factuality~\citep{du2024debate, liang2024encouraging} and frameworks such
