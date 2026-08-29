@@ -1,18 +1,10 @@
-\begin{longtable}{@{}llllrrr@{}}
-\caption{Complete grid: all 180 multi-agent configurations and their controls.}\\
-\label{tab:full}\\
+\begin{table*}[t]\centering\scriptsize
+\caption{Complete results grid (1 of 4). All 180 multi-agent configurations and their single-model controls.}
+\label{tab:full}
+\begin{tabular}{@{}llllrrr@{}}
 \toprule
 Tier & Benchmark & Architecture & $n_a$ & Acc.\ (\%) & 95\% CI & USD/1k \\
 \midrule
-\endfirsthead
-\toprule
-Tier & Benchmark & Architecture & $n_a$ & Acc.\ (\%) & 95\% CI & USD/1k \\
-\midrule
-\endhead
-\midrule \multicolumn{7}{r}{\itshape continued on next page}\\
-\endfoot
-\bottomrule
-\endlastfoot
 T1 & MedAgentsBench & Centralized & 1 & 20.0 & [15.5, 25.4] & 0.14 \\
 T1 & MedAgentsBench & Centralized & 3 & 20.4 & [15.9, 25.8] & 0.25 \\
 T1 & MedAgentsBench & Centralized & 5 & 20.4 & [15.9, 25.8] & 0.36 \\
@@ -29,11 +21,11 @@ T1 & MedAgentsBench & Independent & 3 & 17.6 & [13.4, 22.8] & 0.14 \\
 T1 & MedAgentsBench & Independent & 5 & 16.4 & [12.3, 21.5] & 0.24 \\
 T1 & MedAgentsBench & Independent & 7 & 16.0 & [12.0, 21.1] & 0.33 \\
 T1 & MedAgentsBench & Independent & 9 & 16.4 & [12.3, 21.5] & 0.43 \\
-T1 & MedAgentsBench & Self-consistency & 1 & 20.0 & [15.5, 25.4] & 0.05 \\
-T1 & MedAgentsBench & Self-consistency & 3 & 18.8 & [14.4, 24.1] & 0.09 \\
-T1 & MedAgentsBench & Self-consistency & 5 & 19.2 & [14.8, 24.5] & 0.13 \\
-T1 & MedAgentsBench & Self-consistency & 9 & 18.0 & [13.7, 23.2] & 0.25 \\
-T1 & MedAgentsBench & Self-consistency & 15 & 18.4 & [14.1, 23.7] & 0.37 \\
+T1 & MedAgentsBench & Self-consist. & 1 & 20.0 & [15.5, 25.4] & 0.05 \\
+T1 & MedAgentsBench & Self-consist. & 3 & 18.8 & [14.4, 24.1] & 0.09 \\
+T1 & MedAgentsBench & Self-consist. & 5 & 19.2 & [14.8, 24.5] & 0.13 \\
+T1 & MedAgentsBench & Self-consist. & 9 & 18.0 & [13.7, 23.2] & 0.25 \\
+T1 & MedAgentsBench & Self-consist. & 15 & 18.4 & [14.1, 23.7] & 0.37 \\
 T1 & MedAgentsBench & Hybrid & 1 & 16.0 & [12.0, 21.1] & 0.05 \\
 T1 & MedAgentsBench & Hybrid & 3 & 16.0 & [12.0, 21.1] & 0.05 \\
 T1 & MedAgentsBench & Hybrid & 5 & 16.0 & [12.0, 21.1] & 0.05 \\
@@ -56,11 +48,11 @@ T1 & MedQA & Independent & 3 & 66.8 & [60.7, 72.3] & 0.15 \\
 T1 & MedQA & Independent & 5 & 66.8 & [60.7, 72.3] & 0.25 \\
 T1 & MedQA & Independent & 7 & 66.4 & [60.3, 72.0] & 0.35 \\
 T1 & MedQA & Independent & 9 & 67.2 & [61.2, 72.7] & 0.45 \\
-T1 & MedQA & Self-consistency & 1 & 68.4 & [62.4, 73.8] & 0.05 \\
-T1 & MedQA & Self-consistency & 3 & 65.6 & [59.5, 71.2] & 0.10 \\
-T1 & MedQA & Self-consistency & 5 & 65.6 & [59.5, 71.2] & 0.14 \\
-T1 & MedQA & Self-consistency & 9 & 66.0 & [59.9, 71.6] & 0.26 \\
-T1 & MedQA & Self-consistency & 15 & 65.6 & [59.5, 71.2] & 0.40 \\
+T1 & MedQA & Self-consist. & 1 & 68.4 & [62.4, 73.8] & 0.05 \\
+T1 & MedQA & Self-consist. & 3 & 65.6 & [59.5, 71.2] & 0.10 \\
+T1 & MedQA & Self-consist. & 5 & 65.6 & [59.5, 71.2] & 0.14 \\
+T1 & MedQA & Self-consist. & 9 & 66.0 & [59.9, 71.6] & 0.26 \\
+T1 & MedQA & Self-consist. & 15 & 65.6 & [59.5, 71.2] & 0.40 \\
 T1 & MedQA & Hybrid & 1 & 65.6 & [59.5, 71.2] & 0.05 \\
 T1 & MedQA & Hybrid & 3 & 65.6 & [59.5, 71.2] & 0.05 \\
 T1 & MedQA & Hybrid & 5 & 65.6 & [59.5, 71.2] & 0.05 \\
@@ -75,6 +67,16 @@ T1 & MedXpertQA & Centralized & 9 & 14.8 & [10.9, 19.7] & 0.62 \\
 T1 & MedXpertQA & SAS CoT & 1 & 15.6 & [11.6, 20.6] & 0.09 \\
 T1 & MedXpertQA & Decentralized & 1 & 16.0 & [12.0, 21.1] & 0.05 \\
 T1 & MedXpertQA & Decentralized & 3 & 15.2 & [11.3, 20.2] & 0.25 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]\centering\scriptsize
+\caption{Complete results grid (2 of 4). All 180 multi-agent configurations and their single-model controls.}
+\begin{tabular}{@{}llllrrr@{}}
+\toprule
+Tier & Benchmark & Architecture & $n_a$ & Acc.\ (\%) & 95\% CI & USD/1k \\
+\midrule
 T1 & MedXpertQA & Decentralized & 5 & 16.8 & [12.7, 21.9] & 0.50 \\
 T1 & MedXpertQA & Decentralized & 7 & 16.0 & [12.0, 21.1] & 0.74 \\
 T1 & MedXpertQA & Decentralized & 9 & 16.4 & [12.3, 21.5] & 1.05 \\
@@ -83,11 +85,11 @@ T1 & MedXpertQA & Independent & 3 & 15.8 & [12.9, 19.3] & 0.16 \\
 T1 & MedXpertQA & Independent & 5 & 16.0 & [12.0, 21.1] & 0.27 \\
 T1 & MedXpertQA & Independent & 7 & 16.0 & [12.0, 21.1] & 0.38 \\
 T1 & MedXpertQA & Independent & 9 & 16.0 & [12.0, 21.1] & 0.48 \\
-T1 & MedXpertQA & Self-consistency & 1 & 16.0 & [12.0, 21.1] & 0.06 \\
-T1 & MedXpertQA & Self-consistency & 3 & 16.4 & [12.3, 21.5] & 0.10 \\
-T1 & MedXpertQA & Self-consistency & 5 & 16.0 & [12.0, 21.1] & 0.14 \\
-T1 & MedXpertQA & Self-consistency & 9 & 15.6 & [11.6, 20.6] & 0.27 \\
-T1 & MedXpertQA & Self-consistency & 15 & 16.0 & [12.0, 21.1] & 0.40 \\
+T1 & MedXpertQA & Self-consist. & 1 & 16.0 & [12.0, 21.1] & 0.06 \\
+T1 & MedXpertQA & Self-consist. & 3 & 16.4 & [12.3, 21.5] & 0.10 \\
+T1 & MedXpertQA & Self-consist. & 5 & 16.0 & [12.0, 21.1] & 0.14 \\
+T1 & MedXpertQA & Self-consist. & 9 & 15.6 & [11.6, 20.6] & 0.27 \\
+T1 & MedXpertQA & Self-consist. & 15 & 16.0 & [12.0, 21.1] & 0.40 \\
 T1 & MedXpertQA & Hybrid & 1 & 18.0 & [13.7, 23.2] & 0.05 \\
 T1 & MedXpertQA & Hybrid & 3 & 18.0 & [13.7, 23.2] & 0.05 \\
 T1 & MedXpertQA & Hybrid & 5 & 18.0 & [13.7, 23.2] & 0.05 \\
@@ -110,11 +112,11 @@ T2 & MedAgentsBench & Independent & 3 & 34.8 & [29.2, 40.9] & 0.48 \\
 T2 & MedAgentsBench & Independent & 5 & 34.8 & [29.2, 40.9] & 0.79 \\
 T2 & MedAgentsBench & Independent & 7 & 33.2 & [27.7, 39.3] & 1.12 \\
 T2 & MedAgentsBench & Independent & 9 & 32.4 & [26.9, 38.4] & 1.44 \\
-T2 & MedAgentsBench & Self-consistency & 1 & 33.2 & [27.7, 39.3] & 0.18 \\
-T2 & MedAgentsBench & Self-consistency & 3 & 32.0 & [26.5, 38.0] & 0.50 \\
-T2 & MedAgentsBench & Self-consistency & 5 & 33.6 & [28.0, 39.7] & 0.83 \\
-T2 & MedAgentsBench & Self-consistency & 9 & 32.8 & [27.3, 38.8] & 1.49 \\
-T2 & MedAgentsBench & Self-consistency & 15 & 31.2 & [25.8, 37.2] & 2.47 \\
+T2 & MedAgentsBench & Self-consist. & 1 & 33.2 & [27.7, 39.3] & 0.18 \\
+T2 & MedAgentsBench & Self-consist. & 3 & 32.0 & [26.5, 38.0] & 0.50 \\
+T2 & MedAgentsBench & Self-consist. & 5 & 33.6 & [28.0, 39.7] & 0.83 \\
+T2 & MedAgentsBench & Self-consist. & 9 & 32.8 & [27.3, 38.8] & 1.49 \\
+T2 & MedAgentsBench & Self-consist. & 15 & 31.2 & [25.8, 37.2] & 2.47 \\
 T2 & MedAgentsBench & Hybrid & 1 & 32.4 & [26.9, 38.4] & 0.26 \\
 T2 & MedAgentsBench & Hybrid & 3 & 33.2 & [27.7, 39.3] & 0.49 \\
 T2 & MedAgentsBench & Hybrid & 5 & 34.0 & [28.4, 40.1] & 0.73 \\
@@ -137,11 +139,21 @@ T2 & MedQA & Independent & 3 & 88.4 & [83.8, 91.8] & 0.39 \\
 T2 & MedQA & Independent & 5 & 89.6 & [85.2, 92.8] & 0.65 \\
 T2 & MedQA & Independent & 7 & 87.6 & [82.9, 91.1] & 0.90 \\
 T2 & MedQA & Independent & 9 & 88.8 & [84.3, 92.1] & 1.16 \\
-T2 & MedQA & Self-consistency & 1 & 84.4 & [79.4, 88.4] & 0.15 \\
-T2 & MedQA & Self-consistency & 3 & 86.8 & [82.0, 90.4] & 0.41 \\
-T2 & MedQA & Self-consistency & 5 & 88.0 & [83.4, 91.5] & 0.67 \\
-T2 & MedQA & Self-consistency & 9 & 87.6 & [82.9, 91.1] & 1.21 \\
-T2 & MedQA & Self-consistency & 15 & 88.4 & [83.8, 91.8] & 2.01 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]\centering\scriptsize
+\caption{Complete results grid (3 of 4). All 180 multi-agent configurations and their single-model controls.}
+\begin{tabular}{@{}llllrrr@{}}
+\toprule
+Tier & Benchmark & Architecture & $n_a$ & Acc.\ (\%) & 95\% CI & USD/1k \\
+\midrule
+T2 & MedQA & Self-consist. & 1 & 84.4 & [79.4, 88.4] & 0.15 \\
+T2 & MedQA & Self-consist. & 3 & 86.8 & [82.0, 90.4] & 0.41 \\
+T2 & MedQA & Self-consist. & 5 & 88.0 & [83.4, 91.5] & 0.67 \\
+T2 & MedQA & Self-consist. & 9 & 87.6 & [82.9, 91.1] & 1.21 \\
+T2 & MedQA & Self-consist. & 15 & 88.4 & [83.8, 91.8] & 2.01 \\
 T2 & MedQA & Hybrid & 1 & 87.6 & [82.9, 91.1] & 0.17 \\
 T2 & MedQA & Hybrid & 3 & 87.2 & [82.5, 90.8] & 0.26 \\
 T2 & MedQA & Hybrid & 5 & 88.8 & [84.3, 92.1] & 0.35 \\
@@ -164,11 +176,11 @@ T2 & MedXpertQA & Independent & 3 & 32.6 & [28.6, 36.8] & 0.56 \\
 T2 & MedXpertQA & Independent & 5 & 33.8 & [29.8, 38.1] & 0.93 \\
 T2 & MedXpertQA & Independent & 7 & 32.8 & [28.8, 37.0] & 1.30 \\
 T2 & MedXpertQA & Independent & 9 & 32.6 & [28.6, 36.8] & 1.67 \\
-T2 & MedXpertQA & Self-consistency & 1 & 32.8 & [27.3, 38.8] & 0.20 \\
-T2 & MedXpertQA & Self-consistency & 3 & 36.0 & [30.3, 42.1] & 0.57 \\
-T2 & MedXpertQA & Self-consistency & 5 & 34.8 & [29.2, 40.9] & 0.94 \\
-T2 & MedXpertQA & Self-consistency & 9 & 35.2 & [29.5, 41.3] & 1.70 \\
-T2 & MedXpertQA & Self-consistency & 15 & 34.4 & [28.8, 40.5] & 2.81 \\
+T2 & MedXpertQA & Self-consist. & 1 & 32.8 & [27.3, 38.8] & 0.20 \\
+T2 & MedXpertQA & Self-consist. & 3 & 36.0 & [30.3, 42.1] & 0.57 \\
+T2 & MedXpertQA & Self-consist. & 5 & 34.8 & [29.2, 40.9] & 0.94 \\
+T2 & MedXpertQA & Self-consist. & 9 & 35.2 & [29.5, 41.3] & 1.70 \\
+T2 & MedXpertQA & Self-consist. & 15 & 34.4 & [28.8, 40.5] & 2.81 \\
 T2 & MedXpertQA & Hybrid & 1 & 33.3 & [27.8, 39.4] & 0.29 \\
 T2 & MedXpertQA & Hybrid & 3 & 34.4 & [28.8, 40.5] & 0.60 \\
 T2 & MedXpertQA & Hybrid & 5 & 35.2 & [29.5, 41.3] & 0.89 \\
@@ -191,14 +203,24 @@ T3 & MedAgentsBench & Independent & 3 & 44.4 & [38.4, 50.6] & 1.61 \\
 T3 & MedAgentsBench & Independent & 5 & 44.0 & [38.0, 50.2] & 2.67 \\
 T3 & MedAgentsBench & Independent & 7 & 43.6 & [37.6, 49.8] & 3.72 \\
 T3 & MedAgentsBench & Independent & 9 & 44.8 & [38.8, 51.0] & 4.77 \\
-T3 & MedAgentsBench & Self-consistency & 1 & 43.6 & [37.6, 49.8] & 0.62 \\
-T3 & MedAgentsBench & Self-consistency & 3 & 44.4 & [38.4, 50.6] & 1.73 \\
-T3 & MedAgentsBench & Self-consistency & 5 & 44.4 & [38.4, 50.6] & 2.84 \\
-T3 & MedAgentsBench & Self-consistency & 9 & 44.0 & [38.0, 50.2] & 5.12 \\
-T3 & MedAgentsBench & Self-consistency & 15 & 44.4 & [38.4, 50.6] & 8.43 \\
+T3 & MedAgentsBench & Self-consist. & 1 & 43.6 & [37.6, 49.8] & 0.62 \\
+T3 & MedAgentsBench & Self-consist. & 3 & 44.4 & [38.4, 50.6] & 1.73 \\
+T3 & MedAgentsBench & Self-consist. & 5 & 44.4 & [38.4, 50.6] & 2.84 \\
+T3 & MedAgentsBench & Self-consist. & 9 & 44.0 & [38.0, 50.2] & 5.12 \\
+T3 & MedAgentsBench & Self-consist. & 15 & 44.4 & [38.4, 50.6] & 8.43 \\
 T3 & MedAgentsBench & Hybrid & 1 & 46.0 & [39.9, 52.2] & 0.62 \\
 T3 & MedAgentsBench & Hybrid & 3 & 45.2 & [39.1, 51.4] & 0.78 \\
 T3 & MedAgentsBench & Hybrid & 5 & 44.8 & [38.8, 51.0] & 0.99 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]\centering\scriptsize
+\caption{Complete results grid (4 of 4). All 180 multi-agent configurations and their single-model controls.}
+\begin{tabular}{@{}llllrrr@{}}
+\toprule
+Tier & Benchmark & Architecture & $n_a$ & Acc.\ (\%) & 95\% CI & USD/1k \\
+\midrule
 T3 & MedAgentsBench & Hybrid & 7 & 45.2 & [39.1, 51.4] & 1.09 \\
 T3 & MedAgentsBench & Hybrid & 9 & 45.6 & [39.5, 51.8] & 1.25 \\
 T3 & MedAgentsBench & SAS zero-shot & 1 & 46.0 & [39.9, 52.2] & 0.39 \\
@@ -218,11 +240,11 @@ T3 & MedQA & Independent & 3 & 91.6 & [87.5, 94.4] & 1.29 \\
 T3 & MedQA & Independent & 5 & 91.6 & [87.5, 94.4] & 2.15 \\
 T3 & MedQA & Independent & 7 & 91.6 & [87.5, 94.4] & 3.01 \\
 T3 & MedQA & Independent & 9 & 92.0 & [88.0, 94.8] & 3.86 \\
-T3 & MedQA & Self-consistency & 1 & 92.0 & [88.0, 94.8] & 0.52 \\
-T3 & MedQA & Self-consistency & 3 & 92.8 & [88.9, 95.4] & 1.41 \\
-T3 & MedQA & Self-consistency & 5 & 93.2 & [89.4, 95.7] & 2.30 \\
-T3 & MedQA & Self-consistency & 9 & 94.0 & [90.3, 96.3] & 4.15 \\
-T3 & MedQA & Self-consistency & 15 & 93.6 & [89.9, 96.0] & 6.78 \\
+T3 & MedQA & Self-consist. & 1 & 92.0 & [88.0, 94.8] & 0.52 \\
+T3 & MedQA & Self-consist. & 3 & 92.8 & [88.9, 95.4] & 1.41 \\
+T3 & MedQA & Self-consist. & 5 & 93.2 & [89.4, 95.7] & 2.30 \\
+T3 & MedQA & Self-consist. & 9 & 94.0 & [90.3, 96.3] & 4.15 \\
+T3 & MedQA & Self-consist. & 15 & 93.6 & [89.9, 96.0] & 6.78 \\
 T3 & MedQA & Hybrid & 1 & 93.6 & [89.9, 96.0] & 0.43 \\
 T3 & MedQA & Hybrid & 3 & 93.2 & [89.4, 95.7] & 0.48 \\
 T3 & MedQA & Hybrid & 5 & 93.2 & [89.4, 95.7] & 0.52 \\
@@ -245,15 +267,17 @@ T3 & MedXpertQA & Independent & 3 & 46.4 & [40.3, 52.6] & 1.71 \\
 T3 & MedXpertQA & Independent & 5 & 47.2 & [41.1, 53.4] & 2.84 \\
 T3 & MedXpertQA & Independent & 7 & 46.0 & [39.9, 52.2] & 3.97 \\
 T3 & MedXpertQA & Independent & 9 & 46.4 & [40.3, 52.6] & 5.11 \\
-T3 & MedXpertQA & Self-consistency & 1 & 42.4 & [36.4, 48.6] & 0.67 \\
-T3 & MedXpertQA & Self-consistency & 3 & 43.2 & [37.2, 49.4] & 1.83 \\
-T3 & MedXpertQA & Self-consistency & 5 & 43.2 & [37.2, 49.4] & 3.00 \\
-T3 & MedXpertQA & Self-consistency & 9 & 46.0 & [39.9, 52.2] & 5.41 \\
-T3 & MedXpertQA & Self-consistency & 15 & 47.6 & [41.5, 53.8] & 8.87 \\
+T3 & MedXpertQA & Self-consist. & 1 & 42.4 & [36.4, 48.6] & 0.67 \\
+T3 & MedXpertQA & Self-consist. & 3 & 43.2 & [37.2, 49.4] & 1.83 \\
+T3 & MedXpertQA & Self-consist. & 5 & 43.2 & [37.2, 49.4] & 3.00 \\
+T3 & MedXpertQA & Self-consist. & 9 & 46.0 & [39.9, 52.2] & 5.41 \\
+T3 & MedXpertQA & Self-consist. & 15 & 47.6 & [41.5, 53.8] & 8.87 \\
 T3 & MedXpertQA & Hybrid & 1 & 45.2 & [39.1, 51.4] & 0.61 \\
 T3 & MedXpertQA & Hybrid & 3 & 44.4 & [38.4, 50.6] & 0.71 \\
 T3 & MedXpertQA & Hybrid & 5 & 44.8 & [38.8, 51.0] & 0.87 \\
 T3 & MedXpertQA & Hybrid & 7 & 44.4 & [38.4, 50.6] & 0.93 \\
 T3 & MedXpertQA & Hybrid & 9 & 44.4 & [38.4, 50.6] & 1.20 \\
 T3 & MedXpertQA & SAS zero-shot & 1 & 43.2 & [37.2, 49.4] & 0.46 \\
-\end{longtable}
+\bottomrule
+\end{tabular}
+\end{table*}

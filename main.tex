@@ -1,20 +1,27 @@
 \documentclass[11pt]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage{amsmath,amssymb,booktabs,graphicx,xcolor,microtype}
-\usepackage[numbers,sort&compress]{natbib}
-\usepackage[hidelinks]{hyperref}
-\usepackage{authblk}
-\usepackage{caption}
+
+% "review" 生成双盲评审版；投稿定稿改为 "final"，预印本用 "preprint"
+\usepackage[review]{acl}
+
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{inconsolata}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
 \usepackage{multirow}
-\usepackage{longtable}
-\captionsetup{font=small,labelfont=bf}
+\usepackage{xcolor}
+
 \newcommand{\PSA}{P_{\mathrm{SA}}}
 \newcommand{\Ec}{E_{c}}
 \newcommand{\Ae}{A_{e}}
-\title{\bf Multi-agent clinical consultation converges on consensus\\ faster than on correctness}
-\author[1]{Anonymous}
-\affil[1]{Anonymous}
-\date{}
+
+\title{Rethinking the Arithmetic of Multi-Agent Medical Consultation}
+
+\author{Anonymous ARR submission}
 
 \begin{document}
 \maketitle
@@ -26,13 +33,12 @@
 \input{sections/intro}          % 1 Introduction
 \input{sections/related}        % 2 Related Work
 \input{sections/systems}        % 3 Agent Systems and Tasks
-\input{sections/experiments}    % 4 Experiments & Results
-\input{sections/limitations}    % 5 Limitations and Future Works
-\input{sections/conclusion}     % 6 Conclusion
+\input{sections/experiments}    % 4 Experiments and Results
+\input{sections/conclusion}     % 5 Conclusion
+\input{sections/limitations}    % Limitations (*ACL 强制，不计入页数)
 
-\clearpage
-\input{sections/appendix}      % Appendices A-D
-
-\bibliographystyle{unsrtnat}
 \bibliography{refs}
+
+\appendix
+\input{sections/appendix}
 \end{document}

@@ -123,6 +123,155 @@ $\Delta\mathcal{I}$ negative by construction.
 
 \section{Complete results grid}
 \label{app:full}
-\scriptsize
 \input{tables/full_grid.tex}
-\normalsize
+
+\section{Additional results}
+\label{app:extra}
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig2_nscaling.pdf}
+\caption{\textbf{Number-of-agents scaling.} Performance against panel size $n_a \in
+\{1,3,5,7,9\}$ for every architecture, model and benchmark. Dashed grey: single-agent baseline.
+Dotted: budget-matched self-consistency. Where gains occur they are captured by $n_a = 3$.}
+\label{fig:nscaling}
+\end{figure}
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig5_distribution.pdf}
+\caption{\textbf{Single-agent versus multi-agent performance distributions.} Box plots over all
+configurations of each architecture, with individual configurations overlaid. Annotations give
+the change in mean relative to the single-agent baseline.}
+\label{fig:dist}
+\end{figure}
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig4_cost.pdf}
+\caption{\textbf{Cost--performance trade-offs.} Mean performance against nominal cost per 1{,}000
+questions, with SEM error bars on both axes. Each point is one configuration.}
+\label{fig:cost}
+\end{figure}
+\subsection{Where capability belongs inside a panel}
+
+
+
+
+
+
+
+
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig4_heterogeneity.pdf}
+\caption{\textbf{Agent heterogeneity.} Performance of Centralized and Decentralized panels at
+$n_a{=}3$ on MedXpertQA under five capability placements. High capability is
+\texttt{gpt-5-mini}, low is \texttt{gpt-4.1-nano}. Annotations give the change relative to the
+homogeneous high-capability panel (dashed line). Decentralized coordination has no orchestrator,
+so the two orchestrator-capability conditions are structurally undefined there and are omitted.}
+\label{fig:hetero}
+\end{figure}
+\begin{table}[t]\centering\small
+\caption{Capability ladder, measured on 40 items per benchmark with single-doctor CoT.}
+\label{tab:tiers}
+\begin{tabular}{@{}lllrrr@{}}
+\toprule
+Tier & Model & Effort & MedXpertQA & MedQA & USD / 1k items \\
+\midrule
+T1 & \texttt{gpt-4.1-nano} & --- & 25.0\% & 75.0\% & 0.09 \\
+T2 & \texttt{gpt-5-nano} & low & 37.5\% & 95.0\% & 0.17 \\
+T3 & \texttt{gpt-5-mini} & low & 55.0\% & 97.5\% & 0.64 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{table}[t]\centering\small
+\caption{Agent heterogeneity at $n_a{=}3$ on MedXpertQA. High capability is
+\texttt{gpt-5-mini}, low is \texttt{gpt-4.1-nano}. ``Span retained'' is the fraction of the
+homogeneous-high minus homogeneous-low range that the configuration preserves. Decentralized
+coordination has no orchestrator, so those conditions are structurally undefined.}
+\label{tab:hetero}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Capability placement & \multicolumn{2}{c}{Centralized} & \multicolumn{2}{c}{Decentralized} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+ & accuracy & span retained & accuracy & span retained \\
+\midrule
+Homogeneous high              & 49.2\% & 100\% & 47.6\% & 100\% \\
+Low orchestrator, high agents & 45.6\% & \textbf{90\%} & --- & --- \\
+High orchestrator, low agents & 34.4\% & \textbf{57\%} & --- & --- \\
+Mixed-capability panel        & 40.8\% & 76\% & 44.0\% & 88\% \\
+Homogeneous low               & 14.8\% & 0\% & 17.2\% & 0\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\paragraph{Discussion drives the effective panel size to one.}
+Peer discussion raises $\varphi$ from $0.751$ before the exchange to $\mathbf{0.986}$ after it
+(paired $t = 20.9$, $p = 8 \times 10^{-7}$). At $\varphi = 0.986$ a six-agent panel has
+$N_{\text{eff}} = 1.01$. A multidisciplinary consultation, at the moment it reaches consensus, is
+informationally equivalent to one physician --- and the vote taken at that moment is a vote among
+copies. This is the mechanism behind every safety result in \S4.6: unanimity rises to 98\%
+because the opinions have merged, not because they have converged on truth; the error rate given
+unanimity stays at a coin flip because merging does not add information; and confidence rises on
+wrong answers because $N$ agents agreeing looks like corroboration when it is repetition.
+
+\paragraph{Why panel size cannot predict anything.}
+The nested model comparison found panel size alone at cross-validated $R^2 = -0.006$. The
+independence measurement explains why that is not a null result but a necessary one: over
+$N \in \{3, \dots, 9\}$, $N_{\text{eff}}$ moves from $1.21$ to $1.31$. The regressor that
+matters barely varies, so the regressor we can control cannot predict. Any design effort spent on
+how many agents to deploy is spent on the wrong variable.
+
+\paragraph{What independence does not explain.}
+Error correlation accounts for the size and consensus results; it does not account for the
+window. $\varphi$ correlates only weakly with the single-doctor baseline ($r = -0.215$,
+$p = 0.018$: harder items do carry more correlated errors) and not at all with collaboration gain
+($r = -0.083$, $p = 0.37$), and a model containing $\varphi$ alone reaches $R^2 = 0.007$. The
+window and the independence collapse are two separate facts about medical consultation: the first
+says when a panel can help, the second says why it cannot help much, and why its agreement should
+not be read as evidence.
+
+
+
+
+
+\subsection{Where in medicine collaboration pays}
+
+\paragraph{Collaboration helps diagnosis most, and it is the only task type significant at both
+tiers.} MedXpertQA labels each item as Diagnosis, Treatment, or Basic Science. Splitting the
+window-resident cells by label, the best panel gains $+9.5$ pp on Diagnosis at
+\texttt{gpt-5-nano} ($p = 0.008$) and $+10.7$ pp at \texttt{gpt-5-mini} ($p = 0.004$), against
+$+7.1$ and $+8.3$ pp on Treatment and $+7.3$ and $+8.5$ pp on Basic Science. Diagnosis is the only
+category significant at both tiers. This is the pattern clinical intuition predicts and the
+general-domain benchmarks cannot express: differential diagnosis is the medical task that most
+resembles pooling independent perspectives, and it is where pooling pays.
+
+\paragraph{The difficulty stratification is where the window shows up within a single benchmark.}
+On MedXpertQA at \texttt{gpt-5-mini}, the best configuration gains $+7.7$ pp on easy items
+($n{=}13$), $+6.5$ pp on medium ($n{=}62$) and $+9.6$ pp on hard ($n{=}125$). Gains are positive
+in every stratum for this tier, which sits inside the window; the sign flips only for tiers whose
+baseline falls outside it. Item difficulty and configuration baseline are two views of the same
+quantity. The window is defined on the view that can be measured before deployment.
+
+
+
+
+
+
+
+\begin{table}[t]\centering\small
+\caption{Collaboration gain by clinical task type on MedXpertQA, for the two tiers inside the
+window. Gain is the best panel configuration over the single doctor on the same items; $p$ from
+paired McNemar.}
+\label{tab:tasktype}
+\begin{tabular}{@{}llrrrl@{}}
+\toprule
+Tier & Task type & $n$ & single doctor & best panel & gain \\
+\midrule
+\texttt{gpt-5-nano} & Diagnosis      & 84 & 33.3\% & 42.9\% & $+9.52$ pp$^{**}$ \\
+                    & Treatment      & 84 & 35.7\% & 42.9\% & $+7.14$ pp \\
+                    & Basic Science  & 82 & 26.8\% & 34.1\% & $+7.32$ pp \\
+\addlinespace
+\texttt{gpt-5-mini} & Diagnosis      & 84 & 38.1\% & 48.8\% & $+10.71$ pp$^{**}$ \\
+                    & Treatment      & 84 & 44.0\% & 52.4\% & $+8.33$ pp$^{*}$ \\
+                    & Basic Science  & 82 & 42.7\% & 51.2\% & $+8.54$ pp$^{*}$ \\
+\bottomrule
+\multicolumn{6}{@{}l}{\scriptsize $^{*}p<0.05$, $^{**}p<0.01$} \\
+\end{tabular}
+\end{table}
