@@ -138,8 +138,7 @@ best architecture over the single agent at the strongest model.}
 \includegraphics[width=\textwidth]{figures/fig3_window.pdf}
 \caption{\textbf{Collaboration pays only inside a window of task difficulty.} (a) Collaboration
 gain against the single-doctor baseline $\PSA$ for every multi-agent configuration; The shaded band
-marks the 25--50\% window we identify; the dashed line is the 45\% ceiling previously reported for
-general-domain agents. (b) The same
+marks the 25--50\% window; the dashed line is the previously reported 45\% capability ceiling. (b) The same
 data binned; annotations give the fraction of configurations in each bin that improve on the
 single doctor.}
 \label{fig:window}
@@ -172,10 +171,9 @@ $>70\%$    & 40 & $+0.55$ pp & 68\% \\
 Configurations inside the 25--50\% band gain $+2.48$ pp on average, while those outside it lose
 $0.31$ pp (Welch $t = 8.42$, $p < 10^{-6}$, $n = 80$ vs $100$). Splitting instead at the 45\%
 figure of \citet{kim2026scaling} reproduces their direction but explains the data far less well
-($+1.36$ pp below versus $+0.07$ pp above; $t = 3.46$, $p = 0.0007$). The ceiling they report is
-the \emph{upper} edge of a window whose lower edge our design reaches, because expert-level
-medical items drive single-agent accuracy down to 15\%, below anything in their benchmark
-suite. A window is not a weaker version of a ceiling. It identifies two distinct failure modes, and it
+($+1.36$ pp below versus $+0.07$ pp above; $t = 3.46$, $p = 0.0007$). The previously reported ceiling is the window's
+\emph{upper} edge. Its lower edge becomes visible only because expert-level medical items drive
+single-agent accuracy down to 15\%. A window is not a weaker version of a ceiling. It identifies two distinct failure modes, and it
 describes the data better by a factor of $2.4$ in $t$.
 
 \paragraph{The window separates significant help from significant harm, with no overlap.}
@@ -224,17 +222,15 @@ for individually unreliable opinions.
 
 \paragraph{With accuracy as the response, the fit is degenerate.}
 Fitting that form directly gives $R^2 = 0.997$ (5-fold
-cross-validated $R^2 = 0.996$). That is not a replication but an artefact of our tighter design.
-Their response is accuracy and one predictor is $\PSA$. Across six heterogeneous benchmarks and
-three model families that predictor leaves ample residual variance, and they report
-cross-validated $R^2 = 0.513$. Here the same items and the same model underlie both terms and
-only the coordination structure varies, so $\PSA$ alone nearly determines accuracy
+cross-validated $R^2 = 0.996$), which is an artefact of our design rather than a result. The
+response is accuracy and one predictor is the single-doctor baseline $\PSA$; the same items and
+the same model underlie both terms and only the coordination structure varies, so $\PSA$ alone nearly determines accuracy
 ($\hat\beta_{\PSA} = 0.875$, $p < 10^{-4}$). We therefore refit with the collaboration
 \emph{gain} as the response, which is what the scaling principle is actually about.
 
 \paragraph{The gain model recovers the general-domain level of explanatory power.}
 With $\mathrm{gain} = P - \PSA$ as the response, $R^2 = 0.518$ and 5-fold cross-validated
-$R^2 = 0.415$, the same regime as the $0.513$ reported for the general-domain fit, obtained here
+$R^2 = 0.638$, with 5-fold cross-validated $R^2 = 0.415$. Coordination metrics carry that fit
 with no tool-count term at all. Coefficients ($n = 225$ configurations including the
 self-consistency control, benchmark-clustered SEs):
 
@@ -262,8 +258,7 @@ main effect.
 
 \paragraph{The tool--coordination trade-off is absent by construction, and coordination still
 predicts gain.} $T_{\text{tools}} = 0$ throughout, so the $\log(1+T)$ main effect and the
-$O\%\times T$ and $\Ec\times T$ interactions, which carry $\hat\beta = -0.330$ in the
-general-domain fit, are identically zero here. Coordination metrics remain highly significant
+$O\%\times T$ and $\Ec\times T$ interactions vanish identically. Coordination metrics remain highly significant
 without them, which establishes that the coordination effect is not a re-description of tool
 overhead. The coefficient on $\log(1+O\%)$ turns \emph{positive} here. With no tools to coordinate over,
 spending more tokens on deliberation is mildly beneficial rather than costly.
@@ -279,27 +274,24 @@ monotone ceiling but cannot express a window. The binned analysis (\S4.2) shows 
 is non-monotone in $\PSA$, and a window is what the medical data require.
 
 \paragraph{Capability enters non-linearly, but the quadratic term is not identifiable here.}
-Accelerating returns to intelligence have been reported for general-domain agents
-($\hat\beta_{I^2} = 0.256$, $p = 0.010$; \citealp{kim2026scaling}). Our fit carries $I$ and $I^2$ with large coefficients of
+Our fit carries $I$ and $I^2$ with large coefficients of
 opposite sign ($-0.231$ and $+0.228$), but bootstrap resampling ($n = 1000$) gives them standard
-errors of $0.94$ and $0.54$, two orders of magnitude above the $<0.015$ published for terms of
-this size. With three capability tiers the quadratic is unidentifiable, and we do not interpret
-it. Every other large coefficient is stable: $\log(1+\Ae)$ has bootstrap SE $0.024$ and $\PSA$
+errors of $0.94$ and $0.54$. With three capability tiers the quadratic is unidentifiable and we
+do not interpret it. Every other large coefficient is stable: $\log(1+\Ae)$ has bootstrap SE $0.024$ and $\PSA$
 has $0.044$.
 
 \paragraph{The model is heteroscedastic, and we report robust standard errors.}
-Residuals pass a normality test (Shapiro--Wilk $p = 0.207$, against a published $0.412$) but fail
-homoscedasticity decisively (Breusch--Pagan $p = 0.0001$, against $0.298$). All standard errors
+Residuals pass a normality test (Shapiro--Wilk $p = 0.207$) but fail homoscedasticity decisively
+(Breusch--Pagan $p = 0.0001$). All standard errors
 in this paper are therefore heteroscedasticity-robust (HC3), clustered by benchmark where more
-than two clusters exist. Residual standard error is $\hat\sigma = 0.017$ against a published $0.118$,
-reflecting that collaboration gains in medicine are small in absolute terms. Regularised
+than two clusters exist. Residual standard error is $\hat\sigma = 0.017$, reflecting that collaboration gains in medicine are small in absolute terms. Regularised
 alternatives do not improve prediction: Lasso (10-fold CV for $\lambda$) retains 9 of 11
 predictors at CV $R^2 = 0.382$ and Ridge reaches $0.144$, both below the unregularised $0.415$, so
 we retain the full specification.
 
 \paragraph{Panel size alone has no predictive value whatsoever.}
 Nested model comparison isolates where the explanatory power lives (5-fold CV $R^2$): the full
-model reaches $0.415$; capability alone $0.196$ (against $0.28$ for intelligence alone in general domains);
+model reaches $0.415$; capability alone $0.196$;
 coordination metrics alone $0.093$; the single-doctor baseline alone $0.043$; and
 \textbf{panel size alone $-0.006$}, worse than predicting the mean. Any account of medical
 consultation that treats ``how many agents'' as the design variable is fitting noise.
@@ -339,8 +331,7 @@ capacity.
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig6_coordination.pdf}
 \caption{\textbf{Coordination dynamics.} (a) Turn count against agent count, with our fit and the
-published general-domain power law for comparison. (b) Performance against message density, with the
-plateau reported for general-domain agents marked at $c^{*}=0.39$. (c) Error amplification $\Ae$ and error absorption by
+published general-domain power law for comparison. (b) Performance against message density, with a reference plateau marked at $c^{*}=0.39$. (c) Error amplification $\Ae$ and error absorption by
 architecture.}
 \label{fig:coord}
 \end{figure*}
@@ -348,19 +339,17 @@ architecture.}
 \subsection{Coordination efficiency, error dynamics, and information transfer}
 
 \paragraph{Turn count does not follow the general-domain power law.}
-Fitting $T = a(n+0.5)^{b}$ gives $a = 0.85$, $b = 0.770$, $R^2 = 0.299$, against $a = 2.72$,
-$b = 1.724$, $R^2 = 0.974$. The exponent is sub-linear here and super-linear there. The cause is
-structural: their agents negotiate open-ended tool use with unbounded exchange, whereas a clinical
-panel answering a closed question terminates on unanimity. Turn counts by architecture are
+Fitting $T = a(n+0.5)^{b}$ gives $a = 0.85$, $b = 0.770$, $R^2 = 0.299$. The exponent is
+sub-linear, so turns grow more slowly than agents. A clinical panel answering a closed question
+terminates on unanimity rather than negotiating open-ended tool use. Turn counts by architecture are
 Decentralized $7.5$, Centralized $6.5$, Independent $5.0$, Hybrid $1.9$, against a single-agent
-$1.4$, a $1.4$ to $5.3\times$ range against the $3.6$ to $6.2\times$ they report. The hard resource
+$1.4$, a range of $1.4$ to $5.3\times$. The hard resource
 ceiling they infer from super-linear growth does not arise in tool-free consultation.
 
 \paragraph{Message density does not predict accuracy.}
-$S = 0.462 - 0.045\ln(c)$, $R^2 = 0.056$, against $S = 0.73 + 0.28\ln(c)$, $R^2 = 0.68$. The
-plateau at $c^{*} = 0.39$ that organises their architectures does not appear: our Centralized
-panels run at $c = 0.99$ and Decentralized at $c = 0.79$, both far beyond it, with no accuracy
-penalty. Once a panel is communicating at all, communicating more neither helps nor hurts.
+$S = 0.462 - 0.045\ln(c)$, $R^2 = 0.056$: message density explains almost none of the variance in
+accuracy. Our Centralized panels run at $c = 0.99$ and Decentralized at $c = 0.79$, well past the
+$c^{*} = 0.39$ plateau reported elsewhere, with no accuracy penalty. Once a panel is communicating at all, communicating more neither helps nor hurts.
 
 \paragraph{Error absorption is real but small.}
 Absorption $(E_{\mathrm{SAS}}-E_{\mathrm{MAS}})/E_{\mathrm{SAS}}$ is positive for every
@@ -389,8 +378,8 @@ Coordination failure & \textbf{0.0\%} & 3.0\% & 1.2\% & 0.0\% \\
 \end{center}
 
 The structural prediction replicates exactly: coordination failure is \textbf{0.0\%} under
-Independent coordination, as it is in the general-domain study, and for the same reason: with
-$C = \emptyset$ there is no channel on which coordination can fail. Hybrid is also at $0.0\%$
+Independent coordination, for a structural reason: with $C = \emptyset$ there is no channel on
+which coordination can fail. Hybrid is also at $0.0\%$
 because its triage gate declines to convene a panel on most items. The magnitudes do not
 replicate: peer verification is reported to cut logical contradiction from $16.8\%$ to $11.5\%$,
 whereas our first-round contradiction rate is flat at $6.3\%$ across communicating and
@@ -401,17 +390,14 @@ tool-using tasks ($3$--$5\%$ against $19$--$26\%$), as expected when no arithmet
 Discussion reduces the entropy of the panel's answer distribution by
 $\Delta\mathcal{I} = +0.90$ bits (Decentralized), $+1.46$ bits (Hybrid) and $+0.24$ bits
 (Centralized) between the first and final round. Panels converge, and they converge most where
-the architecture communicates most. In the general-domain study $\Delta\mathcal{I}$ correlates
-with the multi-agent advantage at $r = 0.71$ in structured domains; here convergence occurs
-whether or not the consensus is correct. That places medical consultation in the
-information-limited regime described for open-world browsing rather than the structured-domain
-one.
+the architecture communicates most. Convergence occurs whether or not the consensus is correct: $\Delta\mathcal{I}$ does not predict
+collaboration gain ($r = 0.055$, $p = 0.59$). Medical consultation is information-limited rather
+than information-transferring.
 
 \paragraph{Architecture rankings do not generalise across benchmarks.}
 Kendall's $\tau$ between the architecture rankings of any two benchmarks averages $+0.067$
-(pairwise $-0.200$, $+0.400$, $0.000$; none significant), against $\tau = 0.89$ across four general-domain
-benchmarks. Leave-one-benchmark-out cross-validation gives $R^2 = -0.015$ against a published $0.89$: a
-model fitted on two medical benchmarks predicts the third no better than the mean. Coordination
+(pairwise $-0.200$, $+0.400$, $0.000$; none significant). Leave-one-benchmark-out cross-validation gives $R^2 = -0.015$: a model fitted on two medical
+benchmarks predicts the third no better than the mean. Coordination
 principles that transcend task structure in general-domain agentic work do not transcend
 benchmark in medicine. This is the practical counterpart of the window: architecture must be
 selected per difficulty regime, and difficulty regime does not coincide with domain.
