@@ -1,19 +1,33 @@
-\begin{tabular}{@{}llrrrrrr@{}}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.02}
+\begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-Tier & Benchmark & SAS & \multicolumn{4}{c}{Best multi-agent variant (accuracy \% / $n_a$)} & Gain \\
-\cmidrule(lr){4-7}
- & & CoT & Independ. & Central. & Decentr. & Hybrid & best \\
+& Single & \multicolumn{4}{c}{Best multi-agent variant\ \ (accuracy \% / $n_a$)} & Gain \\
+\cmidrule(lr){3-6}
+Tier & doctor & Independ. & Central. & Decentr. & Hybrid & best \\
 \midrule
-T1 & MedXpertQA & 15.6 & 16.0\,/\,9 & 19.2\,/\,1 & 16.8\,/\,5 & 18.0\,/\,9 & +3.6 \\
-T2 & MedXpertQA & 32.0 & 33.8\,/\,5 & 37.2\,/\,9 & 38.0\,/\,7 & 35.2\,/\,5 & +6.0 \\
-T3 & MedXpertQA & 41.6 & 47.2\,/\,5 & 49.2\,/\,3 & 48.0\,/\,5 & 45.2\,/\,1 & +7.6 \\
-\addlinespace
-T1 & MedAgentsBench & 20.4 & 18.0\,/\,1 & 21.6\,/\,7 & 18.4\,/\,5 & 16.0\,/\,9 & +1.2 \\
-T2 & MedAgentsBench & 32.4 & 34.8\,/\,5 & 34.4\,/\,3 & 34.4\,/\,9 & 34.0\,/\,5 & +2.4 \\
-T3 & MedAgentsBench & 44.4 & 44.8\,/\,9 & 46.0\,/\,7 & 46.8\,/\,9 & 46.0\,/\,1 & +2.4 \\
-\addlinespace
-T1 & MedQA & 66.0 & 67.2\,/\,9 & 64.0\,/\,9 & 67.6\,/\,5 & 65.6\,/\,9 & +1.6 \\
-T2 & MedQA & 88.0 & 89.6\,/\,5 & 89.6\,/\,5 & 89.6\,/\,9 & 88.8\,/\,5 & +1.6 \\
-T3 & MedQA & 91.6 & 92.4\,/\,1 & 93.2\,/\,1 & 92.8\,/\,5 & 93.6\,/\,1 & +2.0 \\
+\rowcolor{sectbg}
+\multicolumn{7}{@{}l}{\textit{MedXpertQA} --- expert-level reasoning, 10 options} \\
+T1 & 15.6 & 16.0\,/\,9 & \textbf{19.2}\,/\,1 & 16.8\,/\,5 & 18.0\,/\,9 & \gp{+3.6} \\
+\winrow
+T2 & 32.0 & 33.8\,/\,5 & 37.2\,/\,9 & \textbf{38.0}\,/\,7 & 35.2\,/\,5 & \gp{\textbf{+6.0}} \\
+\winrow
+T3 & 41.6 & 47.2\,/\,5 & \textbf{49.2}\,/\,3 & 48.0\,/\,5 & 45.2\,/\,1 & \gp{\textbf{+7.6}} \\
+\midrule
+\rowcolor{sectbg}
+\multicolumn{7}{@{}l}{\textit{MedAgentsBench-hard} --- items where strong models still fail} \\
+T1 & 20.4 & 18.0\,/\,1 & \textbf{21.6}\,/\,7 & 18.4\,/\,5 & 16.0\,/\,9 & \gp{+1.2} \\
+\winrow
+T2 & 32.4 & \textbf{34.8}\,/\,5 & 34.4\,/\,3 & 34.4\,/\,9 & 34.0\,/\,5 & \gp{+2.4} \\
+\winrow
+T3 & 44.4 & 44.8\,/\,9 & 46.0\,/\,7 & \textbf{46.8}\,/\,9 & 46.0\,/\,1 & \gp{+2.4} \\
+\midrule
+\rowcolor{sectbg}
+\multicolumn{7}{@{}l}{\textit{MedQA (USMLE)} --- licensing-exam questions, 4 options} \\
+T1 & 66.0 & 67.2\,/\,9 & 64.0\,/\,9 & \textbf{67.6}\,/\,5 & 65.6\,/\,9 & \gp{+1.6} \\
+T2 & 88.0 & \textbf{89.6}\,/\,5 & \textbf{89.6}\,/\,5 & \textbf{89.6}\,/\,9 & 88.8\,/\,5 & \gp{+1.6} \\
+T3 & 91.6 & 92.4\,/\,1 & 93.2\,/\,1 & 92.8\,/\,5 & \textbf{93.6}\,/\,1 & \gp{+2.0} \\
 \bottomrule
+\multicolumn{7}{@{}l}{\scriptsize\textcolor{winink}{$\blacksquare$}\ \ shaded rows have a
+single-doctor baseline inside the 25--50\% collaboration window} \\
 \end{tabular}

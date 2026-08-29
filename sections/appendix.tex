@@ -137,9 +137,12 @@ Dotted: budget-matched self-consistency. Where gains occur they are captured by 
 \end{figure*}
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig5_distribution.pdf}
-\caption{\textbf{Single-agent versus multi-agent performance distributions.} Box plots over all
-configurations of each architecture, with individual configurations overlaid. Annotations give
-the change in mean relative to the single-agent baseline.}
+\caption{\textbf{Single doctor versus panel: performance distributions.} Box plots over all
+configurations of each architecture, with individual configurations overlaid. Bars are labelled
+\textsf{SAS} (single doctor), \textsf{Cen}, \textsf{Dec}, \textsf{Ind} and \textsf{Hyb} for
+Centralized, Decentralized, Independent and Hybrid. Annotations give the change in mean relative
+to the single doctor, as a percentage of that baseline. The spread within an architecture dwarfs
+the difference between architectures.}
 \label{fig:dist}
 \end{figure*}
 \begin{figure*}[t]\centering
@@ -178,14 +181,6 @@ directionally matching what they observe for OpenAI models, where heterogeneous 
 configurations degrade.
 
 
-\begin{table*}[t]\centering\small
-\caption{Main results. For each capability tier and benchmark: the single-agent baseline, then
-each architecture at its best panel size, and the gain of the best architecture over the single
-agent. The complete 180-configuration grid is Table~\ref{tab:full}.}
-\label{tab:main}
-\input{tables/main_results_compact.tex}
-\end{table*}
-
 
 
 
@@ -201,10 +196,11 @@ agent. The complete 180-configuration grid is Table~\ref{tab:full}.}
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig4_heterogeneity.pdf}
 \caption{\textbf{Agent heterogeneity.} Performance of Centralized and Decentralized panels at
-$n_a{=}3$ on MedXpertQA under five capability placements. High capability is
-\texttt{gpt-5-mini}, low is \texttt{gpt-4.1-nano}. Annotations give the change relative to the
-homogeneous high-capability panel (dashed line). Decentralized coordination has no orchestrator,
-so the two orchestrator-capability conditions are structurally undefined there and are omitted.}
+$n_a{=}3$ on MedXpertQA under five capability placements. Strong is \texttt{gpt-5-mini}, weak is
+\texttt{gpt-4.1-nano}; \emph{strong specialists} pairs a weak attending with strong specialists
+and \emph{strong attending} reverses that pairing. Annotations give the change relative to the
+all-strong panel (dashed line). Decentralized coordination has no attending, so the two
+attending-capability conditions are structurally undefined there and are omitted.}
 \label{fig:hetero}
 \end{figure*}
 \begin{table*}[t]\centering\small
@@ -294,11 +290,13 @@ Tier & Task type & $n$ & single doctor & best panel & gain \\
 \label{app:forest}
 
 \begin{figure*}[t]\centering
-\includegraphics[width=0.86\textwidth]{figures/fig7_forest.pdf}
-\caption{Collaboration gain with 95\% confidence intervals. Each row is one architecture at its
-best panel size within a difficulty stratum; strata are ordered by the single-doctor baseline
-$\PSA$ of their cell. Filled markers are significant at $p<0.05$, hollow are not. Shaded band:
-the 25--50\% window. Every filled marker inside the band lies right of zero; the only filled
-marker outside it lies left.}
+\includegraphics[width=\textwidth]{figures/fig7_forest.pdf}
+\caption{\textbf{Effect size for every configuration, ranked.} Collaboration gain with 95\%
+confidence intervals; each row is one architecture at its best panel size within a difficulty
+stratum, and rows run left to right in descending order of effect. Amber rows have a
+single-doctor baseline inside the 25--50\% window, grey rows outside it. Filled markers are
+significant at $p<0.05$, hollow are not. The ranking is what carries the claim: amber occupies
+the positive tail and grey the negative one, and every significant row on the positive side is
+amber while the only significant row on the negative side is grey.}
 \label{fig:forest}
 \end{figure*}

@@ -1,11 +1,22 @@
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.02}
 \begin{tabular}{@{}lrrrrrrrr@{}}
 \toprule
 NMI class & $k$ & Acc & $T$ & $c$ & $R$ & $O\%$ & $\Ec$ & $\Ae$ \\
 \midrule
-Centralized & 45 & 48.8 & 6.5 & 0.987 & 0.256 & 531 & 0.10 & 0.39 \\
-Decentralized & 45 & 49.4 & 7.5 & 0.785 & 0.257 & 670 & 0.17 & 0.31 \\
-Hybrid & 45 & 48.6 & 1.9 & 0.039 & 0.030 & 85 & 0.40 & 0.09 \\
-Independent & 45 & 48.4 & 5.0 & 0.000 & 0.256 & 322 & 0.20 & 0.34 \\
-SAS-repeated & 45 & 48.6 & 1.4 & 0.000 & 0.254 & 218 & 0.25 & 0.31 \\
+\rowcolor{sectbg}
+\multicolumn{9}{@{}l}{\textit{Panels that talk}} \\
+Centralized   & 45 & 48.8 & 6.5 & 0.987 & 0.256 & 531 & 0.10 & 0.39 \\
+Decentralized & 45 & \textbf{49.4} & 7.5 & 0.785 & 0.257 & \gn{670} & 0.17 & 0.31 \\
+\midrule
+\rowcolor{sectbg}
+\multicolumn{9}{@{}l}{\textit{Panels that mostly do not}} \\
+Independent   & 45 & 48.4 & 5.0 & 0.000 & 0.256 & 322 & 0.20 & 0.34 \\
+SAS-repeated  & 45 & 48.6 & 1.4 & 0.000 & 0.254 & 218 & 0.25 & 0.31 \\
+\winrow
+Hybrid        & 45 & 48.6 & 1.9 & 0.039 & 0.030 & \gp{\textbf{85}} & \gp{\textbf{0.40}}
+& \textbf{0.09} \\
 \bottomrule
+\multicolumn{9}{@{}l}{\scriptsize the shaded row reaches the same accuracy on
+$6\times$ less coordination overhead} \\
 \end{tabular}

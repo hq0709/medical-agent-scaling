@@ -14,6 +14,18 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{xcolor}
+\usepackage{colortbl}
+
+%% 表格配色：分节底色行 / 协作窗口内的行高亮 / 增益的正负色
+\definecolor{sectbg}{HTML}{E7E7E7}
+\definecolor{winbg}{HTML}{FBF1DD}
+\definecolor{winink}{HTML}{9A6A10}
+\definecolor{gainpos}{HTML}{2E8B57}
+\definecolor{gainneg}{HTML}{C0392B}
+\newcommand{\gp}[1]{\textcolor{gainpos}{#1}}
+\newcommand{\gn}[1]{\textcolor{gainneg}{#1}}
+%% 落在 25--50\% 协作窗口内的行
+\newcommand{\winrow}{\rowcolor{winbg}}
 
 \newcommand{\PSA}{P_{\mathrm{SA}}}
 \newcommand{\Ec}{E_{c}}

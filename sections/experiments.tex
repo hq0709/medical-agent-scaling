@@ -86,6 +86,18 @@ Across 180 multi-agent configurations and 63{,}499 episodes we find that collabo
 governed by task difficulty, not by panel size. Figure~\ref{fig:capability} gives the full
 dose--response surface; Table~\ref{tab:main} the underlying numbers.
 
+\begin{table*}[t]\centering\small
+\caption{\textbf{Main results.} For each capability tier and benchmark: the single-doctor
+baseline, then each architecture at its best panel size, and the gain of the best architecture
+over the single doctor. Bold marks the best architecture in each row. Shaded rows are the four
+cells whose single-doctor baseline falls inside the 25--50\% collaboration window; the two
+largest gains in the study, $+6.0$ and $+7.6$\,pp, are both shaded. The complete
+180-configuration grid is Table~\ref{tab:full}.}
+\label{tab:main}
+\input{tables/main_results_compact.tex}
+\end{table*}
+
+
 \paragraph{Collaboration pays only inside a window of task difficulty.}
 Binning all 180 multi-agent configurations by the single-doctor baseline $\PSA$ of their cell
 reveals a window rather than a ceiling (Fig.~\ref{fig:window}):
@@ -264,8 +276,12 @@ capacity.
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig6_coordination.pdf}
 \caption{\textbf{Coordination dynamics.} (a) Turn count against agent count, with our fit and the
-published general-domain power law for comparison. (b) Performance against message density, with a reference plateau marked at $c^{*}=0.39$. (c) Error amplification $\Ae$ and error absorption by
-architecture.}
+published general-domain power law for comparison; medical panels converse an order of magnitude
+less than that law predicts. (b) Performance against message density, with a reference plateau
+marked at $c^{*}=0.39$; performance is uncorrelated with how much the panel says. (c) Error
+amplification $\Ae$, the share of information a round discards, by architecture. (d) Error
+absorption, the share of individually wrong opinions the panel repairs, against the published
+$22.7\%$ reference.}
 \label{fig:coord}
 \end{figure*}
 
@@ -348,35 +364,46 @@ noise of the best panel (89.6\%) at lower cost, and on MedAgentsBench at T1 self
 the window says it should.
 
 \begin{table}[t]\centering\small
-\caption{Effective independent opinions. $\varphi$ is the mean pairwise error correlation between
-panel positions; $N_{\text{eff}} = N/(1+(N-1)\varphi)$. Hybrid is lower because its triage gate
-declines to convene a panel on most items, so its measured pairs are drawn from the harder subset
-it does escalate.}
+\caption{\textbf{Effective independent opinions.} $\varphi$ is the mean pairwise error
+correlation between panel positions; $N_{\text{eff}} = N/(1+(N-1)\varphi)$. Neither growing the
+panel nor changing how it is wired moves $\varphi$. The shaded row is the single exception:
+Hybrid's triage gate declines to convene a panel on most items, so its measured pairs come from
+the harder subset it does escalate.}
 \label{tab:neff}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.02}
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
-Architecture & $N$ & $\varphi$ & $N_{\text{eff}}$ & information used \\
+Architecture & $N$ & $\varphi$ & $N_{\text{eff}}$ & info.\ used \\
 \midrule
+\rowcolor{sectbg}
+\multicolumn{5}{@{}l}{\textit{Growing one panel: tripling $N$ buys $0.10$ of an opinion}} \\
 Independent   & 3 & 0.743 & 1.21 & 40\% \\
-              & 5 & 0.731 & 1.27 & 25\% \\
-              & 9 & 0.734 & 1.31 & 15\% \\
-\addlinespace
+Independent   & 5 & 0.731 & 1.27 & 25\% \\
+Independent   & 9 & 0.734 & 1.31 & 15\% \\
+\midrule
+\rowcolor{sectbg}
+\multicolumn{5}{@{}l}{\textit{Changing the architecture at $N{=}9$: no effect either}} \\
 Centralized   & 9 & 0.735 & 1.31 & 15\% \\
 Decentralized & 9 & 0.735 & 1.31 & 15\% \\
-Hybrid        & 9 & 0.493 & 1.82 & 20\% \\
+\winrow
+Hybrid        & 9 & \textbf{0.493} & \textbf{1.82} & 20\% \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\begin{figure}[t]\centering
-\includegraphics[width=\columnwidth]{figures/fig8_slope.pdf}
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig8_slope.pdf}
 \caption{\textbf{Adding agents adds almost no information, and discussion removes what is left.}
-(a) Effective independent opinions before and after peer discussion; each faint line is one
-configuration, the heavy line the mean. The dashed line marks a panel carrying as much independent
-information as one physician. (b) $N_{\mathrm{eff}}$ against panel size. The dotted diagonal is
-what independent opinions would give; the measured curve is nearly flat.}
+(a) Effective independent opinions $N_{\mathrm{eff}}=N/(1+(N-1)\varphi)$ against panel size, on a
+logarithmic scale. Dotted curves are contours of fixed error correlation $\varphi$; the solid line
+at $N_{\mathrm{eff}}{=}1$ is a panel worth one physician. Measured panels track the
+$\varphi{\approx}0.75$ contour, so nine members carry barely more than one opinion. (b) $\varphi$
+for every one of the 120 grid configurations, one point per configuration, with the median marked.
+The value is a near-constant of the setting rather than an artefact of any one cell, Hybrid
+routing is the only architecture that lowers it, and peer discussion drives it to $0.99$.}
 \label{fig:slope}
-\end{figure}
+\end{figure*}
 
 \subsection{The arithmetic premise of consultation}
 \label{sec:premise}
@@ -393,21 +420,29 @@ physicians; they make it into one physician wearing several labels.
 
 \begin{table}[t]\centering\small
 \setlength{\tabcolsep}{3.5pt}
-\caption{Clinical safety. Unanimity is measured on the last round with two or more agents;
-$P(\mathrm{wr.}\!\mid\!\mathrm{un.})$ is the chance a fully agreeing panel is wrong; the last
-column is the confidence gap between correct and incorrect answers, which is the signal a
-clinician would use to discount an answer.}
+\caption{\textbf{Clinical safety.} Unanimity is measured on the last round with two or more
+agents; $P(\mathrm{wr.}\!\mid\!\mathrm{un.})$ is the chance a fully agreeing panel is wrong;
+the last column is the confidence gap between correct and incorrect answers, the signal a
+clinician would use to discount an answer. The first row is the single doctor, for reference.
+Decentralized coordination buys the strongest appearance of agreement and the weakest usable
+signal at the same time.}
 \label{tab:safety}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.02}
 \begin{tabular}{@{}lrrr@{}}
 \toprule
 Architecture & unan. & $P(\mathrm{wr.}\!\mid\!\mathrm{un.})$ & conf.\ gap \\
 \midrule
-Single agent  & ---     & ---              & \textbf{3.3} \\
-Independent   & 66.2\%  & 46.5\%           & 2.8 \\
-Centralized   & 68.6\%  & \textbf{44.6\%}  & 2.7 \\
-Decentralized & \textbf{98.3\%} & 49.9\%   & \textbf{1.8} \\
-Hybrid        & 43.9\%  & 59.7\%           & 2.1 \\
+\rowcolor{sectbg}
+Single doctor & ---     & ---     & \textbf{3.3} \\
+Independent   & 66.2\%  & 46.5\%  & 2.8 \\
+Centralized   & 68.6\%  & 44.6\%  & 2.7 \\
+\winrow
+Decentralized & \gn{\textbf{98.3\%}} & 49.9\% & \gn{\textbf{1.8}} \\
+Hybrid        & 43.9\%  & \gn{59.7\%} & 2.1 \\
 \bottomrule
+\multicolumn{4}{@{}l}{\scriptsize the shaded row agrees almost always and is wrong half} \\
+\multicolumn{4}{@{}l}{\scriptsize the time it agrees} \\
 \end{tabular}
 \end{table}
 
@@ -439,10 +474,12 @@ not be read as evidence.
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig9_reliability.pdf}
 \caption{\textbf{Consultation degrades the signal a clinician would use to catch its errors.}
-(a) Reliability: empirical accuracy against stated confidence. Every architecture sits far below
-the diagonal, so panels are not merely uninformative about their own reliability but
-systematically overconfident. (b) The confidence gap between correct and incorrect answers, which
-is the quantity a reader would use to discount an answer. Peer discussion halves it.}
+(a) Overconfidence, defined as stated confidence minus the accuracy actually achieved at that
+confidence, against stated confidence. Perfect calibration is the solid line at zero; every
+architecture sits $25$--$43$\,pp above it at every confidence level, so panels are not merely
+uninformative about their own reliability but systematically overconfident. (b) The confidence gap
+between correct and incorrect answers, which is the quantity a reader would use to discount an
+answer. Peer discussion nearly halves it.}
 \label{fig:reliability}
 \end{figure*}
 
