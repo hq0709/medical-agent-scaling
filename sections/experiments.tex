@@ -789,6 +789,30 @@ Confidence spread         & 0.563 & 0.118 \\
 \end{tabular}
 \end{table}
 
+\paragraph{Held out: a second vendor confirms the headroom half and refutes the rest.}
+The window and its decomposition were derived on the OpenAI grid. Gemini~3.5~Flash~Lite provides a
+held-out test, since it was never used to define either. Running the same $27$-cell architecture
+grid on all three benchmarks places it inside the window twice (MedXpertQA $\PSA{=}34.8\%$,
+MedAgentsBench $31.2\%$) and far outside it once (MedQA $84.8\%$), so the prediction is two-sided
+rather than selected.
+
+Headroom behaves exactly as the OpenAI grid says it should. Inside the window the panel holds
+$+12.0$ and $+14.8$\,pp of recoverable accuracy; outside it holds $+6.4$. That is the same
+two-fold contrast we measure on OpenAI ($+15.5$ against $+5.7$), on a vendor that had no part in
+producing it.
+
+The gain does not follow. On MedQA the panel gains $+4.8$\,pp with $13$ of $20$ configurations
+significantly better, where the corresponding OpenAI cells at $88.0\%$ and $91.6\%$ gain $1.6$ and
+$2.0$\,pp with none significant. Eq.~\ref{eq:decomp} says where to look, and the answer is not
+headroom: at $84.8\%$ this panel holds $+6.4$\,pp, the same as \texttt{gpt-5-mini} at $91.6\%$.
+What differs is $\kappa$. This cell recovers $\mathbf{75\%}$ of its headroom, the highest capture
+rate anywhere in the study and more than twice the best OpenAI cell ($43\%$). The window is a
+statement about how much a panel \emph{contains}, and that statement transfers across vendors. How
+much it \emph{recovers} is a property of the model, it varies by a factor of six across the cells
+we measure, and a model with an unusually good aggregation profile can pay for itself on a task
+where the window says there is little to gain. Practitioners should read $\PSA$ as identifying
+where the opportunity is, not as a licence to skip measuring whether their own system takes it.
+
 \paragraph{The one architecture built to select cannot.}
 Eq.~\ref{eq:decomp} says the lever that matters is $\kappa$, and $\kappa$ requires deciding which
 opinion to trust. Hybrid is the only architecture here that tries: a triage gate escalates to a
