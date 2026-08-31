@@ -572,33 +572,46 @@ correlation could have reached. Mixing model families decorrelates genuinely, an
 \begin{table}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.02}
-\caption{\textbf{Three sources of panel diversity.} Normalised correlation
+\caption{\textbf{Four sources of panel diversity.} Normalised correlation
 $\varphi/\varphi_{\max}$ is the quantity that is not confounded by unequal error rates.
-Cross-family pairs span \texttt{gpt-4o}, \texttt{gpt-4.1} and \texttt{gpt-5}, three separately
-trained OpenAI families. Even the most diverse construction we can assemble carries $2.6$
-independent opinions out of nine.}
+Rows relax, in turn, what makes two panel members different: a prompt, a checkpoint, a training
+family (\texttt{gpt-4o} / \texttt{gpt-4.1} / \texttt{gpt-5}), and finally the vendor
+(OpenAI $\leftrightarrow$ Google Gemini). The last step---the one usually assumed to be the
+answer---moves nothing. $n$ is model pairs.}
 \label{tab:diversity}
-\begin{tabular}{@{}lrrrr@{}}
+\begin{tabular}{@{}lrrrrr@{}}
 \toprule
-Source of diversity & $\varphi$ & $\varphi_{\max}$ & $\varphi/\varphi_{\max}$ & $N_{\text{eff}}^{9}$ \\
+Source of diversity & $n$ & $\varphi$ & $\varphi_{\max}$ & $\varphi/\varphi_{\max}$ & $N_{\text{eff}}^{9}$ \\
 \midrule
 \sectrow
-One model, specialty prompts & 0.734 & 0.958 & 0.766 & 1.31 \\
-Distinct models, one family  & 0.437 & 0.815 & 0.536 & 2.00 \\
+One model, specialty prompts & --- & 0.734 & 0.958 & 0.766 & 1.31 \\
+Distinct models, one family  & 12 & 0.437 & 0.815 & 0.536 & 2.00 \\
+Distinct families, one vendor & 36 & 0.309 & 0.676 & 0.457 & 2.59 \\
 \winrow
-Distinct models, three families & 0.308 & 0.686 & \textbf{0.450} & \textbf{2.60} \\
+Distinct \emph{vendors} & 36 & 0.316 & 0.657 & \textbf{0.481} & \textbf{2.55} \\
 \midrule
-\textit{fully independent} & 0 & 1 & 0 & 9.00 \\
+\textit{fully independent} & --- & 0 & 1 & 0 & 9.00 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \paragraph{Independence is for sale, and the price is more than it is worth.}
-The three constructions in Table~\ref{tab:diversity} order cleanly, and the ordering is the
+The constructions in Table~\ref{tab:diversity} order cleanly, and the ordering is the
 practitioner's menu. Specialty prompts leave $\varphi/\varphi_{\max}$ at $0.766$. Swapping in
 genuinely different checkpoints from one family reaches $0.536$, and reaching across three
-independently trained families reaches $0.450$---still a nine-member panel worth $2.6$ opinions,
-not nine. The remaining lever is capability spread, and it is a trap. The least correlated pair in
+independently trained families reaches $0.457$---a nine-member panel worth $2.6$ opinions, not
+nine. Crossing the vendor boundary, which is where the remaining hope for independence usually
+sits, does not continue the trend: pairing Gemini~3.5~Flash~Lite and Gemini~3.7~Flash against the
+OpenAI ladder over the same $750$ items gives $\varphi/\varphi_{\max} = 0.481$ and
+$N_{\text{eff}} = 2.55$, statistically indistinguishable from staying inside one vendor
+($\hat\beta_{\text{same vendor}} = -0.021$, $95\%$ CI $[-0.099, +0.056]$ on normalised
+correlation, with the family term unchanged at $+0.082$). The comparison is not confounded by
+capability: Gemini~3.5~Flash~Lite scores $34.8/31.2/84.8\%$ on our three benchmarks against
+\texttt{gpt-5-nano}'s $32.0/32.4/88.0\%$, and restricting to pairs whose error rates differ by
+less than $5$\,pp---where $\varphi_{\max}$ averages $0.9$ and the mechanical artefact nearly
+vanishes---leaves cross-vendor pairs at $0.429$ against $0.386$ within a vendor, if anything
+\emph{more} correlated. Two models from different companies, trained on different corpora with
+different objectives, fail on the same medical items as reliably as two checkpoints from one lab. The remaining lever is capability spread, and it is a trap. The least correlated pair in
 the study, \texttt{gpt-4o-mini} with \texttt{gpt-5-mini}, reaches $\varphi = 0.057$ by way of a
 $35$-point accuracy gap: its members disagree because one of them is much worse. Convened as a
 panel, a mixed-capability roster reaches $N_{\text{eff}} = 1.72$, the highest we measure, and

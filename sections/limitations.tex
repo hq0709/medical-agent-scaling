@@ -13,16 +13,15 @@ and we would expect coordination metrics to matter more there. What does not dep
 is the selection result: whatever a panel produces, something has to decide which member to
 believe, and the signal available for that decision is the one we measure to be uninformative.
 
-All models come from one vendor, so the diversity ladder in Table~\ref{tab:diversity} reaches
-across separately trained OpenAI families rather than across vendors. We can bound what that
-leaves open rather than speculate about it. Within this ecosystem, moving from role prompts to
-distinct checkpoints to three distinct families lowers the normalised correlation from $0.766$ to
-$0.536$ to $0.450$, so a nine-member panel goes from $1.31$ to $2.00$ to $2.60$ effective
-opinions. A cross-vendor panel would have to decorrelate roughly twice as far again as the whole
-within-vendor ladder does to reach even five effective opinions out of nine, and it would have to
-do so at matched member capability, since the one lever that moves $\varphi$ further in our data
-does so by seating a weaker member and costs more accuracy than the added independence returns.
-Both conditions are testable; neither is assumed here.
+The diversity ladder spans two vendors, OpenAI and Google, and measures the vendor boundary
+rather than assuming anything about it (\S\ref{sec:premise}); it does not span all of them. Two
+readings remain open. A vendor whose training corpus or objective departs further from the
+current consensus than Gemini does from GPT might decorrelate where these two do not, and our
+grid cannot exclude it. And our benchmarks are static text items, so a vendor difference that
+showed up only in tool use, retrieval or hedging behaviour would not register here. What the
+measurement does close is the specific hope that motivated the question---that pooling across the
+major commercial labs is what makes a panel independent. Between the two largest, at matched
+capability, it is not.
 
 The window is a property of the model--task pairing, not of individual items. Re-deriving it
 within each cell, using an item difficulty defined by the leave-one-out mean accuracy of the other
