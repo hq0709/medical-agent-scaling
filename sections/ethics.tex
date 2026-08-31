@@ -1,0 +1,35 @@
+\section*{Ethics Statement}
+
+This work uses only public benchmark items derived from licensing examinations and published case
+collections. No patient data, no human subjects and no clinical deployment are involved.
+
+The findings carry a deployment risk that we want to state plainly rather than leave implicit. We
+show that multi-agent consultation systems manufacture the \emph{appearance} of corroboration
+without the substance: peer discussion drives unanimity from $66\%$ to $98\%$ while the error rate
+given unanimity stays at $50\%$, confidence rises more on wrong answers than on right ones, and the
+confidence gap a reader would use to discount an answer is compressed by $45\%$. A unanimous,
+high-confidence multidisciplinary recommendation is simultaneously the output a clinician is most
+likely to act on and, among the outputs we measure, the one whose reliability is least legible from
+its own signals. Anyone deploying such a system owes its users an explicit statement that panel
+agreement is not evidence of correctness, and should not surface consensus or confidence as a
+trust cue in a clinical interface. The same property makes these systems attractive for producing
+medical misinformation that reads as authoritative, since apparent expert consensus is cheap to
+manufacture and, as we show, uninformative.
+
+Our measurements point to three specific mitigations rather than a general caution. First, do not
+surface unanimity or aggregate confidence as a trust cue: in our data a unanimous panel is wrong
+$50\%$ of the time, and no statistic a panel can compute about itself---stated confidence, answer
+entropy, majority share, minimum member confidence---separates its right answers from its wrong
+ones better than $\mathrm{AUC} = 0.60$. An interface that reports ``all five specialists agree''
+is reporting a quantity with almost no diagnostic content while implying the opposite. Second,
+surface the panel's \emph{disagreements} instead, and surface them unresolved: on $9.6\%$ of items
+exactly one member is right, which is where the panel's whole value lies, and a resolved consensus
+destroys precisely that information before the clinician sees it. Third, route verification
+outward. The one intervention our diversity ladder shows to be large is a judgement from outside
+the model ecosystem, consistent with the hybrid human--model collectives of
+\citet{zoller2025hybrid}; verification against retrieved evidence or a clinician is a different
+kind of signal from more agreement among models, and only the different kind changes the
+arithmetic.
+
+We report the failure mode as a measured property of systems already being built and deployed,
+not as a novel capability.

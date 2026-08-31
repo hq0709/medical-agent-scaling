@@ -1,31 +1,49 @@
 \section{Conclusion}
 
-Consultation works in human medicine because physicians fail differently. Our measurements say
-that language-model panels do not. Agents prompted into different specialties make the same
-mistakes ($\varphi = 0.73$), and discussion pushes them into near-perfect agreement
-($\varphi = 0.986$), leaving a six-member consultation with $1.01$ effective independent
-opinions. Every other result in this paper is a shadow of that one.
+A consultation is worth convening only if somebody in the room is right when the others are wrong,
+and the room can tell who. Our measurements say that panels of language models have a little of
+the first and almost none of the second.
 
-Panel size cannot matter, because it does not change what the panel knows. Across
-$N \in \{3, \dots, 9\}$ the effective number of opinions moves from $1.21$ to $1.31$, and panel
-size alone predicts collaboration gain at cross-validated $R^2 = -0.006$. Consensus cannot be
-trusted, because it is agreement among copies. Unanimity reaches 98\% while the error rate given
-unanimity stays at 50\%, and the confidence signal that would let a clinician catch the difference
-is compressed by 45\%. What remains is a narrow window of task difficulty, roughly 25--50\%
-single-doctor accuracy. Inside it, coordination recovers enough complementary information to pay
-for itself. Outside it, coordination reliably does not.
+The first is scarcer than the design pattern assumes, and it does not come from where the design
+pattern puts it. Agents prompted into different specialties make the same mistakes
+($\varphi = 0.734$), leaving a nine-member panel with $1.31$ effective independent opinions, and
+peer discussion pushes them into near-perfect agreement ($\varphi = 0.986$), leaving a six-member
+consultation with $1.01$. Of the $12.7$\,pp that separates one doctor from the best answer anywhere
+in a nine-member panel, $92\%$ is already available from asking one generalist the same question
+nine times; the specialty roster---the defining feature of the systems built on this
+pattern---contributes the other $8\%$. Independence can be bought, but not cheaply and not
+usefully: three independently trained model families reach $2.59$ effective opinions out of nine
+and swapping vendor entirely---Gemini against GPT, at matched capability---reaches $2.55$,
+and the least correlated panel we can assemble reaches that state by seating a much weaker member
+and then performs like the stronger member working alone.
 
-Two design conclusions follow for medical deployments. First, the variable worth controlling is
-not how many agents but whether a competent one audits the others before the system commits:
-centralized coordination with a capable orchestrator produces the largest gain we measure, and the
-same architecture with a weak orchestrator produces the largest loss. Specialist capability
-matters $4.1\times$ more than the orchestrator's, so capability belongs on the agents doing the
-reasoning. Second, the deployment decision should be made by measuring the single-model baseline
-on the intended case mix before choosing an architecture at all. Outside the window, a
-budget-matched self-consistency control matches or beats every architecture we tested, at a
-fraction of the cost.
+The second is the binding constraint. On a scale where picking a panel member at random scores $0$
+and always picking a correct one scores $100$, majority voting scores $0.6$, an auditing
+orchestrator $6.5$, peer debate $8.6$ and tiered referral $8.8$. The panel usually holds the
+answer it does not give. The quantity such a system would need---a signal separating a right member
+from a wrong one---is missing: self-reported confidence separates them with Youden $J = 0.071$, and
+the one architecture here that tries to route on it convenes a panel on $12.4\%$ of items and never
+once on one benchmark--model cell. Collaboration gain factors as available signal times the
+fraction recovered, and the window of task difficulty in which coordination pays is exactly the
+interval where both factors are favourable.
 
-The broader caution is about what a consulting AI system advertises. A unanimous,
-high-confidence multidisciplinary recommendation is the output a clinician is most likely to act
-on, and in these experiments it is the output whose reliability is least legible from its own
-signals. Making panels agree is easy. Making them independent is the open problem.
+Three knobs the field is turning, and one it is not. Panel size: over $N \in \{3,\dots,9\}$ the
+effective number of opinions moves from $1.21$ to $1.31$, and panel size alone predicts gain at
+cross-validated $R^2 = -0.006$. The specialty roster: a temperature setting reproduces $92\%$ of
+what it buys. Coordination topology: inside the window, where panels do help, all $24$ pairwise
+architecture contrasts are non-significant, so star, complete, tiered and edgeless are
+indistinguishable from one another while $20$ of them beat the single doctor. The knob that is
+not being turned is verification: every point of headroom the field is trying to reach through richer
+coordination protocols is already present in the panel and is being discarded for want of a way to
+recognise it. Where a panel is deployed anyway, the decision should be made by measuring the
+single-model baseline on the intended case mix first---outside the window, budget-matched
+self-consistency matches or beats every architecture we tested at a fraction of the cost---and
+capability belongs on the agents doing the reasoning rather than the one supervising them, which
+matters $4.1\times$ more.
+
+The broader caution is about what a consulting system advertises. A unanimous, high-confidence
+multidisciplinary recommendation is the output a clinician is most likely to act on, and in these
+experiments it is the output whose reliability is least legible from its own signals: unanimity
+reaches $98\%$ while the error rate given unanimity stays at $50\%$, and the confidence gap that
+would let a reader tell the difference is compressed by $45\%$. Making medical panels agree is
+easy. Making them \emph{decidable} is the open problem.
