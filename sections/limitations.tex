@@ -4,14 +4,12 @@
 Our tasks are multiple-choice examination items, not clinical encounters. They carry no history
 taking, no test ordering, no longitudinal follow-up, and the exact-match endpoint rewards the
 option-selection component of diagnosis only. The $T=0$ property that makes the design clean also
-bounds what it licenses: results here do not extrapolate to tool-using clinical agents. One
-finding is particularly exposed to this. Message density explains almost none of the variance in
-performance ($R^2 = 0.056$), which we read as coordination buying little; an equally consistent
-reading is that a closed-option item leaves the panel little worth transmitting. The two readings
-separate in open-ended settings where agents must generate a differential and request evidence,
-and we would expect coordination metrics to matter more there. What does not depend on the format
-is the selection result: whatever a panel produces, something has to decide which member to
-believe, and the signal available for that decision is the one we measure to be uninformative.
+bounds what it licenses: results here do not extrapolate to tool-using clinical agents. Message
+density explains almost none of the variance in performance ($R^2 = 0.056$) in this format, and
+open-ended settings where agents must generate a differential and request evidence give
+coordination more to carry; we would expect those metrics to matter more there. The selection
+result does not depend on the format---whatever a panel produces, something has to decide which
+member to believe.
 
 The diversity ladder spans two vendors, OpenAI and Google, and measures the vendor boundary
 rather than assuming anything about it (\S\ref{sec:premise}); it does not span all of them. Two
@@ -22,13 +20,6 @@ showed up only in tool use, retrieval or hedging behaviour would not register he
 measurement does close is the specific hope that motivated the question---that pooling across the
 major commercial labs is what makes a panel independent. Between the two largest, at matched
 capability, it is not.
-
-The window is a property of the model--task pairing, not of individual items. Re-deriving it
-within each cell, using an item difficulty defined by the leave-one-out mean accuracy of the other
-five models and estimating baseline and gain on disjoint halves of each stratum, does not reproduce
-the pattern (quadratic peak at $88\%$, $r = +0.13$ between stratum baseline and gain). Practitioners
-should read the window as a statement about which deployments to convene a panel for, not as a
-per-item triage rule.
 
 Panels are nested by construction (\S2.2), so the reported curves estimate accuracy as a routed
 panel is extended, not the expected accuracy of independently redrawn panels at each size. The

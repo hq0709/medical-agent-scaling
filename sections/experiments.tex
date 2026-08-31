@@ -161,22 +161,16 @@ audit its own specialists overrides answers the panel had right. The window is n
 description of where gains concentrate. It is a two-sided boundary, and the harm on the far side
 is as significant as the benefit within.
 
-\paragraph{The partition does not depend on where we drew the edges.}
-Nine model--benchmark cells give nine distinct values of $\PSA$
-($15.6$, $20.4$, $32.0$, $32.1$, $32.4$, $41.6$, $44.4$, $66.0$, $88.0$, $91.6$),
-so the window's endpoints are
-identified only up to the gaps between them: any lower edge in $(20.4, 32.0]$ and any upper edge
-in $(44.4, 66.0]$ describes the same partition of the data. That is not a weakness to be hedged
-around, because the partition is \emph{exactly invariant} over the whole identified region. Every
-one of $[22,52)$, $[25,50)$, $[25,45)$, $[28,48)$, $[30,45)$, $[25,55)$, $[25,60)$ and $[25,66)$
-yields the identical $20/0$ inside and $0/10$ outside. The partition breaks only when the lower
-edge is pushed below $20.4$---at $[20,55)$ or $[15,50)$ the count becomes $20/9$ inside---because
-that admits the \texttt{gpt-4.1-nano}/MedAgentsBench cell, which carries nine of the ten
-significant degradations. Readers asking whether $25$--$50\%$ is distinguishable from $20$--$55\%$
-have the answer: it is, and the reason is a single cell rather than a choice of bin width. We
-therefore report the window as an interval of task difficulty and not as an estimate with a
-spurious standard error; the boundary is where the data place it, and the data place it to within
-one cell.
+\paragraph{The partition is invariant over the interval the data identify.}
+The window is an interval of task difficulty rather than a point estimate, and the data locate it
+to within one cell. Nine model--benchmark cells give nine values of $\PSA$
+($15.6$, $20.4$, $32.0$, $32.1$, $32.4$, $41.6$, $44.4$, $66.0$, $88.0$, $91.6$), and every lower
+edge in $(20.4, 32.0]$ paired with every upper edge in $(44.4, 66.0]$ produces the same $20/0$
+inside and $0/10$ outside---$[22,52)$, $[25,50)$, $[25,45)$, $[28,48)$, $[30,45)$, $[25,55)$,
+$[25,60)$ and $[25,66)$ all agree. The partition changes only when the lower edge falls below
+$20.4$ and admits the \texttt{gpt-4.1-nano}/MedAgentsBench cell, which carries nine of the ten
+significant degradations; at $[20,55)$ the count becomes $20/9$. The boundary is set by that cell,
+not by a choice of bin width (\S\ref{app:window}).
 
 \paragraph{Inside the window every architecture beats the single doctor and none beats another.}
 Convening a panel matters; which panel does not. Taking each architecture at its best panel size
@@ -555,6 +549,22 @@ independence measurement explains why that is not a null result but a necessary 
 $N \in \{3, \dots, 9\}$, $N_{\text{eff}}$ moves from $1.21$ to $1.31$. The regressor that
 matters barely varies, so the regressor we can control cannot predict. Any design effort spent on
 how many agents to deploy is spent on the wrong variable.
+\paragraph{Putting the right specialist on the case does not help.}
+The arithmetic above says a specialty roster buys little diversity. Medicine offers a more direct
+test of the same premise. Every MedXpertQA item is labelled with the body system it concerns, and
+the router ranks specialties by relevance, so at a given panel size some items receive a panel
+containing the specialty that owns their body system---a neurologist on a nervous-system
+case---and others do not. If convening the right specialist is what a multidisciplinary panel is
+for, the first group should gain more.
+
+We compare the \emph{gain over the single doctor} on the same items, which absorbs item difficulty
+into the baseline. Across three models at
+$n_a \in \{3,5\}$ the difference between panels that contain the matching specialty and panels
+that do not is $\mathbf{-0.05}$\,pp on average, and one of the six contrasts reaches $p<0.05$,
+which is what six comparisons produce by chance. A cardiologist on a cardiac case is worth nothing
+measurable, because the specialty prompt changes what the agent says it is and not what the model
+knows.
+
 \paragraph{Correlation has a ceiling, and half of the reported decorrelation is that ceiling.}
 Two binary error indicators with unequal marginals cannot reach $\varphi = 1$. Writing $p$ and
 $q$ for the two members' error rates, ordered $p \le q$, the attainable maximum is
@@ -801,17 +811,37 @@ $+12.0$ and $+14.8$\,pp of recoverable accuracy; outside it holds $+6.4$. That i
 two-fold contrast we measure on OpenAI ($+15.5$ against $+5.7$), on a vendor that had no part in
 producing it.
 
-The gain does not follow. On MedQA the panel gains $+4.8$\,pp with $13$ of $20$ configurations
-significantly better, where the corresponding OpenAI cells at $88.0\%$ and $91.6\%$ gain $1.6$ and
-$2.0$\,pp with none significant. Eq.~\ref{eq:decomp} says where to look, and the answer is not
-headroom: at $84.8\%$ this panel holds $+6.4$\,pp, the same as \texttt{gpt-5-mini} at $91.6\%$.
-What differs is $\kappa$. This cell recovers $\mathbf{75\%}$ of its headroom, the highest capture
-rate anywhere in the study and more than twice the best OpenAI cell ($43\%$). The window is a
-statement about how much a panel \emph{contains}, and that statement transfers across vendors. How
-much it \emph{recovers} is a property of the model, it varies by a factor of six across the cells
-we measure, and a model with an unusually good aggregation profile can pay for itself on a task
-where the window says there is little to gain. Practitioners should read $\PSA$ as identifying
-where the opportunity is, not as a licence to skip measuring whether their own system takes it.
+The measured gain does not follow, and the reason is instructive about the metric rather than
+about the vendor. On MedQA the Gemini panel gains $+4.8$\,pp where the capability-matched
+\texttt{gpt-5-nano} gains $1.6$. But the two panels arrive at the \emph{same place}: both reach
+$89.6\%$. They differ in where they started, $84.8\%$ against $88.0\%$, and in the oracle ceiling
+above them, $91.2\%$ against $94.8\%$. Two systems producing identical output are therefore scored
+at $75\%$ and $24\%$ capture and at $+4.8$ and $+1.6$\,pp of gain. Gain and capture are ratios
+anchored to a baseline and a ceiling that are themselves model properties; headroom is the term
+that transfers. What replicates across the vendor boundary is how much a panel of a given
+competence \emph{contains}. Where it ends up is set by the model, not by the architecture---which
+is the same conclusion the OpenAI grid reaches from the other direction.
+
+\paragraph{A selector trained on the answers does not beat counting votes.}
+Nothing that reads the panel's output does better, including a model fitted on the answers. For
+each of the $28{,}711$ panel
+episodes we formed one row per distinct candidate answer, with fifteen features computable from
+the panel's own first round: vote share, margin over the runner-up, the mean, maximum, minimum and
+spread of the confidences attached to that candidate, that candidate's confidence relative to the
+panel mean, rationale lengths, the number of distinct answers, the entropy of the vote
+distribution, and panel size. The label is whether the candidate is correct. We trained a logistic
+regression and a gradient-boosting classifier under five-fold cross-validation grouped by item:
+fitted on ground truth, tested in the same distribution, with access to everything the panel
+emits.
+
+Neither beats majority vote. Selecting the highest-scoring candidate gives $47.40\%$ (logistic)
+and $46.79\%$ (boosted trees) against $47.50\%$ for taking the plurality, while the oracle reaches
+$57.26\%$. On the capture scale the two learned selectors score $-1.1$ and $-7.4$: the extra
+features are noise. The $9.76$\,pp between plurality and oracle is not merely unexploited by the
+rules practitioners use; it is unexploited by a model fitted on the answers. Whatever distinguishes
+the panel's correct minority from its confident majority is not present in what the panel emits,
+which is why the productive direction is verification from outside the panel rather than a better
+rule for reading it.
 
 \paragraph{The one architecture built to select cannot.}
 Eq.~\ref{eq:decomp} says the lever that matters is $\kappa$, and $\kappa$ requires deciding which

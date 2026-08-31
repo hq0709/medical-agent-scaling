@@ -321,3 +321,55 @@ the positive tail and grey the negative one, and every significant row on the po
 amber while the only significant row on the negative side is grey.}
 \label{fig:forest}
 \end{figure*}
+
+\section{Robustness of the window boundary}
+\label{app:window}
+
+The nine model--benchmark cells give nine values of $\PSA$, so the window's endpoints are
+identified up to the gaps between adjacent observed baselines. Table~\ref{tab:winrobust} lists the
+partition under every edge pair we considered.
+
+\begin{table}[h]\centering\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.02}
+\caption{Significant contrasts under alternative window edges. Counts are McNemar $p<0.05$ against
+the single doctor across all 180 configurations.}
+\label{tab:winrobust}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Window & in $\uparrow$ & in $\downarrow$ & out $\uparrow$ & out $\downarrow$ \\
+\midrule
+\winrow
+$[22,52)$ & 20 & 0 & 0 & 10 \\
+\winrow
+$[25,50)$ & 20 & 0 & 0 & 10 \\
+\winrow
+$[25,45)$ & 20 & 0 & 0 & 10 \\
+\winrow
+$[28,48)$ & 20 & 0 & 0 & 10 \\
+\winrow
+$[30,45)$ & 20 & 0 & 0 & 10 \\
+\winrow
+$[25,55)$ & 20 & 0 & 0 & 10 \\
+\winrow
+$[25,60)$ & 20 & 0 & 0 & 10 \\
+\winrow
+$[25,66)$ & 20 & 0 & 0 & 10 \\
+\midrule
+$[20,55)$ & 20 & 9 & 0 & 1 \\
+$[20,50)$ & 20 & 9 & 0 & 1 \\
+$[15,50)$ & 20 & 9 & 0 & 1 \\
+\bottomrule
+\multicolumn{5}{@{}l}{\scriptsize Shaded rows are the eight edge pairs inside the identified} \\
+\multicolumn{5}{@{}l}{\scriptsize region. The three below admit the
+\texttt{gpt-4.1-nano}/MedAgentsBench} \\
+\multicolumn{5}{@{}l}{\scriptsize cell at $\PSA{=}20.4\%$, which carries nine of the ten
+significant losses.} \\
+\end{tabular}
+\end{table}
+
+Item-level difficulty does not reproduce the pattern. Re-deriving the window within each cell,
+with item difficulty defined by the leave-one-out mean accuracy of the other five models and
+baseline and gain estimated on disjoint halves of each stratum, gives a quadratic peak at $88\%$
+and $r = +0.13$ between stratum baseline and gain. The window is a property of the model--task
+pairing, not a per-item triage rule.
