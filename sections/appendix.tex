@@ -137,9 +137,12 @@ Dotted: budget-matched self-consistency. Where gains occur they are captured by 
 \end{figure*}
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig5_distribution.pdf}
-\caption{\textbf{Single-agent versus multi-agent performance distributions.} Box plots over all
-configurations of each architecture, with individual configurations overlaid. Annotations give
-the change in mean relative to the single-agent baseline.}
+\caption{\textbf{Single doctor versus panel: performance distributions.} Box plots over all
+configurations of each architecture, with individual configurations overlaid. Bars are labelled
+\textsf{SAS} (single doctor), \textsf{Cen}, \textsf{Dec}, \textsf{Ind} and \textsf{Hyb} for
+Centralized, Decentralized, Independent and Hybrid. Annotations give the change in mean relative
+to the single doctor, as a percentage of that baseline. The spread within an architecture dwarfs
+the difference between architectures.}
 \label{fig:dist}
 \end{figure*}
 \begin{figure*}[t]\centering
@@ -149,6 +152,7 @@ questions, with SEM error bars on both axes. Each point is one configuration.}
 \label{fig:cost}
 \end{figure*}
 \subsection{Where capability belongs inside a panel}
+\label{app:hetero}
 
 \paragraph{Specialist capability matters four times more than the orchestrator's.}
 Replacing the whole panel with weak models costs $34.4$ pp (49.2\% to 14.8\%). Splitting that
@@ -178,33 +182,9 @@ directionally matching what they observe for OpenAI models, where heterogeneous 
 configurations degrade.
 
 
-\begin{table*}[t]\centering\small
-\caption{Main results. For each capability tier and benchmark: the single-agent baseline, then
-each architecture at its best panel size, and the gain of the best architecture over the single
-agent. The complete 180-configuration grid is Table~\ref{tab:full}.}
-\label{tab:main}
-\input{tables/main_results_compact.tex}
-\end{table*}
 
-\begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig1_capability.pdf}
-\caption{\textbf{Agent scaling across model capability and system architecture.} Performance
-against the task-grounded capability index $I$ (mean single-doctor accuracy across the three
-benchmarks), for each architecture, on each benchmark. Each architecture is shown at its
-best-performing panel size. Dashed grey: single-agent baseline. Green arrows give the gain of the
-best architecture over the single agent at the strongest model.}
-\label{fig:capability}
-\end{figure*}
 
-\begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig3_window.pdf}
-\caption{\textbf{Collaboration pays only inside a window of task difficulty.} (a) Collaboration
-gain against the single-doctor baseline $\PSA$ for every multi-agent configuration; The shaded band
-marks the 25--50\% window; the dashed line is the previously reported 45\% capability ceiling. (b) The same
-data binned; annotations give the fraction of configurations in each bin that improve on the
-single doctor.}
-\label{fig:window}
-\end{figure*}
+
 
 
 
@@ -217,10 +197,11 @@ single doctor.}
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig4_heterogeneity.pdf}
 \caption{\textbf{Agent heterogeneity.} Performance of Centralized and Decentralized panels at
-$n_a{=}3$ on MedXpertQA under five capability placements. High capability is
-\texttt{gpt-5-mini}, low is \texttt{gpt-4.1-nano}. Annotations give the change relative to the
-homogeneous high-capability panel (dashed line). Decentralized coordination has no orchestrator,
-so the two orchestrator-capability conditions are structurally undefined there and are omitted.}
+$n_a{=}3$ on MedXpertQA under five capability placements. Strong is \texttt{gpt-5-mini}, weak is
+\texttt{gpt-4.1-nano}; \emph{strong specialists} pairs a weak attending with strong specialists
+and \emph{strong attending} reverses that pairing. Annotations give the change relative to the
+all-strong panel (dashed line). Decentralized coordination has no attending, so the two
+attending-capability conditions are structurally undefined there and are omitted.}
 \label{fig:hetero}
 \end{figure*}
 \begin{table*}[t]\centering\small
@@ -238,10 +219,10 @@ T3 & \texttt{gpt-5-mini} & low & 55.0\% & 97.5\% & 0.64 \\
 \end{tabular}
 \end{table*}
 \begin{table*}[t]\centering\small
-\caption{Agent heterogeneity at $n_a{=}3$ on MedXpertQA. High capability is
-\texttt{gpt-5-mini}, low is \texttt{gpt-4.1-nano}. ``Span retained'' is the fraction of the
-homogeneous-high minus homogeneous-low range that the configuration preserves. Decentralized
-coordination has no orchestrator, so those conditions are structurally undefined.}
+\caption{Agent heterogeneity at $n_a{=}3$ on MedXpertQA. Strong is \texttt{gpt-5-mini}, weak is
+\texttt{gpt-4.1-nano}, matching Fig.~\ref{fig:hetero}. ``Span retained'' is the fraction of the
+all-strong minus all-weak range that the configuration preserves. Decentralized coordination has
+no attending, so those conditions are structurally undefined.}
 \label{tab:hetero}
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}lrrrr@{}}
@@ -250,11 +231,11 @@ Capability placement & \multicolumn{2}{c}{Centralized} & \multicolumn{2}{c}{Dece
 \cmidrule(lr){2-3}\cmidrule(lr){4-5}
  & accuracy & span retained & accuracy & span retained \\
 \midrule
-Homogeneous high              & 49.2\% & 100\% & 47.6\% & 100\% \\
-Low orchestrator, high agents & 45.6\% & \textbf{90\%} & --- & --- \\
-High orchestrator, low agents & 34.4\% & \textbf{57\%} & --- & --- \\
+All strong                    & 49.2\% & 100\% & 47.6\% & 100\% \\
+Weak attending, strong specialists & 45.6\% & \textbf{90\%} & --- & --- \\
+Strong attending, weak specialists & 34.4\% & \textbf{57\%} & --- & --- \\
 Mixed-capability panel        & 40.8\% & 76\% & 44.0\% & 88\% \\
-Homogeneous low               & 14.8\% & 0\% & 17.2\% & 0\% \\
+All weak                      & 14.8\% & 0\% & 17.2\% & 0\% \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -305,3 +286,18 @@ Tier & Task type & $n$ & single doctor & best panel & gain \\
 \multicolumn{6}{@{}l}{\scriptsize $^{*}p<0.05$, $^{**}p<0.01$} \\
 \end{tabular}
 \end{table*}
+
+\section{Effect sizes by configuration}
+\label{app:forest}
+
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig7_forest.pdf}
+\caption{\textbf{Effect size for every configuration, ranked.} Collaboration gain with 95\%
+confidence intervals; each row is one architecture at its best panel size within a difficulty
+stratum, and rows run left to right in descending order of effect. Amber rows have a
+single-doctor baseline inside the 25--50\% window, grey rows outside it. Filled markers are
+significant at $p<0.05$, hollow are not. The ranking is what carries the claim: amber occupies
+the positive tail and grey the negative one, and every significant row on the positive side is
+amber while the only significant row on the negative side is grey.}
+\label{fig:forest}
+\end{figure*}

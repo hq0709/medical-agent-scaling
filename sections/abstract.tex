@@ -1,16 +1,17 @@
 Multi-agent consultation has become the default design pattern in medical language-model systems,
 on the intuition that a panel of specialists diagnoses better than one physician. That intuition
 inherits an arithmetic premise from human medicine: pooling judgements helps because the
-judgements pooled are independent. Does it hold for language models? We measure the pairwise error
-correlation between panel members across 180 multi-agent configurations and 63{,}499 episodes,
-spanning three capability tiers, three medical benchmarks, five architectures and panel sizes
-$N \in \{1,3,5,7,9\}$. It is $\varphi = 0.73$, which leaves a nine-member panel with $1.31$
-\textbf{effective independent opinions}. Peer discussion raises the correlation to $0.986$, so a
-six-agent consultation is informationally equivalent to $1.01$ physicians at the moment it reaches
-consensus. Two consequences follow. Panel size predicts collaboration gain at cross-validated
-$R^2 = -0.006$, because tripling a panel adds a tenth of an opinion. And unanimity rises from
-66\% to 98\% while accuracy given unanimity stays at chance, with confidence rising most on wrong
-answers, because agreement among copies reads as corroboration. The benefit that survives is
-confined to a window of task difficulty between 25\% and 50\% single-doctor accuracy, inside which
-all 20 significant improvements fall and outside which all 10 significant degradations do. Making
-medical panels agree is easy. Making them independent is the open problem.
+judgements pooled are independent. We test it across 180 configurations and 63{,}499 episodes over three capability tiers,
+three benchmarks and five architectures.
+The premise fails twice. The specialty roster is not where the diversity comes from: of the
+$12.7$\,pp separating one doctor from the best answer anywhere in a nine-member panel,
+$\mathbf{92\%}$ is already obtained by asking one generalist the same question nine times. And
+what diversity exists cannot be used. The mean pairwise error correlation is $\varphi = 0.73$,
+leaving a nine-member panel with $1.31$ \textbf{effective independent opinions}; peer discussion
+raises it to $0.986$, so a consultation at the moment of consensus is worth $1.01$ physicians.
+Two specialists agree and are \emph{both wrong} on $40.3\%$ of items. On a scale where picking a member at random scores
+$0$ and always picking a correct one scores $100$, the five architectures score $1$ to $9$,
+because self-reported confidence separates right from wrong with Youden $J = 0.071$. Nor can independence be bought: three independently trained model families still reach only
+$2.6$ effective opinions out of nine, and the apparent decorrelation from mixing capability is an
+artefact of unequal error rates.
+Making medical panels agree is easy. Making them \emph{decidable} is the open problem.

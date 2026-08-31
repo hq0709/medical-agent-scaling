@@ -1,9 +1,17 @@
 \section{Introduction}
 
-Ask six AI specialists a hard clinical question and let them confer. They will reach unanimity 98\%
-of the time. They will be wrong half the times they agree. And by the moment they agree, they
-carry $1.01$ independent opinions between them. Those three facts are one fact, and it is the
-subject of this paper.
+Ask six AI specialists a hard clinical question and let them confer. They will reach unanimity
+98\% of the time. They will be wrong half the times they agree. And by the moment they agree, they
+carry $1.01$ independent opinions between them.
+
+Now ask a different question of the same panel: was \emph{anyone} in it right? Averaged over nine
+model--benchmark cells at $n_a{=}9$, some member holds the correct answer $60.7\%$ of the time
+against $48.0\%$ for one doctor working alone. The panel returns $51.2\%$.
+
+A consultation is worth convening only if two things are true. Somebody in the room must be right
+when the others are wrong, and the room must be able to tell who. This paper measures both. Panels
+of language models have a little of the first and almost none of the second, and every failure
+reported here follows from that pair.
 
 Multi-agent ``consultation'' has become the default design pattern in medical language-model
 systems. MedAgents~\citep{tang2024medagents}, MDAgents~\citep{kim2024mdagents},
@@ -25,6 +33,15 @@ on the same items. A nine-member panel therefore carries $1.31$ effective indepe
 and peer discussion drives the correlation to $0.986$, at which point a six-agent consultation is
 informationally equivalent to $1.01$ physicians. The panel does not converge on an answer. It
 collapses onto one.
+
+That is the first pillar, and it is the one prior work would predict. The second is less expected.
+Independence is scarce but not absent: the $12.7$\,pp between one doctor and the panel's oracle is
+real signal, held by some member on some items. On a scale where picking a panel member at random
+scores $0$ and always picking a correct one scores $100$, majority voting, an auditing
+orchestrator, peer debate and tiered referral score between $1$ and $9$. No architecture we test
+converts what the panel knows into what the panel says, because the quantity such a conversion
+needs---a signal that separates a right member from a wrong one---is missing: self-reported
+confidence separates them with Youden $J = 0.071$.
 
 Three observable consequences follow, and they are the same fact seen three ways. Panel size
 predicts nothing, because tripling the panel adds a tenth of an opinion. Consensus carries no
