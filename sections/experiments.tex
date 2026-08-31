@@ -4,10 +4,15 @@
 
 \paragraph{LLMs and capability scaling.}
 
-Three OpenAI models form a capability ladder, measured rather than assumed
-(Table~\ref{tab:tiers}). The ladder is monotone on both benchmarks and spans single-doctor
-accuracy from 25\% to 55\% on MedXpertQA, straddling the previously reported 45\% threshold
-from both sides. A task-grounded capability metric explains more variance than a generic
+Three OpenAI models form the capability ladder the architecture grid is run on, measured rather
+than assumed (Table~\ref{tab:capability}; the screening probe over eight candidates is
+Table~\ref{tab:tiers}). The ladder is monotone on both benchmarks and spans
+single-doctor accuracy from 25\% to 55\% on MedXpertQA, straddling the previously reported 45\%
+threshold from both sides. Two Google models, Gemini~3.5~Flash~Lite and Gemini~3.7~Flash, are run
+on the same items to give the diversity analysis of \S\ref{sec:premise} a second vendor. The
+first of them lands on the ladder: its capability index of $50.3$ sits beside
+\texttt{gpt-5-nano}'s $50.8$, so the vendor contrast can be drawn at matched capability rather
+than confounded with it. A task-grounded capability metric explains more variance than a generic
 intelligence index~\citep{kim2026scaling}, so we take $I$ to be each model's single-doctor
 chain-of-thought accuracy on MedQA.
 
@@ -569,8 +574,8 @@ $R^2 = 0.063$), while the family term is unmoved ($+0.093 \to +0.094$, both inte
 zero). Mixing capability does not decorrelate errors at all; it only lowers the ceiling the
 correlation could have reached. Mixing model families decorrelates genuinely, and by a little.
 
-\begin{table}[t]\centering\small
-\setlength{\tabcolsep}{4pt}
+\begin{table*}[t]\centering\small
+\setlength{\tabcolsep}{6pt}
 \renewcommand{\arraystretch}{1.02}
 \caption{\textbf{Four sources of panel diversity.} Normalised correlation
 $\varphi/\varphi_{\max}$ is the quantity that is not confounded by unequal error rates.
@@ -584,20 +589,32 @@ answer---moves nothing. $n$ is model pairs.}
 Source of diversity & $n$ & $\varphi$ & $\varphi_{\max}$ & $\varphi/\varphi_{\max}$ & $N_{\text{eff}}^{9}$ \\
 \midrule
 \sectrow
-One model, specialty prompts & --- & 0.734 & 0.958 & 0.766 & 1.31 \\
-Distinct models, one family  & 12 & 0.437 & 0.815 & 0.536 & 2.00 \\
-Distinct families, one vendor & 36 & 0.309 & 0.676 & 0.457 & 2.59 \\
+One model, different specialty prompts        & --- & 0.734 & 0.958 & 0.766 & 1.31 \\
+Different checkpoints, one training family    & 12 & 0.437 & 0.815 & 0.536 & 2.00 \\
+Different families, one vendor (OpenAI)       & 36 & 0.309 & 0.676 & 0.457 & 2.59 \\
 \winrow
-Distinct \emph{vendors} & 36 & 0.316 & 0.657 & \textbf{0.481} & \textbf{2.55} \\
+Different \emph{vendors} (OpenAI $\leftrightarrow$ Google) & 36 & 0.316 & 0.657 & \textbf{0.481} & \textbf{2.55} \\
 \midrule
 \textit{fully independent} & --- & 0 & 1 & 0 & 9.00 \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
+
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig11_diversity.pdf}
+\caption{\textbf{Independence does not arrive at the vendor boundary.} (a) Effective independent
+opinions in a nine-member panel under four sources of diversity. Relaxing the prompt, then the
+checkpoint, then the training family lifts the panel from $1.31$ to $2.59$; relaxing the vendor
+moves it $-0.04$. (b) The evidence behind that mean: all $84$ model pairs, normalised correlation
+against the gap in the two members' error rates. The same-vendor and cross-vendor clouds occupy
+the same region and their means differ by $0.004$. The rightward drift of both is
+Eq.~\ref{eq:phimax} at work, which is why the normalised quantity is the one plotted.}
+\label{fig:diversity}
+\end{figure*}
 
 \paragraph{Independence is for sale, and the price is more than it is worth.}
 The constructions in Table~\ref{tab:diversity} order cleanly, and the ordering is the
-practitioner's menu. Specialty prompts leave $\varphi/\varphi_{\max}$ at $0.766$. Swapping in
+practitioner's menu (Fig.~\ref{fig:diversity}). Specialty prompts leave $\varphi/\varphi_{\max}$ at $0.766$. Swapping in
 genuinely different checkpoints from one family reaches $0.536$, and reaching across three
 independently trained families reaches $0.457$---a nine-member panel worth $2.6$ opinions, not
 nine. Crossing the vendor boundary, which is where the remaining hope for independence usually
