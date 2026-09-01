@@ -150,6 +150,119 @@ The per-configuration grid --- $420$ multi-agent configurations and their single
 with accuracy, confidence interval and cost for each --- is released with the code rather than
 printed here, together with the raw episodes it is computed from.
 
+\section{The published scaling form, fitted to medical data}
+\label{app:scaling}
+
+The main text measures collaboration gain directly. For readers who want the comparison, we also
+fit the scaling form proposed for general-domain agent systems~\citep{kim2026scaling} to our grid.
+It is reported here rather than in the results because none of the paper's claims rest on it.
+
+\paragraph{With accuracy as the response, the fit is degenerate.}
+Fitting that form directly gives $R^2 = 0.997$ (5-fold
+cross-validated $R^2 = 0.996$), which is an artefact of our design rather than a result. The
+response is accuracy and one predictor is the single-doctor baseline $\PSA$; the same items and
+the same model underlie both terms and only the coordination structure varies, so $\PSA$ alone nearly determines accuracy
+($\hat\beta_{\PSA} = 0.875$, $p < 10^{-4}$). We therefore refit with the collaboration
+\emph{gain} as the response, which is what the scaling principle is actually about.
+
+\paragraph{Coordination metrics carry the fit.}
+With $\mathrm{gain} = P - \PSA$ as the response, $R^2 = 0.638$ and 5-fold cross-validated
+$R^2 = 0.415$. Coordination metrics carry that fit with no tool-count term at all. Coefficients ($n = 225$ configurations including the
+self-consistency control, benchmark-clustered SEs):
+
+\begin{center}\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+term & $\hat\beta$ & $p$ \\
+\midrule
+$\log(1+\Ae)$ & $-0.150$ & $<0.001$ \\
+$R$ (redundancy) & $+0.082$ & $<0.001$ \\
+$c$ (message density) & $+0.006$ & $<0.001$ \\
+$\log(1+O\%)$ & $+0.005$ & $0.024$ \\
+$\PSA \times \log(1{+}n_a)$ & $+0.027$ & $0.048$ \\
+$\log(1+n_a)$ & $-0.003$ & $0.701$ \\
+$\PSA$ & $-0.113$ & $0.051$ \\
+$\PSA^2$ & $+0.037$ & $0.390$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Error amplification is the dominant penalty; redundancy and message density carry small
+positive effects; overhead is not penalised once $T{=}0$; and neither panel size nor $\PSA$ has a
+main effect.
+
+ $T_{\text{tools}} = 0$ throughout, so the $\log(1+T)$ main effect and the
+$O\%\times T$ and $\Ec\times T$ interactions vanish identically. Coordination metrics remain highly significant
+without them, which establishes that the coordination effect is not a re-description of tool
+overhead. The coefficient on $\log(1+O\%)$ turns \emph{positive} here. With no tools to coordinate over,
+spending more tokens on deliberation is mildly beneficial rather than costly.
+
+\paragraph{Robustness.}
+Our fit carries $I$ and $I^2$ with large coefficients of
+opposite sign ($-0.231$ and $+0.228$), but bootstrap resampling ($n = 1000$) gives them standard
+errors of $0.94$ and $0.54$. With three capability tiers the quadratic is unidentifiable and we
+do not interpret it. Every other large coefficient is stable: $\log(1+\Ae)$ has bootstrap SE $0.024$ and $\PSA$
+has $0.044$.
+
+
+Residuals pass a normality test (Shapiro--Wilk $p = 0.207$) but fail homoscedasticity decisively
+(Breusch--Pagan $p = 0.0001$). All standard errors
+in this paper are therefore heteroscedasticity-robust (HC3), clustered by benchmark where more
+than two clusters exist. Residual standard error is $\hat\sigma = 0.017$, reflecting that collaboration gains in medicine are small in absolute terms. Regularised
+alternatives do not improve prediction: Lasso (10-fold CV for $\lambda$) retains 9 of 11
+predictors at CV $R^2 = 0.382$ and Ridge reaches $0.144$, both below the unregularised $0.415$, so
+we retain the full specification.
+
+
+Nested model comparison isolates where the explanatory power lives (5-fold CV $R^2$): the full
+model reaches $0.415$; capability alone $0.196$;
+coordination metrics alone $0.093$; the single-doctor baseline alone $0.043$; and
+\textbf{panel size alone $-0.006$}, worse than predicting the mean. Any account of medical
+consultation that treats ``how many agents'' as the design variable is fitting noise.
+
+\section{Coordination dynamics}
+\label{app:coord}
+
+\paragraph{Coordination is cheap in turns and uninformative in messages.}
+Fitting $T = a(n+0.5)^{b}$ gives $a = 0.84$, $b = 0.777$, $R^2 = 0.327$. The exponent is
+sub-linear, so turns grow more slowly than agents. A clinical panel answering a closed question
+terminates on unanimity rather than negotiating open-ended tool use. Turn counts by architecture are
+Decentralized $6.8$, Centralized $6.2$, Independent $5.0$, Hybrid $2.1$, against a single-agent
+$1.4$, a range of $1.5$ to $4.9\times$. The hard resource
+ceiling they infer from super-linear growth does not arise in tool-free consultation.
+
+
+$S = 0.504 - 0.028\ln(c)$, $R^2 = 0.025$: message density explains almost none of the variance in
+accuracy. Our Centralized panels run at $c = 0.88$ and Decentralized at $c = 0.60$, well past the
+$c^{*} = 0.39$ plateau reported elsewhere, with no accuracy penalty. Once a panel is communicating at all, communicating more neither helps nor hurts.
+
+\paragraph{Coordination failure needs a channel to occur on.}
+We classify first-round errors into four categories, following the multi-agent failure
+taxonomy of \citet{mast2025}:
+
+\begin{center}\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+& Indep. & Centr. & Decentr. & Hybrid \\
+\midrule
+Logical contradiction & 6.3\% & 6.3\% & 6.3\% & 3.4\% \\
+Numerical drift & 4.5\% & 4.7\% & 4.8\% & 3.1\% \\
+Context omission & 13.0\% & 13.3\% & 13.4\% & 6.8\% \\
+Coordination failure & \textbf{0.0\%} & 3.0\% & 1.2\% & 0.0\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Coordination failure is \textbf{0.0\%} under Independent coordination, and necessarily so: with
+$C = \emptyset$ there is no channel on which it could occur. Hybrid is also at $0.0\%$
+because its triage gate declines to convene a panel on most items. The magnitudes do not
+replicate: peer verification is reported to cut logical contradiction from $16.8\%$ to $11.5\%$,
+whereas our first-round contradiction rate is flat at $6.3\%$ across communicating and
+non-communicating architectures. Numerical drift is an order of magnitude rarer than in
+tool-using tasks ($3$--$5\%$ against $19$--$26\%$), as expected when no arithmetic is cascaded.
+
 \section{Additional results}
 \label{app:extra}
 \begin{figure*}[t]\centering
