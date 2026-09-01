@@ -1,134 +1,166 @@
-\section{Agent systems and tasks}
+\section{Measuring what a consultation adds}
 
-\begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig0_architectures.pdf}
-\caption{\textbf{The five architectures we evaluate}, with the clinical role each instantiates.
-$A$ is the agent set, $C$ the communication graph, $\Omega$ the aggregation rule.}
-\label{fig:arch}
-\end{figure*}
-
-\subsection{System definition}
-
-We describe an agent system as a triple $(A, C, \Omega)$: a set of agents $A$, a communication graph $C$, and an aggregation rule
-$\Omega$. Figure~\ref{fig:arch} and Table~\ref{tab:arch} give the five configurations we evaluate, each paired with the clinical role
-it instantiates. The taxonomy is the one used for general-domain agent
-systems~\citep{kim2026scaling}; the clinical instantiations are ours. Only the coordination logic differs across architectures. The item
-rendering, the answer schema, the role prompts and the decoding parameters are shared.
-
-\begin{table*}[t]\centering\small
-\caption{Architectures, their coordination structure, and the clinical role each instantiates. $n$ is the panel size, $k$ reasoning iterations, $r$ orchestration rounds,
-$d$ debate rounds.}
-\label{tab:arch}
-\begin{tabular}{@{}llll@{}}
-\toprule
-Architecture & $(A, C, \Omega)$ & Cost & Clinical instantiation \\
-\midrule
-Single-agent (SAS) & $\{a\}$ & $O(k)$ & One physician, zero-shot or CoT \\
-Independent & $\{a_1..a_n\}$, $C=\emptyset$, synthesis & $O(nk)$ & Specialists answer blind; majority vote \\
-Centralized & $+a_{\mathrm{orch}}$, star, hierarchical & $O(rnk)$ & \textbf{Attending physician} audits, then decides \\
-Decentralized & $\{a_1..a_n\}$, complete, consensus & $O(dnk)$ & Multidisciplinary team discussion \\
-Hybrid & $+a_{\mathrm{orch}}$, star + peer, both & $O(rnk{+}pn)$ & Tiered referral: triage $\rightarrow$ panel $\rightarrow$ MDT \\
-\bottomrule
-\end{tabular}
-\end{table*}
-
-\paragraph{Independent.} $N$ specialists receive the item and answer without seeing one another.
-Aggregation is majority vote, ties broken by mean self-reported confidence and then by option
-order. A confidence-weighted variant is logged throughout.
-
-\paragraph{Centralized (attending physician).} An orchestrator receives the $N$ specialist
-opinions on a star topology and is instructed to \emph{audit before aggregating}. It must name the
-single opinion most likely to be wrong and justify that, then either commit to an answer or
-re-task one named specialty. A re-tasked specialist re-answers with the orchestrator's critique in
-hand. The star topology is preserved, since specialists never see each other. This design gives
-the panel a single point at which errors can be caught before they reach the output, and it is the
-architecture responsible for both the largest gain and the largest loss in the study.
-
-\paragraph{Decentralized (MDT discussion).} $N$ specialists give first opinions, then exchange
-opinions on a complete graph for up to three rounds, each free to revise. Rounds stop early only
-on true unanimity, defined as every agent emitting the same \emph{valid} option. A panel
-containing unparsed answers is not unanimous.
-
-\paragraph{Hybrid (tiered referral).} A generalist answers first with a stated confidence. Below a
-frozen threshold $\theta$ the case is referred to the $N$-specialist panel; if that panel has no
-majority the case escalates to full MDT discussion. $\theta$ is calibrated once on a 100-item
-development slice disjoint from every evaluation set and then frozen.
-
-\paragraph{Panel composition.} A cheap router (\texttt{gpt-4.1-nano}, temperature 0) ranks the
-nine most relevant specialties for each item from a fixed 17-specialty roster; a panel of size $N$
-is the first $N$ of that ranking. Panels are therefore \emph{nested}: the $N{=}9$ panel contains
-the $N{=}5$ panel, which contains the $N{=}3$ panel.
-
-\subsection{Nested panels as common random numbers}
-\label{sec:nested}
-
-Every agent's first opinion is keyed on $(\text{item}, \text{specialty}_i, \text{seed}, i)$ and
-never on $N$ or on the architecture. Consequently the first opinions of a panel of size $N$ are a
-superset of those for any $N' < N$, and all four multi-agent architectures reuse the same first
-opinions. This is a deliberate common-random-numbers coupling. It reduces the variance of
-within-item contrasts between architectures and panel sizes, and it changes the estimand: we
-measure \emph{accuracy as the same routed panel is extended}, not the expected accuracy of
-independently redrawn panels at each size. Paired McNemar tests on item-level outcomes remain
-valid under this coupling; regression models must cluster at the item level rather than treat
-configurations as independent.
-
-\subsection{What we measure}
+\subsection{The measurement problem}
 \label{sec:metrics}
 
-Accuracy alone cannot distinguish a panel that pools complementary evidence from one that repeats
-itself, so we instrument each episode with five coordination quantities and one derived quantity
-that the rest of the paper turns on.
+A panel that pools complementary evidence and a panel that repeats itself produce the same
+observable: several agents, an aggregation step, one answer. Accuracy cannot separate them.
+A panel can gain a point because its members caught each other's errors, or because nine
+correlated draws from one distribution happened to land on the mode more often than one draw did,
+and the two are indistinguishable from the output alone. This is why the multi-agent medical
+literature can report gains and the sceptical literature can report that orchestration fails to
+beat a well-prompted single model~\citep{medagentboard, npjdm2026, confagents} without either
+side being wrong. The disagreement is about a quantity neither measures.
 
-We measure five coordination quantities. Their names are established in the agent-scaling
-literature~\citep{kim2026scaling}, which reports headline values without always giving closed
-forms; the definitions below are the ones we compute.
+The premise the design pattern inherits is specific enough to test. Pooling judgements improves
+accuracy when the judgements are independent; correlated judgements are merely repeated. So we
+instrument each episode with the two quantities that premise depends on, and report them
+alongside accuracy throughout.
 
-\begin{itemize}\itemsep2pt
-\item \textbf{Turns} $T$: reasoning--response exchanges; one model call is one turn.
-\item \textbf{Message density} $c$: peer-opinion exposures per turn. Independent has
-$C = \emptyset$ and therefore $c = 0$ by construction; Centralized exposes opinions only to the
-orchestrator; Decentralized and Hybrid expose every agent to every other each round.
-\item \textbf{Redundancy} $R$: mean pairwise Jaccard overlap of rationale tokens among first
-opinions. High $R$ means the panel is restating one another rather than contributing independent
-information.
-\item \textbf{Overhead} $O\%$: token cost relative to the single-agent baseline on the same items,
-$(\mathrm{tok}_{\mathrm{MAS}} - \mathrm{tok}_{\mathrm{SAS}})/\mathrm{tok}_{\mathrm{SAS}}$.
-\item \textbf{Coordination efficiency} $\Ec$: accuracy divided by the token-cost ratio to the
-single-agent baseline.
-\item \textbf{Error amplification} $\Ae$: the extent to which individual-agent errors reach the
-final output without inter-agent verification. We measure that failure directly, in which the panel
-\emph{held} the correct option among its first opinions and still emitted a wrong one,
-normalised by the marginal probability that a single agent is wrong. $\Ae > 1$ means the system
-destroys information it already possessed.
-\end{itemize}
-
-\paragraph{Effective independent opinions.}
-Majority voting converts independent judgements into accuracy; correlated judgements it merely
-repeats. We therefore summarise a panel not by its size but by how many independent opinions it
-carries. Writing $\varphi$ for the mean pairwise error correlation between panel positions,
-measured as the correlation of their per-item error indicators, the effective number of
-independent opinions in a panel of $N$ agents is
+\paragraph{How many opinions a panel actually carries.}
+Writing $\varphi$ for the mean pairwise error correlation between panel positions---the
+correlation of their per-item error indicators---the effective number of independent opinions in a
+panel of $N$ agents is
 \begin{equation}
 N_{\mathrm{eff}} = \frac{N}{1 + (N-1)\varphi}.
 \label{eq:neff}
 \end{equation}
-At $\varphi = 0$ the $N$ opinions are fully independent and $N_{\mathrm{eff}} = N$; at
-$\varphi = 1$ they are one opinion copied $N$ times and $N_{\mathrm{eff}} = 1$. This is the
-standard design-effect correction for clustered observations, and it makes the arithmetic premise
-of consultation measurable rather than assumed. Reporting $N_{\mathrm{eff}}$ alongside $N$ turns
-out to explain why panel size predicts so little (\S\ref{sec:premise}).
+At $\varphi = 0$ the $N$ opinions are independent and $N_{\mathrm{eff}} = N$; at $\varphi = 1$
+they are one opinion copied $N$ times and $N_{\mathrm{eff}} = 1$. This is the standard
+design-effect correction for clustered observations, and applying it to a panel of agents replaces
+an assumption with a measurement: a system that reports $N = 9$ is making a claim about how much
+judgement is in the room, and Eq.~\ref{eq:neff} is what that claim is worth.
 
-\subsection{Clinical tasks and benchmarks}
+Raw $\varphi$ has a trap that matters for any comparison of diverse panels. Two binary error
+indicators with unequal marginals cannot reach $\varphi = 1$: with error rates $p \le q$ the
+attainable maximum is
+\begin{equation}
+\varphi_{\max} = \sqrt{\tfrac{p\,(1-q)}{q\,(1-p)}},
+\label{eq:phimax}
+\end{equation}
+which falls as the members' accuracies diverge. A panel assembled from models of different strength therefore posts a lower
+raw $\varphi$ whether or not its members reason differently. We report $\varphi/\varphi_{\max}$
+wherever members differ in accuracy.
+
+\paragraph{What a panel holds, and what its aggregation keeps.}
+Independence sets what is available; an architecture decides what is delivered. Let the
+\emph{oracle ceiling} $P_{\text{oracle}}$ be the accuracy of a rule that selects a correct
+first-round opinion whenever any member holds one---an upper bound on every aggregation rule that
+cannot see the label. Collaboration gain then factors exactly:
+\begin{equation}
+\underbrace{P - \PSA}_{\text{gain}}
+\;=\;
+\underbrace{(P_{\text{oracle}} - \PSA)}_{\text{headroom}}
+\;\times\;
+\underbrace{\kappa}_{\text{capture}},
+\label{eq:decomp}
+\end{equation}
+where $\PSA$ is the single-doctor baseline on the same items and $\kappa$ is the fraction of the
+headroom an architecture recovers. On this scale $\kappa = 0$ is the accuracy of a panel member
+drawn at random and $\kappa = 100$ is the oracle, so a negative $\kappa$ means the aggregation
+rule is worse than picking a member and believing them. The factorisation is definitional. Its use
+is that the two factors have different causes and different remedies: headroom is set by how much
+independent judgement the panel contains, capture by whether anything can arbitrate between
+members who disagree. A system that fails on one is not helped by fixing the other.
+
+We also record \emph{error amplification} $\Ae$: how often the panel held the correct option among
+its first opinions and emitted a wrong one anyway, normalised by the marginal probability that a
+single agent is wrong. $\Ae$ is $\kappa$ seen per episode rather than per configuration, and it
+identifies the failure as destruction of information the system already possessed rather than
+absence of it.
+
+\subsection{Conditions}
+
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig0_architectures.pdf}
+\caption{\textbf{The coordination structures we evaluate}, with the clinical role each
+instantiates. $A$ is the agent set, $C$ the communication graph, $\Omega$ the aggregation rule.
+Two further conditions vary no topology and so do not appear here: \textsc{Self-consistency}
+draws the same model $k$ times with no specialty prompt, and \textsc{Generic panel} reruns the
+three middle structures with the roster removed.}
+\label{fig:arch}
+\end{figure*}
+
+An agent system is a triple $(A, C, \Omega)$: agents, a communication graph, and an aggregation
+rule. The taxonomy is the one used for general-domain agent
+systems~\citep{kim2026scaling}; the clinical instantiations are ours. Every condition below shares
+the item rendering, the answer schema, the role prompts and the decoding parameters, so only the
+coordination logic varies. Each is stated with what it instantiates clinically and what it is for
+in the experiment.
+
+\paragraph{\textsc{Single}.} One agent answers, zero-shot or with chain-of-thought. The baseline
+$\PSA$ against which every gain in this paper is measured, run on the same items in the same
+cell as the panels it is compared to.
+
+\paragraph{\textsc{Self-consistency}.} The same model, the same \emph{generic} prompt, $k$ samples
+at the same temperature, aggregated by majority vote at a matched dollar budget. This is the
+control that makes the roster identifiable. It produces $k$ answers from one model with no
+specialty prompts at all, so comparing it to a $k$-member panel isolates what the specialty
+roster contributes over drawing the same model $k$ times.
+
+\paragraph{\textsc{Independent}.} $N$ specialists receive the item and answer without seeing one
+another; aggregation is majority vote, ties broken by mean stated confidence and then option
+order. The pooling arithmetic in its bare form. With $C = \emptyset$ the roster is the only thing
+that can make two panelists disagree, which makes this the arm where role prompting is measured
+without a channel confounding it.
+
+\paragraph{\textsc{Centralized}.} An orchestrator receives the $N$ opinions on a star topology
+and must \emph{audit before aggregating}: name the single opinion most likely to be wrong and
+justify that, then either commit or re-task one named specialty, which re-answers with the
+critique in hand. Specialists never see each other, so the star is preserved. This gives the panel
+one designated point at which an error can be caught before it reaches the output---the attending
+physician---and tests whether a designated auditor is what capture requires.
+
+\paragraph{\textsc{Decentralized}.} $N$ specialists give first opinions, then exchange them on a
+complete graph for up to three rounds, each free to revise. Rounds stop early only on true
+unanimity, defined as every agent emitting the same \emph{valid} option; a panel containing an
+unparsed answer is not unanimous. This is the multidisciplinary team meeting, and the arm in which
+independence and agreement can be measured before and after the same agents talk to each other.
+
+\paragraph{\textsc{Hybrid}.} A generalist answers first with a stated confidence; below a frozen
+threshold $\theta$ the case is referred to the $N$-specialist panel, and a panel with no majority
+escalates to full discussion. $\theta$ is calibrated once on a 100-item development slice
+disjoint from every evaluation set. This is tiered referral, and it is the only condition that
+decides \emph{whether} to convene a panel, which makes it a direct test of whether a system can
+route on its own confidence.
+
+\paragraph{\textsc{Generic panel}.} \textsc{Independent}, \textsc{Centralized} and
+\textsc{Decentralized} rebuilt out of undifferentiated internists: every member receives the same
+generic system prompt, so the specialty roster is the single removed ingredient and panel size is
+the only thing that varies. This separates what a panel gains from being several agents from what
+it gains from those agents being told they are different specialists.
+
+\paragraph{Panel composition and nesting.}
+\label{sec:nested} A cheap router (\texttt{gpt-4.1-nano}, temperature 0)
+ranks the nine most relevant specialties for each item from a fixed 17-specialty roster; a panel
+of size $N$ is the first $N$ of that ranking. Every agent's first opinion is keyed on
+$(\text{item}, \text{specialty}_i, \text{seed}, i)$ and never on $N$ or on the architecture, so
+panels are \emph{nested}---the $N{=}9$ panel contains the $N{=}5$ panel---and all four
+multi-agent conditions reuse the same first opinions. This is a deliberate common-random-numbers
+coupling: it removes between-panel sampling noise from every architecture and panel-size contrast,
+and it fixes the estimand as \emph{accuracy as one routed panel is extended} rather than the
+expected accuracy of independently redrawn panels. Paired McNemar tests remain valid under the
+coupling; regressions cluster at the item level.
+
+\subsection{Clinical tasks}
 
 Three benchmarks, 250 items each, sampled with a fixed seed:
 MedXpertQA-Text~\citep{zuo2025medxpertqa} (10 options; stratified by the 12 body systems $\times$
 3 task types), MedQA-USMLE~\citep{jin2021medqa} (4 options), and the contamination-screened hard
 split of MedAgentsBench~\citep{medagentsbench} (894 items excluding the
-\texttt{medqa\_5options} subset; the first 250 after stratified shuffling). The primary endpoint
-is exact match against the dataset's own gold option key. No LLM judge appears anywhere in the
-evaluation path.
+\texttt{medqa\_5options} subset; the first 250 after stratified shuffling). The endpoint is exact
+match against the dataset's own gold key. No LLM judge appears anywhere in the evaluation path.
+
+Multiple-choice clinical reasoning is what makes the measurement clean. Agent systems on
+general-domain benchmarks call tools, and tool-call overhead dominates the token accounting and
+confounds any comparison of coordination structures; a panel that coordinates more also retrieves
+more, and the two effects are not separable from the output. Here no condition calls a tool, so
+the entire difference between an architecture and the single-doctor baseline on the same item is
+coordination. The cost is external validity, which we state in \S\ref{sec:limitations}: a real
+consultation involves examination, imaging and the option of ordering another test, and this
+setting has none of them. What it does have is the property that the arithmetic premise is
+measurable at all.
 
 Every item is additionally tagged easy / medium / hard by the pass rate of three mid-tier models
-at $k{=}5$ samples. On MedXpertQA the
-strata are heavily skewed hard (13 / 62 / 125 on the pilot sample), which is the intended regime.
-
+at $k{=}5$ samples. On MedXpertQA the strata are heavily skewed hard (13 / 62 / 125 on the pilot
+sample), which is the intended regime.

@@ -99,26 +99,14 @@ $N{=}1$ to 32.6\% at $N{=}9$, which is 0.8\,pp for nine times the calls, while D
 reaches 38.0\% at $N{=}3$ and stays there. Gains saturate at $N{=}3$ in every cell where they
 occur, and no architecture in any cell improves beyond $N{=}5$.
 
-\paragraph{Two questions, and the gain is their product.}
+\paragraph{Both factors are small, and they move apart.}
 A consultation is worth convening only if somebody in the room is right when the others are
-wrong, and the room can tell who. Those two conditions are separately measurable, and the gain is
-exactly their product:
-\begin{equation}
-\underbrace{P - \PSA}_{\text{gain}}
-\;=\;
-\underbrace{(P_{\text{oracle}} - \PSA)}_{\text{headroom}}
-\;\times\;
-\underbrace{\kappa}_{\text{capture}},
-\label{eq:decomp}
-\end{equation}
-Headroom asks whether the answer is in the room: $P_{\text{oracle}}$ is the accuracy of a rule
-that selects a correct first-round opinion whenever any member holds one. Capture asks whether
-the room takes it: $\kappa$ is the fraction of that headroom an architecture actually recovers. The factorisation is definitional. What is not definitional is that both
-factors are small, and that they move in opposite directions
-(Table~\ref{tab:ceiling}): headroom is largest where the single doctor is weakest, from
-$+11.4$\,pp at $\PSA \in [25,50)$ down to $+3.3$ above $70\%$, while capture runs the other way,
-from $-13.6\%$ to $+19.6\%$. The panels with the most to recover are the ones that discard it,
-and the product stays between $-0.3$ and $+1.0$\,pp across every band.
+wrong, and the room can tell who. Eq.~\ref{eq:decomp} separates those two conditions, and neither
+holds. What is not definitional about the factorisation is that the two factors move in opposite
+directions (Table~\ref{tab:ceiling}): headroom is largest where the single doctor is weakest,
+from $+11.4$\,pp at $\PSA \in [25,50)$ down to $+3.3$ above $70\%$, while capture runs the other
+way, from $-13.6\%$ to $+19.6\%$. The panels with the most to recover are the ones that discard
+it, and the product stays between $-0.3$ and $+1.0$\,pp across every band.
 
 \begin{table}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
@@ -153,9 +141,7 @@ merely repeats. The headroom in Eq.~\ref{eq:decomp} is therefore a measurement o
 independent judgement a panel contains.
 
 \paragraph{Somebody in the room is right, and it is not the specialists.}
-Let the \emph{oracle ceiling} be the accuracy of a rule that always selects a correct first-round
-opinion whenever any panel member holds one. It upper-bounds every aggregation rule that does not
-see the label. At $n_a{=}9$ the single doctor scores $52.9\%$ and the oracle $62.2\%$: the panel
+At $n_a{=}9$ the single doctor scores $52.9\%$ and the oracle ceiling $62.2\%$: the panel
 holds $9.3$\,pp of recoverable accuracy, often enough to matter.
 
 Where that headroom comes from is the surprise. Self-consistency gives one model the same generic
@@ -243,18 +229,9 @@ which is what six comparisons produce by chance. A cardiologist on a cardiac cas
 measurable, because the specialty prompt changes what the agent says it is and not what the model
 knows.
 
-\paragraph{Correlation has a ceiling, and half of the reported decorrelation is that ceiling.}
-Two binary error indicators with unequal marginals cannot reach $\varphi = 1$. Writing $p$ and
-$q$ for the two members' error rates, ordered $p \le q$, the attainable maximum is
-\begin{equation}
-\varphi_{\max} = \sqrt{\tfrac{p\,(1-q)}{q\,(1-p)}},
-\label{eq:phimax}
-\end{equation}
-which falls as the members' accuracies diverge. Any panel assembled from models of different
-strength therefore posts a lower raw $\varphi$ whether or not its members reason differently, and
-any analysis that reads raw agreement or overlap as evidence of diversity is partly reading
-Eq.~\ref{eq:phimax}. The correct quantity is the normalised correlation $\varphi/\varphi_{\max}$.
-Regressing the $45$ model pairs in Table~\ref{tab:diversity} on family identity and accuracy gap
+\paragraph{Half of the reported decorrelation is the ceiling, not the diversity.}
+Any analysis that reads raw agreement or overlap as evidence of panel diversity is partly reading
+$\varphi_{\max}$ (\S\ref{sec:metrics}), and a regression separates the two. Regressing the $45$ model pairs in Table~\ref{tab:diversity} on family identity and accuracy gap
 separates the two. On raw $\varphi$ the accuracy gap dominates
 ($\hat\beta = -0.601$, $95\%$ CI $[-1.034, -0.123]$, $R^2 = 0.341$). On $\varphi/\varphi_{\max}$
 that coefficient vanishes and changes sign ($+0.156$, $95\%$ CI $[-0.599, +0.994]$,
@@ -363,9 +340,7 @@ rate, but on two-fifths of items it has already agreed on the wrong diagnosis be
 starts, and no aggregation rule and no panel size can reach those items.
 
 \paragraph{Panels drop the answer they are holding.}
-Error amplification $\Ae$ measures that failure directly: how often the panel held the correct
-option among its first opinions and still emitted a wrong one, normalised by how often a single
-agent is wrong. Every architecture discards a substantial share---Centralized $0.29$, Independent
+Error amplification $\Ae$ locates the failure inside the episode. Every architecture discards a substantial share---Centralized $0.29$, Independent
 $0.27$, Decentralized $0.23$, Hybrid $0.08$---and the ordering follows the
 capture rates rather than the panel sizes. Hybrid is lowest because it usually declines to
 convene a panel at all, so it has little to discard.
