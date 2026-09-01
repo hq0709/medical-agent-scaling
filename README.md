@@ -12,9 +12,9 @@ the transfer.
 
 | | |
 |---|---|
-| A nine-member panel speaks with one voice on | **70.1%** of items |
-| …and is wrong on | **39.8%** of the items it agrees on |
-| Peer discussion raises unanimity to | **98.5%** |
+| A nine-member panel speaks with one voice on | **69.5%** of items |
+| …and is wrong on | **39.7%** of the items it agrees on |
+| Peer discussion raises unanimity to | **98.3%** |
 | …and lowers the accuracy of that unanimity to | **54.3%** |
 | Agreement separates right answers from wrong ones at | AUC **0.59** |
 | Self-reported confidence, Youden *J* | ≤ **0.18** |

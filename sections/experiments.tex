@@ -397,7 +397,7 @@ Hybrid        & 9 & \textbf{0.659} & \textbf{1.43} & 16\% \\
 logarithmic scale. Dotted curves are contours of fixed error correlation $\varphi$; the solid line
 at $N_{\mathrm{eff}}{=}1$ is a panel worth one physician. Measured panels track the
 $\varphi{\approx}0.75$ contour, so nine members carry barely more than one opinion. (b) $\varphi$
-for every one of the 120 grid configurations, one point per configuration, with the median marked.
+for every one of the 292 grid configurations, one point per configuration, with the median marked.
 The value is a near-constant of the setting rather than an artefact of any one cell, Hybrid
 routing is the only architecture that lowers it, and peer discussion drives it to $0.99$.}
 \label{fig:slope}
@@ -413,7 +413,7 @@ consequence of how badly that premise fails.
 Across the three architectures that convene a full panel on every item at $n_a \geq 3$
 ---Independent, Centralized and Decentralized---the mean pairwise error correlation is
 $\varphi = 0.794$, and it is the same to three decimals in each of them separately. (Hybrid is
-excluded here and reported separately: its triage gate convenes a panel on only $12.4\%$ of items,
+excluded here and reported separately: its triage gate convenes a panel on only $20\%$ of items,
 so its $\varphi$ is measured on a harder subset.) By Eq.~\ref{eq:neff} this leaves $N_{\mathrm{eff}} = 1.16$ at $N{=}3$, $1.20$
 at $N{=}5$ and $1.22$ at $N{=}9$. Tripling the panel adds
 $0.06$ of an independent opinion. Specialty role prompts do not make one model into several
@@ -435,16 +435,16 @@ signal at the same time.}
 Architecture & unan. & $P(\mathrm{wr.}\!\mid\!\mathrm{un.})$ & conf.\ gap \\
 \midrule
 \sectrow
-Single doctor & ---     & ---     & \textbf{3.3} \\
-Independent   & 66.3\%  & 46.5\%  & 2.8 \\
-Centralized   & 68.8\%  & 44.9\%  & 2.7 \\
+Single doctor & ---     & ---     & \textbf{3.1} \\
+Independent   & 69.5\%  & 39.7\%  & 3.8 \\
+Centralized   & 70.6\%  & \textbf{38.9\%}  & \textbf{4.0} \\
 \winrow
-Decentralized & \gn{\textbf{98.3\%}} & 49.9\% & \gn{\textbf{1.8}} \\
-Hybrid$^{\dagger}$ & 44.4\%  & \gn{59.1\%} & \gn{1.7} \\
+Decentralized & \gn{\textbf{98.3\%}} & \gn{45.7\%} & \gn{\textbf{2.4}} \\
+Hybrid$^{\dagger}$ & 54.3\%  & \gn{50.6\%} & \gn{2.9} \\
 \bottomrule
-\multicolumn{4}{@{}l}{\scriptsize the shaded row agrees almost always and is wrong half} \\
-\multicolumn{4}{@{}l}{\scriptsize the time it agrees. $^{\dagger}$Hybrid is measured on the} \\
-\multicolumn{4}{@{}l}{\scriptsize $12.4\%$ of items its triage gate escalates ($n=1{,}392$).} \\
+\multicolumn{4}{@{}l}{\scriptsize the shaded row agrees on almost every item and is} \\
+\multicolumn{4}{@{}l}{\scriptsize wrong on $46\%$ of them. $^{\dagger}$Hybrid is measured on the} \\
+\multicolumn{4}{@{}l}{\scriptsize $20\%$ of items its triage gate escalates ($n=1{,}048$).} \\
 \end{tabular}
 \end{table}
 
@@ -632,10 +632,11 @@ Let the \emph{oracle ceiling} be the accuracy of a rule that always selects a co
 opinion whenever any panel member holds one. It upper-bounds every aggregation rule that does not
 see the label. At $n_a{=}9$ the single doctor scores $52.9\%$, the oracle $62.2\%$, and the best
 measured architecture $54.2\%$. The panel holds $9.3$\,pp of recoverable accuracy, and no
-mechanism we test recovers a tenth of it. Averaged over all configurations at $n_a \geq 3$,
-majority vote captures $0.6\%$ of the headroom, budget-matched self-consistency $4.7\%$, an
-auditing orchestrator $6.5\%$, peer debate $8.6\%$ and tiered referral $8.8\%$; selecting the
-best architecture per cell after the fact, which is not a deployable strategy, reaches $14\%$.
+mechanism we test recovers a tenth of it. Averaged over all configurations at $n_a \geq 3$, an
+auditing orchestrator captures $4.2\%$ of the headroom, budget-matched self-consistency $3.7\%$
+and peer debate $3.7\%$, while majority vote captures $-12.4\%$ and tiered referral $-5.8\%$:
+both finish below the accuracy of a panel member drawn at random. Selecting the
+best architecture per cell after the fact, which is not a deployable strategy, reaches $15.0\%$.
 The failure is not that a panel of one model has nothing to add. It is that nothing in the panel
 can tell which member is the one to listen to (Fig.~\ref{fig:ceiling}).
 
@@ -646,10 +647,10 @@ available at all, at $n_a{=}9$. Asking one generalist nine times makes one avail
 the time; nine distinct specialists make one available $62.2\%$. The two middle bars are the
 comparison the design pattern rests on, and they are the same length: of the $9.3$\,pp of
 headroom a specialty panel appears to offer over a single attempt, $99\%$ is sampling and $1\%$ is
-the roster. The bottom bar is what the best architecture actually returns, $2.0$\,pp above one
+the roster. The bottom bar is what the best architecture actually returns, $1.4$\,pp above one
 doctor. (b) The same gap on a selection scale, where $0$ is picking one panel member at random and
 $100$ is an oracle that always picks a correct one. Averaged over all configurations at
-$n_a \geq 3$, no aggregation rule reaches $9$.}
+$n_a \geq 3$, no rule reaches $5$, and two fall below zero.}
 \label{fig:ceiling}
 \end{figure*}
 
@@ -757,10 +758,10 @@ rule for reading it.
 Eq.~\ref{eq:decomp} says the lever that matters is $\kappa$, and $\kappa$ requires deciding which
 opinion to trust. Hybrid is the only architecture here that tries: a triage gate escalates to a
 panel when the first opinion's stated confidence falls below $\theta$. It escalates on
-$\mathbf{12.4\%}$ of items overall, and the rate is set almost entirely by which model is behind
-the gate rather than by which items are hard---$40.4\%$ for \texttt{gpt-5-nano} on
-MedAgentsBench, $0.0\%$ for \texttt{gpt-4.1-nano} on MedQA, where the gate never once fires in
-$1{,}250$ items. This is not a poorly tuned threshold. It is the same measurement as \S\ref{sec:safety}
+$\mathbf{20\%}$ of items overall, and the rate is set almost entirely by which model is behind
+the gate rather than by which items are hard---$76.8\%$ for \texttt{claude-sonnet-5} on
+MedXpertQA, $0.0\%$ for \texttt{gpt-4.1-nano} on MedQA, where the gate never once fires in
+$1{,}000$ items. This is not a poorly tuned threshold. It is the same measurement as \S\ref{sec:safety}
 seen from the other side: a gate can only route on a signal that separates right from wrong, and
 stated confidence separates them with Youden $J = 0.166$. Hybrid is cheap and efficient because
 it is a single model most of the time, and it is a single model most of the time because there is
@@ -771,10 +772,10 @@ no signal on which it could decide to be anything else.
 \caption{\textbf{Consultation degrades the signal a clinician would use to catch its errors.}
 (a) Overconfidence, defined as stated confidence minus the accuracy actually achieved at that
 confidence, against stated confidence. Perfect calibration is the solid line at zero; every
-architecture sits $25$--$43$\,pp above it at every confidence level, so panels are not merely
+architecture sits $19$--$47$\,pp above it at every confidence level, so panels are not merely
 uninformative about their own reliability but systematically overconfident. (b) The confidence gap
-between correct and incorrect answers, which is the quantity a reader would use to discount an
-answer. Peer discussion nearly halves it.}
+between correct and incorrect answers at $N{=}9$, which is the quantity a reader would use to
+discount an answer. Peer discussion cuts it by a quarter, to below the single doctor's.}
 \label{fig:reliability}
 \end{figure*}
 
@@ -785,32 +786,30 @@ Accuracy is not the only thing coordination changes. In medicine the more conseq
 is what it does to the \emph{signals a clinician would act on}. Three measurements, all pointing
 the same way.
 
-\paragraph{Self-reported confidence barely discriminates right from wrong, and discussion makes it
-worse.} Across all configurations, mean confidence on correct answers exceeds that on wrong
-answers by only $3.3$ points for a single doctor (86.0 vs 82.6; AUC $= 0.597$;
-Fig.~\ref{fig:reliability}). Peer discussion
-compresses that gap by $45\%$, to $1.8$ points (88.4 vs 86.6; AUC $= 0.577$). The compression is
-not a rescaling: discussion raises confidence on \emph{wrong} answers by $4.0$ points while
-raising it on correct answers by $2.4$. A panel that has deliberated is more sure of itself, and
-disproportionately so when it is mistaken. This is consistent with the threshold calibration we
-ran before the main experiments, where the best achievable referral gate on stated confidence
-reached a Youden $J$ of only $0.166$.
+\paragraph{Self-reported confidence barely discriminates right from wrong.} Across all
+configurations, mean confidence on correct answers exceeds that on wrong answers by only $3.1$
+points for a single doctor (88.7 vs 85.6; AUC $= 0.593$; Fig.~\ref{fig:reliability}). A
+nine-member deliberating panel narrows it to $2.4$ points (89.5 vs 87.0; AUC $= 0.589$), and the
+narrowing is a vendor effect: the three OpenAI models lose $59$--$78\%$ of the gap, the Google and
+Anthropic models lose none of it. An auditing orchestrator discriminates best of the five, at
+AUC $= 0.614$. Nothing we test reads confidence better than that. This is consistent with the threshold
+calibration we ran before the main experiments, where the best achievable referral gate on stated
+confidence reached a Youden $J$ of only $0.166$.
 
 \paragraph{Discussion manufactures consensus without manufacturing correctness.}
 Unanimity, defined as every panelist emitting the same valid option in the last round with two or
-more agents, rises from $66.3\%$ under independent voting to $98.3\%$ under peer discussion.
-Conditional accuracy does not follow: $P(\text{wrong} \mid \text{unanimous})$ is $46.5\%$ for
-Independent and $49.9\%$ for Decentralized. A unanimous medical panel is wrong about half the time
-in both cases; discussion simply produces far more unanimous panels. Centralized coordination is
-the only architecture that lowers the conditional error rate ($44.9\%$), which is the
-error-containment role the orchestrator is supposed to play.
+more agents, rises from $69.5\%$ under independent voting to $98.3\%$ under peer discussion at
+$N{=}9$. Conditional accuracy does not follow: $P(\text{wrong} \mid \text{unanimous})$ is $39.7\%$
+for Independent and $45.7\%$ for Decentralized. A unanimous medical panel is wrong on $40$--$46\%$ of what
+it agrees on, and discussion both raises that rate and produces far more unanimous panels. Centralized coordination is the only architecture that lowers it ($38.9\%$), which is
+the error-containment role the orchestrator is supposed to play.
 
 \paragraph{The most trustworthy-looking output is the least trustworthy.}
 Taken together: consultation drives panels to near-total agreement, leaves the error rate given
-agreement at a coin flip, and raises confidence most on the answers that are wrong while shrinking
-the confidence gap that would let a reader tell the difference. The configuration a clinician
-would most readily act on, a unanimous and high-confidence multidisciplinary recommendation,
-carries essentially the same error rate as a divided one, and advertises itself more strongly.
+agreement at $46\%$, and never makes stated confidence a usable guide to whether the panel is
+right. The configuration a clinician would most readily act on, a unanimous and high-confidence
+multidisciplinary recommendation, carries essentially the same error rate as a divided one, and
+advertises itself more strongly.
 Accuracy gains of $6$--$8$ pp on the best cells are real, but they are purchased alongside a
 degradation in the calibration of the signal that would let a clinician catch the remaining
 errors.

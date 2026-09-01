@@ -18,11 +18,11 @@ and the least correlated panel we can assemble reaches that state by seating a m
 and then performs like the stronger member working alone.
 
 The second is the binding constraint. On a scale where picking a panel member at random scores $0$
-and always picking a correct one scores $100$, majority voting scores $0.6$, an auditing
-orchestrator $6.5$, peer debate $8.6$ and tiered referral $8.8$. The panel usually holds the
+and always picking a correct one scores $100$, an auditing orchestrator scores $4.2$, peer debate
+$3.7$, and majority voting and tiered referral score below zero, at $-12.4$ and $-5.8$. The panel usually holds the
 answer it does not give. The quantity such a system would need---a signal separating a right member
 from a wrong one---is missing: self-reported confidence separates them with Youden $J = 0.166$, and
-the one architecture here that tries to route on it convenes a panel on $12.4\%$ of items and never
+the one architecture here that tries to route on it convenes a panel on $20\%$ of items and never
 once on one benchmark--model cell. Collaboration gain factors as available signal times the
 fraction recovered, and both factors are small.
 
@@ -44,6 +44,7 @@ matters $4.1\times$ more.
 The broader caution is about what a consulting system advertises. A unanimous, high-confidence
 multidisciplinary recommendation is the output a clinician is most likely to act on, and in these
 experiments it is the output whose reliability is least legible from its own signals: unanimity
-reaches $98\%$ while the error rate given unanimity stays at $50\%$, and the confidence gap that
-would let a reader tell the difference is compressed by $45\%$. Making medical panels agree is
+reaches $98\%$ while the error rate given unanimity stays at $46\%$, and stated confidence
+separates the panel's right answers from its wrong ones at $\text{AUC} \leq 0.62$ under every
+architecture we tested. Making medical panels agree is
 easy. Making them \emph{decidable} is the open problem.
