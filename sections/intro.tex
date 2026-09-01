@@ -1,73 +1,66 @@
 \section{Introduction}
 
-Ask nine AI specialists a hard clinical question and let them confer. They will reach unanimity
-$98.3\%$ of the time and be wrong on $45.7\%$ of the items they agree on. By the moment they agree
-they carry $1.01$ independent opinions between them.
+Medicine has a procedure for a hard case: convene several specialists, let each form a view, and
+see whether the views agree. What makes the procedure worth its cost is not that more people
+looked. It is that clinicians trained differently make different mistakes, so when they land on
+the same diagnosis the coincidence is unlikely unless the diagnosis is right. Concordance is
+evidence. That is why a tumour board's agreement moves a treatment decision, and why a second
+opinion matching the first ends the question rather than merely repeating it.
 
-In medicine that combination is not a disappointment but a hazard. Concordance among independent
-specialists is evidence---it is why a tumour board's agreement moves a treatment decision, and why
-a second opinion that matches the first ends the question. A panel that agrees almost always, and
-is wrong on nearly half of what it agrees on, supplies the form of that evidence and none of its
-content.
+Multi-agent consultation transplants the procedure into language-model systems.
+MedAgents~\citep{tang2024medagents}, MDAgents~\citep{kim2024mdagents}, MAC~\citep{chen2025mac} and
+TeamMedAgents~\citep{teammedagents} build the same object: several agents prompted into clinical
+specialties, deliberating until they agree, on the reasoning that a panel of specialists diagnoses
+better than one physician. The reasoning is an inheritance rather than an analogy, and
+inheritances carry conditions. This one requires the specialists to make different
+mistakes: pooling correlated judgements repeats them rather than combining
+them~\citep{kurvers2016boosting, kammer2017}. Whether agents prompted into different specialties satisfy that condition has not
+been measured. The pattern is being deployed faster than its premise is being checked.
 
-Now ask a different question of the same panel: was \emph{anyone} in it right? Averaged over the
-$21$ model--benchmark cells at $n_a{=}9$, some member holds the correct answer $62.2\%$ of the time
-against $52.9\%$ for one doctor working alone. The panel returns $54.2\%$.
+In this work we measure it. A consultation is worth convening only if two things are true:
+somebody in the room is right when the others are wrong, and the room can tell who. The two are
+separately measurable and collaboration gain is exactly their product, so we measure each,
+across $420$ multi-agent configurations and $144{,}499$ episodes spanning seven models from three
+vendors, three medical benchmarks, five architectures, panel sizes $N \in \{1,3,5,7,9\}$, and a
+budget-matched single-model control at every cell. Medicine is what makes the measurement clean:
+multiple-choice clinical reasoning calls no tools, so the entire difference between an
+architecture and its baseline on the same item is coordination, with none of the tool-call
+overhead that confounds the same comparison on general-domain agentic benchmarks.
 
-A consultation is worth convening only if two things are true. Somebody in the room must be right
-when the others are wrong, and the room must be able to tell who. This paper measures both. Panels
-of language models have a little of the first and almost none of the second, and every failure
-reported here follows from that pair.
+Agents prompted into different medical specialties fail on the same items. Their pairwise error
+correlation is $\varphi = 0.79$, which leaves a nine-member panel carrying $1.22$ effective
+independent opinions, and peer discussion raises the correlation to $0.990$, at which point a
+nine-agent consultation is informationally equivalent to $1.01$ physicians. The panel does not
+converge on an answer; it collapses onto one. Nor is the independence for sale. Crossing training
+families inside one vendor lifts a nine-member panel from $1.22$ to $2.60$ effective opinions, and
+crossing the vendor boundary altogether---to six independently trained ecosystems on two
+continents---returns $2.29$. Two models built by different companies on different corpora fail on
+the same medical items about as reliably as two checkpoints from one lab.
 
-Multi-agent ``consultation'' has become the default design pattern in medical language-model
-systems. MedAgents~\citep{tang2024medagents}, MDAgents~\citep{kim2024mdagents},
-MAC~\citep{chen2025mac} and TeamMedAgents~\citep{teammedagents} all instantiate the same clinical
-intuition. A panel of specialists should diagnose better than one generalist, the reasoning goes,
-because a tumour board diagnoses better than one physician. The pattern is being deployed faster
-than it is being measured.
+The second condition fails harder, and it is the one prior work would not predict. Independence is
+scarce but not absent: at nine agents some member holds the correct answer $62.2\%$ of the time
+against $52.9\%$ for one doctor working alone, so $9.3$\,pp of real signal is in the room. Almost
+none of it comes out. On a scale where picking a panel member at random scores $0$ and always
+picking a correct one scores $100$, the five mechanisms we test score between $-12$ and $+5$, and
+the two commonest---majority vote and confidence-gated referral---fall below zero. A classifier
+trained on the panel's own output against ground truth does not beat counting votes. What such a
+system would need is a signal separating a right member from a wrong one, and nothing the panel
+emits is one: stated confidence separates them at Youden $J = 0.166$.
 
-The intuition is not merely an analogy; it is an inheritance. Pooling diagnostic judgements
-improves accuracy in human medicine for a specific reason, namely that physicians trained
-differently make different mistakes~\citep{kurvers2016boosting, kammer2017}. Majority voting
-converts that independence into accuracy. Strip the independence away and the arithmetic stops
-working, however many voters remain. Nobody has checked whether language-model panels satisfy the
-premise they borrow.
+For medicine the consequence is not inefficiency but hazard. A unanimous, high-confidence
+multidisciplinary recommendation is the output a clinician is most likely to act on, and it is
+the output whose reliability is least legible from its own signals. Unanimity separates the
+panel's right answers from its wrong ones at $\text{AUC} = 0.59$, and deliberation drives
+unanimity up while driving the accuracy of that unanimity down. The panel supplies the surface a
+clinician is trained to read as corroboration, and nothing behind it. Making medical panels agree
+is easy; making them \emph{decidable} is the open problem.
 
-They do not. Measuring the pairwise error correlation between panel members across 420 multi-agent
-configurations, we find $\varphi = 0.79$: agents prompted into different medical specialties fail
-on the same items. A nine-member panel therefore carries $1.22$ effective independent opinions,
-and peer discussion drives the correlation to $0.990$, at which point a nine-agent consultation is
-informationally equivalent to $1.01$ physicians. The panel does not converge on an answer. It
-collapses onto one.
-
-That is the first pillar, and it is the one prior work would predict. It also survives the
-obvious remedy. Reaching across separately trained families inside one vendor lifts a nine-member
-panel from $1.22$ to $2.60$ effective opinions; reaching across the vendor boundary---to Google,
-Anthropic, DeepSeek, Alibaba and Zhipu---gives $2.29$. Two models built by different companies on different
-corpora fail on the same medical items about as reliably as two checkpoints from one lab.
-
-The second pillar is less expected.
-Independence is scarce but not absent: the $9.3$\,pp between one doctor and the panel's oracle is
-real signal, held by some member on some items. On a scale where picking a panel member at random
-scores $0$ and always picking a correct one scores $100$, majority voting, an auditing
-orchestrator, peer debate and tiered referral score between $1$ and $9$. No architecture we test
-converts what the panel knows into what the panel says, because the quantity such a conversion
-needs---a signal that separates a right member from a wrong one---is missing: self-reported
-confidence separates them with Youden $J = 0.166$.
-
-Two observable consequences follow, and they are the same fact seen twice. Consensus carries
-almost no information, because it is agreement among copies: unanimity separates the panel's right
-answers from its wrong ones at $\text{AUC} = 0.59$, and deliberation moves unanimity up and its
-accuracy down. And panel size predicts nothing, because tripling the panel adds a tenth of an
-opinion.
-
-Establishing this requires a grid large enough to separate architecture from panel size from task
-difficulty: 420 multi-agent configurations and 144{,}499 episodes across seven models from six
-independently trained ecosystems, three medical benchmarks, five canonical architectures, panel
-sizes $N \in \{1,3,5,7,9\}$, and a budget-matched single-model control at every cell. Medicine makes
-the measurement possible in a way general-domain agentic benchmarks cannot: multiple-choice
-clinical reasoning uses no tools, so coordination can be measured without the confound of tool-call
-overhead. Scaling principles for general-domain agent
-systems~\citep{kim2026scaling} supply the architecture taxonomy and the controlled-comparison
-design our grid is built on; the error-correlation and consensus-calibration measurements that
-carry our argument are new here.
+The rest of the paper is organised as follows. Section~\ref{sec:related} places the work against
+the collective-intelligence results the design pattern borrows from and the medical systems built
+on them. Section~\ref{sec:metrics} defines the two measurements and the six conditions.
+Section~\ref{sec:premise} asks how much independent judgement a panel contains and prices every
+remedy for its absence; Section~\ref{sec:ceiling} asks what any aggregation rule recovers from it;
+and Section~\ref{sec:safety} reports what the resulting output does to the signals a clinician
+would act on. Scaling principles for general-domain agent systems~\citep{kim2026scaling} supply
+the architecture taxonomy and the controlled-comparison design the grid is built on; the
+error-correlation and consensus-calibration measurements that carry the argument are new here.
