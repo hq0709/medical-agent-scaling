@@ -28,6 +28,20 @@
 \newcommand{\winrow}{\rowcolor{winbg}}
 \newcommand{\sectrow}{\rowcolor{sectbg}}
 
+%% ------------------------------------------------------------------
+%% 概念图占位。作者手绘，正文只写规格。
+%% 定稿时把 \needsfigure{高度}{说明} 整块替换成 \includegraphics 即可。
+\usepackage{tikz}
+\newcommand{\needsfigure}[2]{%
+  \begin{tikzpicture}
+    \node[draw=gray!55, dashed, line width=0.7pt, rounded corners=2pt,
+          inner sep=8pt, align=left, text width=\linewidth-20pt,
+          minimum height=#1, fill=gray!4]
+      {\footnotesize\color{gray!75}\textsf{[FIGURE TO BE DRAWN]}\par\medskip
+       \footnotesize\color{black!72} #2};
+  \end{tikzpicture}}
+%% ------------------------------------------------------------------
+
 \newcommand{\PSA}{P_{\mathrm{SA}}}
 \newcommand{\Ec}{E_{c}}
 \newcommand{\Ae}{A_{e}}

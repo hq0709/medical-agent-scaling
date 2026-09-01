@@ -71,6 +71,29 @@ single doctor improves.}
 \label{fig:capability}
 \end{figure*}
 
+\begin{figure}[t]\centering
+\needsfigure{4.6cm}{%
+\textbf{The two questions, and where each is answered.} Three rooms side by side, nine seats
+each, with the panel's emitted answer in a box below each room.\par\smallskip
+\textbf{Left --- no headroom.} Every seat holds the same wrong answer; the emitted answer is
+wrong. No aggregation rule can help. Label: \emph{headroom} $=0$.\par\smallskip
+\textbf{Middle --- headroom, no capture.} Two seats hold the correct answer, seven do not, and the
+emitted answer is still wrong. Label: \emph{headroom} $>0$, $\kappa \approx 0$. Mark this room ---
+it is the one the grid lands in.\par\smallskip
+\textbf{Right --- headroom and capture.} The same two correct seats, and the emitted answer is
+correct. Label: \emph{headroom} $>0$, $\kappa$ high.\par\smallskip
+Underneath, Eq.~\ref{eq:decomp} spanning the three rooms, with \emph{headroom} sitting under the
+seats and $\kappa$ under the arrow from seats to output box. Point the reader at
+\S\ref{sec:premise} beneath the seats and \S\ref{sec:ceiling} beneath the arrow.\par\smallskip
+The takeaway before any number: the left and middle rooms are indistinguishable from the output
+alone, and separating them is what the rest of this section does.\par\smallskip
+\emph{Space:} one column, about $4.5$\,cm tall.}
+\caption{\textbf{A panel can fail two ways, and accuracy does not tell them apart.} Either the
+answer is not in the room, or it is and nothing recovers it. The two have different remedies.
+\S\ref{sec:premise} measures the first factor and \S\ref{sec:ceiling} the second.}
+\label{fig:decomp}
+\end{figure}
+
 \subsection{Main results: what a panel buys}
 
 Across 420 multi-agent configurations and 144{,}499 episodes, convening a panel changes the answer
@@ -98,6 +121,7 @@ behaves the same way. On \texttt{gpt-5-nano} / MedXpertQA, Independent moves fro
 $N{=}1$ to 32.6\% at $N{=}9$, which is 0.8\,pp for nine times the calls, while Decentralized
 reaches 38.0\% at $N{=}3$ and stays there. Gains saturate at $N{=}3$ in every cell where they
 occur, and no architecture in any cell improves beyond $N{=}5$.
+
 
 \paragraph{Both factors are small, and they move apart.}
 A consultation is worth convening only if somebody in the room is right when the others are
