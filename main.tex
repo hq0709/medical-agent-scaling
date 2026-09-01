@@ -16,7 +16,7 @@
 \usepackage{xcolor}
 \usepackage{colortbl}
 
-%% 表格配色：分节底色行 / 协作窗口内的行高亮 / 增益的正负色
+%% 表格配色：分节底色行 / 强调行 / 增益的正负色
 \definecolor{sectbg}{HTML}{E7E7E7}
 \definecolor{winbg}{HTML}{FBF1DD}
 \definecolor{winink}{HTML}{9A6A10}
@@ -55,6 +55,23 @@
 \newcommand{\deepseek}{\symbolimg{icons/deepseek.png}}
 \newcommand{\qwen}{\symbolimg{icons/qwen.png}}
 \newcommand{\zhipu}{\symbolimg{icons/zhipu.png}}
+
+% 多个浮动体独占一页（float page）时，LaTeX 用 \@fptop/\@fpsep/\@fpbot 这三个
+% 橡皮长度把它们上下撑开，表与表之间就出现大片断层。改成顶部对齐、间距固定、
+% 余量全部留到页尾。
+\raggedbottom
+% \makeatletter 必须在 \AtBeginDocument 外面：参数在这里就被记号化了，
+% 那时 @ 还不是字母，\@fptop 会被切成 \@ + fptop，而 \@ 在竖直模式下报错。
+\makeatletter
+\AtBeginDocument{%
+  \setlength{\@fptop}{0pt}%
+  \setlength{\@fpsep}{14pt plus 0fil}%
+  \setlength{\@fpbot}{0pt plus 1fil}%
+  \setlength{\floatsep}{10pt plus 2pt minus 2pt}%
+  \setlength{\textfloatsep}{12pt plus 2pt minus 2pt}%
+  \setlength{\dblfloatsep}{10pt plus 2pt minus 2pt}%
+  \setlength{\dbltextfloatsep}{12pt plus 2pt minus 2pt}}
+\makeatother
 
 \begin{document}
 \maketitle

@@ -242,7 +242,7 @@ OpenAI & \texttt{gpt-5.4-nano} & effort=low & --- & 47.5\% & 95.0\% & 0.14 \\
 \bottomrule
 \end{tabular}
 \end{table*}
-\begin{table*}[t]\centering\small
+\begin{table}[t]\centering\footnotesize
 \caption{Agent heterogeneity at $n_a{=}3$ on MedXpertQA. Strong is \texttt{gpt-5-mini}, weak is
 \texttt{gpt-4.1-nano}, matching Fig.~\ref{fig:hetero}. ``Span retained'' is the fraction of the
 all-strong minus all-weak range that the configuration preserves. Decentralized coordination has
@@ -262,7 +262,7 @@ Mixed-capability panel        & 40.8\% & 76\% & 44.0\% & 88\% \\
 All weak                      & 14.8\% & 0\% & 17.2\% & 0\% \\
 \bottomrule
 \end{tabular}
-\end{table*}
+\end{table}
 
 
 \subsection{Where in medicine collaboration pays}
@@ -276,7 +276,7 @@ category significant at both tiers. This is the pattern clinical intuition predi
 diagnosis is the medical task that most resembles pooling independent perspectives, and it is
 where pooling pays.
 
-\begin{table*}[t]\centering\small
+\begin{table}[t]\centering\footnotesize
 \caption{Collaboration gain by clinical task type on MedXpertQA, for the two OpenAI tiers where
 gains are significant. Gain is the best panel configuration over the single doctor on the same
 items; $p$ from paired McNemar.}
@@ -296,20 +296,7 @@ Tier & Task type & $n$ & single doctor & best panel & gain \\
 \bottomrule
 \multicolumn{6}{@{}l}{\scriptsize $^{*}p<0.05$, $^{**}p<0.01$} \\
 \end{tabular}
-\end{table*}
+\end{table}
 
-\section{Effect sizes by configuration}
-\label{app:forest}
 
-\begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig7_forest.pdf}
-\caption{\textbf{Effect size for every configuration, ranked.} Collaboration gain with 95\%
-confidence intervals; each row is one architecture at its best panel size within a difficulty
-stratum, and rows run left to right in descending order of effect. Amber rows have a
-single-doctor baseline between $25$ and $50\%$, grey rows outside that range. Filled markers are
-significant at $p<0.05$, hollow are not. The ranking is what carries the claim: amber occupies
-the positive tail and grey the negative one, and every significant row on the positive side is
-amber while the only significant row on the negative side is grey.}
-\label{fig:forest}
-\end{figure*}
 
