@@ -78,6 +78,41 @@ and cost, and a cross-process spend journal guarded by an OS file lock. Every LL
 on the full request (model, system, messages, temperature, seed, max tokens, effort, JSON mode,
 tag), so a re-run is a replay.
 
+\begin{table*}[t]\centering\small
+\caption{\textbf{Model selection probe.} All eight candidates screened on 40 items per benchmark
+with single-doctor CoT before the grid was run. Three OpenAI checkpoints were chosen as the
+capability ladder because they are monotone and straddle the $45\%$ threshold; two Google models
+were added later for the vendor contrast. Full 250-item accuracies for the five selected models
+are in Table~\ref{tab:capability}.}
+\label{tab:tiers}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.02}
+\begin{tabular}{@{}llllrrr@{}}
+\toprule
+Vendor & Model & Setting & Role & MedXpertQA & MedQA & USD / 1k items \\
+\midrule
+\sectrow
+\multicolumn{7}{@{}l}{\textit{Selected}} \\
+\winrow
+OpenAI & \texttt{gpt-4.1-nano} & --- & tier T1 & 25.0\% & 75.0\% & 0.09 \\
+\winrow
+OpenAI & \texttt{gpt-5-nano} & effort=low & tier T2 & 37.5\% & 95.0\% & 0.17 \\
+\winrow
+OpenAI & \texttt{gpt-5-mini} & effort=low & tier T3 & 55.0\% & 97.5\% & 0.64 \\
+\winrow
+Google & \texttt{gemini-3.5-flash-lite} & --- & vendor contrast & 30.0\% & 95.0\% & 0.09 \\
+\winrow
+Google & \texttt{gemini-3.7-flash} & --- & vendor contrast & 80.0\% & 97.5\% & 0.41 \\
+\midrule
+\sectrow
+\multicolumn{7}{@{}l}{\textit{Screened, not selected --- used only for the pairwise $\varphi$ analysis}} \\
+OpenAI & \texttt{gpt-4o-mini} & --- & --- & 20.0\% & 87.5\% & 0.13 \\
+OpenAI & \texttt{gpt-4.1-mini} & --- & --- & 32.5\% & 85.0\% & 0.41 \\
+OpenAI & \texttt{gpt-5.4-nano} & effort=low & --- & 47.5\% & 95.0\% & 0.14 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
 \subsection{Agent configuration}
 Single agents answer in one call. Independent panels deploy $N$ specialists with
 synthesis-only aggregation. Centralized systems use one orchestrator over $N$ sub-agents with a
@@ -198,6 +233,7 @@ configurations degrade.
 
 
 
+
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig4_heterogeneity.pdf}
 \caption{\textbf{Agent heterogeneity.} Performance of Centralized and Decentralized panels at
@@ -208,61 +244,6 @@ all-strong panel (dashed line). Decentralized coordination has no attending, so 
 attending-capability conditions are structurally undefined there and are omitted.}
 \label{fig:hetero}
 \end{figure*}
-\begin{table*}[t]\centering\small
-\caption{\textbf{Model selection probe.} All eight candidates screened on 40 items per benchmark
-with single-doctor CoT before the grid was run. Three OpenAI checkpoints were chosen as the
-capability ladder because they are monotone and straddle the $45\%$ threshold; two Google models
-were added later for the vendor contrast. Full 250-item accuracies for the five selected models
-are in Table~\ref{tab:capability}.}
-\label{tab:tiers}
-\setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{1.02}
-\begin{tabular}{@{}llllrrr@{}}
-\toprule
-Vendor & Model & Setting & Role & MedXpertQA & MedQA & USD / 1k items \\
-\midrule
-\sectrow
-\multicolumn{7}{@{}l}{\textit{Selected}} \\
-\winrow
-OpenAI & \texttt{gpt-4.1-nano} & --- & tier T1 & 25.0\% & 75.0\% & 0.09 \\
-\winrow
-OpenAI & \texttt{gpt-5-nano} & effort=low & tier T2 & 37.5\% & 95.0\% & 0.17 \\
-\winrow
-OpenAI & \texttt{gpt-5-mini} & effort=low & tier T3 & 55.0\% & 97.5\% & 0.64 \\
-\winrow
-Google & \texttt{gemini-3.5-flash-lite} & --- & vendor contrast & 30.0\% & 95.0\% & 0.09 \\
-\winrow
-Google & \texttt{gemini-3.7-flash} & --- & vendor contrast & 80.0\% & 97.5\% & 0.41 \\
-\midrule
-\sectrow
-\multicolumn{7}{@{}l}{\textit{Screened, not selected --- used only for the pairwise $\varphi$ analysis}} \\
-OpenAI & \texttt{gpt-4o-mini} & --- & --- & 20.0\% & 87.5\% & 0.13 \\
-OpenAI & \texttt{gpt-4.1-mini} & --- & --- & 32.5\% & 85.0\% & 0.41 \\
-OpenAI & \texttt{gpt-5.4-nano} & effort=low & --- & 47.5\% & 95.0\% & 0.14 \\
-\bottomrule
-\end{tabular}
-\end{table*}
-\begin{table}[t]\centering\footnotesize
-\caption{Agent heterogeneity at $n_a{=}3$ on MedXpertQA. Strong is \texttt{gpt-5-mini}, weak is
-\texttt{gpt-4.1-nano}, matching Fig.~\ref{fig:hetero}. ``Span retained'' is the fraction of the
-all-strong minus all-weak range that the configuration preserves. Decentralized coordination has
-no attending, so those conditions are structurally undefined.}
-\label{tab:hetero}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lrrrr@{}}
-\toprule
-Capability placement & \multicolumn{2}{c}{Centralized} & \multicolumn{2}{c}{Decentralized} \\
-\cmidrule(lr){2-3}\cmidrule(lr){4-5}
- & accuracy & span retained & accuracy & span retained \\
-\midrule
-All strong                    & 49.2\% & 100\% & 47.6\% & 100\% \\
-Weak attending, strong specialists & 45.6\% & \textbf{90\%} & --- & --- \\
-Strong attending, weak specialists & 34.4\% & \textbf{57\%} & --- & --- \\
-Mixed-capability panel        & 40.8\% & 76\% & 44.0\% & 88\% \\
-All weak                      & 14.8\% & 0\% & 17.2\% & 0\% \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 
 \subsection{Where in medicine collaboration pays}
@@ -276,27 +257,7 @@ category significant at both tiers. This is the pattern clinical intuition predi
 diagnosis is the medical task that most resembles pooling independent perspectives, and it is
 where pooling pays.
 
-\begin{table}[t]\centering\footnotesize
-\caption{Collaboration gain by clinical task type on MedXpertQA, for the two OpenAI tiers where
-gains are significant. Gain is the best panel configuration over the single doctor on the same
-items; $p$ from paired McNemar.}
-\label{tab:tasktype}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}llrrrl@{}}
-\toprule
-Tier & Task type & $n$ & single doctor & best panel & gain \\
-\midrule
-\texttt{gpt-5-nano} & Diagnosis      & 84 & 33.3\% & 42.9\% & $+9.52$ pp$^{**}$ \\
-                    & Treatment      & 84 & 35.7\% & 42.9\% & $+7.14$ pp \\
-                    & Basic Science  & 82 & 26.8\% & 34.1\% & $+7.32$ pp \\
-\addlinespace
-\texttt{gpt-5-mini} & Diagnosis      & 84 & 38.1\% & 48.8\% & $+10.71$ pp$^{**}$ \\
-                    & Treatment      & 84 & 44.0\% & 52.4\% & $+8.33$ pp$^{*}$ \\
-                    & Basic Science  & 82 & 42.7\% & 51.2\% & $+8.54$ pp$^{*}$ \\
-\bottomrule
-\multicolumn{6}{@{}l}{\scriptsize $^{*}p<0.05$, $^{**}p<0.01$} \\
-\end{tabular}
-\end{table}
+
 
 
 
