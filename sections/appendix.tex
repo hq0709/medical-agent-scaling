@@ -143,20 +143,6 @@ excluded from accuracy rather than scored as wrong, which would bias call-heavy 
 downward. Cost accounting is nominal: cached calls are charged at list price, so reported
 economics describe what a configuration would cost to run.
 
-\subsection{Information gain computation}
-Information gain is the Bayesian posterior variance reduction~\citep{kim2026scaling}
-\begin{equation}
-\Delta\mathcal{I} = \tfrac12 \log \frac{\mathrm{Var}[Y \mid \mathbf{s}_{\text{pre}}]}
-{\mathrm{Var}[Y \mid \mathbf{s}_{\text{post}}]},
-\end{equation}
-with $\mathrm{Var}[Y \mid \mathbf{s}] = \hat p(\mathbf{s})(1 - \hat p(\mathbf{s}))$ and
-$Y \in \{0,1\}$ the success indicator. They estimate $\hat p$ from $K{=}10$ sampled reasoning
-traces at temperature 0.7. In multiple-choice consultation the panel already supplies such a
-sample: $\hat p$ is the fraction of the round's opinions that name the gold option, Laplace
-smoothed as $(k{+}1)/(n{+}2)$. Smoothing rather than clipping matters. A Centralized panel's final
-round contains only the orchestrator, and clipping would pin $\hat p$ at $0.5$ and force
-$\Delta\mathcal{I}$ negative by construction.
-
 \section{Complete results grid}
 \label{app:full}
 

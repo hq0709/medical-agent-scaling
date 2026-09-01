@@ -221,10 +221,10 @@ configuration-level evidence.
 
 
 $R \times n_a$ is positive ($\hat\beta = +0.006$, $p < 0.001$), and resolving $R$ against the
-ground truth says what it is measuring. Mean rationale overlap is $0.426$ for pairs that are both
-right, $0.377$ for pairs that are both wrong and $0.227$ for pairs that split
-($t = 95.0$ between the first two, $p < 10^{-300}$). $R$ therefore separates \emph{agreeing} from
-\emph{disagreeing} by $0.15$--$0.20$ and agreeing-and-right from agreeing-and-wrong by $0.049$:
+ground truth says what it is measuring. Mean rationale overlap is $0.392$ for pairs that are both
+right, $0.351$ for pairs that are both wrong and $0.206$ for pairs that split
+($t = 119.5$ between the first two, $p < 10^{-300}$). $R$ therefore separates \emph{agreeing} from
+\emph{disagreeing} by $0.15$--$0.19$ and agreeing-and-right from agreeing-and-wrong by $0.040$:
 it is a detector of whether two specialists took the same path, and only weakly of whether the
 path was correct. Its positive coefficient is best read as restatement tracking the items where
 the model is on familiar ground, not as deliberative verification.
@@ -240,32 +240,25 @@ the model is on familiar ground, not as deliberative verification.
 published general-domain power law for comparison; medical panels converse an order of magnitude
 less than that law predicts. (b) Performance against message density, with a reference plateau
 marked at $c^{*}=0.39$; performance is uncorrelated with how much the panel says. (c) Error
-amplification $\Ae$, the share of information a round discards, by architecture. (d) Error
-absorption, the share of individually wrong opinions the panel repairs, against the published
-$22.7\%$ reference.}
+amplification $\Ae$, the share of information a round discards, by architecture.}
 \label{fig:coord}
 \end{figure*}
 
-\subsection{Coordination efficiency, error dynamics, and information transfer}
+\subsection{Coordination efficiency and error dynamics}
 
 \paragraph{Coordination is cheap in turns and uninformative in messages.}
-Fitting $T = a(n+0.5)^{b}$ gives $a = 0.85$, $b = 0.770$, $R^2 = 0.299$. The exponent is
+Fitting $T = a(n+0.5)^{b}$ gives $a = 0.84$, $b = 0.777$, $R^2 = 0.327$. The exponent is
 sub-linear, so turns grow more slowly than agents. A clinical panel answering a closed question
 terminates on unanimity rather than negotiating open-ended tool use. Turn counts by architecture are
-Decentralized $7.5$, Centralized $6.5$, Independent $5.0$, Hybrid $1.9$, against a single-agent
-$1.4$, a range of $1.4$ to $5.3\times$. The hard resource
+Decentralized $6.8$, Centralized $6.2$, Independent $5.0$, Hybrid $2.1$, against a single-agent
+$1.4$, a range of $1.5$ to $4.9\times$. The hard resource
 ceiling they infer from super-linear growth does not arise in tool-free consultation.
 
 
-$S = 0.462 - 0.045\ln(c)$, $R^2 = 0.056$: message density explains almost none of the variance in
-accuracy. Our Centralized panels run at $c = 0.99$ and Decentralized at $c = 0.79$, well past the
+$S = 0.504 - 0.028\ln(c)$, $R^2 = 0.025$: message density explains almost none of the variance in
+accuracy. Our Centralized panels run at $c = 0.88$ and Decentralized at $c = 0.60$, well past the
 $c^{*} = 0.39$ plateau reported elsewhere, with no accuracy penalty. Once a panel is communicating at all, communicating more neither helps nor hurts.
 
-
-Absorption $(E_{\mathrm{SAS}}-E_{\mathrm{MAS}})/E_{\mathrm{SAS}}$ is positive for every
-architecture: Decentralized $+4.2\%$, Hybrid $+2.7\%$, Independent $+1.9\%$, Centralized
-$+1.6\%$. Absorption is small in absolute terms and the ordering is not the expected one: peer discussion
-absorbs most, orchestration least.
 
 \paragraph{Coordination failure is structurally impossible without a channel.}
 We classify first-round errors into four categories, following the multi-agent failure
@@ -293,25 +286,17 @@ whereas our first-round contradiction rate is flat at $6.3\%$ across communicati
 non-communicating architectures. Numerical drift is an order of magnitude rarer than in
 tool-using tasks ($3$--$5\%$ against $19$--$26\%$), as expected when no arithmetic is cascaded.
 
-\paragraph{Information gain is positive but does not buy accuracy.}
-Information gain, the reduction in posterior variance of the success indicator between the first
-and final round (\S\ref{app:impl}), is $+0.90$ for Decentralized, $+1.46$ for Hybrid and $+0.24$
-for Centralized. Panels converge, and they converge most where
-the architecture communicates most. Convergence occurs whether or not the consensus is correct: $\Delta\mathcal{I}$ does not predict
-collaboration gain ($r = 0.055$, $p = 0.59$). Medical consultation is information-limited rather
-than information-transferring.
-
 \paragraph{Architecture rankings do not generalise across benchmarks.}
 Kendall's $\tau$ between the architecture rankings of any two benchmarks averages $+0.067$
-(pairwise $-0.200$, $+0.400$, $0.000$; none significant). Leave-one-benchmark-out cross-validation gives $R^2 = -0.015$: a model fitted on two medical
+(pairwise $0.000$, $+0.200$, $0.000$; none significant). Leave-one-benchmark-out cross-validation gives $R^2 = -0.015$: a model fitted on two medical
 benchmarks predicts the third no better than the mean. Coordination
 principles that transcend task structure in general-domain agentic work do not transcend
 benchmark in medicine: an architecture chosen on one clinical benchmark carries no guarantee on
 another.
 
 \paragraph{The architecture that wins on accuracy is the one that costs most.}
-Successes per 1{,}000 tokens: Hybrid $0.80$, self-consistency $0.47$, Independent $0.39$,
-Decentralized $0.33$, Centralized $0.19$. Centralized is $4.3\times$ less token-efficient than the cheapest configuration, and the
+Successes per 1{,}000 tokens: Hybrid $0.81$, Independent $0.41$, Decentralized $0.37$,
+self-consistency $0.27$, Centralized $0.22$. Centralized is $3.7\times$ less token-efficient than the cheapest configuration, and the
 architecture responsible for every significant gain is the one that costs most per correct
 answer. Hybrid is the most efficient, because its triage gate declines to escalate most cases and
 therefore rarely pays for a panel at all.
@@ -591,7 +576,7 @@ $44.5\%$ is two agents reaching different wrong answers. The panel argues at rou
 rate, but on two-fifths of items it has already agreed on the wrong diagnosis before the argument
 starts, and no aggregation rule and no panel size can reach those items.
 
-\paragraph{Ninety-two percent of the panel's diversity is a temperature knob.}
+\paragraph{Ninety-nine percent of the panel's diversity is a temperature knob.}
 Before asking what aggregation recovers, ask where the diversity comes from. Self-consistency
 gives the same model the same generic prompt nine times at the same temperature; a panel gives it
 nine different specialty prompts. Both produce nine answers, so both admit the same oracle
@@ -706,9 +691,9 @@ We tested every quantity a panel can compute from its own first round: mean stat
 the entropy of the answer distribution, the majority share, the lowest member confidence and the
 spread of confidences. Against the outcome the arbiter needs to predict---whether this panel will
 answer correctly---all five land between $\mathrm{AUC} = 0.570$ and $0.604$
-(Table~\ref{tab:signals}), a range of $0.034$. Answer entropy and majority share are marginally
-the best and still separate right from wrong with Youden $J = 0.185$. The problem is not the
-choice of signal. A panel whose members share $73\%$ of their errors cannot distinguish the case
+(Table~\ref{tab:signals}), a range of $0.034$. The lowest member's confidence is marginally the
+best and still separates right from wrong with Youden $J = 0.179$. The problem is not the
+choice of signal. A panel whose members share $79\%$ of their errors cannot distinguish the case
 where it agrees because the answer is easy from the case where it agrees because its members share
 a blind spot, and every statistic computable from its own outputs inherits that ambiguity.
 
