@@ -1,23 +1,15 @@
-In medicine, agreement is evidence. When independent specialists converge on a diagnosis, the
-convergence itself is information, and that is why tumour boards and second opinions change
-decisions. Multi-agent consultation has become the default design pattern in medical
-language-model systems on the strength of that inheritance. We test whether it survives the
-transfer, across 420 multi-agent configurations and 144{,}499 episodes over seven models, six
-independently trained ecosystems, three benchmarks and five architectures.
-Agreement survives; the independence that gave it meaning does not. A nine-member panel speaks
-with one voice on $69.5\%$ of items and is wrong on $39.7\%$ of the items it agrees on. Peer
-discussion raises unanimity to $\mathbf{98.3\%}$ and lowers the accuracy of that unanimity to
-$54.3\%$: the panel converges on an answer, not on a correct one. Agreement separates the panel's
-right answers from its wrong ones with $\text{AUC} = 0.59$, and self-reported confidence with
-Youden $J \leq 0.18$.
-The cause is measurable. The mean pairwise error correlation is $\varphi = 0.79$, leaving nine
-members worth $1.22$ \textbf{effective independent opinions}; discussion drives it to $0.990$, so a
-consultation at the moment of consensus is worth $1.01$ physicians. Independence cannot be bought:
-normalising $\varphi$ by its attainable maximum shows the apparent decorrelation from mixing
-capability is an artefact of unequal error rates, and every pair we can form across six
-ecosystems---three American and three Chinese---moves a nine-member panel from $2.60$ effective
-opinions to $2.29$, and at matched capability from $2.31$ to $2.02$: the wrong way. Nor can any
-rule read past it. On a scale where picking a member at random scores $0$ and always picking a
-correct one scores $100$, the five architectures score $-12$ to $+4$.
-A medical panel that agrees is not a panel that knows. Its consensus must not reach a clinician as
-confidence.
+Multi-agent consultation is the default design pattern in medical language-model systems.
+Several agents are prompted into clinical specialties and deliberate until they agree, on the
+reasoning that makes a second opinion worth soliciting: when specialists who make different
+mistakes converge on a diagnosis, the convergence is itself evidence. Although that reasoning
+requires the specialists to make different mistakes, no evaluation of a medical agent panel has
+measured whether its members do. In this work, we measure it, across $420$ multi-agent
+configurations and $144{,}499$ clinical episodes. They do not: a nine-member panel speaks with
+one voice on $70\%$ of items and is wrong on $40\%$ of what it agrees on. The failure decomposes
+into two components: a panel carries far less independent judgement than its size implies, and
+recovers almost none of the little it carries. Neither yields to its obvious remedy. Deliberation
+drives the agents to near-unanimity and lowers the accuracy of that unanimity. Crossing the
+vendor boundary, to six independently trained ecosystems on two continents, does not decorrelate
+their errors. And no aggregation rule we test beats counting votes, including one trained on the
+panel's own output against ground truth. In simpler terms: a medical panel that agrees is not a
+panel that knows, and its agreement must not reach a clinician as confidence.
