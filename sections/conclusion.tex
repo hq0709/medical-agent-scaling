@@ -6,12 +6,12 @@ the first and almost none of the second.
 
 The first is scarcer than the design pattern assumes, and it does not come from where the design
 pattern puts it. Agents prompted into different specialties make the same mistakes
-($\varphi = 0.794$), leaving a nine-member panel with $1.22$ effective independent opinions, and
-peer discussion pushes them into near-perfect agreement ($\varphi = 0.990$), leaving a nine-member
-consultation with $1.01$. Of the $9.3$\,pp that separates one doctor from the best answer anywhere
-in a nine-member panel, $99\%$ is already available from asking one generalist the same question
+($\varphi = 0.753$), leaving a nine-member panel with $1.28$ effective independent opinions, and
+peer discussion pushes them into near-perfect agreement ($\varphi = 0.983$), leaving a nine-member
+consultation with $1.01$. Of the $11.2$\,pp that separates one doctor from the best answer anywhere
+in a nine-member panel, $97\%$ is already available from asking one generalist the same question
 nine times; the specialty roster---the defining feature of the systems built on this
-pattern---contributes $+0.06$\,pp, indistinguishable from zero. Independence can be bought, but not cheaply and not
+pattern---contributes $+0.37$\,pp. Independence can be bought, but not cheaply and not
 usefully: three independently trained model families reach $2.60$ effective opinions out of nine
 and swapping vendor entirely---$300$ pairs across six ecosystems on two continents---reaches $2.29$,
 and the least correlated panel we can assemble reaches that state by seating a much weaker member
@@ -19,10 +19,10 @@ and then performs like the stronger member working alone.
 
 The second is the binding constraint. On a scale where picking a panel member at random scores $0$
 and always picking a correct one scores $100$, an auditing orchestrator scores $4.2$, peer debate
-$3.7$, and majority voting and tiered referral score below zero, at $-12.4$ and $-5.8$. The panel usually holds the
+$8.3$, and majority voting and tiered referral score below zero, at $-7.7$ and $-15.8$. The panel usually holds the
 answer it does not give. The quantity such a system would need---a signal separating a right member
 from a wrong one---is missing: self-reported confidence separates them with Youden $J = 0.166$, and
-the one architecture here that tries to route on it convenes a panel on $20\%$ of items and never
+the one architecture here that tries to route on it convenes a panel on $21\%$ of items and never
 once on one benchmark--model cell. Collaboration gain factors as available signal times the
 fraction recovered, and both factors are small.
 
@@ -44,7 +44,7 @@ matters $4.1\times$ more.
 The broader caution is about what a consulting system advertises. A unanimous, high-confidence
 multidisciplinary recommendation is the output a clinician is most likely to act on, and in these
 experiments it is the output whose reliability is least legible from its own signals: unanimity
-reaches $98\%$ while the error rate given unanimity stays at $46\%$, and stated confidence
+reaches $98\%$ while the error rate given unanimity stays at $45\%$, and stated confidence
 separates the panel's right answers from its wrong ones at $\text{AUC} \leq 0.62$ under every
 architecture we tested. Making medical panels agree is
 easy. Making them \emph{decidable} is the open problem.

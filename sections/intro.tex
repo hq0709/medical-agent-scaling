@@ -17,18 +17,18 @@ one of the dissenters is holding the correct answer. Caption the panel with what
 convening: \emph{they trained differently, so they fail differently}.\par\smallskip
 \textbf{(b) What an agent panel is.} The same nine seats, but every figure is the same figure
 wearing a different label---one model, nine coats. Their views are near-identical. Annotate with
-$\varphi = 0.79$, $N_{\mathrm{eff}} = 1.22$, and after deliberation
-$\varphi = 0.990$, $N_{\mathrm{eff}} = 1.01$. The visual point is that the room \emph{looks}
+$\varphi = 0.75$, $N_{\mathrm{eff}} = 1.22$, and after deliberation
+$\varphi = 0.983$, $N_{\mathrm{eff}} = 1.01$. The visual point is that the room \emph{looks}
 full and is not.\par\smallskip
 \textbf{(c) What reaches the clinician.} One output box: a unanimous, high-confidence
 recommendation, rendered exactly the way a real MDT summary would be. Beside it, the two numbers
-that the box does not carry: unanimity $98.3\%$, wrong on $46\%$ of what it agrees on. A clinician
+that the box does not carry: unanimity $97.8\%$, wrong on $45\%$ of what it agrees on. A clinician
 reading (c) cannot tell (a) from (b), and that is the finding.\par\smallskip
 \emph{Space:} full text width, about $5$\,cm tall.}
 \caption{\textbf{A panel that agrees is not a panel that knows.} Nine agents prompted into
 clinical specialties carry $1.22$ independent opinions between them, and $1.01$ once they have
 deliberated. The consensus they emit is the output a clinician is most likely to act on, and it
-is wrong on $46\%$ of the items it agrees on.}
+is wrong on $45\%$ of the items it agrees on.}
 \label{fig:teaser}
 \end{figure*}
 
@@ -46,7 +46,7 @@ been measured. The pattern is being deployed faster than its premise is being ch
 In this work we measure it. A consultation is worth convening only if two things are true:
 somebody in the room is right when the others are wrong, and the room can tell who. The two are separately
 measurable, and collaboration gain is exactly their product. We measure each across $420$
-multi-agent configurations and $144{,}499$ episodes: seven models from three vendors, three
+multi-agent configurations and $171{,}999$ episodes: nine models from four vendors, three
 medical benchmarks, five architectures, panel sizes $N \in \{1,3,5,7,9\}$, and a budget-matched
 single-model control at every cell. Medicine is what makes the measurement clean. Multiple-choice
 clinical reasoning calls no tools, so the whole difference between an architecture and its
@@ -57,18 +57,18 @@ design; the error-correlation and consensus-calibration measurements that carry 
 new here.
 
 Agents prompted into different medical specialties fail on the same items. Their pairwise error
-correlation is $\varphi = 0.79$, which leaves a nine-member panel carrying $1.22$ effective
-independent opinions, and peer discussion raises the correlation to $0.990$, at which point a
+correlation is $\varphi = 0.75$, which leaves a nine-member panel carrying $1.28$ effective
+independent opinions, and peer discussion raises the correlation to $0.983$, at which point a
 nine-agent consultation is informationally equivalent to $1.01$ physicians. The panel does not
 converge on an answer; it collapses onto one. Nor is the independence for sale. Crossing training
-families inside one vendor lifts a nine-member panel from $1.22$ to $2.60$ effective opinions, and
+families inside one vendor lifts a nine-member panel from $1.28$ to $2.60$ effective opinions, and
 crossing the vendor boundary altogether---to six independently trained ecosystems on two
 continents---returns $2.29$. Two models built by different companies on different corpora fail on
 the same medical items about as reliably as two checkpoints from one lab.
 
 The second condition fails harder, and it is the one prior work would not predict. Independence is
-scarce but not absent: at nine agents some member holds the correct answer $62.2\%$ of the time
-against $52.9\%$ for one doctor working alone, so $9.3$\,pp of real signal is in the room. Almost
+scarce but not absent: at nine agents some member holds the correct answer $64.0\%$ of the time
+against $52.8\%$ for one doctor working alone, so $9.3$\,pp of real signal is in the room. Almost
 none of it comes out. Put the mechanisms on a scale where picking a panel member at random
 scores $0$ and always picking a correct one scores $100$. The five we test score between $-12$ and
 $+5$, and the two commonest---majority vote and confidence-gated referral---fall below zero. A classifier

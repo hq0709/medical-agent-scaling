@@ -12,15 +12,15 @@ the transfer.
 
 | | |
 |---|---|
-| A nine-member panel speaks with one voice on | **69.5%** of items |
-| …and is wrong on | **39.7%** of the items it agrees on |
-| Peer discussion raises unanimity to | **98.3%** |
+| A nine-member panel speaks with one voice on | **66.0%** of items |
+| …and is wrong on | **38.2%** of the items it agrees on |
+| Peer discussion raises unanimity to | **97.8%** |
 | …and lowers the accuracy of that unanimity to | **54.3%** |
 | Agreement separates right answers from wrong ones at | AUC **0.59** |
 | Self-reported confidence, Youden *J* | ≤ **0.18** |
 
-The cause is measurable. Mean pairwise error correlation is **φ = 0.79**, leaving nine members
-worth **1.22 effective independent opinions**; discussion drives it to 0.990, so a consultation at
+The cause is measurable. Mean pairwise error correlation is **φ = 0.75**, leaving nine members
+worth **1.28 effective independent opinions**; discussion drives it to 0.983, so a consultation at
 the moment of consensus is worth 1.01 physicians.
 
 Independence cannot be bought. Normalising φ by its attainable maximum shows the apparent
@@ -30,13 +30,13 @@ nine-member panel from 2.60 effective opinions to **2.29**, and at matched capab
 **2.02**: the wrong way.
 
 Nor can any rule read past it. On a scale where picking a member at random scores 0 and always
-picking a correct one scores 100, the five architectures score **−12 to +4**. A gradient-boosted
+picking a correct one scores 100, the five architectures score **−16 to +8**. A gradient-boosted
 selector trained on the panel's own output, with ground-truth labels and grouped cross-validation,
 does not beat counting votes.
 
 ## Scale
 
-**420 multi-agent configurations** · 144,499 episodes · 7 models across 3 vendors ×
+**500 multi-agent configurations** · 171,999 episodes · 9 models across 4 vendors ×
 3 medical benchmarks × 5 architectures × *N* ∈ {1,3,5,7,9}, with a budget-matched single-model
 control at every cell. The diversity analysis adds six more models, spanning six ecosystems:
 OpenAI, Google, Anthropic, DeepSeek, Alibaba, Zhipu.

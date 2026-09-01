@@ -97,7 +97,7 @@ answer is not in the room, or it is and nothing recovers it. The two have differ
 \subsection{Main results: what a panel buys}
 \label{sec:results}
 
-Across 420 multi-agent configurations and 144{,}499 episodes, convening a panel changes the answer
+Across 500 multi-agent configurations and 171{,}999 episodes, convening a panel changes the answer
 on a minority of cells and never by much. Figure~\ref{fig:capability} gives the full
 dose--response surface; Table~\ref{tab:main} the underlying numbers.
 
@@ -105,7 +105,7 @@ dose--response surface; Table~\ref{tab:main} the underlying numbers.
 \caption{\textbf{Main results.} For each capability tier and benchmark: the single-doctor
 baseline, then each architecture at its best panel size, and the gain of the best architecture
 over the single doctor. Bold marks the best architecture in each row. The complete
-420-configuration grid is released with the code (\S\ref{app:full}).}
+500-configuration grid is released with the code (\S\ref{app:full}).}
 \label{tab:main}
 \input{tables/main_results_compact.tex}
 \end{table*}
@@ -130,9 +130,9 @@ A consultation is worth convening only if somebody in the room is right when the
 wrong, and the room can tell who. Eq.~\ref{eq:decomp} separates those two conditions
 (Fig.~\ref{fig:decomp}), and neither holds. What is not definitional about the factorisation is that the two factors move in opposite
 directions (Table~\ref{tab:ceiling}): headroom is largest where the single doctor is weakest,
-from $+11.4$\,pp at $\PSA \in [25,50)$ down to $+3.3$ above $70\%$, while capture runs the other
-way, from $-13.6\%$ to $+19.6\%$. The panels with the most to recover are the ones that discard
-it, and the product stays between $-0.3$ and $+1.0$\,pp across every band.
+from $+14.5$\,pp at $\PSA \in [25,50)$ down to $+4.1$ above $70\%$, while capture runs the other
+way, from $-9.2\%$ to $+24.7\%$. The panels with the most to recover are the ones that discard
+it, and the product stays between $-0.3$ and $+1.2$\,pp across every band.
 
 \begin{table}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
@@ -145,10 +145,10 @@ throughout. $n$ is configurations.}
 \toprule
 $\PSA$ band & $n$ & headroom & capture $\kappa$ & gain \\
 \midrule
-$<25\%$        & 56 & $+6.7$\,pp & \gn{$-12.0\%$} & \gn{$-0.27$} \\
-$25$--$50\%$   & 112 & $+11.4$\,pp & \gn{$-13.6\%$} & \gp{$+0.98$} \\
-$50$--$70\%$   & 44 & $+6.3$\,pp & \gp{$+10.6\%$} & \gp{$+0.68$} \\
-$>70\%$        & 80 & $+3.3$\,pp & \gp{$+19.6\%$} & \gp{$+0.68$} \\
+$<25\%$         & 56 & $+6.7$\,pp & \gn{$-12.6\%$} & \gn{$-0.29$} \\
+$25$--$50\%$    & 160 & $+14.5$\,pp & \gn{$-9.2\%$} & \gp{$+0.98$} \\
+$50$--$70\%$    & 44 & $+6.3$\,pp & \gp{$+10.6\%$} & \gp{$+0.68$} \\
+$>70\%$         & 92 & $+4.1$\,pp & \gp{$+24.7\%$} & \gp{$+1.20$} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -167,35 +167,34 @@ merely repeats. The headroom in Eq.~\ref{eq:decomp} is therefore a measurement o
 independent judgement a panel contains.
 
 \paragraph{Somebody in the room is right, and it is not the specialists.}
-At $n_a{=}9$ the single doctor scores $52.9\%$ and the oracle ceiling $62.2\%$: the panel
+At $n_a{=}9$ the single doctor scores $52.8\%$ and the oracle ceiling $64.0\%$: the panel
 holds $9.3$\,pp of recoverable accuracy, often enough to matter.
 
 Where that headroom comes from is the surprise. Self-consistency gives one model the same generic
 prompt nine times at one temperature; a panel gives it nine different specialty prompts. Both
 produce nine answers, so both admit the same oracle measurement. Nine samples of one generalist
-put a correct answer on the table $62.1\%$ of the time; nine distinct specialists put one there
-$62.2\%$ (Fig.~\ref{fig:ceiling}a). Of the $9.3$\,pp, $\mathbf{9.2}$---$99\%$---is already
+put a correct answer on the table $63.5\%$ of the time; nine distinct specialists put one there
+$64.0\%$ (Fig.~\ref{fig:ceiling}a). Of the $11.2$\,pp, $\mathbf{10.8}$---$97\%$---is already
 available from sampling one generalist repeatedly, and the specialty roster contributes
-$+0.06$\,pp, paired over the $21$ model--benchmark cells ($95\%$ CI $[-1.96, +2.07]$,
-$p = 0.95$). The specialty roster is the defining feature of the systems built on this design
+$+0.37$\,pp. The specialty roster is the defining feature of the systems built on this design
 pattern, and what it adds to the room is not measurable beside a temperature setting.
 
 \paragraph{A nine-member panel carries 1.2 independent opinions.}
 Across the three architectures that convene a full panel on every item at $n_a \geq 3$
 ---Independent, Centralized and Decentralized---the mean pairwise error correlation is
-$\varphi = 0.794$, and it is the same to three decimals in each of them separately. (Hybrid is
-excluded here and reported separately: its triage gate convenes a panel on only $20\%$ of items,
-so its $\varphi$ is measured on a harder subset.) By Eq.~\ref{eq:neff} this leaves $N_{\mathrm{eff}} = 1.16$ at $N{=}3$, $1.20$
-at $N{=}5$ and $1.22$ at $N{=}9$ (Table~\ref{tab:neff}). Tripling the panel adds
-$0.06$ of an independent opinion. Specialty role prompts do not make one model into several
+$\varphi = 0.753$, and it is the same to three decimals in each of them separately. (Hybrid is
+excluded here and reported separately: its triage gate convenes a panel on only $21\%$ of items,
+so its $\varphi$ is measured on a harder subset.) By Eq.~\ref{eq:neff} this leaves $N_{\mathrm{eff}} = 1.20$ at $N{=}3$, $1.25$
+at $N{=}5$ and $1.28$ at $N{=}9$ (Table~\ref{tab:neff}). Tripling the panel adds
+$0.08$ of an independent opinion. Specialty role prompts do not make one model into several
 physicians; they make it into one physician wearing several labels.
 
 
 
 \paragraph{Discussion drives the effective panel size to one.}
-Peer discussion raises $\varphi$ from $0.775$ before the exchange to $\mathbf{0.990}$ after it
+Peer discussion raises $\varphi$ from $0.744$ before the exchange to $\mathbf{0.983}$ after it
 (Fig.~\ref{fig:slope})
-(paired $t = 26.5$, $p = 2 \times 10^{-13}$). At $\varphi = 0.990$ a nine-agent panel has
+(paired $t = 26.5$, $p = 2 \times 10^{-13}$). At $\varphi = 0.983$ a nine-agent panel has
 $N_{\text{eff}} = 1.01$. A multidisciplinary consultation, at the moment it reaches consensus, is
 informationally equivalent to one physician, and the vote taken at that moment is a vote among
 copies. This is the mechanism behind every safety result in \S\ref{sec:safety}: unanimity rises to 98\%
@@ -216,7 +215,7 @@ individual is what makes the others agree with him. Deliberation buys a small im
 member and pays for it with the independence that made pooling members worth anything.
 
 This is also why panel size predicts nothing. Over $N \in \{3, \dots, 9\}$, $N_{\text{eff}}$
-moves from $1.16$ to $1.22$: the quantity that matters barely varies, so the quantity a designer
+moves from $1.20$ to $1.28$: the quantity that matters barely varies, so the quantity a designer
 controls cannot predict. Fitted against every configuration, panel size alone reaches
 cross-validated $R^2 = -0.006$, worse than predicting the mean (\S\ref{app:scaling}).
 
@@ -321,23 +320,23 @@ errors differ because they are worse, and the panel then performs like the good 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig10_ceiling.pdf}
 \caption{\textbf{A panel holds answers it cannot deliver.} (a) How often a correct answer is
-available at all, at $n_a{=}9$. Asking one generalist nine times makes one available $62.1\%$ of
-the time; nine distinct specialists make one available $62.2\%$. The two middle bars are the
+available at all, at $n_a{=}9$. Asking one generalist nine times makes one available $63.5\%$ of
+the time; nine distinct specialists make one available $64.0\%$. The two middle bars are the
 comparison the design pattern rests on, and they are the same length: of the $9.3$\,pp of
-headroom a specialty panel appears to offer over a single attempt, $99\%$ is sampling and $1\%$ is
-the roster. The bottom bar is what the best architecture actually returns, $1.4$\,pp above one
+headroom a specialty panel appears to offer over a single attempt, $97\%$ is sampling and $3\%$ is
+the roster. The bottom bar is what the best architecture actually returns, $1.8$\,pp above one
 doctor. (b) The same gap on a selection scale, where $0$ is picking one panel member at random and
 $100$ is an oracle that always picks a correct one. Averaged over all configurations at
-$n_a \geq 3$, no rule reaches $5$, and two fall below zero.}
+$n_a \geq 3$, no rule reaches $9$, and two fall below zero.}
 \label{fig:ceiling}
 \end{figure*}
 
 \paragraph{The headroom is item-level routing value, not a better specialty.}
 Two oracles separate what a fixed roster could deliver from what per-item routing could. Always
 trusting whichever specialty slot turns out best over the whole benchmark---a post-hoc choice no
-deployment could make in advance---is worth $54.4\%$ against $52.9\%$ for the single doctor.
-Choosing a correct opinion item by item is worth $62.2\%$. Of the $9.3$\,pp of headroom, $1.5$
-is available from picking a better specialist and $7.8$ requires changing which member you
+deployment could make in advance---is worth $54.4\%$ against $52.8\%$ for the single doctor.
+Choosing a correct opinion item by item is worth $64.0\%$. Of the $11.2$\,pp of headroom, $1.6$
+is available from picking a better specialist and $9.6$ requires changing which member you
 believe from case to case. The design question is therefore not which specialists to convene but
 whether anything can arbitrate between them once convened.
 
@@ -345,12 +344,12 @@ whether anything can arbitrate between them once convened.
 \label{sec:ceiling}
 
 The headroom is real. What reaches the output is not. Averaged over all configurations at
-$n_a \geq 3$, an auditing orchestrator recovers $4.2\%$ of it, budget-matched self-consistency
-$3.7\%$ and peer debate $3.7\%$, while majority vote recovers $\mathbf{-12.4\%}$ and tiered
-referral $-5.8\%$: the two commonest rules finish \emph{below} the accuracy of a panel member
+$n_a \geq 3$, peer debate recovers $8.3\%$ of it, an auditing orchestrator $7.5\%$ and
+budget-matched self-consistency $6.6\%$, while majority vote recovers $-7.7\%$ and tiered referral
+$\mathbf{-15.8\%}$: the two commonest rules finish \emph{below} the accuracy of a panel member
 drawn at random (Fig.~\ref{fig:ceiling}b). Choosing the best architecture for each cell after the
-fact, which no deployment can do, reaches $15.0\%$. At $n_a{=}9$ the single doctor scores
-$52.9\%$, the oracle $62.2\%$, and the best measured architecture $54.2\%$. The rest of this
+fact, which no deployment can do, reaches $18.0\%$. At $n_a{=}9$ the single doctor scores
+$52.8\%$, the oracle $64.0\%$, and the best measured architecture $54.6\%$. The rest of this
 section asks why.
 
 \paragraph{Panels disagree at a human rate, and the disagreement is sterile.}
@@ -377,7 +376,7 @@ that split ($t = 119.5$ between the first two, $p < 10^{-300}$). Overlap separat
 \emph{agreeing} from \emph{disagreeing} by $0.15$--$0.19$, and agreeing-and-right from
 agreeing-and-wrong by $0.040$. It detects whether two specialists took the same path, and barely
 whether the path was correct. A panel that agrees is a panel whose members reasoned alike, which
-is the same fact as $\varphi = 0.79$ seen in the rationales rather than in the answers.
+is the same fact as $\varphi = 0.75$ seen in the rationales rather than in the answers.
 
 
 
@@ -389,7 +388,7 @@ spread of confidences. Against the outcome the arbiter needs to predict---whethe
 answer correctly---all five land between $\mathrm{AUC} = 0.570$ and $0.604$
 (Table~\ref{tab:signals}), a range of $0.034$. The lowest member's confidence is marginally the
 best and still separates right from wrong with Youden $J = 0.179$. The problem is not the
-choice of signal. A panel whose members share $79\%$ of their errors cannot distinguish the case
+choice of signal. A panel whose members share $75\%$ of their errors cannot distinguish the case
 where it agrees because the answer is easy from the case where it agrees because its members share
 a blind spot, and every statistic computable from its own outputs inherits that ambiguity.
 
@@ -439,7 +438,7 @@ rule for reading it.
 Eq.~\ref{eq:decomp} says the lever that matters is $\kappa$, and $\kappa$ requires deciding which
 opinion to trust. Hybrid is the only architecture here that tries: a triage gate escalates to a
 panel when the first opinion's stated confidence falls below $\theta$. It escalates on
-$\mathbf{20\%}$ of items overall, and the rate is set almost entirely by which model is behind
+$\mathbf{21\%}$ of items overall, and the rate is set almost entirely by which model is behind
 the gate rather than by which items are hard---$76.8\%$ for \texttt{claude-sonnet-5} on
 MedXpertQA, $0.0\%$ for \texttt{gpt-4.1-nano} on MedQA, where the gate never once fires in
 $1{,}000$ items. This is not a poorly tuned threshold. It is the same measurement as \S\ref{sec:safety}
@@ -468,9 +467,9 @@ is what it does to the \emph{signals a clinician would act on}. Three measuremen
 the same way (Table~\ref{tab:safety}).
 
 \paragraph{Self-reported confidence does not separate right answers from wrong ones.}
-A single doctor states $88.7$ on the answers it gets right and $85.6$ on the ones it gets wrong,
-which is $\text{AUC} = 0.593$ (Fig.~\ref{fig:reliability}). No architecture reads better: the five
-span $0.589$ to $0.614$, and no panel size or coordination topology moves them out of that band.
+A single doctor states $89.5$ on the answers it gets right and $86.1$ on the ones it gets wrong,
+which is $\text{AUC} = 0.604$ (Fig.~\ref{fig:reliability}). No architecture reads better: the five
+span $0.593$ to $0.619$, and no panel size or coordination topology moves them out of that band.
 The best achievable referral gate on stated confidence, calibrated before the main experiments,
 reaches a Youden $J$ of $0.166$. A clinician reading a panel's confidence learns almost nothing
 about whether to believe it.
@@ -490,30 +489,30 @@ and changes nothing about what that agreement is worth.}
 Architecture & unan. & $P(\mathrm{wr.}\!\mid\!\mathrm{un.})$ & conf.\ AUC \\
 \midrule
 \sectrow
-Single doctor & ---     & ---     & 0.593 \\
-Independent   & 69.5\%  & 39.7\%  & 0.610 \\
-Centralized   & 70.6\%  & 38.9\%  & 0.614 \\
+Single doctor & ---     & ---     & 0.604 \\
+Independent   & 66.0\%  & 38.2\%  & 0.605 \\
+Centralized   & 65.6\%  & 38.1\%  & 0.619 \\
 \winrow
-Decentralized & \gn{\textbf{98.3\%}} & \gn{45.7\%} & 0.589 \\
-Hybrid$^{\dagger}$ & 54.3\%  & \gn{50.6\%} & 0.594 \\
+Decentralized & \gn{\textbf{97.8\%}} & \gn{45.1\%} & 0.598 \\
+Hybrid$^{\dagger}$ & 49.7\%  & \gn{49.8\%} & 0.593 \\
 \bottomrule
 \multicolumn{4}{@{}l}{\scriptsize the shaded row agrees on almost every item and is} \\
-\multicolumn{4}{@{}l}{\scriptsize wrong on $46\%$ of them. $^{\dagger}$Hybrid is measured on the} \\
-\multicolumn{4}{@{}l}{\scriptsize $20\%$ of items its triage gate escalates ($n=1{,}048$).} \\
+\multicolumn{4}{@{}l}{\scriptsize wrong on $45\%$ of them. $^{\dagger}$Hybrid is measured on the} \\
+\multicolumn{4}{@{}l}{\scriptsize $21\%$ of items its triage gate escalates.} \\
 \end{tabular}
 \end{table}
 
 \paragraph{Discussion manufactures consensus without manufacturing correctness.}
 Unanimity, defined as every panelist emitting the same valid option in the last round with two or
-more agents, rises from $69.5\%$ under independent voting to $98.3\%$ under peer discussion at
-$N{=}9$. Conditional accuracy does not follow: $P(\text{wrong} \mid \text{unanimous})$ is $39.7\%$
-for Independent and $45.7\%$ for Decentralized. A unanimous medical panel is wrong on $40$--$46\%$ of what
+more agents, rises from $66.0\%$ under independent voting to $97.8\%$ under peer discussion at
+$N{=}9$. Conditional accuracy does not follow: $P(\text{wrong} \mid \text{unanimous})$ is $38.2\%$
+for Independent and $45.1\%$ for Decentralized. A unanimous medical panel is wrong on $38$--$45\%$ of what
 it agrees on, whichever architecture produced the agreement. Discussion does not change what
 unanimity is worth; it manufactures far more of it.
 
 \paragraph{The most trustworthy-looking output is the least trustworthy.}
 Taken together: consultation drives panels to near-total agreement, leaves the error rate given
-agreement at $46\%$, and never makes stated confidence a usable guide to whether the panel is
+agreement at $45\%$, and never makes stated confidence a usable guide to whether the panel is
 right. The configuration a clinician would most readily act on, a unanimous and high-confidence
 multidisciplinary recommendation, carries essentially the same error rate as a divided one, and
 advertises itself more strongly. Accuracy gains of $6$--$8$\,pp on the best cells are real, and
@@ -590,17 +589,17 @@ the harder subset it does escalate.}
 Architecture & $N$ & $\varphi$ & $N_{\text{eff}}$ & info.\ used \\
 \midrule
 \sectrow
-\multicolumn{5}{@{}l}{\textit{Growing one panel: tripling $N$ buys $0.06$ of an opinion}} \\
-Independent   & 3 & 0.796 & 1.16 & 39\% \\
-Independent   & 5 & 0.793 & 1.20 & 24\% \\
-Independent   & 9 & 0.795 & 1.22 & 14\% \\
+\multicolumn{5}{@{}l}{\textit{Growing one panel: tripling $N$ buys $0.08$ of an opinion}} \\
+Independent   & 3 & 0.751 & 1.20 & 40\% \\
+Independent   & 5 & 0.753 & 1.25 & 25\% \\
+Independent   & 9 & 0.756 & 1.28 & 14\% \\
 \midrule
 \sectrow
 \multicolumn{5}{@{}l}{\textit{Changing the architecture at $N{=}9$: no effect either}} \\
-Centralized   & 9 & 0.796 & 1.22 & 14\% \\
-Decentralized & 9 & 0.796 & 1.22 & 14\% \\
+Centralized   & 9 & 0.756 & 1.28 & 14\% \\
+Decentralized & 9 & 0.756 & 1.28 & 14\% \\
 \winrow
-Hybrid        & 9 & \textbf{0.659} & \textbf{1.43} & 16\% \\
+Hybrid        & 9 & \textbf{0.595} & \textbf{1.56} & 17\% \\
 \bottomrule
 \end{tabular}
 \end{table}
