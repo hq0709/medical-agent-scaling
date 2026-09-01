@@ -1,24 +1,46 @@
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.02}
-\begin{tabular}{@{}llrrrrl@{}}
+\begin{tabular}{@{}lrrrrl@{}}
 \toprule
-Vendor & Model & MedXpertQA & MedAgentsBench & MedQA & $I$ (mean) & Setting \\
+Model & MedXpertQA & MedAgentsBench & MedQA & $I$ (mean) & Setting \\
 \midrule
 \sectrow
-\multicolumn{7}{@{}l}{\textit{OpenAI --- the capability ladder the grid is run on}} \\
-OpenAI & \texttt{gpt-4.1-nano} & 15.6 & 20.4 & 66.0 & \textbf{34.0} & --- \\
+\multicolumn{6}{@{}l}{\textit{OpenAI --- the capability ladder the grid is run on}} \\
+\openai~\texttt{gpt-4.1-nano} & 15.6 & 20.4 & 66.0 & \textbf{34.0} & --- \\
 \winrow
-OpenAI & \texttt{gpt-5-nano}   & 32.0 & 32.4 & 88.0 & \textbf{50.8} & effort=low \\
+\openai~\texttt{gpt-5-nano} & 32.0 & 32.4 & 88.0 & \textbf{50.8} & effort=low \\
 \winrow
-OpenAI & \texttt{gpt-5-mini}   & 41.6 & 44.4 & 91.6 & \textbf{59.2} & effort=low \\
+\openai~\texttt{gpt-5-mini} & 41.6 & 44.4 & 91.6 & \textbf{59.2} & effort=low \\
 \midrule
 \sectrow
-\multicolumn{7}{@{}l}{\textit{Google --- the second vendor, for the diversity ladder}} \\
+\multicolumn{6}{@{}l}{\textit{Google --- a second vendor, for the diversity ladder}} \\
 \winrow
-Google & \texttt{gemini-3.5-flash-lite} & 34.8 & 31.2 & 84.8 & \textbf{50.3} & --- \\
-Google & \texttt{gemini-3.7-flash}      & 60.4 & 56.4 & 95.2 & \textbf{70.7} & --- \\
+\gemini~\texttt{gemini-3.5-flash-lite} & 34.8 & 31.2 & 84.8 & \textbf{50.3} & --- \\
+\gemini~\texttt{gemini-3.7-flash} & 60.4 & 56.4 & 95.8 & \textbf{70.9} & --- \\
+\midrule
+\sectrow
+\multicolumn{6}{@{}l}{\textit{Anthropic --- a third vendor, for the diversity ladder}} \\
+\claude~\texttt{claude-haiku-4.5} & 23.2 & 20.8 & 79.6 & \textbf{41.2} & --- \\
+\winrow
+\claude~\texttt{claude-sonnet-5} & 49.6 & 47.6 & 94.0 & \textbf{63.7} & --- \\
+\midrule
+\sectrow
+\multicolumn{6}{@{}l}{\textit{DeepSeek / Alibaba / Zhipu --- independently trained ecosystems, single-doctor baselines only}} \\
+\winrow
+\deepseek~\texttt{deepseek-v4-flash} & 37.2 & 39.6 & 88.0 & \textbf{54.9} & --- \\
+\winrow
+\deepseek~\texttt{deepseek-v4-pro} & 44.8 & 42.0 & 92.4 & \textbf{59.7} & --- \\
+\winrow
+\qwen~\texttt{qwen3.8-flash} & 34.4 & 32.8 & 88.8 & \textbf{52.0} & --- \\
+\winrow
+\qwen~\texttt{qwen3.8-max} & 42.0 & 40.0 & 88.8 & \textbf{56.9} & --- \\
+\winrow
+\zhipu~\texttt{glm-5.3-flash} & 47.6 & 45.6 & 93.2 & \textbf{62.1} & --- \\
+\winrow
+\zhipu~\texttt{glm-5.3} & 42.8 & 46.4 & 93.6 & \textbf{60.9} & --- \\
 \bottomrule
-\multicolumn{7}{@{}l}{\scriptsize shaded rows fall inside the 25--50\% collaboration window on at} \\
-\multicolumn{7}{@{}l}{\scriptsize least one benchmark. \texttt{gemini-3.5-flash-lite} ($I{=}50.3$) and} \\
-\multicolumn{7}{@{}l}{\scriptsize \texttt{gpt-5-nano} ($I{=}50.8$) are the capability-matched cross-vendor pair.} \\
+\multicolumn{6}{@{}l}{\scriptsize shaded rows have a single-doctor baseline between $25$ and $50\%$ on at} \\
+\multicolumn{6}{@{}l}{\scriptsize least one benchmark. Capability-matched cross-vendor pairs:} \\
+\multicolumn{6}{@{}l}{\scriptsize \texttt{gemini-3.5-flash-lite} ($50.3$) with \texttt{gpt-5-nano} ($50.8$), and} \\
+\multicolumn{6}{@{}l}{\scriptsize \texttt{deepseek-v4-pro} ($59.7$) with \texttt{gpt-5-mini} ($59.2$) across the Pacific.} \\
 \end{tabular}

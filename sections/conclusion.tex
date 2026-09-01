@@ -6,14 +6,14 @@ the first and almost none of the second.
 
 The first is scarcer than the design pattern assumes, and it does not come from where the design
 pattern puts it. Agents prompted into different specialties make the same mistakes
-($\varphi = 0.734$), leaving a nine-member panel with $1.31$ effective independent opinions, and
-peer discussion pushes them into near-perfect agreement ($\varphi = 0.986$), leaving a six-member
-consultation with $1.01$. Of the $12.7$\,pp that separates one doctor from the best answer anywhere
-in a nine-member panel, $92\%$ is already available from asking one generalist the same question
+($\varphi = 0.794$), leaving a nine-member panel with $1.22$ effective independent opinions, and
+peer discussion pushes them into near-perfect agreement ($\varphi = 0.990$), leaving a nine-member
+consultation with $1.01$. Of the $9.3$\,pp that separates one doctor from the best answer anywhere
+in a nine-member panel, $99\%$ is already available from asking one generalist the same question
 nine times; the specialty roster---the defining feature of the systems built on this
-pattern---contributes the other $8\%$. Independence can be bought, but not cheaply and not
-usefully: three independently trained model families reach $2.59$ effective opinions out of nine
-and swapping vendor entirely---Gemini against GPT, at matched capability---reaches $2.55$,
+pattern---contributes $+0.06$\,pp, indistinguishable from zero. Independence can be bought, but not cheaply and not
+usefully: three independently trained model families reach $2.60$ effective opinions out of nine
+and swapping vendor entirely---$300$ pairs across six ecosystems on two continents---reaches $2.29$,
 and the least correlated panel we can assemble reaches that state by seating a much weaker member
 and then performs like the stronger member working alone.
 
@@ -21,23 +21,23 @@ The second is the binding constraint. On a scale where picking a panel member at
 and always picking a correct one scores $100$, majority voting scores $0.6$, an auditing
 orchestrator $6.5$, peer debate $8.6$ and tiered referral $8.8$. The panel usually holds the
 answer it does not give. The quantity such a system would need---a signal separating a right member
-from a wrong one---is missing: self-reported confidence separates them with Youden $J = 0.071$, and
+from a wrong one---is missing: self-reported confidence separates them with Youden $J = 0.166$, and
 the one architecture here that tries to route on it convenes a panel on $12.4\%$ of items and never
 once on one benchmark--model cell. Collaboration gain factors as available signal times the
-fraction recovered, and the window of task difficulty in which coordination pays is exactly the
-interval where both factors are favourable.
+fraction recovered, and both factors are small.
 
 Three knobs the field is turning, and one it is not. Panel size: over $N \in \{3,\dots,9\}$ the
-effective number of opinions moves from $1.21$ to $1.31$, and panel size alone predicts gain at
-cross-validated $R^2 = -0.006$. The specialty roster: a temperature setting reproduces $92\%$ of
-what it buys. Coordination topology: inside the window, where panels do help, all $24$ pairwise
+effective number of opinions moves from $1.16$ to $1.22$, and panel size alone predicts gain at
+cross-validated $R^2 = -0.006$. The specialty roster: a temperature setting reproduces $99\%$ of
+the diversity it buys, and with the roster removed entirely a panel of identical internists still
+collects $60\%$ of the accuracy the specialist panel delivers. Coordination topology: pairwise
 architecture contrasts are non-significant, so star, complete, tiered and edgeless are
-indistinguishable from one another while $20$ of them beat the single doctor. The knob that is
+indistinguishable from one another. The knob that is
 not being turned is verification: every point of headroom the field is trying to reach through richer
 coordination protocols is already present in the panel and is being discarded for want of a way to
 recognise it. Where a panel is deployed anyway, the decision should be made by measuring the
-single-model baseline on the intended case mix first---outside the window, budget-matched
-self-consistency matches or beats every architecture we tested at a fraction of the cost---and
+single-model baseline on the intended case mix first---budget-matched self-consistency matches or
+beats every architecture we tested at a fraction of the cost---and
 capability belongs on the agents doing the reasoning rather than the one supervising them, which
 matters $4.1\times$ more.
 

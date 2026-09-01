@@ -1,0 +1,14 @@
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Source of diversity & $n$ & $\varphi$ & $\varphi_{\max}$ & $\varphi/\varphi_{\max}$ & $N_{\text{eff}}^{9}$ \\
+\midrule
+\sectrow
+One model, different specialty prompts & --- & 0.734 & 0.958 & 0.766 & 1.31 \\
+Different checkpoints, one training family & 21 & 0.479 & 0.854 & 0.561 & 1.86 \\
+Different families, one vendor & 39 & 0.308 & 0.663 & 0.465 & 2.60 \\
+\winrow
+Different \emph{vendors} (OpenAI/Google/Anthropic/DeepSeek/Alibaba/Zhipu) & 300 & 0.366 & 0.726 & \textbf{0.504} & \textbf{2.29} \\
+\midrule
+\textit{fully independent} & --- & 0 & 1 & 0 & 9.00 \\
+\bottomrule
+\end{tabular}

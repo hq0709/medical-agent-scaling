@@ -1,12 +1,18 @@
 \section{Introduction}
 
-Ask six AI specialists a hard clinical question and let them confer. They will reach unanimity
-98\% of the time. They will be wrong half the times they agree. And by the moment they agree, they
-carry $1.01$ independent opinions between them.
+Ask nine AI specialists a hard clinical question and let them confer. They will reach unanimity
+$98.5\%$ of the time and be wrong on $45.7\%$ of the items they agree on. By the moment they agree
+they carry $1.01$ independent opinions between them.
 
-Now ask a different question of the same panel: was \emph{anyone} in it right? Averaged over nine
-model--benchmark cells at $n_a{=}9$, some member holds the correct answer $60.7\%$ of the time
-against $48.0\%$ for one doctor working alone. The panel returns $51.2\%$.
+In medicine that combination is not a disappointment but a hazard. Concordance among independent
+specialists is evidence---it is why a tumour board's agreement moves a treatment decision, and why
+a second opinion that matches the first ends the question. A panel that agrees almost always, and
+is wrong on nearly half of what it agrees on, supplies the form of that evidence and none of its
+content.
+
+Now ask a different question of the same panel: was \emph{anyone} in it right? Averaged over the
+$21$ model--benchmark cells at $n_a{=}9$, some member holds the correct answer $60.4\%$ of the time
+against $50.7\%$ for one doctor working alone. The panel returns $52.2\%$.
 
 A consultation is worth convening only if two things are true. Somebody in the room must be right
 when the others are wrong, and the room must be able to tell who. This paper measures both. Panels
@@ -27,45 +33,41 @@ converts that independence into accuracy. Strip the independence away and the ar
 working, however many voters remain. Nobody has checked whether language-model panels satisfy the
 premise they borrow.
 
-They do not. Measuring the pairwise error correlation between panel members across 180 multi-agent
-configurations, we find $\varphi = 0.73$: agents prompted into different medical specialties fail
-on the same items. A nine-member panel therefore carries $1.31$ effective independent opinions,
-and peer discussion drives the correlation to $0.986$, at which point a six-agent consultation is
+They do not. Measuring the pairwise error correlation between panel members across 420 multi-agent
+configurations, we find $\varphi = 0.79$: agents prompted into different medical specialties fail
+on the same items. A nine-member panel therefore carries $1.22$ effective independent opinions,
+and peer discussion drives the correlation to $0.990$, at which point a nine-agent consultation is
 informationally equivalent to $1.01$ physicians. The panel does not converge on an answer. It
 collapses onto one.
 
 That is the first pillar, and it is the one prior work would predict. It also survives the
-obvious remedy. Reaching across OpenAI's three separately trained families lifts a nine-member
-panel from $1.31$ to $2.59$ effective opinions; reaching across the vendor boundary to Google's
-Gemini, at matched capability, gives $2.55$. Two models built by different companies on different
+obvious remedy. Reaching across separately trained families inside one vendor lifts a nine-member
+panel from $1.22$ to $2.60$ effective opinions; reaching across the vendor boundary---to Google,
+Anthropic, DeepSeek, Alibaba and Zhipu---gives $2.29$. Two models built by different companies on different
 corpora fail on the same medical items about as reliably as two checkpoints from one lab.
 
 The second pillar is less expected.
-Independence is scarce but not absent: the $12.7$\,pp between one doctor and the panel's oracle is
+Independence is scarce but not absent: the $9.3$\,pp between one doctor and the panel's oracle is
 real signal, held by some member on some items. On a scale where picking a panel member at random
 scores $0$ and always picking a correct one scores $100$, majority voting, an auditing
 orchestrator, peer debate and tiered referral score between $1$ and $9$. No architecture we test
 converts what the panel knows into what the panel says, because the quantity such a conversion
 needs---a signal that separates a right member from a wrong one---is missing: self-reported
-confidence separates them with Youden $J = 0.071$.
+confidence separates them with Youden $J = 0.166$.
 
-Three observable consequences follow, and they are the same fact seen three ways. Panel size
-predicts nothing, because tripling the panel adds a tenth of an opinion. Consensus carries no
-information, because it is agreement among copies: unanimity reaches 98\% while accuracy given
-unanimity stays at chance, and confidence rises most on the answers that are wrong. And the
-benefit that survives is confined to a narrow \emph{window} of task difficulty rather than bounded
-by a ceiling, roughly 25--50\% single-doctor accuracy, inside which every significant improvement
-we measure falls and outside which every significant degradation does.
+Two observable consequences follow, and they are the same fact seen twice. Consensus carries
+almost no information, because it is agreement among copies: unanimity separates the panel's right
+answers from its wrong ones at $\text{AUC} = 0.59$, and deliberation moves unanimity up and its
+accuracy down. And panel size predicts nothing, because tripling the panel adds a tenth of an
+opinion.
 
 Establishing this requires a grid large enough to separate architecture from panel size from task
-difficulty: 180 multi-agent configurations and 63{,}499 episodes across three capability tiers,
-three medical benchmarks, five canonical architectures, panel sizes $N \in \{1,3,5,7,9\}$, and a
-budget-matched single-model control at every cell. Medicine makes the measurement possible in two
-ways that general-domain agentic benchmarks cannot. Multiple-choice clinical reasoning uses no
-tools, so coordination can be measured without the confound of tool-call overhead. And
-expert-level items drive single-agent accuracy down to 15\%, far enough into the difficult regime
-to expose the lower edge of the window, which is invisible at benchmark difficulties where
-single agents already succeed. Scaling principles for general-domain agent
+difficulty: 420 multi-agent configurations and 144{,}499 episodes across seven models from six
+independently trained ecosystems, three medical benchmarks, five canonical architectures, panel
+sizes $N \in \{1,3,5,7,9\}$, and a budget-matched single-model control at every cell. Medicine makes
+the measurement possible in a way general-domain agentic benchmarks cannot: multiple-choice
+clinical reasoning uses no tools, so coordination can be measured without the confound of tool-call
+overhead. Scaling principles for general-domain agent
 systems~\citep{kim2026scaling} supply the architecture taxonomy and the controlled-comparison
-design our grid is built on; the error-correlation and confidence-calibration measurements that
+design our grid is built on; the error-correlation and consensus-calibration measurements that
 carry our argument are new here.

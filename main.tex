@@ -36,6 +36,26 @@
 
 \author{Anonymous ARR submission}
 
+% 浮动体参数：跨栏大图（能力网格是 6.3x5.9in）在默认参数下放不进任何一页，
+% 会一路浮到文末并让后续所有图排队。放宽后它们回到引用附近。
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.7}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.75}
+
+% 厂商图标：表格里用 \openai 等宏引用，高度随行高自适应并做基线微调
+\newcommand{\symbolimg}[2][0.34cm]{%
+  \raisebox{-0.16\height}{\includegraphics[height=#1]{#2}}}
+\newcommand{\openai}{\symbolimg{icons/openai.png}}
+\newcommand{\claude}{\symbolimg{icons/claude.png}}
+\newcommand{\gemini}{\symbolimg{icons/gemini.png}}
+\newcommand{\deepseek}{\symbolimg{icons/deepseek.png}}
+\newcommand{\qwen}{\symbolimg{icons/qwen.png}}
+\newcommand{\zhipu}{\symbolimg{icons/zhipu.png}}
+
 \begin{document}
 \maketitle
 

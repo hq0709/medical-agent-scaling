@@ -1,18 +1,23 @@
-Multi-agent consultation has become the default design pattern in medical language-model systems,
-on the intuition that a panel of specialists diagnoses better than one physician. That intuition
-inherits an arithmetic premise from human medicine: pooling judgements helps because the
-judgements pooled are independent. We test it across 180 configurations and 63{,}499 episodes over three capability tiers,
-three benchmarks and five architectures.
-The premise fails twice. The specialty roster is not where the diversity comes from: of the
-$12.7$\,pp separating one doctor from the best answer anywhere in a nine-member panel,
-$\mathbf{92\%}$ is already obtained by asking one generalist the same question nine times. And
-what diversity exists cannot be used. The mean pairwise error correlation is $\varphi = 0.73$,
-leaving a nine-member panel with $1.31$ \textbf{effective independent opinions}; peer discussion
-raises it to $0.986$, so a consultation at the moment of consensus is worth $1.01$ physicians.
-Two specialists agree and are \emph{both wrong} on $40.3\%$ of items. On a scale where picking a member at random scores
-$0$ and always picking a correct one scores $100$, the five architectures score $1$ to $9$,
-because self-reported confidence separates right from wrong with Youden $J = 0.071$. Nor can independence be bought: normalising $\varphi$ by its attainable maximum shows the
-apparent decorrelation from mixing capability is an artefact of unequal error rates, and crossing
-the vendor boundary---pairing Gemini against GPT at matched capability---leaves a nine-member
-panel at $2.55$ effective opinions against $2.59$ within one vendor.
-Making medical panels agree is easy. Making them \emph{decidable} is the open problem.
+In medicine, agreement is evidence. When independent specialists converge on a diagnosis, the
+convergence itself is information, and that is why tumour boards and second opinions change
+decisions. Multi-agent consultation has become the default design pattern in medical
+language-model systems on the strength of that inheritance. We test whether it survives the
+transfer, across 420 multi-agent configurations and 144{,}499 episodes over seven models, six
+independently trained ecosystems, three benchmarks and five architectures.
+Agreement survives; the independence that gave it meaning does not. A nine-member panel speaks
+with one voice on $70.1\%$ of items and is wrong on $39.8\%$ of the items it agrees on. Peer
+discussion raises unanimity to $\mathbf{98.5\%}$ and lowers the accuracy of that unanimity to
+$54.3\%$: the panel converges on an answer, not on a correct one. Agreement separates the panel's
+right answers from its wrong ones with $\text{AUC} = 0.59$, and self-reported confidence with
+Youden $J \leq 0.18$.
+The cause is measurable. The mean pairwise error correlation is $\varphi = 0.79$, leaving nine
+members worth $1.22$ \textbf{effective independent opinions}; discussion drives it to $0.990$, so a
+consultation at the moment of consensus is worth $1.01$ physicians. Independence cannot be bought:
+normalising $\varphi$ by its attainable maximum shows the apparent decorrelation from mixing
+capability is an artefact of unequal error rates, and every pair we can form across six
+ecosystems---three American and three Chinese---moves a nine-member panel from $2.60$ effective
+opinions to $2.29$, and at matched capability from $2.31$ to $2.02$: the wrong way. Nor can any
+rule read past it. On a scale where picking a member at random scores $0$ and always picking a
+correct one scores $100$, the five architectures score $-12$ to $+4$.
+A medical panel that agrees is not a panel that knows. Its consensus must not reach a clinician as
+confidence.

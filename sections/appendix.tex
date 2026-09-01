@@ -49,7 +49,7 @@ complexity yet by $3.5$ pp in mean multi-agent gain ($+3.09$ pp versus $-0.37$ p
 opposite signs at effectively the same $D$. A benchmark-level statistic cannot separate them because the
 quantity that does separate them varies \emph{within} each benchmark: on MedAgentsBench-hard the
 per-tier gains run $-2.78$, $+1.02$, $+0.66$ pp as $\PSA$ moves from 20.4\% through 32.4\% to
-44.4\%, entering the window between the first tier and the second. Domain complexity is the right
+44.4\%. Domain complexity is the right
 idea at the wrong granularity for medicine. The configuration-level baseline $\PSA$ is what
 carries the signal.
 
@@ -99,7 +99,7 @@ Peer ordering is deterministically rotated per (item, round) so that the first-l
 decorrelated from the top-ranked specialty.
 
 \subsection{Evaluation methodology}
-\textbf{Sample sizes.} 250 items per benchmark, 180 multi-agent configurations, 63{,}499 episodes.
+\textbf{Sample sizes.} 250 items per benchmark, 420 multi-agent configurations, 144{,}499 episodes.
 \textbf{Controls.} All architectures share the item rendering, answer schema, role-prompt template
 and decoding parameters; only coordination logic differs. Model weights are frozen. The primary
 endpoint is exact match against the dataset's own gold option key. No LLM judge appears anywhere
@@ -264,31 +264,18 @@ All weak                      & 14.8\% & 0\% & 17.2\% & 0\% \\
 \subsection{Where in medicine collaboration pays}
 
 \paragraph{Collaboration helps diagnosis most, and it is the only task type significant at both
-tiers.} MedXpertQA labels each item as Diagnosis, Treatment, or Basic Science. Splitting the
-window-resident cells by label, the best panel gains $+9.5$ pp on Diagnosis at
+tiers.} MedXpertQA labels each item as Diagnosis, Treatment, or Basic Science. Splitting by label,
+the best panel gains $+9.5$ pp on Diagnosis at
 \texttt{gpt-5-nano} ($p = 0.008$) and $+10.7$ pp at \texttt{gpt-5-mini} ($p = 0.004$), against
 $+7.1$ and $+8.3$ pp on Treatment and $+7.3$ and $+8.5$ pp on Basic Science. Diagnosis is the only
 category significant at both tiers. This is the pattern clinical intuition predicts: differential
 diagnosis is the medical task that most resembles pooling independent perspectives, and it is
 where pooling pays.
 
-\paragraph{The difficulty stratification is where the window shows up within a single benchmark.}
-On MedXpertQA at \texttt{gpt-5-mini}, the best configuration gains $+7.7$ pp on easy items
-($n{=}13$), $+6.5$ pp on medium ($n{=}62$) and $+9.6$ pp on hard ($n{=}125$). Gains are positive
-in every stratum for this tier, which sits inside the window; the sign flips only for tiers whose
-baseline falls outside it. Item difficulty and configuration baseline are two views of the same
-quantity. The window is defined on the view that can be measured before deployment.
-
-
-
-
-
-
-
 \begin{table*}[t]\centering\small
-\caption{Collaboration gain by clinical task type on MedXpertQA, for the two tiers inside the
-window. Gain is the best panel configuration over the single doctor on the same items; $p$ from
-paired McNemar.}
+\caption{Collaboration gain by clinical task type on MedXpertQA, for the two OpenAI tiers where
+gains are significant. Gain is the best panel configuration over the single doctor on the same
+items; $p$ from paired McNemar.}
 \label{tab:tasktype}
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}llrrrl@{}}
@@ -315,61 +302,10 @@ Tier & Task type & $n$ & single doctor & best panel & gain \\
 \caption{\textbf{Effect size for every configuration, ranked.} Collaboration gain with 95\%
 confidence intervals; each row is one architecture at its best panel size within a difficulty
 stratum, and rows run left to right in descending order of effect. Amber rows have a
-single-doctor baseline inside the 25--50\% window, grey rows outside it. Filled markers are
+single-doctor baseline between $25$ and $50\%$, grey rows outside that range. Filled markers are
 significant at $p<0.05$, hollow are not. The ranking is what carries the claim: amber occupies
 the positive tail and grey the negative one, and every significant row on the positive side is
 amber while the only significant row on the negative side is grey.}
 \label{fig:forest}
 \end{figure*}
 
-\section{Robustness of the window boundary}
-\label{app:window}
-
-The nine model--benchmark cells give nine values of $\PSA$, so the window's endpoints are
-identified up to the gaps between adjacent observed baselines. Table~\ref{tab:winrobust} lists the
-partition under every edge pair we considered.
-
-\begin{table}[h]\centering\small
-\setlength{\tabcolsep}{5pt}
-\renewcommand{\arraystretch}{1.02}
-\caption{Significant contrasts under alternative window edges. Counts are McNemar $p<0.05$ against
-the single doctor across all 180 configurations.}
-\label{tab:winrobust}
-\begin{tabular}{@{}lrrrr@{}}
-\toprule
-Window & in $\uparrow$ & in $\downarrow$ & out $\uparrow$ & out $\downarrow$ \\
-\midrule
-\winrow
-$[22,52)$ & 20 & 0 & 0 & 10 \\
-\winrow
-$[25,50)$ & 20 & 0 & 0 & 10 \\
-\winrow
-$[25,45)$ & 20 & 0 & 0 & 10 \\
-\winrow
-$[28,48)$ & 20 & 0 & 0 & 10 \\
-\winrow
-$[30,45)$ & 20 & 0 & 0 & 10 \\
-\winrow
-$[25,55)$ & 20 & 0 & 0 & 10 \\
-\winrow
-$[25,60)$ & 20 & 0 & 0 & 10 \\
-\winrow
-$[25,66)$ & 20 & 0 & 0 & 10 \\
-\midrule
-$[20,55)$ & 20 & 9 & 0 & 1 \\
-$[20,50)$ & 20 & 9 & 0 & 1 \\
-$[15,50)$ & 20 & 9 & 0 & 1 \\
-\bottomrule
-\multicolumn{5}{@{}l}{\scriptsize Shaded rows are the eight edge pairs inside the identified} \\
-\multicolumn{5}{@{}l}{\scriptsize region. The three below admit the
-\texttt{gpt-4.1-nano}/MedAgentsBench} \\
-\multicolumn{5}{@{}l}{\scriptsize cell at $\PSA{=}20.4\%$, which carries nine of the ten
-significant losses.} \\
-\end{tabular}
-\end{table}
-
-Item-level difficulty does not reproduce the pattern. Re-deriving the window within each cell,
-with item difficulty defined by the leave-one-out mean accuracy of the other five models and
-baseline and gain estimated on disjoint halves of each stratum, gives a quadratic peak at $88\%$
-and $r = +0.13$ between stratum baseline and gain. The window is a property of the model--task
-pairing, not a per-item triage rule.
