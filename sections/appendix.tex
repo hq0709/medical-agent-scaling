@@ -234,6 +234,8 @@ much the panel says (\S\ref{app:coord}).}
 \label{fig:coord}
 \end{figure*}
 
+Figure~\ref{fig:coord} plots all three quantities.
+
 \paragraph{Coordination is cheap in turns and uninformative in messages.}
 Fitting $T = a(n+0.5)^{b}$ gives $a = 0.84$, $b = 0.777$, $R^2 = 0.327$. The exponent is
 sub-linear, so turns grow more slowly than agents. A clinical panel answering a closed question
@@ -275,7 +277,14 @@ tool-using tasks ($3$--$5\%$ against $19$--$26\%$), as expected when no arithmet
 
 \section{Additional results}
 \label{app:extra}
-\begin{figure*}[t]\centering
+
+Three views of the grid that the main text states in prose. Figure~\ref{fig:nscaling} gives the
+full panel-size curve behind the claim that gains saturate at $n_a = 3$;
+Figure~\ref{fig:dist} shows that the spread within an architecture dwarfs the difference between
+architectures, which is why the pairwise contrasts in \S\ref{sec:results} so rarely separate; and
+Figure~\ref{fig:cost} plots the cost--performance frontier summarised in Table~\ref{tab:ppd}.
+
+\begin{figure*}[tbp]\centering
 \includegraphics[width=\textwidth]{figures/fig2_nscaling.pdf}
 \caption{\textbf{Number-of-agents scaling.} Gain over the single doctor against panel size
 $n_a \in \{1,3,5,7,9\}$, for every architecture, model and benchmark; rows are models, columns
@@ -283,7 +292,7 @@ benchmarks, and all panels share one vertical scale. Every series stays within a
 baseline across the whole range, and where gains occur they are captured by $n_a = 3$.}
 \label{fig:nscaling}
 \end{figure*}
-\begin{figure*}[t]\centering
+\begin{figure*}[tbp]\centering
 \includegraphics[width=\textwidth]{figures/fig5_distribution.pdf}
 \caption{\textbf{Single doctor versus panel: performance distributions.} Box plots over all
 configurations of each architecture, with individual configurations overlaid. Bars are labelled
@@ -293,7 +302,7 @@ to the single doctor, as a percentage of that baseline. The spread within an arc
 the difference between architectures.}
 \label{fig:dist}
 \end{figure*}
-\begin{figure*}[t]\centering
+\begin{figure*}[tbp]\centering
 \includegraphics[width=\textwidth]{figures/fig4_cost.pdf}
 \caption{\textbf{Cost--performance trade-offs.} Mean performance against nominal cost per 1{,}000
 questions, with SEM error bars on both axes. Each point is one configuration.}
@@ -301,6 +310,9 @@ questions, with SEM error bars on both axes. Each point is one configuration.}
 \end{figure*}
 \subsection{Where capability belongs inside a panel}
 \label{app:hetero}
+
+A separate arm varies the capability of the panel's members rather than its coordination
+structure (Fig.~\ref{fig:hetero}).
 
 \paragraph{Specialist capability matters four times more than the orchestrator's.}
 Replacing the whole panel with weak models costs $34.4$ pp (49.2\% to 14.8\%). Splitting that
@@ -343,7 +355,7 @@ configurations degrade.
 
 
 
-\begin{figure*}[t]\centering
+\begin{figure*}[tbp]\centering
 \includegraphics[width=\textwidth]{figures/fig4_heterogeneity.pdf}
 \caption{\textbf{Agent heterogeneity.} Performance of Centralized and Decentralized panels at
 $n_a{=}3$ on MedXpertQA under five capability placements. Strong is \texttt{gpt-5-mini}, weak is
@@ -356,17 +368,3 @@ attending-capability conditions are structurally undefined there and are omitted
 
 
 \subsection{Where in medicine collaboration pays}
-
-\paragraph{Collaboration helps diagnosis most, and it is the only task type significant at both
-tiers.} MedXpertQA labels each item as Diagnosis, Treatment, or Basic Science. Splitting by label,
-the best panel gains $+9.5$ pp on Diagnosis at
-\texttt{gpt-5-nano} ($p = 0.008$) and $+10.7$ pp at \texttt{gpt-5-mini} ($p = 0.004$), against
-$+7.1$ and $+8.3$ pp on Treatment and $+7.3$ and $+8.5$ pp on Basic Science. Diagnosis is the only
-category significant at both tiers. This is the pattern clinical intuition predicts: differential
-diagnosis is the medical task that most resembles pooling independent perspectives, and it is
-where pooling pays.
-
-
-
-
-

@@ -95,6 +95,7 @@ answer is not in the room, or it is and nothing recovers it. The two have differ
 \end{figure}
 
 \subsection{Main results: what a panel buys}
+\label{sec:results}
 
 Across 420 multi-agent configurations and 144{,}499 episodes, convening a panel changes the answer
 on a minority of cells and never by much. Figure~\ref{fig:capability} gives the full
@@ -120,13 +121,14 @@ An architecture chosen on one clinical benchmark carries no guarantee on another
 behaves the same way. On \texttt{gpt-5-nano} / MedXpertQA, Independent moves from 31.8\% at
 $N{=}1$ to 32.6\% at $N{=}9$, which is 0.8\,pp for nine times the calls, while Decentralized
 reaches 38.0\% at $N{=}3$ and stays there. Gains saturate at $N{=}3$ in every cell where they
-occur, and no architecture in any cell improves beyond $N{=}5$.
+occur, and no architecture in any cell improves beyond $N{=}5$ (Fig.~\ref{fig:nscaling},
+Fig.~\ref{fig:dist}).
 
 
 \paragraph{Both factors are small, and they move apart.}
 A consultation is worth convening only if somebody in the room is right when the others are
-wrong, and the room can tell who. Eq.~\ref{eq:decomp} separates those two conditions, and neither
-holds. What is not definitional about the factorisation is that the two factors move in opposite
+wrong, and the room can tell who. Eq.~\ref{eq:decomp} separates those two conditions
+(Fig.~\ref{fig:decomp}), and neither holds. What is not definitional about the factorisation is that the two factors move in opposite
 directions (Table~\ref{tab:ceiling}): headroom is largest where the single doctor is weakest,
 from $+11.4$\,pp at $\PSA \in [25,50)$ down to $+3.3$ above $70\%$, while capture runs the other
 way, from $-13.6\%$ to $+19.6\%$. The panels with the most to recover are the ones that discard
@@ -184,7 +186,7 @@ Across the three architectures that convene a full panel on every item at $n_a \
 $\varphi = 0.794$, and it is the same to three decimals in each of them separately. (Hybrid is
 excluded here and reported separately: its triage gate convenes a panel on only $20\%$ of items,
 so its $\varphi$ is measured on a harder subset.) By Eq.~\ref{eq:neff} this leaves $N_{\mathrm{eff}} = 1.16$ at $N{=}3$, $1.20$
-at $N{=}5$ and $1.22$ at $N{=}9$. Tripling the panel adds
+at $N{=}5$ and $1.22$ at $N{=}9$ (Table~\ref{tab:neff}). Tripling the panel adds
 $0.06$ of an independent opinion. Specialty role prompts do not make one model into several
 physicians; they make it into one physician wearing several labels.
 
@@ -463,7 +465,7 @@ discount an answer. Peer discussion cuts it by a quarter, to below the single do
 
 Accuracy is not the only thing coordination changes. In medicine the more consequential question
 is what it does to the \emph{signals a clinician would act on}. Three measurements, all pointing
-the same way.
+the same way (Table~\ref{tab:safety}).
 
 \paragraph{Self-reported confidence does not separate right answers from wrong ones.}
 A single doctor states $88.7$ on the answers it gets right and $85.6$ on the ones it gets wrong,
@@ -538,7 +540,7 @@ architecture. Where coordination buys anything beyond repetition, it does so nar
 
 \paragraph{What a point of accuracy costs.}
 Expressing each cell's best configuration as accuracy bought per dollar of additional spend makes
-the deployment rule concrete (Table~\ref{tab:ppd}). The premium ranges from $1.9\times$ to
+the deployment rule concrete (Table~\ref{tab:ppd}, Fig.~\ref{fig:cost}). The premium ranges from $1.9\times$ to
 $11.5\times$ the single doctor, and the return on it varies by two orders of magnitude:
 $8.5$ and $4.3$ percentage points per additional dollar per thousand questions on the two
 MedXpertQA cells with the largest gains, against $0.34$ on MedAgentsBench at T3, where a
