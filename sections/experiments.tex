@@ -73,14 +73,15 @@ bias call-heavy architectures downward.
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig1_capability.pdf}
-\caption{\textbf{Agent scaling across model capability and system architecture.} Top: performance
-against the task-grounded capability index $I$ (mean single-doctor accuracy across the three
-benchmarks), each architecture at its best-performing panel size, grey the single doctor. Ticks
-mark the three GPT tiers at their measured $I$ of $34.0$, $50.8$ and $59.2$, and the corner figure
-is the best architecture's gain at the strongest model. The three benchmarks occupy different
-accuracy ranges, so the bottom row replots the same configurations as gain over the single doctor
-on one shared scale, where architecture effects are directly comparable across benchmarks. They
-span $-4$ to $+8$\,pp while capability moves performance by tens of points.}
+\caption{\textbf{Agent scaling across model capability and system architecture.} Gain over the
+single doctor, in percentage points, against the task-grounded capability index $I$ (mean
+single-doctor accuracy across the three benchmarks); each architecture at its best-performing panel
+size. Rows are vendors, columns benchmarks, and all nine panels share one vertical scale, so
+magnitudes are comparable throughout. Plotting absolute accuracy instead would put the three
+benchmarks on ranges of $15$--$95\%$ and collapse the architectures onto a single line: the effects
+being compared span $-4.4$ to $+7.6$\,pp, while capability moves performance by tens of points.
+Every configuration sits inside a narrow band around the baseline, and the band narrows as the
+single doctor improves.}
 \label{fig:capability}
 \end{figure*}
 
