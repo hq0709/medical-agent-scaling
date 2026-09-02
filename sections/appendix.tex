@@ -88,28 +88,28 @@ Table~\ref{tab:capability} with everything else.}
 \label{tab:tiers}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.02}
-\begin{tabular}{@{}llllrrr@{}}
+\begin{tabular}{@{}lllrrr@{}}
 \toprule
-Vendor & Model & Setting & Role & MedXpertQA & MedQA & USD / 1k items \\
+Model & Setting & Role & MedXpertQA & MedQA & USD / 1k items \\
 \midrule
 \sectrow
-\multicolumn{7}{@{}l}{\textit{Selected}} \\
+\multicolumn{6}{@{}l}{\textit{Selected}} \\
 \winrow
-OpenAI & \texttt{gpt-4.1-nano} & --- & tier T1 & 25.0\% & 75.0\% & 0.09 \\
+\openai~\texttt{gpt-4.1-nano} & --- & tier T1 & 25.0\% & 75.0\% & 0.09 \\
 \winrow
-OpenAI & \texttt{gpt-5-nano} & effort=low & tier T2 & 37.5\% & 95.0\% & 0.17 \\
+\openai~\texttt{gpt-5-nano} & effort=low & tier T2 & 37.5\% & 95.0\% & 0.17 \\
 \winrow
-OpenAI & \texttt{gpt-5-mini} & effort=low & tier T3 & 55.0\% & 97.5\% & 0.64 \\
+\openai~\texttt{gpt-5-mini} & effort=low & tier T3 & 55.0\% & 97.5\% & 0.64 \\
 \winrow
-Google & \texttt{gemini-3.5-flash-lite} & --- & vendor contrast & 30.0\% & 95.0\% & 0.09 \\
+\gemini~\texttt{gemini-3.5-flash-lite} & --- & vendor contrast & 30.0\% & 95.0\% & 0.09 \\
 \winrow
-Google & \texttt{gemini-3.7-flash} & --- & vendor contrast & 80.0\% & 97.5\% & 0.41 \\
+\gemini~\texttt{gemini-3.7-flash} & --- & vendor contrast & 80.0\% & 97.5\% & 0.41 \\
 \midrule
 \sectrow
-\multicolumn{7}{@{}l}{\textit{Screened, not selected --- used only for the pairwise $\varphi$ analysis}} \\
-OpenAI & \texttt{gpt-4o-mini} & --- & --- & 20.0\% & 87.5\% & 0.13 \\
-OpenAI & \texttt{gpt-4.1-mini} & --- & --- & 32.5\% & 85.0\% & 0.41 \\
-OpenAI & \texttt{gpt-5.4-nano} & effort=low & --- & 47.5\% & 95.0\% & 0.14 \\
+\multicolumn{6}{@{}l}{\textit{Screened, not selected --- used only for the pairwise $\varphi$ analysis}} \\
+\openai~\texttt{gpt-4o-mini} & --- & --- & 20.0\% & 87.5\% & 0.13 \\
+\openai~\texttt{gpt-4.1-mini} & --- & --- & 32.5\% & 85.0\% & 0.41 \\
+\openai~\texttt{gpt-5.4-nano} & effort=low & --- & 47.5\% & 95.0\% & 0.14 \\
 \bottomrule
 \end{tabular}
 \end{table*}
