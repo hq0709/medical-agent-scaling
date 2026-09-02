@@ -57,7 +57,7 @@ bias call-heavy architectures downward.
 
 
 
-\begin{figure*}[t]\centering
+\begin{figure*}[tp]\centering
 \includegraphics[width=\textwidth]{figures/fig1_capability.pdf}
 \caption{\textbf{Agent scaling across model capability and system architecture.} Gain over the
 single doctor, in percentage points, against the task-grounded capability index $I$ (mean
@@ -170,6 +170,20 @@ independent judgement a panel contains.
 At $n_a{=}9$ the single doctor scores $52.8\%$ and the oracle ceiling $64.0\%$: the panel
 holds $9.3$\,pp of recoverable accuracy, often enough to matter.
 
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig10_ceiling.pdf}
+\caption{\textbf{A panel holds answers it cannot deliver.} (a) How often a correct answer is
+available at all, at $n_a{=}9$. Asking one generalist nine times makes one available $63.5\%$ of
+the time; nine distinct specialists make one available $64.0\%$. The two middle bars are the
+comparison the design pattern rests on, and they are the same length: of the $9.3$\,pp of
+headroom a specialty panel appears to offer over a single attempt, $97\%$ is sampling and $3\%$ is
+the roster. The bottom bar is what the best architecture actually returns, $1.8$\,pp above one
+doctor. (b) The same gap on a selection scale, where $0$ is picking one panel member at random and
+$100$ is an oracle that always picks a correct one. Averaged over all configurations at
+$n_a \geq 3$, no rule reaches $9$, and two fall below zero.}
+\label{fig:ceiling}
+\end{figure*}
+
 Where that headroom comes from is the surprise. Self-consistency gives one model the same generic
 prompt nine times at one temperature; a panel gives it nine different specialty prompts. Both
 produce nine answers, so both admit the same oracle measurement. Nine samples of one generalist
@@ -189,6 +203,35 @@ at $N{=}5$ and $1.28$ at $N{=}9$ (Table~\ref{tab:neff}). Tripling the panel adds
 $0.08$ of an independent opinion. Specialty role prompts do not make one model into several
 physicians; they make it into one physician wearing several labels.
 
+\begin{table}[t]\centering\small
+\caption{\textbf{Effective independent opinions.} $\varphi$ is the mean pairwise error
+correlation between panel positions; $N_{\text{eff}} = N/(1+(N-1)\varphi)$. Neither growing the
+panel nor changing how it is wired moves $\varphi$. The shaded row is the single exception:
+Hybrid's triage gate declines to convene a panel on most items, so its measured pairs come from
+the harder subset it does escalate.}
+\label{tab:neff}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.02}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Architecture & $N$ & $\varphi$ & $N_{\text{eff}}$ & info.\ used \\
+\midrule
+\sectrow
+\multicolumn{5}{@{}l}{\textit{Growing one panel: tripling $N$ buys $0.08$ of an opinion}} \\
+Independent   & 3 & 0.751 & 1.20 & 40\% \\
+Independent   & 5 & 0.753 & 1.25 & 25\% \\
+Independent   & 9 & 0.756 & 1.28 & 14\% \\
+\midrule
+\sectrow
+\multicolumn{5}{@{}l}{\textit{Changing the architecture at $N{=}9$: no effect either}} \\
+Centralized   & 9 & 0.756 & 1.28 & 14\% \\
+Decentralized & 9 & 0.756 & 1.28 & 14\% \\
+\winrow
+Hybrid        & 9 & \textbf{0.595} & \textbf{1.56} & 17\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 
 
 \paragraph{Discussion drives the effective panel size to one.}
@@ -202,6 +245,19 @@ because the opinions have merged, not because they have converged on truth; the 
 unanimity stays above $45\%$ because merging does not add information; and no signal the panel
 emits marks the difference, because $N$ agents agreeing looks like corroboration when it is
 repetition.
+
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig8_slope.pdf}
+\caption{\textbf{Adding agents adds almost no information, and discussion removes what is left.}
+(a) Effective independent opinions $N_{\mathrm{eff}}=N/(1+(N-1)\varphi)$ against panel size, on a
+logarithmic scale. Dotted curves are contours of fixed error correlation $\varphi$; the solid line
+at $N_{\mathrm{eff}}{=}1$ is a panel worth one physician. Measured panels track the
+$\varphi{\approx}0.75$ contour, so nine members carry barely more than one opinion. (b) $\varphi$
+for every one of the 292 grid configurations, one point per configuration, with the median marked.
+The value is a near-constant of the setting rather than an artefact of any one cell, Hybrid
+routing is the only architecture that lowers it, and peer discussion drives it to $0.99$.}
+\label{fig:slope}
+\end{figure*}
 
 \paragraph{What discussion actually moves.}
 The collapse is not agents falling silent. Across $18{,}196$ (item, panel position) pairs,
@@ -317,19 +373,7 @@ scores $40.8\%$ on MedXpertQA---indistinguishable from the $41.6\%$ of its stron
 working alone (\S\ref{app:hetero}). Independence can be bought, but only by seating someone whose
 errors differ because they are worse, and the panel then performs like the good doctor it diluted.
 
-\begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig10_ceiling.pdf}
-\caption{\textbf{A panel holds answers it cannot deliver.} (a) How often a correct answer is
-available at all, at $n_a{=}9$. Asking one generalist nine times makes one available $63.5\%$ of
-the time; nine distinct specialists make one available $64.0\%$. The two middle bars are the
-comparison the design pattern rests on, and they are the same length: of the $9.3$\,pp of
-headroom a specialty panel appears to offer over a single attempt, $97\%$ is sampling and $3\%$ is
-the roster. The bottom bar is what the best architecture actually returns, $1.8$\,pp above one
-doctor. (b) The same gap on a selection scale, where $0$ is picking one panel member at random and
-$100$ is an oracle that always picks a correct one. Averaged over all configurations at
-$n_a \geq 3$, no rule reaches $9$, and two fall below zero.}
-\label{fig:ceiling}
-\end{figure*}
+
 
 \paragraph{The headroom is item-level routing value, not a better specialty.}
 Two oracles separate what a fixed roster could deliver from what per-item routing could. Always
@@ -575,45 +619,7 @@ MedQA         & T3 & $+2.0$ & $-0.14$ & 0.8 & --- \\
 \end{tabular}
 \end{table}
 
-\begin{table}[t]\centering\small
-\caption{\textbf{Effective independent opinions.} $\varphi$ is the mean pairwise error
-correlation between panel positions; $N_{\text{eff}} = N/(1+(N-1)\varphi)$. Neither growing the
-panel nor changing how it is wired moves $\varphi$. The shaded row is the single exception:
-Hybrid's triage gate declines to convene a panel on most items, so its measured pairs come from
-the harder subset it does escalate.}
-\label{tab:neff}
-\setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{1.02}
-\begin{tabular}{@{}lrrrr@{}}
-\toprule
-Architecture & $N$ & $\varphi$ & $N_{\text{eff}}$ & info.\ used \\
-\midrule
-\sectrow
-\multicolumn{5}{@{}l}{\textit{Growing one panel: tripling $N$ buys $0.08$ of an opinion}} \\
-Independent   & 3 & 0.751 & 1.20 & 40\% \\
-Independent   & 5 & 0.753 & 1.25 & 25\% \\
-Independent   & 9 & 0.756 & 1.28 & 14\% \\
-\midrule
-\sectrow
-\multicolumn{5}{@{}l}{\textit{Changing the architecture at $N{=}9$: no effect either}} \\
-Centralized   & 9 & 0.756 & 1.28 & 14\% \\
-Decentralized & 9 & 0.756 & 1.28 & 14\% \\
-\winrow
-Hybrid        & 9 & \textbf{0.595} & \textbf{1.56} & 17\% \\
-\bottomrule
-\end{tabular}
-\end{table}
 
-\begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig8_slope.pdf}
-\caption{\textbf{Adding agents adds almost no information, and discussion removes what is left.}
-(a) Effective independent opinions $N_{\mathrm{eff}}=N/(1+(N-1)\varphi)$ against panel size, on a
-logarithmic scale. Dotted curves are contours of fixed error correlation $\varphi$; the solid line
-at $N_{\mathrm{eff}}{=}1$ is a panel worth one physician. Measured panels track the
-$\varphi{\approx}0.75$ contour, so nine members carry barely more than one opinion. (b) $\varphi$
-for every one of the 292 grid configurations, one point per configuration, with the median marked.
-The value is a near-constant of the setting rather than an artefact of any one cell, Hybrid
-routing is the only architecture that lowers it, and peer discussion drives it to $0.99$.}
-\label{fig:slope}
-\end{figure*}
+
+
 

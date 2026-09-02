@@ -52,13 +52,19 @@
 
 % 浮动体参数：跨栏大图（能力网格是 6.3x5.9in）在默认参数下放不进任何一页，
 % 会一路浮到文末并让后续所有图排队。放宽后它们回到引用附近。
-\setcounter{topnumber}{3}
+% 能力网格是 6.35x7.08in，加图注约占版心 86%，只能独占浮动页；其余跨栏图都在
+% 2.2-2.4in，两三张可以叠在页顶。floatpagefraction 必须低于 0.86，否则那张大图
+% 连浮动页都进不去，会一路排到文末并把后面所有 figure* 堵在它后面。
+\setcounter{topnumber}{4}
 \setcounter{bottomnumber}{2}
-\setcounter{totalnumber}{4}
+\setcounter{totalnumber}{6}
 \renewcommand{\topfraction}{0.92}
 \renewcommand{\bottomfraction}{0.7}
-\renewcommand{\textfraction}{0.06}
-\renewcommand{\floatpagefraction}{0.60}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.55}
+\renewcommand{\dbltopfraction}{0.92}
+\renewcommand{\dblfloatpagefraction}{0.55}
+\setcounter{dbltopnumber}{4}
 
 % 厂商图标：表格里用 \openai 等宏引用，高度随行高自适应并做基线微调
 \newcommand{\symbolimg}[2][0.34cm]{%

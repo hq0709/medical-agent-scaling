@@ -404,6 +404,137 @@ claude-sonnet-5,claude-sonnet-5,MedXpertQA,Self-consistency,sc,3,250,48.8,42.668
 claude-sonnet-5,claude-sonnet-5,MedXpertQA,Self-consistency,sc,5,250,48.0,41.88413078841016,54.17640460058833,20.693384000000002,5.0
 claude-sonnet-5,claude-sonnet-5,MedXpertQA,Self-consistency,sc,9,250,48.0,41.88413078841016,54.17640460058833,38.980768,9.0
 claude-sonnet-5,claude-sonnet-5,MedXpertQA,Self-consistency,sc,15,250,47.599999999999994,41.49231875977522,53.78032370702297,53.146928,15.0
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Centralized,centralized,1,250,38.0,32.207635551064776,44.15557678292619,0.0,2.4
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Centralized,centralized,3,250,38.800000000000004,32.97241994462016,44.9665782337714,0.0,4.176
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Centralized,centralized,5,250,38.4,32.58981738809542,44.561287868095846,0.0,6.088
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Centralized,centralized,7,250,40.400000000000006,34.506991261252914,46.58357860593986,0.0,8.12
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Centralized,centralized,9,250,40.0,34.12272862176334,46.17994832322913,0.0,10.088
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Decentralized,discussion,1,250,36.0,30.303128258888623,42.12061946410083,0.0,1.012
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Decentralized,discussion,3,250,40.0,34.12272862176334,46.17994832322913,0.0,5.172
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Decentralized,discussion,5,250,40.8,34.891663728756825,46.986799060636244,0.0,9.74
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Decentralized,discussion,7,250,40.8,34.891663728756825,46.986799060636244,0.0,14.504
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Decentralized,discussion,9,250,39.2,33.355440837516994,45.37145026307487,0.0,19.368
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Hybrid,tiered,1,250,31.2,25.777795668122415,37.19123698846343,0.0,1.26
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Hybrid,tiered,3,250,30.8,25.40373353038144,36.7774062040041,0.0,1.948
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Hybrid,tiered,5,250,32.0,26.527371529560945,38.0174469714255,0.0,2.74
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Hybrid,tiered,7,250,32.0,26.527371529560945,38.0174469714255,0.0,3.436
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Hybrid,tiered,9,250,32.0,26.527371529560945,38.0174469714255,0.0,4.132
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Independent,independent,1,250,36.0,30.303128258888623,42.12061946410083,0.0,1.0
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Independent,independent,3,250,37.2,31.44454410853008,43.34288238106028,0.0,3.0
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Independent,independent,5,250,37.2,31.44454410853008,43.34288238106028,0.0,5.0
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Independent,independent,7,250,36.8,31.063639818480084,42.93589374890997,0.0,7.0
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Independent,independent,9,250,39.2,33.355440837516994,45.37145026307487,0.0,9.0
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,SAS CoT,cot,1,250,39.6,33.738877788534225,45.775906234257945,0.0,1.0
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,SAS zero-shot,zeroshot,1,250,43.2,37.208205941359104,49.39761438123577,0.0,1.0
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Self-consistency,sc,1,250,36.4,30.683166884990985,42.52847376019877,0.0,1.0
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Self-consistency,sc,3,250,39.6,33.738877788534225,45.775906234257945,0.0,3.0
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Self-consistency,sc,5,250,39.2,33.355440837516994,45.37145026307487,0.0,5.0
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Self-consistency,sc,9,250,39.6,33.738877788534225,45.775906234257945,0.0,9.0
+deepseek-v4-flash,deepseek-v4-flash,MedAgentsBench-hard,Self-consistency,sc,15,250,37.6,31.825876924195455,43.74944248759521,0.0,15.0
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Centralized,centralized,1,250,88.0,83.38609382488654,91.4637337841421,0.0,2.088
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Centralized,centralized,3,250,89.60000000000001,85.19787370865683,92.80352558917299,0.0,4.04
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Centralized,centralized,5,250,91.60000000000001,87.5004257077684,94.44043820106295,0.0,6.016
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Centralized,centralized,7,250,92.0,87.96694903812106,94.76180779291059,0.0,8.024
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Centralized,centralized,9,250,94.39999999999999,90.82084818368784,96.6352661805456,0.0,10.032
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Decentralized,discussion,1,250,90.4,86.11332699687318,93.46385814535726,0.0,1.016
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Decentralized,discussion,3,250,92.4,88.43577467284997,95.08087508038197,0.0,3.636
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Decentralized,discussion,5,250,94.39999999999999,90.82084818368784,96.6352661805456,0.0,6.48
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Decentralized,discussion,7,250,94.39999999999999,90.82084818368784,96.6352661805456,0.0,9.436
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Decentralized,discussion,9,250,94.0,90.33762972146849,96.33059172056464,0.0,12.024
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Hybrid,tiered,1,250,88.4,83.83682865919351,91.80089187203542,0.0,1.144
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Hybrid,tiered,3,250,88.4,83.83682865919351,91.80089187203542,0.0,1.432
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Hybrid,tiered,5,250,88.8,84.28899288546563,92.13662056796359,0.0,1.76
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Hybrid,tiered,7,250,88.8,84.28899288546563,92.13662056796359,0.0,2.12
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Hybrid,tiered,9,250,88.4,83.83682865919351,91.80089187203542,0.0,2.404
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Independent,independent,1,250,89.60000000000001,85.19787370865683,92.80352558917299,0.0,1.0
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Independent,independent,3,250,92.0,87.96694903812106,94.76180779291059,0.0,3.0
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Independent,independent,5,250,92.0,87.96694903812106,94.76180779291059,0.0,5.0
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Independent,independent,7,250,93.2,89.38099139309014,95.7114442045424,0.0,7.0
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Independent,independent,9,250,92.80000000000001,88.90706197648032,95.39748069895191,0.0,9.0
+deepseek-v4-flash,deepseek-v4-flash,MedQA,SAS CoT,cot,1,250,88.0,83.38609382488654,91.4637337841421,0.0,1.0
+deepseek-v4-flash,deepseek-v4-flash,MedQA,SAS zero-shot,zeroshot,1,250,88.4,83.83682865919351,91.80089187203542,0.0,1.0
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Self-consistency,sc,1,250,89.2,84.74265111015622,92.47085526547332,0.0,1.0
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Self-consistency,sc,3,250,92.80000000000001,88.90706197648032,95.39748069895191,0.0,3.0
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Self-consistency,sc,5,250,93.2,89.38099139309014,95.7114442045424,0.0,5.0
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Self-consistency,sc,9,250,94.0,90.33762972146849,96.33059172056464,0.0,9.0
+deepseek-v4-flash,deepseek-v4-flash,MedQA,Self-consistency,sc,15,250,94.0,90.33762972146849,96.33059172056464,0.0,15.0
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Centralized,centralized,1,250,40.8,34.891663728756825,46.986799060636244,0.0,2.352
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Centralized,centralized,3,250,44.4,38.3718776205658,50.59762146862998,0.0,4.112
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Centralized,centralized,5,250,43.2,37.208205941359104,49.39761438123577,0.0,6.12
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Centralized,centralized,7,250,42.8,36.821110829882606,48.99681657051197,0.0,8.048
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Centralized,centralized,9,250,41.6,35.66223071073427,47.7920179230594,0.0,10.048
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Decentralized,discussion,1,250,36.8,31.063639818480084,42.93589374890997,0.0,1.0
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Decentralized,discussion,3,250,43.2,37.208205941359104,49.39761438123577,0.0,5.088
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Decentralized,discussion,5,250,44.4,38.3718776205658,50.59762146862998,0.0,9.54
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Decentralized,discussion,7,250,43.2,37.208205941359104,49.39761438123577,0.0,14.14
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Decentralized,discussion,9,250,44.0,37.983590558700136,50.19801560829534,0.0,19.152
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Hybrid,tiered,1,250,35.199999999999996,29.544366352974315,41.30359552561453,0.0,1.272
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Hybrid,tiered,3,250,36.0,30.303128258888623,42.12061946410083,0.0,2.008
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Hybrid,tiered,5,250,35.199999999999996,29.544366352974315,41.30359552561453,0.0,2.68
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Hybrid,tiered,7,250,33.2,27.655293258546276,39.25320400904108,0.0,3.464
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Hybrid,tiered,9,250,32.800000000000004,27.27885097296531,38.84175337242174,0.0,4.168
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Independent,independent,1,250,36.8,31.063639818480084,42.93589374890997,0.0,1.0
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Independent,independent,3,250,41.6,35.66223071073427,47.7920179230594,0.0,3.0
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Independent,independent,5,250,40.400000000000006,34.506991261252914,46.58357860593986,0.0,5.0
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Independent,independent,7,250,40.0,34.12272862176334,46.17994832322913,0.0,7.0
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Independent,independent,9,250,42.0,36.0481217387437,48.194019817250265,0.0,9.0
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,SAS CoT,cot,1,250,37.2,31.44454410853008,43.34288238106028,0.0,1.0
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,SAS zero-shot,zeroshot,1,250,36.0,30.303128258888623,42.12061946410083,0.0,1.0
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Self-consistency,sc,1,250,36.4,30.683166884990985,42.52847376019877,0.0,1.0
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Self-consistency,sc,3,250,39.6,33.738877788534225,45.775906234257945,0.0,3.0
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Self-consistency,sc,5,250,41.6,35.66223071073427,47.7920179230594,0.0,5.0
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Self-consistency,sc,9,250,41.199999999999996,35.276744141611225,47.38961156998214,0.0,9.0
+deepseek-v4-flash,deepseek-v4-flash,MedXpertQA,Self-consistency,sc,15,250,40.0,34.12272862176334,46.17994832322913,0.0,15.0
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Centralized,centralized,1,250,41.6,35.66223071073427,47.7920179230594,0.0,2.168
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Centralized,centralized,3,250,44.0,37.983590558700136,50.19801560829534,0.0,4.04
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Centralized,centralized,5,250,46.0,39.92896616885707,52.192104609139925,0.0,6.04
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Centralized,centralized,7,250,45.2,39.14963575347428,51.395649180122106,0.0,8.024
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Centralized,centralized,9,250,45.2,39.14963575347428,51.395649180122106,0.0,10.016
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Decentralized,discussion,1,250,41.199999999999996,35.276744141611225,47.38961156998214,0.0,1.0
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Decentralized,discussion,3,250,45.2,39.14963575347428,51.395649180122106,0.0,5.04
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Decentralized,discussion,5,250,44.800000000000004,38.76055969177519,50.9968323196209,0.0,9.4
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Decentralized,discussion,7,250,45.6,39.53910486617902,51.79407298961768,0.0,13.692
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Decentralized,discussion,9,175,45.14285714285714,37.95299624933078,52.54138537105284,0.0,15.582857142857144
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Hybrid,tiered,1,250,36.8,31.063639818480084,42.93589374890997,0.0,1.244
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Hybrid,tiered,3,250,36.0,30.303128258888623,42.12061946410083,0.0,1.9
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Hybrid,tiered,5,250,37.2,31.44454410853008,43.34288238106028,0.0,2.58
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Hybrid,tiered,7,250,37.2,31.44454410853008,43.34288238106028,0.0,3.24
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Independent,independent,1,250,41.199999999999996,35.276744141611225,47.38961156998214,0.0,1.0
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Independent,independent,3,250,40.8,34.891663728756825,46.986799060636244,0.0,3.0
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Independent,independent,5,250,40.400000000000006,34.506991261252914,46.58357860593986,0.0,5.0
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Independent,independent,7,250,40.0,34.12272862176334,46.17994832322913,0.0,7.0
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,Independent,independent,9,250,39.6,33.738877788534225,45.775906234257945,0.0,9.0
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,SAS CoT,cot,1,250,42.0,36.0481217387437,48.194019817250265,0.0,1.0
+deepseek-v4-pro,deepseek-v4-pro,MedAgentsBench-hard,SAS zero-shot,zeroshot,1,250,37.6,31.825876924195455,43.74944248759521,0.0,1.0
+deepseek-v4-pro,deepseek-v4-pro,MedQA,Independent,independent,1,250,91.60000000000001,87.5004257077684,94.44043820106295,0.0,1.0
+deepseek-v4-pro,deepseek-v4-pro,MedQA,Independent,independent,3,250,92.80000000000001,88.90706197648032,95.39748069895191,0.0,3.0
+deepseek-v4-pro,deepseek-v4-pro,MedQA,SAS CoT,cot,1,250,92.4,88.43577467284997,95.08087508038197,0.0,1.0
+deepseek-v4-pro,deepseek-v4-pro,MedQA,SAS zero-shot,zeroshot,1,250,92.80000000000001,88.90706197648032,95.39748069895191,0.0,1.0
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Centralized,centralized,1,250,46.0,39.92896616885707,52.192104609139925,0.0,2.096
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Centralized,centralized,3,250,48.4,42.27633144685887,54.572096864339926,0.0,4.04
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Centralized,centralized,5,250,48.0,41.88413078841016,54.17640460058833,0.0,6.04
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Centralized,centralized,7,250,47.599999999999994,41.49231875977522,53.78032370702297,0.0,8.032
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Centralized,centralized,9,250,48.0,41.88413078841016,54.17640460058833,0.0,10.048
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Decentralized,discussion,1,250,44.4,38.3718776205658,50.59762146862998,0.0,1.008
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Decentralized,discussion,3,250,48.8,42.66892040411898,54.96740082928011,0.0,5.232
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Decentralized,discussion,5,250,50.4,44.24315518242455,56.54473773977574,0.0,10.14
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Decentralized,discussion,7,250,51.2,45.032599170719884,57.33107959588102,0.0,14.504
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Decentralized,discussion,9,250,48.4,42.27633144685887,54.572096864339926,0.0,19.296
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Hybrid,tiered,1,250,38.800000000000004,32.97241994462016,44.9665782337714,0.0,1.332
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Hybrid,tiered,3,250,40.0,34.12272862176334,46.17994832322913,0.0,2.176
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Hybrid,tiered,5,250,41.6,35.66223071073427,47.7920179230594,0.0,3.22
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Hybrid,tiered,7,250,40.8,34.891663728756825,46.986799060636244,0.0,4.444
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Hybrid,tiered,9,250,41.199999999999996,35.276744141611225,47.38961156998214,0.0,5.464
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Independent,independent,1,250,44.4,38.3718776205658,50.59762146862998,0.0,1.0
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Independent,independent,3,250,43.2,37.208205941359104,49.39761438123577,0.0,3.0
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Independent,independent,5,250,45.6,39.53910486617902,51.79407298961768,0.0,5.0
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Independent,independent,7,250,46.400000000000006,40.31921887809056,52.58974482210673,0.0,7.0
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Independent,independent,9,250,46.800000000000004,40.709862287317655,52.98699433507994,0.0,9.0
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,SAS CoT,cot,1,250,44.800000000000004,38.76055969177519,50.9968323196209,0.0,1.0
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,SAS zero-shot,zeroshot,1,250,42.8,36.821110829882606,48.99681657051197,0.0,1.0
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Self-consistency,sc,1,250,45.2,39.14963575347428,51.395649180122106,0.0,1.0
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Self-consistency,sc,3,250,47.199999999999996,41.10089576615158,53.38385377844631,0.0,3.0
+deepseek-v4-pro,deepseek-v4-pro,MedXpertQA,Self-consistency,sc,5,250,47.599999999999994,41.49231875977522,53.78032370702297,0.0,5.0
 gemini-3.5-flash-lite,gemini-3.5-flash-lite,MedAgentsBench-hard,Centralized,centralized,1,250,34.0,28.40956187275826,40.074721239229696,0.126248,2.024
 gemini-3.5-flash-lite,gemini-3.5-flash-lite,MedAgentsBench-hard,Centralized,centralized,3,250,34.8,29.165649607070655,40.89441934931789,0.248636,4.008
 gemini-3.5-flash-lite,gemini-3.5-flash-lite,MedAgentsBench-hard,Centralized,centralized,5,250,34.0,28.40956187275826,40.074721239229696,0.367692,6.024
