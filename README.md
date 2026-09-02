@@ -36,7 +36,7 @@ does not beat counting votes.
 
 ## Scale
 
-**500 multi-agent configurations** · 171,999 episodes · 9 models across 4 vendors ×
+**500 multi-agent configurations** · 168,249 episodes · 9 models across 4 vendors ×
 3 medical benchmarks × 5 architectures × *N* ∈ {1,3,5,7,9}, with a budget-matched single-model
 control at every cell. The diversity analysis adds six more models, spanning six ecosystems:
 OpenAI, Google, Anthropic, DeepSeek, Alibaba, Zhipu.
