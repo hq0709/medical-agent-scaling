@@ -79,11 +79,12 @@ on the full request (model, system, messages, temperature, seed, max tokens, eff
 tag), so a re-run is a replay.
 
 \begin{table*}[t]\centering\small
-\caption{\textbf{Model selection probe.} All eight candidates screened on 40 items per benchmark
-with single-doctor CoT before the grid was run. Three OpenAI checkpoints were chosen as the
-capability ladder because they are monotone and straddle the $45\%$ threshold; two Google models
-were added later for the vendor contrast. Full 250-item accuracies for the five selected models
-are in Table~\ref{tab:capability}.}
+\caption{\textbf{Model selection probe.} The eight candidates screened on 40 items per benchmark
+with single-doctor CoT \emph{before the grid was run}, which is how the capability ladder was
+chosen: three OpenAI checkpoints, monotone and straddling the $45\%$ threshold, with two Google
+models added for the vendor contrast. The Anthropic and DeepSeek models entered later and were
+not screened this way; they went straight into the grid, and their measured accuracies are in
+Table~\ref{tab:capability} with everything else.}
 \label{tab:tiers}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.02}
