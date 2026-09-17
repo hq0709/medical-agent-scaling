@@ -145,10 +145,10 @@ throughout. $n$ is configurations.}
 \toprule
 $\PSA$ band & $n$ & headroom & capture $\kappa$ & gain \\
 \midrule
-$<25\%$         & 56 & $+6.7$\,pp & \gn{$-12.6\%$} & \gn{$-0.29$} \\
-$25$--$50\%$    & 144 & $+14.3$\,pp & \gn{$-9.0\%$} & \gp{$+0.95$} \\
-$50$--$70\%$    & 44 & $+6.3$\,pp & \gp{$+10.6\%$} & \gp{$+0.68$} \\
-$>70\%$         & 92 & $+4.1$\,pp & \gp{$+24.7\%$} & \gp{$+1.20$} \\
+$<25\%$         & 56 & $+6.7$\,pp & \gn{$-4.4\%$} & \gn{$-0.29$} \\
+$25$--$50\%$    & 144 & $+14.3$\,pp & \gp{$+6.6\%$} & \gp{$+0.95$} \\
+$50$--$70\%$    & 44 & $+6.3$\,pp & \gp{$+10.7\%$} & \gp{$+0.68$} \\
+$>70\%$         & 92 & $+4.1$\,pp & \gp{$+29.5\%$} & \gp{$+1.20$} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -180,7 +180,7 @@ headroom a specialty panel appears to offer over a single attempt, $97\%$ is sam
 the roster. The bottom bar is what the best architecture actually returns, $1.8$\,pp above one
 doctor. (b) The same gap on a selection scale, where $0$ is picking one panel member at random and
 $100$ is an oracle that always picks a correct one. Averaged over all configurations at
-$n_a \geq 3$, no rule reaches $9$, and two fall below zero.}
+$n_a \geq 3$, no rule reaches $18$, and tiered referral falls below zero.}
 \label{fig:ceiling}
 \end{figure*}
 
@@ -403,11 +403,12 @@ whether anything can arbitrate between them once convened.
 \label{sec:ceiling}
 
 The headroom is real. What reaches the output is not. Averaged over all configurations at
-$n_a \geq 3$, peer debate recovers $7.5\%$ of it, an auditing orchestrator $7.0\%$ and
-budget-matched self-consistency $6.3\%$, while majority vote recovers $\mathbf{-8.1\%}$ and tiered
-referral $-8.0\%$: the two commonest rules finish \emph{below} the accuracy of a panel member
-drawn at random (Fig.~\ref{fig:ceiling}b). Choosing the best architecture for each cell after the
-fact, which no deployment can do, reaches $17.5\%$. At $n_a{=}9$ the single doctor scores
+$n_a \geq 3$, peer debate recovers $17.7\%$ of it, an auditing orchestrator $14.8\%$,
+budget-matched self-consistency $8.6\%$ and majority vote $4.9\%$, while tiered referral recovers
+$\mathbf{-7.4\%}$---below the accuracy of a panel member drawn at random
+(Fig.~\ref{fig:ceiling}b). Four-fifths of the headroom is discarded by the best mechanism we test,
+and choosing the best architecture for each cell after the fact, which no deployment can do,
+reaches only $17.5\%$. At $n_a{=}9$ the single doctor scores
 $53.1\%$, the oracle $63.9\%$, and the best measured architecture $54.9\%$. The rest of this
 section asks why.
 
