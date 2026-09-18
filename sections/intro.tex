@@ -66,6 +66,12 @@ crossing the vendor boundary altogether---to six independently trained ecosystem
 continents---returns $2.29$. Two models built by different companies on different corpora fail on
 the same medical items about as reliably as two checkpoints from one lab.
 
+None of this is a property of the architectures we chose. Run from their own repositories on the
+same items, MedAgents~\citep{tang2024medagents} and MDAgents~\citep{kim2024mdagents} gain
+$+5.7$ and $+1.2$ percentage points---a factor of five apart---and their agents' errors correlate
+at $0.860$ and $0.863$, above our own $0.758$. What a designer controls moves the gain; it does
+not move the number of opinions in the room.
+
 The second condition fails harder, and it is the one prior work would not predict. Independence is
 scarce but not absent: at nine agents some member holds the correct answer $63.9\%$ of the time
 against $53.1\%$ for one doctor working alone, so $10.7$\,pp of real signal is in the room. Almost

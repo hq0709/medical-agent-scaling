@@ -5,11 +5,11 @@ mistakes converge on a diagnosis, the convergence is itself evidence. Although t
 requires the specialists to make different mistakes, no evaluation of a medical agent panel has
 measured whether its members do. In this work, we measure it, across $480$ multi-agent
 configurations and $161{,}999$ clinical episodes. They do not: a nine-member panel speaks with
-one voice on $66\%$ of items and is wrong on $38\%$ of what it agrees on. The failure decomposes
-into two components: a panel carries far less independent judgement than its size implies, and
-recovers almost none of the little it carries. Neither yields to its obvious remedy. Deliberation
-drives the agents to near-unanimity and lowers the accuracy of that unanimity. Crossing the
-vendor boundary, to six independently trained ecosystems on two continents, does not decorrelate
-their errors. And no aggregation rule we test beats counting votes, including one trained on the
-panel's own output against ground truth. In simpler terms: a medical panel that agrees is not a
-panel that knows, and its agreement must not reach a clinician as confidence.
+one voice on $66\%$ of items and is wrong on $38\%$ of what it agrees on. Their errors correlate at
+$\varphi = 0.76$, so nine agents carry $1.27$ independent opinions and, once they have
+deliberated, $1.01$. That number does not move. It does not move when the specialty roster
+changes, when the panel grows, when the vendor boundary is crossed to six independently trained
+ecosystems on two continents, or when two published medical agent frameworks are run from their
+own code: their gains differ by a factor of five and their error correlations are $0.860$ and
+$0.863$. In simpler terms: a panel of nine is worth one, and it agrees anyway---so its agreement
+must not reach a clinician as confidence.

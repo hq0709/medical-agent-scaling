@@ -276,6 +276,36 @@ whereas our first-round contradiction rate is flat at $6.3\%$ across communicati
 non-communicating architectures. Numerical drift is an order of magnitude rarer than in
 tool-using tasks ($3$--$5\%$ against $19$--$26\%$), as expected when no arithmetic is cascaded.
 
+\section{Reproducing the two published frameworks}
+\label{app:frameworks}
+
+Both frameworks are implemented from their authors' code, not from the papers'
+prose. MedAgents' twelve prompt functions are copied verbatim from
+\texttt{prompt\_generator.py} in \texttt{gersteinlab/MedAgents} and its control flow
+follows \texttt{fully\_decode()}'s \texttt{syn\_verif} branch, including
+\texttt{max\_attempt\_vote}${=}3$ and the \texttt{cleansing\_syn\_report} step that
+prepends the question and options to the synthesised report. MDAgents follows
+\texttt{determine\_difficulty} and \texttt{process\_intermediate\_query} from
+\texttt{mitmedialab/MDAgents}, with the three-level complexity prompt quoted exactly
+and the early stop that ends a round when no agent wishes to address another.
+
+Three deviations, all stated here. MDAgents runs two turns per round against the
+official five, which reduces cost by roughly a factor of four and does not touch the
+first-round opinions $\varphi$ is computed on. Both frameworks run on
+\texttt{gpt-4.1-nano}; their official prompts allocate 30 to 50 tokens to short
+outputs such as a yes/no vote, and a reasoning model spends that budget entirely on
+thinking and returns nothing, so a non-reasoning model is both workable and closer to
+the GPT-3.5 and GPT-4 the original papers used. MedAgents' published pipeline
+produces domain \emph{analyses} rather than option choices at the point where we need
+per-expert answers, so each expert is additionally asked for a letter; that call sits
+outside the official control flow and does not affect the framework's output.
+
+Answers are parsed by the explicit formats the prompts request. A fallback that
+accepted a bare capital letter had to be removed: MedXpertQA has ten options, so
+\texttt{I} is a legal answer and a sentence beginning ``I \ldots'' was read as one.
+Raw responses are stored with every episode so a parsing question can be settled
+without rerunning.
+
 \section{Additional results}
 \label{app:extra}
 

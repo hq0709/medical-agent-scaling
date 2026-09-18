@@ -153,11 +153,78 @@ $>70\%$         & 92 & $+4.1$\,pp & \gp{$+29.5\%$} & \gp{$+1.20$} \\
 \end{tabular}
 \end{table}
 
-The rest of this section measures the two factors in turn. \S\ref{sec:premise} asks how
+The rest of this section measures the two factors in turn. \S\ref{sec:frameworks} first
+puts two published frameworks through the same measurement, so that what follows is a
+statement about systems the field deploys rather than about our taxonomy.
+\S\ref{sec:premise} then asks how
 much independent judgement a panel of role-prompted agents actually contains, which is what sets
 the headroom, and prices every remedy for its absence. \S\ref{sec:ceiling} asks what any
 aggregation rule recovers from it. \S\ref{sec:safety} reports what the resulting output does to
 the signals a clinician would act on.
+
+\subsection{The same measurement on two published frameworks}
+\label{sec:frameworks}
+
+The architectures above are our instantiations of a taxonomy. Whether the
+constraint they run into is a property of medical agent panels or of our choices is
+answerable only by measuring systems we did not design. We therefore ran
+MedAgents~\citep{tang2024medagents} and MDAgents~\citep{kim2024mdagents} on the same
+$750$ items, from the prompts in their own repositories rather than from the papers'
+descriptions (\S\ref{app:frameworks}).
+
+The two are built differently in every respect that a designer controls. MedAgents
+partitions each question into five clinical domains and two option domains on the
+fly, has each domain expert write an analysis, synthesises them into one report, and
+then puts the report to a vote, revising it until no expert objects. MDAgents first
+classifies the question as basic, intermediate or advanced, answers the basic ones
+with a single agent, and for the rest recruits a panel and lets its members choose
+whom to talk to, round by round, until nobody wants to speak. Their peer bandwidth
+differs by nearly an order of magnitude: a MedAgents voter reads a report of roughly
+$8{,}000$ characters, where our panelists share $900$.
+
+\begin{table}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.02}
+\caption{\textbf{Two published frameworks, measured the same way.} Both run on
+\texttt{gpt-4.1-nano} over the same $750$ items, with the single-doctor baseline from
+the main grid. Gain separates them by a factor of five; $\varphi$ does not separate
+them at all. $N_{\mathrm{eff}}$ is stated at nine agents so the rows are comparable.}
+\label{tab:frameworks}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+& Gain & $\varphi$ & $N_{\mathrm{eff}}$ \\
+\midrule
+\sectrow
+Our five architectures & $+2.0$ & 0.758 & 1.27 \\
+MedAgents & \gp{$+5.7$} & \gn{0.860} & \gn{1.14} \\
+MDAgents & \gp{$+1.2$} & \gn{0.863} & \gn{1.14} \\
+\bottomrule
+\multicolumn{4}{@{}l}{\scriptsize Per benchmark, $\varphi$ ranges $0.803$--$0.890$ over} \\
+\multicolumn{4}{@{}l}{\scriptsize all six framework--benchmark combinations.} \\
+\end{tabular}
+\end{table}
+
+\paragraph{Gain separates them; independence does not.}
+MedAgents gains $+5.7$\,pp over the single doctor and MDAgents $+1.2$, a factor of
+five (Table~\ref{tab:frameworks}). Their error correlations are $0.860$ and $0.863$.
+Across all six framework--benchmark combinations $\varphi$ stays between $0.803$ and
+$0.890$, on baselines running from $15.6\%$ to $66.0\%$, and both frameworks are
+\emph{more} correlated than the architectures we built. Six experts carry $1.1$
+independent opinions, which is what nine of ours carry. What a designer controls
+moves the gain by a factor of five and leaves the number of opinions in the room
+where it was.
+
+\paragraph{Both frameworks' distinguishing mechanism is inert.}
+MedAgents revises its report until no expert votes against it. That loop reaches
+agreement on $96$--$99\%$ of items and does so \emph{in the first round} on
+$92$--$96\%$: the deliberation the algorithm is organised around almost never
+deliberates, and its termination condition is the disappearance of objection rather
+than any check on correctness. MDAgents routes on a complexity label, and the label
+does not track difficulty: the items it calls most complex score lowest on
+MedXpertQA ($14\%$ against $18$ and $21$) and its three levels differ by at most
+five points elsewhere. This is \S\ref{sec:ceiling} seen from outside our own code---
+a gate can only route on a signal that separates right from wrong, and neither
+framework has one.
 
 \subsection{Is anyone in the room right? The arithmetic premise}
 \label{sec:premise}
