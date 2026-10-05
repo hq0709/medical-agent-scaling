@@ -12,7 +12,7 @@ baselines span 15.6\% to 91.6\%, crossing the 45\% region from both sides. That 
 makes the capability-ceiling test possible at all.
 
 \begin{table*}[t]\centering\small
-\caption{Capability index and its components (single-doctor CoT accuracy, \%).}
+\caption{\textbf{Capability index.} Entries are single-doctor CoT accuracies (\%); bold $I$ is their mean across benchmarks. The final column gives model settings.}
 \label{tab:capability}
 \input{tables/table6_capability_index.tex}
 \end{table*}
@@ -34,7 +34,7 @@ MedXpertQA and MedAgentsBench-hard are high-complexity and nearly indistinguisha
 ($D = 0.489$ and $0.478$).
 
 \begin{table*}[t]\centering\small
-\caption{Domain complexity of the three medical benchmarks.}
+\caption{\textbf{Domain complexity of the three benchmarks.} Bold $D$ averages the performance ceiling, relative spread and best-model baseline; mean MAS gain is in pp.}
 \label{tab:complexity}
 \input{tables/table7_domain_complexity.tex}
 \end{table*}
@@ -79,12 +79,7 @@ on the full request (model, system, messages, temperature, seed, max tokens, eff
 tag), so a re-run is a replay.
 
 \begin{table*}[t]\centering\small
-\caption{\textbf{Model selection probe.} The eight candidates screened on 40 items per benchmark
-with single-doctor CoT \emph{before the grid was run}, which is how the capability ladder was
-chosen: three OpenAI checkpoints, monotone and straddling the $45\%$ threshold, with two Google
-models added for the vendor contrast. The Anthropic and DeepSeek models entered later and were
-not screened this way; they went straight into the grid, and their measured accuracies are in
-Table~\ref{tab:capability} with everything else.}
+\caption{\textbf{Model selection probe.} Eight candidates were screened on $40$ items per benchmark with single-doctor CoT before the grid was run. Shaded rows mark the selected models.}
 \label{tab:tiers}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.02}
@@ -227,11 +222,7 @@ consultation that treats ``how many agents'' as the design variable is fitting n
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig6_coordination.pdf}
-\caption{\textbf{A panel discards what it holds.} (c) Error amplification $\Ae$: the share of
-correct first opinions a panel emits a wrong answer over, normalised by the single-agent error
-rate. (a) and (b) place the setting against the published general-domain law: medical panels
-converse an order of magnitude less than it predicts, and performance is uncorrelated with how
-much the panel says (\S\ref{app:coord}).}
+\caption{\textbf{A panel discards what it holds.} (c) Error amplification $\Ae$ measures the share of available correct first opinions lost to a wrong output, normalised by the single-agent error rate. Panels (a) and (b) compare turn counts and message density with the published general-domain law.}
 \label{fig:coord}
 \end{figure*}
 
@@ -309,42 +300,38 @@ without rerunning.
 \section{Additional results}
 \label{app:extra}
 
-Three views of the grid that the main text states in prose. Figures~\ref{fig:nscaling} and~\ref{fig:nscalingb} give the
+Four views of the grid that the main text states in prose. Figure~\ref{fig:capability_full}
+is the capability grid of Figure~\ref{fig:capability} broken out by vendor. Figures~\ref{fig:nscaling} and~\ref{fig:nscalingb} give the
 full panel-size curve behind the claim that gains saturate at $n_a = 3$;
 Figure~\ref{fig:dist} shows that the spread within an architecture dwarfs the difference between
 architectures, which is why the pairwise contrasts in \S\ref{sec:results} so rarely separate; and
 Figure~\ref{fig:cost} plots the cost--performance frontier summarised in Table~\ref{tab:ppd}.
 
+\begin{figure*}[tp]\centering
+\includegraphics[width=\textwidth]{figures/fig1_capability_full.pdf}
+\caption{\textbf{The capability grid in full.} Figure~\ref{fig:capability}'s gains share one scale (pp) across vendor rows and benchmark columns; models are positioned by $I$. Grey shows the single doctor at zero. Coloured annotations give each vendor's strongest model's best gain.}
+\label{fig:capability_full}
+\end{figure*}
+
 \begin{figure*}[tbp]\centering
 \includegraphics[width=\textwidth]{figures/fig2_nscaling.pdf}
-\caption{\textbf{Number-of-agents scaling, OpenAI and Google.} Gain over the single doctor
-against panel size $n_a \in \{1,3,5,7,9\}$, for every architecture, model and benchmark. Rows are
-models, columns benchmarks, and each row shares a vertical scale. Every series stays within a few
-points of the baseline across the whole range, and where gains occur they are captured by
-$n_a = 3$. Anthropic and DeepSeek are in Figure~\ref{fig:nscalingb}.}
+\caption{\textbf{Number-of-agents scaling, OpenAI and Google.} Gain over the single doctor (pp) is plotted against $n_a$ for each architecture. Rows are models, columns are benchmarks, and each row shares a vertical scale. Figure~\ref{fig:nscalingb} covers Anthropic and DeepSeek.}
 \label{fig:nscaling}
 \end{figure*}
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig2_nscalingb.pdf}
-\caption{\textbf{Number-of-agents scaling, Anthropic and DeepSeek.} As
-Figure~\ref{fig:nscaling}, for the remaining three models.}
+\caption{\textbf{Number-of-agents scaling, Anthropic and DeepSeek.} As Figure~\ref{fig:nscaling}, for the remaining three models.}
 \label{fig:nscalingb}
 \end{figure*}
 \begin{figure*}[tbp]\centering
 \includegraphics[width=\textwidth]{figures/fig5_distribution.pdf}
-\caption{\textbf{Single doctor versus panel: performance distributions.} Box plots over all
-configurations of each architecture, with individual configurations overlaid. Bars are labelled
-\textsf{SAS} (single doctor), \textsf{Cen}, \textsf{Dec}, \textsf{Ind} and \textsf{Hyb} for
-Centralized, Decentralized, Independent and Hybrid. Annotations give the change in mean relative
-to the single doctor, as a percentage of that baseline. The spread within an architecture dwarfs
-the difference between architectures.}
+\caption{\textbf{Single doctor versus panel: performance distributions.} Box plots show configuration accuracies, with individual configurations overlaid. The bars are labelled \textsf{SAS} (single doctor), \textsf{Cen} (Centralized), \textsf{Dec} (Decentralized), \textsf{Ind} (Independent) and \textsf{Hyb} (Hybrid). Annotations give changes in mean accuracy as percentages of the single-doctor baseline.}
 \label{fig:dist}
 \end{figure*}
 \begin{figure*}[tbp]\centering
 \includegraphics[width=\textwidth]{figures/fig4_cost.pdf}
-\caption{\textbf{Cost--performance trade-offs.} Mean performance against nominal cost per 1{,}000
-questions, with SEM error bars on both axes. Each point is one configuration.}
+\caption{\textbf{Cost--performance trade-offs.} Mean performance is plotted against nominal cost per $1{,}000$ questions, with SEM error bars on both axes. Each point is one configuration.}
 \label{fig:cost}
 \end{figure*}
 \subsection{Where capability belongs inside a panel}
@@ -396,12 +383,7 @@ configurations degrade.
 
 \begin{figure*}[tbp]\centering
 \includegraphics[width=\textwidth]{figures/fig4_heterogeneity.pdf}
-\caption{\textbf{Agent heterogeneity.} Performance of Centralized and Decentralized panels at
-$n_a{=}3$ on MedXpertQA under five capability placements. Strong is \texttt{gpt-5-mini}, weak is
-\texttt{gpt-4.1-nano}; \emph{strong specialists} pairs a weak attending with strong specialists
-and \emph{strong attending} reverses that pairing. Annotations give the change relative to the
-all-strong panel (dashed line). Decentralized coordination has no attending, so the two
-attending-capability conditions are structurally undefined there and are omitted.}
+\caption{\textbf{Agent heterogeneity.} MedXpertQA performance is shown at $n_a{=}3$. The strong model is \texttt{gpt-5-mini} and the weak model is \texttt{gpt-4.1-nano}. \emph{Strong specialists} pairs a weak attending with strong specialists; \emph{strong attending} reverses this pairing. Annotations give percentage changes relative to the all-strong dashed line. Decentralized coordination has no attending.}
 \label{fig:hetero}
 \end{figure*}
 

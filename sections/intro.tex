@@ -8,27 +8,8 @@ evidence. That is why a tumour board's agreement moves a treatment decision, and
 opinion matching the first ends the question rather than merely repeating it.
 
 \begin{figure*}[t]\centering
-\needsfigure{5.2cm}{%
-\textbf{What the paper shows, in one picture.} Three panels, left to right, one clinical item
-running through all of them.\par\smallskip
-\textbf{(a) What a consultation is supposed to be.} Nine specialists, drawn as nine distinct
-figures, each reaching a view on their own. Two or three of them disagree with the majority, and
-one of the dissenters is holding the correct answer. Caption the panel with what makes this worth
-convening: \emph{they trained differently, so they fail differently}.\par\smallskip
-\textbf{(b) What an agent panel is.} The same nine seats, but every figure is the same figure
-wearing a different label---one model, nine coats. Their views are near-identical. Annotate with
-$\varphi = 0.76$, $N_{\mathrm{eff}} = 1.22$, and after deliberation
-$\varphi = 0.983$, $N_{\mathrm{eff}} = 1.01$. The visual point is that the room \emph{looks}
-full and is not.\par\smallskip
-\textbf{(c) What reaches the clinician.} One output box: a unanimous, high-confidence
-recommendation, rendered exactly the way a real MDT summary would be. Beside it, the two numbers
-that the box does not carry: unanimity $97.8\%$, wrong on $45\%$ of what it agrees on. A clinician
-reading (c) cannot tell (a) from (b), and that is the finding.\par\smallskip
-\emph{Space:} full text width, about $5$\,cm tall.}
-\caption{\textbf{A panel that agrees is not a panel that knows.} Nine agents prompted into
-clinical specialties carry $1.22$ independent opinions between them, and $1.01$ once they have
-deliberated. The consensus they emit is the output a clinician is most likely to act on, and it
-is wrong on $45\%$ of the items it agrees on.}
+\includegraphics[width=\textwidth]{figures/figure-1.png}
+\caption{\textbf{A panel that agrees is not a panel that knows.} The top row illustrates a case; B is correct. (a) Differently trained clinicians correct each other's errors. (b) Role-prompted agents' shared blind spots become consensus through discussion. (c) Clinicians receive a unanimous, high-confidence wrong recommendation. Decentralized panels ($N{=}9$) are $98.0\%$ unanimous; $44.9\%$ of unanimous answers are wrong (Table~\ref{tab:safety}).}
 \label{fig:teaser}
 \end{figure*}
 

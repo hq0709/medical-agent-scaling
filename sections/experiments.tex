@@ -57,42 +57,17 @@ bias call-heavy architectures downward.
 
 
 
-\begin{figure*}[tp]\centering
+\begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig1_capability.pdf}
-\caption{\textbf{Agent scaling across model capability and system architecture.} Gain over the
-single doctor, in percentage points, against the task-grounded capability index $I$ (mean
-single-doctor accuracy across the three benchmarks); each architecture at its best-performing panel
-size. Rows are vendors, columns benchmarks, and all twelve panels share one vertical scale, so
-magnitudes are comparable throughout. Plotting absolute accuracy instead would put the three
-benchmarks on ranges of $15$--$95\%$ and collapse the architectures onto a single line: the effects
-being compared span $-4.4$ to $+7.6$\,pp, while capability moves performance by tens of points.
-Every configuration sits inside a narrow band around the baseline, and the band narrows as the
-single doctor improves.}
+\caption{\textbf{Every architecture lands close to the single doctor.} Each panel shows a benchmark. The eight models are ordered by $I$, their mean single-doctor accuracy across benchmarks. Markers show each architecture's gain (pp) at its best panel size; grey bars span the four architectures. Figure~\ref{fig:capability_full} gives the vendor breakdown.}
 \label{fig:capability}
 \end{figure*}
 
-\begin{figure}[t]\centering
-\needsfigure{4.6cm}{%
-\textbf{The two questions, and where each is answered.} Three rooms side by side, nine seats
-each, with the panel's emitted answer in a box below each room.\par\smallskip
-\textbf{Left --- no headroom.} Every seat holds the same wrong answer; the emitted answer is
-wrong. No aggregation rule can help. Label: \emph{headroom} $=0$.\par\smallskip
-\textbf{Middle --- headroom, no capture.} Two seats hold the correct answer, seven do not, and the
-emitted answer is still wrong. Label: \emph{headroom} $>0$, $\kappa \approx 0$. Mark this room ---
-it is the one the grid lands in.\par\smallskip
-\textbf{Right --- headroom and capture.} The same two correct seats, and the emitted answer is
-correct. Label: \emph{headroom} $>0$, $\kappa$ high.\par\smallskip
-Underneath, Eq.~\ref{eq:decomp} spanning the three rooms, with \emph{headroom} sitting under the
-seats and $\kappa$ under the arrow from seats to output box. Point the reader at
-\S\ref{sec:premise} beneath the seats and \S\ref{sec:ceiling} beneath the arrow.\par\smallskip
-The takeaway before any number: the left and middle rooms are indistinguishable from the output
-alone, and separating them is what the rest of this section does.\par\smallskip
-\emph{Space:} one column, about $4.5$\,cm tall.}
-\caption{\textbf{A panel can fail two ways, and accuracy does not tell them apart.} Either the
-answer is not in the room, or it is and nothing recovers it. The two have different remedies.
-\S\ref{sec:premise} measures the first factor and \S\ref{sec:ceiling} the second.}
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figures/figure-4-new.png}
+\caption{\textbf{A panel can fail two ways, and accuracy does not tell them apart.} (a) No correct answer leaves no headroom. (b) An available correct answer is lost, the observed bottleneck with low $\kappa$. (c) The correct answer is recovered with high $\kappa$. Eq.~\ref{eq:decomp} gives gain as headroom (\S\ref{sec:premise}) times capture (\S\ref{sec:ceiling}).}
 \label{fig:decomp}
-\end{figure}
+\end{figure*}
 
 \subsection{Main results: what a panel buys}
 \label{sec:results}
@@ -102,10 +77,7 @@ on a minority of cells and never by much. Figure~\ref{fig:capability} gives the 
 dose--response surface; Table~\ref{tab:main} the underlying numbers.
 
 \begin{table*}[t]\centering\small
-\caption{\textbf{Main results.} For each model and benchmark: the single-doctor baseline, then
-each architecture at its best panel size, and the gain of the best architecture over the single
-doctor. Bold marks the best architecture in each row. The complete 480-configuration grid,
-including every panel size, is released with the code (\S\ref{app:full}).}
+\caption{\textbf{Main results.} Each architecture appears at its best panel size; gain compares the best with the single doctor. Bold accuracies mark the row's best architecture; bold gains mark gains of at least $5$\,pp in absolute value.}
 \label{tab:main}
 \input{tables/main_results_compact.tex}
 \end{table*}
@@ -153,78 +125,7 @@ $>70\%$         & 92 & $+4.1$\,pp & \gp{$+29.5\%$} & \gp{$+1.20$} \\
 \end{tabular}
 \end{table}
 
-The rest of this section measures the two factors in turn. \S\ref{sec:frameworks} first
-puts two published frameworks through the same measurement, so that what follows is a
-statement about systems the field deploys rather than about our taxonomy.
-\S\ref{sec:premise} then asks how
-much independent judgement a panel of role-prompted agents actually contains, which is what sets
-the headroom, and prices every remedy for its absence. \S\ref{sec:ceiling} asks what any
-aggregation rule recovers from it. \S\ref{sec:safety} reports what the resulting output does to
-the signals a clinician would act on.
-
-\subsection{The same measurement on two published frameworks}
-\label{sec:frameworks}
-
-The architectures above are our instantiations of a taxonomy. Whether the
-constraint they run into is a property of medical agent panels or of our choices is
-answerable only by measuring systems we did not design. We therefore ran
-MedAgents~\citep{tang2024medagents} and MDAgents~\citep{kim2024mdagents} on the same
-$750$ items, from the prompts in their own repositories rather than from the papers'
-descriptions (\S\ref{app:frameworks}).
-
-The two are built differently in every respect that a designer controls. MedAgents
-partitions each question into five clinical domains and two option domains on the
-fly, has each domain expert write an analysis, synthesises them into one report, and
-then puts the report to a vote, revising it until no expert objects. MDAgents first
-classifies the question as basic, intermediate or advanced, answers the basic ones
-with a single agent, and for the rest recruits a panel and lets its members choose
-whom to talk to, round by round, until nobody wants to speak. Their peer bandwidth
-differs by nearly an order of magnitude: a MedAgents voter reads a report of roughly
-$8{,}000$ characters, where our panelists share $900$.
-
-\begin{table}[t]\centering\small
-\setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{1.02}
-\caption{\textbf{Two published frameworks, measured the same way.} Both run on
-\texttt{gpt-4.1-nano} over the same $750$ items, with the single-doctor baseline from
-the main grid. Gain separates them by a factor of five; $\varphi$ does not separate
-them at all. $N_{\mathrm{eff}}$ is stated at nine agents so the rows are comparable.}
-\label{tab:frameworks}
-\begin{tabular}{@{}lrrr@{}}
-\toprule
-& Gain & $\varphi$ & $N_{\mathrm{eff}}$ \\
-\midrule
-\sectrow
-Our five architectures & $+2.0$ & 0.758 & 1.27 \\
-MedAgents & \gp{$+5.7$} & \gn{0.860} & \gn{1.14} \\
-MDAgents & \gp{$+1.2$} & \gn{0.863} & \gn{1.14} \\
-\bottomrule
-\multicolumn{4}{@{}l}{\scriptsize Per benchmark, $\varphi$ ranges $0.803$--$0.890$ over} \\
-\multicolumn{4}{@{}l}{\scriptsize all six framework--benchmark combinations.} \\
-\end{tabular}
-\end{table}
-
-\paragraph{Gain separates them; independence does not.}
-MedAgents gains $+5.7$\,pp over the single doctor and MDAgents $+1.2$, a factor of
-five (Table~\ref{tab:frameworks}). Their error correlations are $0.860$ and $0.863$.
-Across all six framework--benchmark combinations $\varphi$ stays between $0.803$ and
-$0.890$, on baselines running from $15.6\%$ to $66.0\%$, and both frameworks are
-\emph{more} correlated than the architectures we built. Six experts carry $1.1$
-independent opinions, which is what nine of ours carry. What a designer controls
-moves the gain by a factor of five and leaves the number of opinions in the room
-where it was.
-
-\paragraph{Both frameworks' distinguishing mechanism is inert.}
-MedAgents revises its report until no expert votes against it. That loop reaches
-agreement on $96$--$99\%$ of items and does so \emph{in the first round} on
-$92$--$96\%$: the deliberation the algorithm is organised around almost never
-deliberates, and its termination condition is the disappearance of objection rather
-than any check on correctness. MDAgents routes on a complexity label, and the label
-does not track difficulty: the items it calls most complex score lowest on
-MedXpertQA ($14\%$ against $18$ and $21$) and its three levels differ by at most
-five points elsewhere. This is \S\ref{sec:ceiling} seen from outside our own code---
-a gate can only route on a signal that separates right from wrong, and neither
-framework has one.
+The rest of this section measures the two factors in turn. \S\ref{sec:premise} asks how much independent judgement a panel of role-prompted agents contains, which sets headroom, and prices every remedy for its absence; \S\ref{sec:ceiling} asks what any aggregation rule recovers from it. Applying the same measurement to two published frameworks (\S\ref{sec:frameworks}) makes the result about systems the field deploys rather than our taxonomy. \S\ref{sec:safety} reports what the resulting output does to the signals a clinician would act on; the last subsection prices a panel.
 
 \subsection{Is anyone in the room right? The arithmetic premise}
 \label{sec:premise}
@@ -239,15 +140,7 @@ holds $9.3$\,pp of recoverable accuracy, often enough to matter.
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig10_ceiling.pdf}
-\caption{\textbf{A panel holds answers it cannot deliver.} (a) How often a correct answer is
-available at all, at $n_a{=}9$. Asking one generalist nine times makes one available $63.5\%$ of
-the time; nine distinct specialists make one available $63.9\%$. The two middle bars are the
-comparison the design pattern rests on, and they are the same length: of the $9.3$\,pp of
-headroom a specialty panel appears to offer over a single attempt, $97\%$ is sampling and $3\%$ is
-the roster. The bottom bar is what the best architecture actually returns, $1.8$\,pp above one
-doctor. (b) The same gap on a selection scale, where $0$ is picking one panel member at random and
-$100$ is an oracle that always picks a correct one. Averaged over all configurations at
-$n_a \geq 3$, no rule reaches $18$, and tiered referral falls below zero.}
+\caption{\textbf{A panel holds answers it cannot deliver.} (a) The bars show correct-answer availability at $n_a{=}9$; the bottom bar shows delivered accuracy. (b) Capture is averaged over configurations at $n_a\geq3$, with zero for random-member selection and $100$ for an oracle that selects a correct answer whenever available.}
 \label{fig:ceiling}
 \end{figure*}
 
@@ -271,11 +164,7 @@ $0.08$ of an independent opinion. Specialty role prompts do not make one model i
 physicians; they make it into one physician wearing several labels.
 
 \begin{table}[t]\centering\small
-\caption{\textbf{Effective independent opinions.} $\varphi$ is the mean pairwise error
-correlation between panel positions; $N_{\text{eff}} = N/(1+(N-1)\varphi)$. Neither growing the
-panel nor changing how it is wired moves $\varphi$. The shaded row is the single exception:
-Hybrid's triage gate declines to convene a panel on most items, so its measured pairs come from
-the harder subset it does escalate.}
+\caption{\textbf{Effective independent opinions.} $\varphi$ is the mean pairwise error correlation between panel positions; $N_{\mathrm{eff}}$ follows Eq.~\ref{eq:neff}. The shaded Hybrid row is measured only on the items its triage gate escalates.}
 \label{tab:neff}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.02}
@@ -315,14 +204,7 @@ repetition.
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig8_slope.pdf}
-\caption{\textbf{Adding agents adds almost no information, and discussion removes what is left.}
-(a) Effective independent opinions $N_{\mathrm{eff}}=N/(1+(N-1)\varphi)$ against panel size, on a
-logarithmic scale. Dotted curves are contours of fixed error correlation $\varphi$; the solid line
-at $N_{\mathrm{eff}}{=}1$ is a panel worth one physician. Measured panels track the
-$\varphi{\approx}0.75$ contour, so nine members carry barely more than one opinion. (b) $\varphi$
-for every one of the 292 grid configurations, one point per configuration, with the median marked.
-The value is a near-constant of the setting rather than an artefact of any one cell, Hybrid
-routing is the only architecture that lowers it, and peer discussion drives it to $0.99$.}
+\caption{\textbf{Adding agents adds almost no information, and discussion removes what is left.} (a) Effective opinions are plotted against panel size on a logarithmic vertical scale. Dotted curves hold $\varphi$ fixed; the solid line marks one opinion. (b) Each point is a configuration's error correlation, with the median marked.}
 \label{fig:slope}
 \end{figure*}
 
@@ -390,26 +272,14 @@ correlation could have reached. Mixing model families decorrelates genuinely, an
 \begin{table*}[t]\centering\small
 \setlength{\tabcolsep}{6pt}
 \renewcommand{\arraystretch}{1.02}
-\caption{\textbf{Four sources of panel diversity.} Normalised correlation
-$\varphi/\varphi_{\max}$ is the quantity that is not confounded by unequal error rates.
-Rows relax, in turn, what makes two panel members different: a prompt, a checkpoint, a training
-family (\texttt{gpt-4o} / \texttt{gpt-4.1} / \texttt{gpt-5}), and finally the vendor---all pairs
-across six independently trained ecosystems, three American and three Chinese. The last step---the
-one usually assumed to be the answer---moves nothing, and moves it the wrong way. $n$ is
-model--benchmark pairs.}
+\caption{\textbf{Four sources of panel diversity.} Normalised correlation $\varphi/\varphi_{\max}$ accounts for unequal error rates. Rows vary prompts, checkpoints, training families (\texttt{gpt-4o}, \texttt{gpt-4.1}, \texttt{gpt-5}) and vendors; $n$ counts model--benchmark pairs.}
 \label{tab:diversity}
 \input{tables/table5_diversity.tex}
 \end{table*}
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig11_diversity.pdf}
-\caption{\textbf{Independence does not arrive at the vendor boundary.} (a) Effective independent
-opinions in a nine-member panel under four sources of diversity. Relaxing the prompt, then the
-checkpoint, then the training family lifts the panel from $1.31$ to $2.60$; relaxing the vendor
-moves it $-0.31$. (b) The evidence behind that mean: all $360$ model--benchmark pairs, normalised
-correlation against the gap in the two members' error rates. The same-vendor and cross-vendor
-clouds occupy the same region and their means differ by $0.001$. The rightward drift of both is
-Eq.~\ref{eq:phimax} at work, which is why the normalised quantity is the one plotted.}
+\caption{\textbf{Independence does not arrive at the vendor boundary.} (a) The bars show effective independent opinions in nine-member panels under four diversity sources. (b) Normalised correlation is plotted against the error-rate gap for same-vendor and cross-vendor model--benchmark pairs. Dashed lines mark their means; $n$ counts pairs.}
 \label{fig:diversity}
 \end{figure*}
 
@@ -522,9 +392,7 @@ a blind spot, and every statistic computable from its own outputs inherits that 
 \begin{table}[t]\centering\small
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.02}
-\caption{\textbf{Every arbiter a panel could use.} Discrimination of each first-round signal
-against whether the panel's final answer is correct, over all $64{,}591$ panel episodes at
-$n_a \geq 3$. The spread across signals is $0.034$ of AUC.}
+\caption{\textbf{Every arbiter a panel could use.} Each first-round signal is evaluated against the correctness of the panel's final answer over $64{,}591$ panel episodes at $n_a\geq3$.}
 \label{tab:signals}
 \begin{tabular}{@{}lrr@{}}
 \toprule
@@ -576,15 +444,70 @@ no signal on which it could decide to be anything else.
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig9_reliability.pdf}
-\caption{\textbf{Consultation degrades the signal a clinician would use to catch its errors.}
-(a) Overconfidence, defined as stated confidence minus the accuracy actually achieved at that
-confidence, against stated confidence. Perfect calibration is the solid line at zero; every
-architecture sits $19$--$47$\,pp above it at every confidence level, so panels are not merely
-uninformative about their own reliability but systematically overconfident. (b) The confidence gap
-between correct and incorrect answers at $N{=}9$, which is the quantity a reader would use to
-discount an answer. Peer discussion cuts it by a quarter, to below the single doctor's.}
+\caption{\textbf{Consultation degrades the signal a clinician would use to catch its errors.} (a) Overconfidence is stated confidence minus achieved accuracy, plotted against stated confidence; zero marks perfect calibration. (b) At $N{=}9$, open and filled circles show mean confidence on wrong and correct answers; annotations give the gaps in pp.}
 \label{fig:reliability}
 \end{figure*}
+
+\subsection{The same measurement on two published frameworks}
+\label{sec:frameworks}
+
+The architectures above are our instantiations of a taxonomy. Whether the
+constraint they run into is a property of medical agent panels or of our choices is
+answerable only by measuring systems we did not design. We therefore ran
+MedAgents~\citep{tang2024medagents} and MDAgents~\citep{kim2024mdagents} on the same
+$750$ items, from the prompts in their own repositories rather than from the papers'
+descriptions (\S\ref{app:frameworks}).
+
+The two are built differently in every respect that a designer controls. MedAgents
+partitions each question into five clinical domains and two option domains on the
+fly, has each domain expert write an analysis, synthesises them into one report, and
+then puts the report to a vote, revising it until no expert objects. MDAgents first
+classifies the question as basic, intermediate or advanced, answers the basic ones
+with a single agent, and for the rest recruits a panel and lets its members choose
+whom to talk to, round by round, until nobody wants to speak. Their peer bandwidth
+differs by nearly an order of magnitude: a MedAgents voter reads a report of roughly
+$8{,}000$ characters, where our panelists share $900$.
+
+\begin{table}[t]\centering\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.02}
+\caption{\textbf{Two published frameworks, measured the same way.} Both run on \texttt{gpt-4.1-nano} over the same $750$ items, with the single-doctor baseline from the main grid. $N_{\mathrm{eff}}$ is stated at nine agents so the rows are comparable.}
+\label{tab:frameworks}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+& Gain & $\varphi$ & $N_{\mathrm{eff}}$ \\
+\midrule
+\sectrow
+Our five architectures & $+2.0$ & 0.758 & 1.27 \\
+MedAgents & \gp{$+5.7$} & \gn{0.860} & \gn{1.14} \\
+MDAgents & \gp{$+1.2$} & \gn{0.863} & \gn{1.14} \\
+\bottomrule
+\multicolumn{4}{@{}l}{\scriptsize Per benchmark, $\varphi$ ranges $0.803$--$0.890$ over} \\
+\multicolumn{4}{@{}l}{\scriptsize all six framework--benchmark combinations.} \\
+\end{tabular}
+\end{table}
+
+\paragraph{Gain separates them; independence does not.}
+MedAgents gains $+5.7$\,pp over the single doctor and MDAgents $+1.2$, a factor of
+five (Table~\ref{tab:frameworks}). Their error correlations are $0.860$ and $0.863$.
+Across all six framework--benchmark combinations $\varphi$ stays between $0.803$ and
+$0.890$, on baselines running from $15.6\%$ to $66.0\%$, and both frameworks are
+\emph{more} correlated than the architectures we built. Six experts carry $1.1$
+independent opinions, which is what nine of ours carry. What a designer controls
+moves the gain by a factor of five and leaves the number of opinions in the room
+where it was.
+
+\paragraph{Both frameworks' distinguishing mechanism is inert.}
+MedAgents revises its report until no expert votes against it. That loop reaches
+agreement on $96$--$99\%$ of items and does so \emph{in the first round} on
+$92$--$96\%$: the deliberation the algorithm is organised around almost never
+deliberates, and its termination condition is the disappearance of objection rather
+than any check on correctness. MDAgents routes on a complexity label, and the label
+does not track difficulty: the items it calls most complex score lowest on
+MedXpertQA ($14\%$ against $18$ and $21$) and its three levels differ by at most
+five points elsewhere. This is \S\ref{sec:ceiling} seen from outside our own code---
+a gate can only route on a signal that separates right from wrong, and neither
+framework has one.
 
 \subsection{Clinical safety: what consultation does to confidence}
 \label{sec:safety}
@@ -603,11 +526,7 @@ about whether to believe it.
 
 \begin{table}[t]\centering\small
 \setlength{\tabcolsep}{3.5pt}
-\caption{\textbf{Clinical safety.} Unanimity is measured on the last round with two or more
-agents; $P(\mathrm{wr.}\!\mid\!\mathrm{un.})$ is the chance a fully agreeing panel is wrong;
-the last column is how well stated confidence separates the panel's right answers from its wrong
-ones. The first row is the single doctor, for reference. Peer discussion buys near-total agreement
-and changes nothing about what that agreement is worth.}
+\caption{\textbf{Clinical safety.} At $N{=}9$, unan. is the unanimity rate, $P(\mathrm{wr.}\!\mid\!\mathrm{un.})$ is the chance a unanimous panel is wrong, and conf. AUC measures how well stated confidence separates right from wrong answers. Red marks the values discussed.}
 \label{tab:safety}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.02}
