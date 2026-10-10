@@ -8,7 +8,7 @@ almost none of the second.
 The first is scarcer than the design pattern assumes, and it does not come from where the design
 pattern puts it. Agents prompted into different specialties make the same mistakes
 ($\varphi = 0.758$), leaving a nine-member panel with $1.27$ effective independent opinions, and
-peer discussion pushes them into near-perfect agreement ($\varphi = 0.983$), leaving a nine-member
+peer discussion pushes them into near-perfect agreement ($\varphi = 0.990$), leaving a nine-member
 consultation with $1.01$. Of the $10.7$\,pp that separates one doctor from the best answer anywhere
 in a nine-member panel, $97\%$ is already available from asking one generalist the same question
 nine times; the specialty roster---the defining feature of the systems built on this
@@ -23,15 +23,15 @@ and always picking a correct one scores $100$, peer debate scores $17.7$, an aud
 orchestrator $14.8$, majority voting $4.9$, and tiered referral falls below zero at $-7.4$. The panel usually holds the
 answer it does not give. The quantity such a system would need---a signal separating a right member
 from a wrong one---is missing: self-reported confidence separates them with Youden $J = 0.166$, and
-the one architecture here that tries to route on it convenes a panel on $21\%$ of items and never
+the one architecture here that tries to route on it convenes a panel on $20\%$ of items and never
 once on one benchmark--model cell. Collaboration gain factors as available signal times the
 fraction recovered, and both factors are small.
 
 Three knobs the field is turning, and one it is not. Panel size: over $N \in \{3,\dots,9\}$ the
-effective number of opinions moves from $1.16$ to $1.22$, and panel size alone predicts gain at
-cross-validated $R^2 = -0.006$. The specialty roster: a temperature setting reproduces $99\%$ of
+effective number of opinions moves from $1.19$ to $1.27$, and panel size alone predicts gain at
+cross-validated $R^2 = -0.007$. The specialty roster: a temperature setting reproduces $97\%$ of
 the diversity it buys, and with the roster removed entirely a panel of identical internists still
-collects $60\%$ of the accuracy the specialist panel delivers. Coordination topology: pairwise
+collects $60\%$ of the accuracy gain the specialist panel delivers. Coordination topology: pairwise
 architecture contrasts are non-significant, so star, complete, tiered and edgeless are
 indistinguishable from one another. The knob that is
 not being turned is verification: every point of headroom the field is trying to reach through richer
