@@ -1,51 +1,22 @@
 \section{Conclusion}
 
-A panel of nine language-model specialists is worth one physician. Everything else here follows
-from that number: a consultation is worth convening only if somebody in the room is right when
-the others are wrong and the room can tell who, and these panels have a little of the first and
-almost none of the second.
+A panel of nine language-model specialists is worth one physician. Error correlation and capture
+rate $\kappa$ identify two constraints on consultation gains.
 
-The first is scarcer than the design pattern assumes, and it does not come from where the design
-pattern puts it. Agents prompted into different specialties make the same mistakes
-($\varphi = 0.758$), leaving a nine-member panel with $1.27$ effective independent opinions, and
-peer discussion pushes them into near-perfect agreement ($\varphi = 0.990$), leaving a nine-member
-consultation with $1.01$. Of the $10.7$\,pp that separates one doctor from the best answer anywhere
-in a nine-member panel, $97\%$ is already available from asking one generalist the same question
-nine times; the specialty roster---the defining feature of the systems built on this
-pattern---contributes $+0.37$\,pp. Independence can be bought, but not cheaply and not
-usefully: three independently trained model families reach $2.60$ effective opinions out of nine
-and swapping vendor entirely---$300$ pairs across six ecosystems on two continents---reaches $2.29$,
-and the least correlated panel we can assemble reaches that state by seating a much weaker member
-and then performs like the stronger member working alone.
+Role-prompted specialists' errors correlate at $\varphi = 0.758$, leaving a nine-member panel
+with $1.27$ effective independent opinions. Discussion raises $\varphi$ to $0.990$, leaving
+$1.01$. Self-consistency supplies $97\%$ of the $10.7$\,pp of headroom, while specialty role
+prompts add $+0.37$\,pp to the oracle ceiling. Computed from raw $\varphi$, mixing model
+generations within one vendor yields $2.60$ effective opinions out of nine, and mixing models
+from six vendors yields $2.29$.
 
-The second is the binding constraint. On a scale where picking a panel member at random scores $0$
-and always picking a correct one scores $100$, peer debate scores $17.7$, an auditing
-orchestrator $14.8$, majority voting $4.9$, and tiered referral falls below zero at $-7.4$. The panel usually holds the
-answer it does not give. The quantity such a system would need---a signal separating a right member
-from a wrong one---is missing: self-reported confidence separates them with Youden $J = 0.166$, and
-the one architecture here that tries to route on it convenes a panel on $20\%$ of items and never
-once on one benchmark--model cell. Collaboration gain factors as available signal times the
-fraction recovered, and both factors are small.
+Decentralized recovers $17.7\%$ of headroom and Centralized $14.8\%$. Independent recovers
+$4.9\%$, and Hybrid has $\kappa = -7.4\%$. Neither learned selector improves on plurality.
 
-Three knobs the field is turning, and one it is not. Panel size: over $N \in \{3,\dots,9\}$ the
-effective number of opinions moves from $1.19$ to $1.27$, and panel size alone predicts gain at
-cross-validated $R^2 = -0.007$. The specialty roster: a temperature setting reproduces $97\%$ of
-the diversity it buys, and with the roster removed entirely a panel of identical internists still
-collects $60\%$ of the accuracy gain the specialist panel delivers. Coordination topology: pairwise
-architecture contrasts are non-significant, so star, complete, tiered and edgeless are
-indistinguishable from one another. The knob that is
-not being turned is verification: every point of headroom the field is trying to reach through richer
-coordination protocols is already present in the panel and is being discarded for want of a way to
-recognise it. Where a panel is deployed anyway, the decision should be made by measuring the
-single-model baseline on the intended case mix first---budget-matched self-consistency matches or
-beats every architecture we tested at a fraction of the cost---and
-capability belongs on the agents doing the reasoning rather than the one supervising them, which
-matters $4.1\times$ more.
+Discussion raises unanimity to $98.0\%$ while $44.9\%$ of unanimous answers are wrong
+(Decentralized, $N{=}9$; Table~\ref{tab:safety}).
 
-The broader caution is about what a consulting system advertises. A unanimous, high-confidence
-multidisciplinary recommendation is the output a clinician is most likely to act on, and in these
-experiments it is the output whose reliability is least legible from its own signals: unanimity
-reaches $98\%$ while the error rate given unanimity stays at $45\%$, and stated confidence
-separates the panel's right answers from its wrong ones at $\text{AUC} \leq 0.62$ under every
-architecture we tested. Making medical panels agree is
-easy. Making them \emph{decidable} is the open problem.
+Before deploying a panel, compare it with the single doctor and budget-matched self-consistency
+on the intended case mix.
+
+Making medical panels agree is easy; making them verifiable is the open problem.

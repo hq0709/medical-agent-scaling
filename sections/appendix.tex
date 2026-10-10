@@ -3,13 +3,12 @@
 \section{Model capability index}
 \label{app:capability}
 
-Prior work scores models on a published Intelligence Index and reports that a
+\citet{kim2026scaling} score models on a published Intelligence Index and report that a
 \emph{task-grounded} capability metric explains more variance ($R^2 = 0.413$) than the generic one
-($R^2 = 0.373$). We therefore use the task-grounded form throughout: $I$ is a model's mean
+($R^2 = 0.373$). We define the task-grounded capability index $I$ as a model's mean
 single-doctor chain-of-thought accuracy across the three benchmarks. Table~\ref{tab:capability}
-gives the components. The three tiers span $I = 34.0$ to $59.2$, and their single-benchmark
-baselines span 15.6\% to 91.6\%, crossing the 45\% region from both sides. That crossing is what
-makes the capability-ceiling test possible at all.
+gives the components. The three OpenAI capability tiers span $I = 34.0$ to $59.2$, and their single-benchmark
+baselines span 15.6\% to 91.6\%, crossing the 45\% region from both sides.
 
 \begin{table*}[t]\centering\small
 \caption{\textbf{Capability index.} Entries are single-doctor CoT accuracies (\%); bold $I$ is their mean across benchmarks. The final column gives model settings.}
@@ -30,11 +29,11 @@ strongest single-model performance on the dataset.
 
 \subsection{Domain characterisation}
 Table~\ref{tab:complexity} gives the components. MedQA is a low-complexity domain ($D = 0.060$);
-MedXpertQA and MedAgentsBench-hard are high-complexity and nearly indistinguishable
+MedXpertQA and MedAgentsBench-hard have similar, higher complexity values
 ($D = 0.370$ and $0.392$).
 
 \begin{table*}[t]\centering\small
-\caption{\textbf{Domain complexity of the three benchmarks.} Bold $D$ averages the performance ceiling, relative spread and best-model baseline; mean MAS gain is in pp.}
+\caption{\textbf{Domain complexity of the three benchmarks.} Bold $D$ averages the performance ceiling, relative spread and best-model baseline; mean multi-agent gain is in pp.}
 \label{tab:complexity}
 \input{tables/table7_domain_complexity.tex}
 \end{table*}
@@ -43,15 +42,11 @@ MedXpertQA and MedAgentsBench-hard are high-complexity and nearly indistinguisha
 A critical complexity threshold at $D \approx 0.40$ has been reported for general-domain
 agents~\citep{kim2026scaling}: below it
 multi-agent architectures yield net positive returns, above it coordination overhead consumes
-resources otherwise spent on reasoning. Our data do not support a benchmark-level threshold of any
-value. MedXpertQA ($D = 0.370$) and MedAgentsBench-hard ($D = 0.392$) differ by $0.022$ in
+resources otherwise spent on reasoning. MedXpertQA ($D = 0.370$) and MedAgentsBench-hard ($D = 0.392$) differ by $0.022$ in
 complexity yet by $1.8$ pp in mean multi-agent gain ($+1.44$ pp versus $-0.34$ pp), giving
-opposite signs at effectively the same $D$. A benchmark-level statistic cannot separate them because the
-quantity that does separate them varies \emph{within} each benchmark: on MedAgentsBench-hard the
+opposite signs below the reported threshold. Gains also vary \emph{within} each benchmark: on MedAgentsBench-hard the
 per-tier gains run $-2.78$, $+1.02$, $+0.66$ pp as $\PSA$ moves from 20.4\% through 32.4\% to
-44.4\%. Domain complexity is the right
-idea at the wrong granularity for medicine. The configuration-level baseline $\PSA$ is what
-carries the signal.
+44.4\%. The configuration-level baseline $\PSA$ distinguishes these gains.
 
 \section{Datasets}
 \label{app:data}
@@ -101,7 +96,7 @@ Model & Setting & Role & MedXpertQA & MedQA & USD / 1k items \\
 \gemini~\texttt{gemini-3.7-flash} & --- & vendor contrast & 80.0\% & 97.5\% & 0.41 \\
 \midrule
 \sectrow
-\multicolumn{6}{@{}l}{\textit{Screened, not selected --- used only for the pairwise $\varphi$ analysis}} \\
+\multicolumn{6}{@{}l}{\textit{Screened, not selected (used only for the pairwise $\varphi$ analysis)}} \\
 \openai~\texttt{gpt-4o-mini} & --- & --- & 20.0\% & 87.5\% & 0.13 \\
 \openai~\texttt{gpt-4.1-mini} & --- & --- & 32.5\% & 85.0\% & 0.41 \\
 \openai~\texttt{gpt-5.4-nano} & effort=low & --- & 47.5\% & 95.0\% & 0.14 \\
@@ -110,61 +105,50 @@ Model & Setting & Role & MedXpertQA & MedQA & USD / 1k items \\
 \end{table*}
 
 \subsection{Agent configuration}
-Single agents answer in one call. Independent panels deploy $N$ specialists with
-synthesis-only aggregation. Centralized systems use one orchestrator over $N$ sub-agents with a
+Single-doctor baselines answer in one call. Independent panels deploy $N$ specialists with
+majority-vote aggregation, ties broken by mean stated confidence and then option order.
+Centralized systems use one orchestrator over $N$ sub-agents with a
 maximum of 2 orchestration rounds and one re-task per round. Decentralized systems run $N$ agents
-through up to 3 discussion rounds, stopping early only on true unanimity. Hybrid systems combine a
+through up to 3 discussion rounds, stopping early only on unanimity. Hybrid systems combine a
 generalist triage gate with the specialist panel and escalate to full discussion when the panel
 has no majority. Agent temperature is 0.7 within panels, 0.3 for single-doctor baselines and for
-orchestrator/moderator turns; reasoning models are called at \texttt{effort=low} with a minimum
+orchestrator/triage turns. Reasoning models ignore temperature and are called at \texttt{effort=low} with a minimum
 completion budget of 1{,}600 tokens, since reasoning tokens are drawn from the same budget and a
 smaller cap returns empty output.
 
 \subsection{Prompt compilation}
 Every agent receives the same rendered item (stem, then options as \texttt{(A) ...}) and the same
 answer schema: JSON with \texttt{answer}, \texttt{confidence} (0--100) and \texttt{reason}
-(at most 45 words). Only the system prompt differs, naming the specialty. Peer context in
+(at most 45 words). For specialist panel members, the system prompt names their specialty. Peer context in
 communicating architectures is capped at a fixed 900-character budget, balanced-truncated across
 peers and \emph{independent of $N$}, so a panel-size effect cannot be a context-length effect.
 Peer ordering is deterministically rotated per (item, round) so that the first-listed speaker is
 decorrelated from the top-ranked specialty.
 
-\subsection{Evaluation methodology}
-\textbf{Sample sizes.} 250 items per benchmark, 480 multi-agent configurations, 161{,}999 episodes.
-\textbf{Controls.} All architectures share the item rendering, answer schema, role-prompt template
-and decoding parameters; only coordination logic differs. Model weights are frozen. The primary
-endpoint is exact match against the dataset's own gold option key. No LLM judge appears anywhere
-in the evaluation path. Episodes that fail for infrastructure reasons carry an error status and are
-excluded from accuracy rather than scored as wrong, which would bias call-heavy architectures
-downward. Cost accounting is nominal: cached calls are charged at list price, so reported
-economics describe what a configuration would cost to run.
-
 \section{Complete results grid}
 \label{app:full}
 
-The per-configuration grid --- $480$ multi-agent configurations and their single-model controls,
-with accuracy, confidence interval and cost for each --- is released with the code rather than
-printed here, together with the raw episodes it is computed from.
+The per-configuration grid contains $480$ multi-agent configurations and their single-model controls,
+with accuracy and cost for each. It is released with the code and the raw episodes used to compute it.
 
 \section{The published scaling form, fitted to medical data}
 \label{app:scaling}
 
-The main text measures collaboration gain directly. For readers who want the comparison, we also
-fit the scaling form proposed for general-domain agent systems~\citep{kim2026scaling} to our grid.
-It is reported here rather than in the results because none of the paper's claims rest on it.
+The main text measures collaboration gain directly. We also fit the scaling form proposed for
+general-domain agent systems~\citep{kim2026scaling} to the OpenAI grid.
 
 \paragraph{With accuracy as the response, the fit is degenerate.}
 Fitting that form directly gives $R^2 = 0.997$ (5-fold
 cross-validated $R^2 = 0.996$), which is an artefact of our design rather than a result. The
 response is accuracy and one predictor is the single-doctor baseline $\PSA$; the same items and
-the same model underlie both terms and only the coordination structure varies, so $\PSA$ alone nearly determines accuracy
-($\hat\beta_{\PSA} = 0.867$, $p < 10^{-4}$). We therefore refit with the collaboration
-\emph{gain} as the response, which is what the scaling principle is actually about.
+the same model underlie both terms, so $\PSA$ alone nearly determines accuracy
+($\hat\beta_{\PSA} = 0.867$). We therefore refit with collaboration
+\emph{gain} as the response.
 
-\paragraph{Coordination metrics carry the fit.}
+\paragraph{Fitting collaboration gain.}
 With $\mathrm{gain} = P - \PSA$ as the response, $R^2 = 0.528$ and 5-fold cross-validated
-$R^2 = 0.440$. Coordination metrics carry that fit with no tool-count term at all. Coefficients ($n = 225$ configurations including the
-self-consistency control, benchmark-clustered SEs):
+$R^2 = 0.440$. The coefficients below are fitted to $n = 225$ OpenAI configurations,
+including the self-consistency control.
 
 \begin{center}\footnotesize
 \setlength{\tabcolsep}{4pt}
@@ -184,62 +168,46 @@ $\PSA^2$ & $+0.031$ \\
 \end{tabular}
 \end{center}
 
-\noindent Error amplification is the dominant penalty; redundancy and message density carry small
-positive effects; overhead is not penalised once $T{=}0$; and neither panel size nor $\PSA$ has a
-main effect.
+\noindent Error amplification has a negative coefficient, while redundancy, message density and
+overhead have positive coefficients.
 
- $T_{\text{tools}} = 0$ throughout, so the $\log(1+T)$ main effect and the
-$O\%\times T$ and $\Ec\times T$ interactions vanish identically. Coordination metrics remain highly significant
-without them, which establishes that the coordination effect is not a re-description of tool
-overhead. The coefficient on $\log(1+O\%)$ turns \emph{positive} here. With no tools to coordinate over,
-spending more tokens on deliberation is mildly beneficial rather than costly.
+$T_{\text{tools}} = 0$ throughout, so the $\log(1+T)$ main effect and the
+$O\%\times T$ and $\Ec\times T$ interactions vanish identically.
 
 \paragraph{Robustness.}
-Our fit carries $I$ and $I^2$ with large coefficients of
-opposite sign ($+0.302$ and $-0.078$), but bootstrap resampling ($n = 1000$) gives them standard
-errors of $0.94$ and $0.54$. With three capability tiers the quadratic is unidentifiable and we
-do not interpret it. Every other large coefficient is stable: $\log(1+\Ae)$ has bootstrap SE $0.024$ and $\PSA$
-has $0.044$.
+Capability in this regression is each tier's MedQA probe accuracy, which differs from $I$ defined above.
+The linear and quadratic capability coefficients have opposite signs ($+0.302$ and $-0.078$).
+With three capability tiers the quadratic is unidentifiable and we do not interpret it.
 
-
-Residuals pass a normality test (Shapiro--Wilk $p = 0.207$) but fail homoscedasticity decisively
-(Breusch--Pagan $p = 0.0001$). All standard errors
-in this paper are therefore heteroscedasticity-robust (HC3), clustered by benchmark where more
-than two clusters exist. Residual standard error is $\hat\sigma = 0.017$, reflecting that collaboration gains in medicine are small in absolute terms. Regularised
-alternatives do not improve prediction: Lasso (10-fold CV for $\lambda$) retains 9 of 11
+Regularised alternatives do not improve prediction: Lasso (10-fold CV for $\lambda$) retains 9 of 11
 predictors at CV $R^2 = 0.403$ and Ridge reaches $0.165$, both below the unregularised $0.440$, so
 we retain the full specification.
 
-
-Nested model comparison isolates where the explanatory power lives (5-fold CV $R^2$): the full
-model reaches $0.440$; capability alone $0.206$;
-coordination metrics alone $0.095$; the single-doctor baseline alone $0.051$; and
-\textbf{panel size alone $-0.007$}, worse than predicting the mean. Any account of medical
-consultation that treats ``how many agents'' as the design variable is fitting noise.
+In nested model comparisons (5-fold CV $R^2$), the full model reaches $0.440$ and capability alone $0.206$.
+Coordination metrics alone reach $0.095$, the single-doctor baseline alone $0.051$ and
+panel size alone $-0.007$, worse than predicting the mean.
 
 \section{Coordination dynamics}
 \label{app:coord}
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig6_coordination.pdf}
-\caption{\textbf{A panel discards what it holds.} (c) Error amplification $\Ae$ measures the share of available correct first opinions lost to a wrong output, normalised by the single-agent error rate. Panels (a) and (b) compare turn counts and message density with the published general-domain law.}
+\caption{\textbf{A panel discards what it holds.} (c) Error amplification $\Ae$ measures the frequency of episodes in which a correct first-round answer is lost to a wrong output, normalised by the single-doctor error rate. Panels (a) and (b) compare turn counts and message density with the published general-domain law.}
 \label{fig:coord}
 \end{figure*}
 
 Figure~\ref{fig:coord} plots all three quantities.
 
-\paragraph{Coordination is cheap in turns and uninformative in messages.}
+\paragraph{Turns grow sub-linearly; message density explains little variance.}
 Fitting $T = a(n+0.5)^{b}$ gives $a = 0.84$, $b = 0.784$, $R^2 = 0.332$. The exponent is
-sub-linear, so turns grow more slowly than agents. A clinical panel answering a closed question
-terminates on unanimity rather than negotiating open-ended tool use. Turn counts by architecture are
-Decentralized $7.1$, Centralized $6.2$, Independent $5.0$, Hybrid $2.2$, against a single-agent
-$1.4$, a range of $1.5$ to $5.1\times$. The hard resource
-ceiling they infer from super-linear growth does not arise in tool-free consultation.
+sub-linear, so turns grow more slowly than agents. Turn counts by architecture are
+Decentralized $7.1$, Centralized $6.2$, Independent $5.0$, Hybrid $2.2$, against the single doctor's
+$1.4$, a range of $1.5$ to $5.1\times$.
 
 
 $S = 0.510 - 0.026\ln(c)$, $R^2 = 0.021$: message density explains almost none of the variance in
-accuracy. Our Centralized panels run at $c = 0.87$ and Decentralized at $c = 0.68$, well past the
-$c^{*} = 0.39$ plateau reported elsewhere, with no accuracy penalty. Once a panel is communicating at all, communicating more neither helps nor hurts.
+accuracy. Our Centralized panels run at $c = 0.87$ and Decentralized at $c = 0.68$, above the
+$c^{*} = 0.39$ plateau reported by \citet{kim2026scaling}.
 
 \paragraph{Coordination failure needs a channel to occur on.}
 We classify first-round errors into four categories, following the multi-agent failure
@@ -259,13 +227,12 @@ Coordination failure & \textbf{0.0\%} & 2.1\% & 0.8\% & 0.0\% \\
 \end{tabular}
 \end{center}
 
-Coordination failure is \textbf{0.0\%} under Independent coordination, and necessarily so: with
-$C = \emptyset$ there is no channel on which it could occur. Hybrid is also at $0.0\%$
-because its triage gate declines to convene a panel on most items. The magnitudes do not
-replicate: peer verification is reported to cut logical contradiction from $16.8\%$ to $11.5\%$,
-whereas our first-round contradiction rate is flat at $5.4\%$ across communicating and
-non-communicating architectures. Numerical drift is an order of magnitude rarer than in
-tool-using tasks ($4$--$6\%$ against $19$--$26\%$), as expected when no arithmetic is cascaded.
+Coordination failure is $0.0\%$ under Independent coordination: with
+$C = \emptyset$ there is no channel on which it could occur. Hybrid is also at $0.0\%$.
+\citet{kim2026scaling} report that peer verification cuts logical contradiction from $16.8\%$ to $11.5\%$;
+our first-round contradiction rate is $5.4\%$ across communicating and
+non-communicating architectures. Numerical drift is rarer than in
+tool-using tasks ($4$--$6\%$ against $19$--$26\%$).
 
 \section{Reproducing the two published frameworks}
 \label{app:frameworks}
@@ -280,7 +247,7 @@ prepends the question and options to the synthesised report. MDAgents follows
 \texttt{mitmedialab/MDAgents}, with the three-level complexity prompt quoted exactly
 and the early stop that ends a round when no agent wishes to address another.
 
-Three deviations, all stated here. MDAgents runs two turns per round against the
+We deviate from the official code in three ways. MDAgents runs two turns per round against the
 official five, which reduces cost by roughly a factor of four and does not touch the
 first-round opinions $\varphi$ is computed on. Both frameworks run on
 \texttt{gpt-4.1-nano}; their official prompts allocate 30 to 50 tokens to short
@@ -300,11 +267,12 @@ without rerunning.
 \section{Additional results}
 \label{app:extra}
 
-Four views of the grid that the main text states in prose. Figure~\ref{fig:capability_full}
+The figures below expand the main-text results. Figure~\ref{fig:capability_full}
 is the capability grid of Figure~\ref{fig:capability} broken out by vendor. Figures~\ref{fig:nscaling} and~\ref{fig:nscalingb} give the
-full panel-size curve behind the claim that gains saturate at $n_a = 3$;
-Figure~\ref{fig:dist} shows that the spread within an architecture dwarfs the difference between
-architectures, which is why the pairwise contrasts in \S\ref{sec:results} so rarely separate; and
+full panel-size curves; gains mostly arrive by $n_a{=}3$. A panel larger than $n_a{=}5$ helps
+in $29$ of $96$ (cell, architecture) pairs, by at most $2.8$ pp.
+Figure~\ref{fig:dist} shows performance distributions within and between
+architectures (\S\ref{sec:results}).
 Figure~\ref{fig:cost} plots the cost--performance frontier summarised in Table~\ref{tab:ppd}.
 
 \begin{figure*}[tp]\centering
@@ -331,40 +299,34 @@ Figure~\ref{fig:cost} plots the cost--performance frontier summarised in Table~\
 \end{figure*}
 \begin{figure*}[tbp]\centering
 \includegraphics[width=\textwidth]{figures/fig4_cost.pdf}
-\caption{\textbf{Cost--performance trade-offs.} Mean performance is plotted against nominal cost per $1{,}000$ questions, with SEM error bars on both axes. Each point is one configuration.}
+\caption{\textbf{Cost--performance trade-offs.} Mean performance is plotted against nominal cost per $1{,}000$ questions, with standard-deviation bars on the cost axis. Each point is one configuration.}
 \label{fig:cost}
 \end{figure*}
 \subsection{Where capability belongs inside a panel}
 \label{app:hetero}
 
-A separate arm varies the capability of the panel's members rather than its coordination
-structure (Fig.~\ref{fig:hetero}).
+A separate arm varies the capability of the panel's members (Fig.~\ref{fig:hetero}).
 
 \paragraph{Specialist capability matters four times more than the orchestrator's.}
-Replacing the whole panel with weak models costs $34.4$ pp (49.2\% to 14.8\%). Splitting that
+Replacing the whole panel with weak models reduces accuracy by $34.4$ pp (49.2\% to 14.8\%). Splitting that
 substitution isolates where the loss comes from. Downgrading only the \emph{orchestrator}, keeping
-strong specialists, costs $3.6$ pp, so the panel retains 90\% of the homogeneous-high span.
-Downgrading only the \emph{specialists}, keeping a strong orchestrator, costs $14.8$ pp, retaining
-57\%. A strong attending physician recovers more than half of what a weak panel loses, but a weak
-attending physician barely dents a strong one. The asymmetry is $4.1\times$. In a centralized clinical panel, capability should therefore be
-spent on the agents doing the reasoning rather than on the agent doing the auditing.
+strong specialists, reduces accuracy by $3.6$ pp, so the panel retains 90\% of the homogeneous-high span.
+Downgrading only the \emph{specialists}, keeping a strong orchestrator, reduces accuracy by $14.8$ pp, retaining
+57\%. The asymmetry is $4.1\times$.
 
-\paragraph{An orchestrator too weak to audit is worse than no orchestrator at all.}
+\paragraph{A weak orchestrator overrides a correct specialist majority.}
 The largest single degradation anywhere in this study is a Centralized panel with a weak model on
-MedQA at $\PSA = 66.0\%$: $-13.60$ pp, $p = 10^{-5}$. Inspection of those episodes shows the
-mechanism directly. The orchestrator overrides a correct specialist majority. This is the error-amplification term in its most extreme form. It is also the counterpart to the
-previous result. The audit is what makes centralized coordination work, so an auditor that cannot audit converts
-the architecture's strength into its worst liability.
+MedQA at $\PSA = 66.0\%$: $-13.60$ pp. In those episodes the orchestrator overrides a correct
+specialist majority.
 
-\paragraph{Mixed-capability panels land between their components, with no emergent benefit.}
+\paragraph{Mixed-capability panels score below homogeneous strong panels.}
 A panel of one strong, one mid and one weak specialist reaches 40.8\% under Centralized and 44.0\%
 under Decentralized, against 49.2\% and 47.6\% for homogeneous-high. Both sit below the strong
 homogeneous panel and well above the weak one, roughly where a capability-weighted average would
-put them. We find no medical analogue of the heterogeneous-mixing advantage reported for one model
-family~\citep{kim2026scaling}, in which a low-capability orchestrator with
+put them. In one model family, \citet{kim2026scaling} report that a low-capability orchestrator with
 high-capability sub-agents outperformed a homogeneous high-capability panel by 31\%. In our data
 that configuration is the second-best Centralized cell but still $7\%$ below homogeneous-high,
-directionally matching what they observe for OpenAI models, where heterogeneous centralized
+directionally matching what they observe for OpenAI models, where heterogeneous Centralized
 configurations degrade.
 
 
@@ -383,9 +345,6 @@ configurations degrade.
 
 \begin{figure*}[tbp]\centering
 \includegraphics[width=\textwidth]{figures/fig4_heterogeneity.pdf}
-\caption{\textbf{Agent heterogeneity.} MedXpertQA performance is shown at $n_a{=}3$. The strong model is \texttt{gpt-5-mini} and the weak model is \texttt{gpt-4.1-nano}. \emph{Strong specialists} pairs a weak attending with strong specialists; \emph{strong attending} reverses this pairing. Annotations give percentage changes relative to the all-strong dashed line. Decentralized coordination has no attending.}
+\caption{\textbf{Agent heterogeneity.} MedXpertQA performance is shown at $n_a{=}3$. The strong model is \texttt{gpt-5-mini} and the weak model is \texttt{gpt-4.1-nano}. \emph{Strong specialists} pairs a weak orchestrator with strong specialists; \emph{strong attending} reverses this pairing. Annotations give percentage changes relative to the all-strong dashed line. Decentralized coordination has no orchestrator.}
 \label{fig:hetero}
 \end{figure*}
-
-
-\subsection{Where in medicine collaboration pays}

@@ -7,22 +7,17 @@ diagnostic judgements improves accuracy~\citep{kurvers2016boosting, wolf2015coll
 plateauing at roughly five raters~\citep{kammer2017}, and groups of nine outperform individuals on
 the Human Dx platform~\citep{barnett2019}, the clinical instance of a general
 principle~\citep{surowiecki2004wisdom} that multidisciplinary tumour boards
-institutionalise~\citep{radcliffe2019tumorboard}. The framing question is not whether two heads
-beat one but when~\citep{hautz2024}. The same literature documents what happens when independence
+institutionalise~\citep{radcliffe2019tumorboard}. \citet{hautz2024} ask when two heads beat one.
+The same literature documents what happens when independence
 fails: conformity to a unanimous majority~\citep{asch1956conformity} and groupthink in
 deliberating groups~\citep{janis1972groupthink}. Correlated errors across models bound ensemble
 benefit in general~\citep{correlated2025}, and multi-agent debate can converge on
-confident-but-wrong answers~\citep{demystifying_mad}. This paper measures that failure directly in
-clinical panels, where diagnostic error is already common enough in ordinary
-practice~\citep{graber2013diagnosticerror, singh2014frequency} that manufactured agreement is a
-safety concern rather than an efficiency one. The strongest evidence that the independence premise
-is what matters comes from the hybrid case: pooling $40{,}762$ physician differentials with five
-frontier models over $2{,}133$ open-ended vignettes, \citet{zoller2025hybrid} find that
-human--model collectives beat physician collectives \emph{and} model ensembles, and attribute the
-margin to humans and models making different kinds of errors. Their result is the consequence; the
-quantity that produces it is the one we measure. It also establishes the regime: independence
-arrives when the added judgement comes from outside the model ecosystem, which is the boundary our
-diversity ladder (\S\ref{sec:premise}) locates from the inside.
+confident-but-wrong answers~\citep{demystifying_mad}. Diagnostic error is common in ordinary
+practice~\citep{graber2013diagnosticerror, singh2014frequency}, making agreement on an incorrect
+answer a safety concern. Pooling $40{,}762$ physician differentials with five frontier models over
+$2{,}133$ open-ended vignettes, \citet{zoller2025hybrid} find that human--model collectives beat
+physician collectives and model ensembles. They attribute the margin to humans and models making
+different kinds of errors.
 
 \paragraph{Medical language models and multi-agent systems.}
 Medical question answering became a capability benchmark once models matched licensing-exam
@@ -32,14 +27,13 @@ strategy carries much of that progress~\citep{nori2024medprompt}, which is why a
 claims need budget-matched controls. On the multi-agent side, MedAgents~\citep{tang2024medagents}
 introduced role-played specialist collaboration, MDAgents~\citep{kim2024mdagents} added adaptive
 routing, and MAC~\citep{chen2025mac} and TeamMedAgents~\citep{teammedagents} formalised teamwork
-components, the latter sweeping team sizes 2--5. Every published medical ablation stops at
-$N \leq 5$, none reports a dose--response curve, and none runs a budget-matched single-model
-control. Skeptical evaluations find that orchestration often fails to beat well-prompted single
-models at substantially higher cost~\citep{medagentboard, npjdm2026, confagents}; our independence
-measurement supplies the mechanism those results lack. The pattern has since diversified along
-every axis except the one measured here. \citet{chen2024rareagents} and \citet{zhou2025mam}
-specialise the roster---an MDT for rare disease, role-assigned radiologist and generalist agents
-for multimodal input---and \citet{liu2025medchat} adds a director to coordinate them.
+components, the latter sweeping team sizes 2--5. The medical ablations cited here stop at
+$N \leq 5$ and omit panel-size curves and budget-matched single-model controls.
+Sceptical evaluations find that orchestration often fails to beat well-prompted single models at
+substantially higher cost~\citep{medagentboard, npjdm2026, confagents}.
+\citet{chen2024rareagents} and \citet{zhou2025mam} specialise the role prompts, using an MDT for
+rare disease and role-assigned radiologist and generalist agents for multimodal input.
+\citet{liu2025medchat} adds a director to coordinate them.
 \citet{ma2025medla} replaces majority voting with logical contradiction resolution and
 \citet{li2025macd} lets agents accumulate diagnostic knowledge across a cohort, both of which are
 attempts to escape a voting rule rather than to escape the correlation that makes voting weak.
@@ -47,41 +41,31 @@ attempts to escape a voting rule rather than to escape the correlation that make
 move the setting itself, from single-shot selection to simulated, interactive and multimodal
 encounters where agents must ask before they answer, and \citet{chen2026map} and
 \citet{shi2026phoagents} carry the pattern into inpatient pathways and outcome prediction, where
-triage, diagnosis and treatment are separate coordinated stages. These are complementary: each varies the aggregation rule, the roster or the interaction
-protocol, and each is a candidate for raising the capture rate we define in \S\ref{sec:ceiling}.
-None of them measures the error correlation among its own agents, so none can say whether the
-signal its mechanism is competing for is present.
+triage, diagnosis and treatment are separate coordinated stages. These systems vary the
+aggregation rule, specialty roles or interaction protocol. Capture rate $\kappa$, measured in
+\S\ref{sec:ceiling}, evaluates how much headroom an aggregation rule recovers.
 
 Closest to our central question, \citet{yuan2026mixedvendor} compare single-vendor and
 mixed-vendor panels of three frontier models on rare-disease diagnosis and report that mixed-vendor
 teams win, attributing the gain to complementary inductive biases surfaced by an overlap analysis.
-That is the same lever we isolate in Table~\ref{tab:diversity}, measured with a different
-instrument and in the regime our results predict is the favourable one---three models of
-comparable strength, where decorrelation carries no quality penalty. Two of our findings bear on
-how such comparisons should be read. Raw overlap and raw correlation are depressed mechanically
-when members differ in accuracy (Eq.~\ref{eq:phimax}), so vendor-diversity effects should be
-reported normalised; and the lever is small wherever we can measure it, moving a nine-member
-panel from $1.27$ to $2.60$ effective opinions within one vendor and to $2.29$---not further, and
-in fact back---once the panel spans six ecosystems on two continents.
+Table~\ref{tab:diversity} examines the same source of diversity using error correlation.
 
 \paragraph{Scaling agents, and scaling inference.}
 Debate protocols improve factuality~\citep{du2024debate, liang2024encouraging} and frameworks such
 as MetaGPT~\citep{hong2024metagpt} and AutoGen~\citep{wu2024autogen} made the pattern easy to
 deploy~\citep{zhang2024exploring}. On how far it scales, ``more agents is all you
 need''~\citep{li2024more} reported monotone gains, while \citet{chen2024morecalls} showed the
-relationship is non-monotone and \citet{mas_scaling2606} confirmed an inverted-U in agent count;
+relationship is non-monotone and \citet{mas_scaling2606} found an inverted-U in agent count;
 \citet{diversity2602} attributed the shape to opinion diversity, showing two diverse agents can
 match sixteen homogeneous ones. \citet{kim2026scaling} fit a predictive scaling principle across
-architectures, model families and agentic benchmarks, and supply the architecture taxonomy and
-controlled-comparison design our grid is built on. Test-time compute offers the alternative to
-adding agents~\citep{kaplan2020scaling, hoffmann2022chinchilla, brown2024monkeys,
-snell2024scaling}, and self-consistency~\citep{wang2023selfconsistency} over
+architectures, model families and agentic benchmarks. Scaling laws describe training
+compute~\citep{kaplan2020scaling, hoffmann2022chinchilla}. At test time, repeated
+sampling~\citep{brown2024monkeys} and compute-optimal inference~\citep{snell2024scaling} offer
+alternatives to adding agents, and self-consistency~\citep{wang2023selfconsistency} over
 chain-of-thought~\citep{wei2022cot} is the budget-matched control we run at every cell.
 
-\paragraph{Confidence and calibration.}
-Our safety analysis depends on whether stated confidence is informative. Models are partially
-aware of what they know~\citep{kadavath2022know}, but elicited confidence is weakly calibrated and
-sensitive to how it is asked~\citep{xiong2024can, guo2024calibration}, and clinical evaluations
-report fluent but unreliable responses~\citep{goodman2024accuracy} with demographic biases that
-propagate~\citep{omiye2023bias, zack2024bias}. We add a coordination-specific finding: deliberation
-degrades the discriminative power of confidence rather than improving it.
+\paragraph{Clinical reliability.}
+Work on model self-knowledge~\citep{kadavath2022know} and confidence
+elicitation~\citep{xiong2024can, guo2024calibration} examines how models report uncertainty.
+Clinical evaluations report fluent but unreliable responses~\citep{goodman2024accuracy} with
+demographic biases that propagate~\citep{omiye2023bias, zack2024bias}.
