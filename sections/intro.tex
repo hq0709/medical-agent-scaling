@@ -39,15 +39,16 @@ $+1.2$ percentage points over the single doctor, a factor of five apart. Their a
 correlate at $0.860$ and $0.863$, above $0.792$ for our panels on the same model.
 
 Selection limits the gain from this headroom. At nine agents the oracle ceiling is $63.9\%$
-against $53.1\%$ for the single doctor, giving $10.7$\,pp of headroom. Across the four
+against $53.1\%$ for the single doctor, giving $10.7$\,pp of headroom. Repeated sampling of one generic prompt supplies
+$10.4$\,pp ($97\%$) of it; specialty role prompts add $0.37$\,pp. Across the four
 architectures and self-consistency, capture rate $\kappa$ ranges from $-7.4\%$ for Hybrid to
 $17.7\%$ for Decentralized. Two classifiers trained on fifteen first-round features against ground truth do not outperform
 plurality voting.
 
 In medicine, agreement affects safety. At $N{=}9$, discussion raises unanimity from $67.5\%$
 (Independent) to $98.0\%$ (Decentralized), while the error rate among unanimous answers rises
-from $38.1\%$ to $44.9\%$. Unanimity separates the panel's right answers from its
-wrong ones at $\text{AUC} = 0.59$.
+from $38.1\%$ to $44.9\%$. First-round agreement separates the panel's right answers from
+its wrong ones at $\text{AUC} = 0.59$.
 
 The rest of the paper is organised as follows. Section~\ref{sec:related} places the work against
 the collective-intelligence results the design pattern borrows from and the medical systems built
