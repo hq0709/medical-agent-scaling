@@ -1,5 +1,8 @@
 \appendix
 
+% 附录的跨栏图多、正文少：浮动页至少九成满才允许单独成页，其余图都放到有正文的页顶，
+% 不留只有一张图、上下大片空白的页。协调图的定义提前到拟合一节之前，才能落在它那一节的首页。
+\renewcommand{\dblfloatpagefraction}{0.9}
 \section{Model capability index}
 \label{app:capability}
 
@@ -62,6 +65,45 @@ so a larger sample re-uses every call of a smaller one.
 
 Item difficulty is additionally tagged easy/medium/hard by the pass rate of three mid-tier models
 at $k{=}5$; on the MedXpertQA sample this yields 13/62/125 items.
+
+\section{Additional results}
+\label{app:extra}
+
+Figure~\ref{fig:capability} plots the gains in Table~\ref{tab:main};
+Figure~\ref{fig:capability_full} breaks the same grid out by vendor. Figures~\ref{fig:nscaling} and~\ref{fig:nscalingb} give the
+full panel-size curves; gains mostly arrive by $n_a{=}3$. A panel larger than $n_a{=}5$ helps
+in $29$ of $96$ (cell, architecture) pairs, by at most $2.8$ pp.
+Figure~\ref{fig:dist} shows performance distributions within and between
+architectures (\S\ref{sec:results}).
+
+\begin{figure*}[tbp]\centering
+\includegraphics[width=\textwidth]{figures/fig1_capability.pdf}
+\caption{\textbf{Every architecture lands close to the single doctor.} Each panel shows a benchmark. The eight models are ordered by $I$, their mean single-doctor accuracy across benchmarks. Markers show each architecture's gain (pp) at its best panel size; grey bars span the four architectures. Figure~\ref{fig:capability_full} gives the vendor breakdown.}
+\label{fig:capability}
+\end{figure*}
+
+\begin{figure*}[tp]\centering
+\includegraphics[width=\textwidth]{figures/fig1_capability_full.pdf}
+\caption{\textbf{The capability grid in full.} Figure~\ref{fig:capability}'s gains share one scale (pp) across vendor rows and benchmark columns; models are positioned by $I$. Black shows the single doctor at zero. Coloured annotations give each vendor's strongest model's best gain.}
+\label{fig:capability_full}
+\end{figure*}
+
+\begin{figure*}[tbp]\centering
+\includegraphics[width=\textwidth]{figures/fig2_nscaling.pdf}
+\caption{\textbf{Number-of-agents scaling, OpenAI and Google.} Gain over the single doctor (pp) is plotted against $n_a$ for each architecture. Rows are models, columns are benchmarks, and each row shares a vertical scale. Figure~\ref{fig:nscalingb} covers Anthropic and DeepSeek.}
+\label{fig:nscaling}
+\end{figure*}
+
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig2_nscalingb.pdf}
+\caption{\textbf{Number-of-agents scaling, Anthropic and DeepSeek.} As Figure~\ref{fig:nscaling}, for the remaining three models.}
+\label{fig:nscalingb}
+\end{figure*}
+\begin{figure*}[tbp]\centering
+\includegraphics[width=\textwidth]{figures/fig5_distribution.pdf}
+\caption{\textbf{Single doctor versus panel: performance distributions.} Horizontal boxes show accuracy by architecture and benchmark: Single doctor, Independent, Centralized, Decentralized and Hybrid. Each point is a configuration. Boxes show medians and interquartile ranges (IQR); whiskers extend to $1.5\times$ IQR; diamonds mark means. Dashed lines mark single-doctor means; numbers give changes in mean accuracy as percentages of those means.}
+\label{fig:dist}
+\end{figure*}
 
 \section{Implementation details}
 \label{app:impl}
@@ -131,6 +173,12 @@ decorrelated from the top-ranked specialty.
 The per-configuration grid contains $480$ multi-agent configurations and their single-model controls,
 with accuracy and cost for each. It is released with the code and the raw episodes used to compute it.
 
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figures/fig6_coordination.pdf}
+\caption{\textbf{A panel discards what it holds.} (a) Multi-agent configurations plot turns $T$ against $n$ (orchestrator included). The solid line fits $T=a(n+0.5)^b$; dashes give the general-domain law. (b) Bars show mean $\pm$ SD across configurations by architecture; lower whiskers truncate at zero ($\Ae\geq0$). $\Ae$ measures episodes losing correct first-round answers to wrong outputs, normalised by first-round agents' error rate.}
+\label{fig:coord}
+\end{figure*}
+
 \section{The published scaling form, fitted to medical data}
 \label{app:scaling}
 
@@ -190,11 +238,6 @@ panel size alone $-0.007$, worse than predicting the mean.
 \section{Coordination dynamics}
 \label{app:coord}
 
-\begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig6_coordination.pdf}
-\caption{\textbf{A panel discards what it holds.} (a) Multi-agent configurations plot turns $T$ against $n$ (orchestrator included). The solid line fits $T=a(n+0.5)^b$; dashes give the general-domain law. (b) Bars show mean $\pm$ SD across configurations by architecture; lower whiskers truncate at zero ($\Ae\geq0$). $\Ae$ measures episodes losing correct first-round answers to wrong outputs, normalised by first-round agents' error rate.}
-\label{fig:coord}
-\end{figure*}
 
 Figure~\ref{fig:coord} plots turn counts and error amplification.
 
@@ -234,6 +277,39 @@ our first-round contradiction rate is $5.4\%$ across communicating and
 non-communicating architectures. Numerical drift is rarer than in
 tool-using tasks ($4$--$6\%$ against $19$--$26\%$).
 
+\section{Where capability belongs inside a panel}
+\label{app:hetero}
+
+\begin{figure*}[tbp]\centering
+\includegraphics[width=\textwidth]{figures/fig4_heterogeneity.pdf}
+\caption{\textbf{Agent heterogeneity.} Bars show one run's accuracy on $250$ MedXpertQA questions at $N=3$. Strong is \texttt{gpt-5-mini}; weak is \texttt{gpt-4.1-nano}; mixed panels also use \texttt{gpt-5-nano}. \emph{Strong specialists} pairs a weak orchestrator with strong specialists; \emph{strong orchestrator} reverses this. Decentralized has no orchestrator. Dashed lines mark all-strong panels; top-row percentages give relative changes.}
+\label{fig:hetero}
+\end{figure*}
+
+A separate arm varies the capability of the panel's members (Fig.~\ref{fig:hetero}).
+
+\paragraph{Specialist capability matters four times more than the orchestrator's.}
+Replacing the whole panel with weak models reduces accuracy by $34.4$ pp (49.2\% to 14.8\%). Splitting that
+substitution isolates where the loss comes from. Downgrading only the \emph{orchestrator}, keeping
+strong specialists, reduces accuracy by $3.6$ pp, so the panel retains 90\% of the homogeneous-high span.
+Downgrading only the \emph{specialists}, keeping a strong orchestrator, reduces accuracy by $14.8$ pp, retaining
+57\%. The asymmetry is $4.1\times$.
+
+\paragraph{A weak orchestrator overrides a correct specialist majority.}
+The largest single degradation anywhere in this study is a Centralized panel with a weak model on
+MedQA at $\PSA = 66.0\%$: $-13.60$ pp. In those episodes the orchestrator overrides a correct
+specialist majority.
+
+\paragraph{Mixed-capability panels score below homogeneous strong panels.}
+A panel of one strong, one mid and one weak specialist reaches 40.8\% under Centralized and 44.0\%
+under Decentralized, against 49.2\% and 47.6\% for homogeneous-high. Both sit below the strong
+homogeneous panel and well above the weak one, roughly where a capability-weighted average would
+put them. In one model family, \citet{kim2026scaling} report that a low-capability orchestrator with
+high-capability sub-agents outperformed a homogeneous high-capability panel by 31\%. In our data
+that configuration is the second-best Centralized cell but still $7\%$ below homogeneous-high,
+directionally matching what they observe for OpenAI models, where heterogeneous Centralized
+configurations degrade.
+
 \section{Reproducing the two published frameworks}
 \label{app:frameworks}
 
@@ -264,88 +340,3 @@ accepted a bare capital letter had to be removed: MedXpertQA has ten options, so
 Raw responses are stored with every episode so a parsing question can be settled
 without rerunning.
 
-\section{Additional results}
-\label{app:extra}
-
-Figure~\ref{fig:capability} plots the gains in Table~\ref{tab:main};
-Figure~\ref{fig:capability_full} breaks the same grid out by vendor. Figures~\ref{fig:nscaling} and~\ref{fig:nscalingb} give the
-full panel-size curves; gains mostly arrive by $n_a{=}3$. A panel larger than $n_a{=}5$ helps
-in $29$ of $96$ (cell, architecture) pairs, by at most $2.8$ pp.
-Figure~\ref{fig:dist} shows performance distributions within and between
-architectures (\S\ref{sec:results}).
-
-
-\begin{figure*}[tbp]\centering
-\includegraphics[width=\textwidth]{figures/fig1_capability.pdf}
-\caption{\textbf{Every architecture lands close to the single doctor.} Each panel shows a benchmark. The eight models are ordered by $I$, their mean single-doctor accuracy across benchmarks. Markers show each architecture's gain (pp) at its best panel size; grey bars span the four architectures. Figure~\ref{fig:capability_full} gives the vendor breakdown.}
-\label{fig:capability}
-\end{figure*}
-
-\begin{figure*}[tp]\centering
-\includegraphics[width=\textwidth]{figures/fig1_capability_full.pdf}
-\caption{\textbf{The capability grid in full.} Figure~\ref{fig:capability}'s gains share one scale (pp) across vendor rows and benchmark columns; models are positioned by $I$. Black shows the single doctor at zero. Coloured annotations give each vendor's strongest model's best gain.}
-\label{fig:capability_full}
-\end{figure*}
-
-\begin{figure*}[tbp]\centering
-\includegraphics[width=\textwidth]{figures/fig2_nscaling.pdf}
-\caption{\textbf{Number-of-agents scaling, OpenAI and Google.} Gain over the single doctor (pp) is plotted against $n_a$ for each architecture. Rows are models, columns are benchmarks, and each row shares a vertical scale. Figure~\ref{fig:nscalingb} covers Anthropic and DeepSeek.}
-\label{fig:nscaling}
-\end{figure*}
-
-\begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig2_nscalingb.pdf}
-\caption{\textbf{Number-of-agents scaling, Anthropic and DeepSeek.} As Figure~\ref{fig:nscaling}, for the remaining three models.}
-\label{fig:nscalingb}
-\end{figure*}
-\begin{figure*}[tbp]\centering
-\includegraphics[width=\textwidth]{figures/fig5_distribution.pdf}
-\caption{\textbf{Single doctor versus panel: performance distributions.} Horizontal boxes show accuracy by architecture and benchmark: Single doctor, Independent, Centralized, Decentralized and Hybrid. Each point is a configuration. Boxes show medians and interquartile ranges (IQR); whiskers extend to $1.5\times$ IQR; diamonds mark means. Dashed lines mark single-doctor means; numbers give changes in mean accuracy as percentages of those means.}
-\label{fig:dist}
-\end{figure*}
-\subsection{Where capability belongs inside a panel}
-\label{app:hetero}
-
-A separate arm varies the capability of the panel's members (Fig.~\ref{fig:hetero}).
-
-\paragraph{Specialist capability matters four times more than the orchestrator's.}
-Replacing the whole panel with weak models reduces accuracy by $34.4$ pp (49.2\% to 14.8\%). Splitting that
-substitution isolates where the loss comes from. Downgrading only the \emph{orchestrator}, keeping
-strong specialists, reduces accuracy by $3.6$ pp, so the panel retains 90\% of the homogeneous-high span.
-Downgrading only the \emph{specialists}, keeping a strong orchestrator, reduces accuracy by $14.8$ pp, retaining
-57\%. The asymmetry is $4.1\times$.
-
-\paragraph{A weak orchestrator overrides a correct specialist majority.}
-The largest single degradation anywhere in this study is a Centralized panel with a weak model on
-MedQA at $\PSA = 66.0\%$: $-13.60$ pp. In those episodes the orchestrator overrides a correct
-specialist majority.
-
-\paragraph{Mixed-capability panels score below homogeneous strong panels.}
-A panel of one strong, one mid and one weak specialist reaches 40.8\% under Centralized and 44.0\%
-under Decentralized, against 49.2\% and 47.6\% for homogeneous-high. Both sit below the strong
-homogeneous panel and well above the weak one, roughly where a capability-weighted average would
-put them. In one model family, \citet{kim2026scaling} report that a low-capability orchestrator with
-high-capability sub-agents outperformed a homogeneous high-capability panel by 31\%. In our data
-that configuration is the second-best Centralized cell but still $7\%$ below homogeneous-high,
-directionally matching what they observe for OpenAI models, where heterogeneous Centralized
-configurations degrade.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\begin{figure*}[tbp]\centering
-\includegraphics[width=\textwidth]{figures/fig4_heterogeneity.pdf}
-\caption{\textbf{Agent heterogeneity.} Bars show one run's accuracy on $250$ MedXpertQA questions at $N=3$. Strong is \texttt{gpt-5-mini}; weak is \texttt{gpt-4.1-nano}; mixed panels also use \texttt{gpt-5-nano}. \emph{Strong specialists} pairs a weak orchestrator with strong specialists; \emph{strong orchestrator} reverses this. Decentralized has no orchestrator. Dashed lines mark all-strong panels; top-row percentages give relative changes.}
-\label{fig:hetero}
-\end{figure*}
