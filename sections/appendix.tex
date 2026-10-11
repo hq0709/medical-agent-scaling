@@ -267,13 +267,19 @@ without rerunning.
 \section{Additional results}
 \label{app:extra}
 
-The figures below expand the main-text results. Figure~\ref{fig:capability_full}
-is the capability grid of Figure~\ref{fig:capability} broken out by vendor. Figures~\ref{fig:nscaling} and~\ref{fig:nscalingb} give the
+Figure~\ref{fig:capability} plots the gains in Table~\ref{tab:main};
+Figure~\ref{fig:capability_full} breaks the same grid out by vendor. Figures~\ref{fig:nscaling} and~\ref{fig:nscalingb} give the
 full panel-size curves; gains mostly arrive by $n_a{=}3$. A panel larger than $n_a{=}5$ helps
 in $29$ of $96$ (cell, architecture) pairs, by at most $2.8$ pp.
 Figure~\ref{fig:dist} shows performance distributions within and between
 architectures (\S\ref{sec:results}).
 
+
+\begin{figure*}[tbp]\centering
+\includegraphics[width=\textwidth]{figures/fig1_capability.pdf}
+\caption{\textbf{Every architecture lands close to the single doctor.} Each panel shows a benchmark. The eight models are ordered by $I$, their mean single-doctor accuracy across benchmarks. Markers show each architecture's gain (pp) at its best panel size; grey bars span the four architectures. Figure~\ref{fig:capability_full} gives the vendor breakdown.}
+\label{fig:capability}
+\end{figure*}
 
 \begin{figure*}[tp]\centering
 \includegraphics[width=\textwidth]{figures/fig1_capability_full.pdf}

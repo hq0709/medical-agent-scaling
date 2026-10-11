@@ -58,12 +58,6 @@ bias call-heavy architectures downward.
 
 
 \begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig1_capability.pdf}
-\caption{\textbf{Every architecture lands close to the single doctor.} Each panel shows a benchmark. The eight models are ordered by $I$, their mean single-doctor accuracy across benchmarks. Markers show each architecture's gain (pp) at its best panel size; grey bars span the four architectures. Figure~\ref{fig:capability_full} gives the vendor breakdown.}
-\label{fig:capability}
-\end{figure*}
-
-\begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/figure-4-new.png}
 \caption{\textbf{A panel can fail two ways, and accuracy does not tell them apart.} (a) No correct answer leaves no headroom. (b) A correct first-round answer is lost, the observed bottleneck with low $\kappa$. (c) The correct answer is recovered with high $\kappa$. Eq.~\ref{eq:decomp} gives gain as headroom (\S\ref{sec:premise}) times capture rate $\kappa$ (\S\ref{sec:ceiling}).}
 \label{fig:decomp}
@@ -73,8 +67,8 @@ bias call-heavy architectures downward.
 \label{sec:results}
 
 Across 480 multi-agent configurations and 161{,}999 episodes, the best configuration in each cell
-gains between $-2.0$ and $+7.6$\,pp over the single doctor. Figure~\ref{fig:capability} shows each
-architecture's gain at its best panel size; Table~\ref{tab:main} gives the underlying numbers.
+gains between $-2.0$ and $+7.6$\,pp over the single doctor. Table~\ref{tab:main} gives each architecture's gain at its best panel size;
+Figure~\ref{fig:capability} in Appendix~\ref{app:extra} plots these gains.
 
 \begin{table*}[t]\centering\small
 \caption{\textbf{Main results.} Each architecture appears at its best panel size; gain compares the best with the single doctor. Bold accuracies mark the row's best architecture; bold gains mark gains of at least $5$\,pp in absolute value.}
