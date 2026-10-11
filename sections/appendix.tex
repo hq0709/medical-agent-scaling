@@ -192,17 +192,17 @@ panel size alone $-0.007$, worse than predicting the mean.
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig6_coordination.pdf}
-\caption{\textbf{A panel discards what it holds.} (a) Configuration points plot reasoning turns $T$ against $n$ (orchestrator included). The solid fit $T=a(n+0.5)^b$ includes Self-consistency; dashes give the general-domain law. (b) Bars show mean $\pm$ SD across configurations by architecture; lower whiskers truncate at zero ($\Ae\geq0$). $\Ae$ measures episodes losing correct first-round answers to wrong outputs, normalised by first-round agents' error rate.}
+\caption{\textbf{A panel discards what it holds.} (a) Multi-agent configurations plot turns $T$ against $n$ (orchestrator included). The solid line fits $T=a(n+0.5)^b$; dashes give the general-domain law. (b) Bars show mean $\pm$ SD across configurations by architecture; lower whiskers truncate at zero ($\Ae\geq0$). $\Ae$ measures episodes losing correct first-round answers to wrong outputs, normalised by first-round agents' error rate.}
 \label{fig:coord}
 \end{figure*}
 
-Figure~\ref{fig:coord} plots all three quantities.
+Figure~\ref{fig:coord} plots turn counts and error amplification.
 
-\paragraph{Turns grow sub-linearly; message density explains little variance.}
-Fitting $T = a(n+0.5)^{b}$ gives $a = 0.84$, $b = 0.784$, $R^2 = 0.332$. The exponent is
-sub-linear, so turns grow more slowly than agents. Turn counts by architecture are
-Decentralized $7.1$, Centralized $6.2$, Independent $5.0$, Hybrid $2.2$, against the single doctor's
-$1.4$, a range of $1.5$ to $5.1\times$.
+\paragraph{Turns grow linearly; message density explains little variance.}
+Fitting $T = a(n+0.5)^{b}$ to the 480 multi-agent configurations gives $a = 0.72$, $b = 1.002$, $R^2 = 0.499$; the fitted exponent means turns grow in proportion to agents.
+The dashed general-domain law is $T = 2.72(n+0.5)^{1.72}$, $R^2 = 0.97$~\citep{kim2026scaling}.
+Mean turn counts by architecture are Decentralized $7.1$, Centralized $6.2$, Independent $5.0$,
+Hybrid $2.2$; the single doctor takes exactly $1.0$ turn in every cell.
 
 
 $S = 0.510 - 0.026\ln(c)$, $R^2 = 0.021$: message density explains almost none of the variance in
