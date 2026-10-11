@@ -136,7 +136,7 @@ has $10.7$\,pp of headroom.
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig10_ceiling.pdf}
-\caption{\textbf{A panel holds answers it cannot deliver.} (a) The bars show oracle ceilings at $n_a{=}9$; the bottom bar shows panel accuracy. (b) Capture rate $\kappa$ is averaged over configurations at $n_a\geq3$, with zero for the single-doctor baseline and $100$ for an oracle that selects a correct answer whenever a member holds one.}
+\caption{\textbf{A panel holds answers it cannot deliver.} (a) Bars compare single-doctor accuracy, oracle ceilings at $N=9$ and panel accuracy. (b) Capture rate $\kappa$ is pooled over configurations at $N\geq3$: total gain divided by total headroom. Zero marks the single-doctor baseline; $100$ marks an oracle selecting a correct answer whenever a member holds one.}
 \label{fig:ceiling}
 \end{figure*}
 
@@ -192,7 +192,7 @@ At $\varphi = 0.990$ a nine-agent panel has $N_{\text{eff}} = 1.01$.
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig8_slope.pdf}
-\caption{\textbf{Adding agents adds almost no information, and discussion removes what is left.} (a) Effective opinions are plotted against panel size on a logarithmic vertical scale. Dotted curves hold $\varphi$ fixed; the solid line marks one opinion. (b) Points show first-round error correlation for all $340$ configurations and after-discussion correlation for all $96$ Decentralized configurations, with medians marked.}
+\caption{\textbf{Adding agents adds almost no information, and discussion removes what is left.} (a) $N_{\mathrm{eff}}$ uses logarithmic vertical scaling against panel size $N$. Dotted curves fix $\varphi$; the dashed line marks one opinion (single doctor). (b) Points show first-round error correlation $\varphi$ for $340$ configurations by architecture and last-round $\varphi$ for $96$ Decentralized configurations. Ticks mark medians; Hybrid uses escalated items.}
 \label{fig:slope}
 \end{figure*}
 
@@ -242,14 +242,8 @@ positive ($+0.107 \to +0.088$).
 \input{tables/table5_diversity.tex}
 \end{table*}
 
-\begin{figure*}[t]\centering
-\includegraphics[width=\textwidth]{figures/fig11_diversity.pdf}
-\caption{\textbf{Independence does not arrive at the vendor boundary.} (a) The bars show effective independent opinions in nine-member panels under four diversity sources. (b) Normalised correlation is plotted against the error-rate gap for same-vendor and cross-vendor model--benchmark pairs. Dashed lines mark their means; $n$ counts pairs.}
-\label{fig:diversity}
-\end{figure*}
-
 \paragraph{Mixing training families reduces correlation more than mixing vendors.}
-Table~\ref{tab:diversity} compares the four sources of panel diversity (Fig.~\ref{fig:diversity}).
+Table~\ref{tab:diversity} compares the four sources of panel diversity.
 Specialty prompts give $\varphi/\varphi_{\max} = 0.792$. Different checkpoints from one family
 give $0.561$, and different training families within one vendor give $0.465$.
 The latter yield $2.60$ effective opinions in a nine-member panel, computed from raw $\varphi$.
@@ -446,7 +440,7 @@ self-consistency at $k{=}15$ reaches 88.4\% and costs three times as much as the
 which reaches 89.6\%. On MedAgentsBench at T1, self-consistency (20.0\%) trails Centralized (21.6\%).
 
 \paragraph{What a point of accuracy costs.}
-Table~\ref{tab:ppd} and Fig.~\ref{fig:cost} report accuracy gain per dollar of additional spend
+Table~\ref{tab:ppd} reports accuracy gain per dollar of additional spend
 for each cell's best configuration. Among configurations costing more than the single doctor,
 the cost multiple ranges from $1.9\times$ to $11.5\times$, and gain per additional dollar varies
 by two orders of magnitude. It is

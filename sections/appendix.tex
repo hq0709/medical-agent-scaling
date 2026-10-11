@@ -192,7 +192,7 @@ panel size alone $-0.007$, worse than predicting the mean.
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figures/fig6_coordination.pdf}
-\caption{\textbf{A panel discards what it holds.} (c) Error amplification $\Ae$ measures the frequency of episodes in which a correct first-round answer is lost to a wrong output, normalised by the single-doctor error rate. Panels (a) and (b) compare turn counts and message density with the published general-domain law.}
+\caption{\textbf{A panel discards what it holds.} (a) Configuration points plot reasoning turns $T$ against $n$ (orchestrator included). The solid fit $T=a(n+0.5)^b$ includes Self-consistency; dashes give the general-domain law. (b) Bars show mean $\pm$ SD across configurations by architecture; lower whiskers truncate at zero ($\Ae\geq0$). $\Ae$ measures episodes losing correct first-round answers to wrong outputs, normalised by first-round agents' error rate.}
 \label{fig:coord}
 \end{figure*}
 
@@ -273,11 +273,11 @@ full panel-size curves; gains mostly arrive by $n_a{=}3$. A panel larger than $n
 in $29$ of $96$ (cell, architecture) pairs, by at most $2.8$ pp.
 Figure~\ref{fig:dist} shows performance distributions within and between
 architectures (\S\ref{sec:results}).
-Figure~\ref{fig:cost} plots the cost--performance frontier summarised in Table~\ref{tab:ppd}.
+
 
 \begin{figure*}[tp]\centering
 \includegraphics[width=\textwidth]{figures/fig1_capability_full.pdf}
-\caption{\textbf{The capability grid in full.} Figure~\ref{fig:capability}'s gains share one scale (pp) across vendor rows and benchmark columns; models are positioned by $I$. Grey shows the single doctor at zero. Coloured annotations give each vendor's strongest model's best gain.}
+\caption{\textbf{The capability grid in full.} Figure~\ref{fig:capability}'s gains share one scale (pp) across vendor rows and benchmark columns; models are positioned by $I$. Black shows the single doctor at zero. Coloured annotations give each vendor's strongest model's best gain.}
 \label{fig:capability_full}
 \end{figure*}
 
@@ -294,13 +294,8 @@ Figure~\ref{fig:cost} plots the cost--performance frontier summarised in Table~\
 \end{figure*}
 \begin{figure*}[tbp]\centering
 \includegraphics[width=\textwidth]{figures/fig5_distribution.pdf}
-\caption{\textbf{Single doctor versus panel: performance distributions.} Box plots show configuration accuracies, with individual configurations overlaid. The bars are labelled \textsf{SAS} (single doctor), \textsf{Cen} (Centralized), \textsf{Dec} (Decentralized), \textsf{Ind} (Independent) and \textsf{Hyb} (Hybrid). Annotations give changes in mean accuracy as percentages of the single-doctor baseline.}
+\caption{\textbf{Single doctor versus panel: performance distributions.} Horizontal boxes show accuracy by architecture and benchmark: Single doctor, Independent, Centralized, Decentralized and Hybrid. Each point is a configuration. Boxes show medians and interquartile ranges (IQR); whiskers extend to $1.5\times$ IQR; diamonds mark means. Dashed lines mark single-doctor means; numbers give changes in mean accuracy as percentages of those means.}
 \label{fig:dist}
-\end{figure*}
-\begin{figure*}[tbp]\centering
-\includegraphics[width=\textwidth]{figures/fig4_cost.pdf}
-\caption{\textbf{Cost--performance trade-offs.} Mean performance is plotted against nominal cost per $1{,}000$ questions, with standard-deviation bars on the cost axis. Each point is one configuration.}
-\label{fig:cost}
 \end{figure*}
 \subsection{Where capability belongs inside a panel}
 \label{app:hetero}
@@ -345,6 +340,6 @@ configurations degrade.
 
 \begin{figure*}[tbp]\centering
 \includegraphics[width=\textwidth]{figures/fig4_heterogeneity.pdf}
-\caption{\textbf{Agent heterogeneity.} MedXpertQA performance is shown at $n_a{=}3$. The strong model is \texttt{gpt-5-mini} and the weak model is \texttt{gpt-4.1-nano}. \emph{Strong specialists} pairs a weak orchestrator with strong specialists; \emph{strong attending} reverses this pairing. Annotations give percentage changes relative to the all-strong dashed line. Decentralized coordination has no orchestrator.}
+\caption{\textbf{Agent heterogeneity.} Bars show one run's accuracy on $250$ MedXpertQA questions at $N=3$. Strong is \texttt{gpt-5-mini}; weak is \texttt{gpt-4.1-nano}; mixed panels also use \texttt{gpt-5-nano}. \emph{Strong specialists} pairs a weak orchestrator with strong specialists; \emph{strong orchestrator} reverses this. Decentralized has no orchestrator. Dashed lines mark all-strong panels; top-row percentages give relative changes.}
 \label{fig:hetero}
 \end{figure*}
