@@ -12,16 +12,16 @@ the transfer.
 
 | | |
 |---|---|
-| A nine-member panel speaks with one voice on | **66.0%** of items |
-| …and is wrong on | **38.2%** of the items it agrees on |
-| Peer discussion raises unanimity to | **97.8%** |
-| …and lowers the accuracy of that unanimity to | **54.3%** |
-| Agreement separates right answers from wrong ones at | AUC **0.59** |
-| Self-reported confidence, Youden *J* | ≤ **0.18** |
+| A nine-member panel speaks with one voice on | **67.5%** of items |
+| …and is wrong on | **38.1%** of the items it agrees on |
+| Peer discussion raises unanimity to | **98.0%** |
+| …while the share of unanimous answers that are wrong rises to | **44.9%** |
+| First-round agreement separates right answers from wrong ones at | AUC **0.59** |
+| …with Youden *J* | **0.18** |
 
-The cause is measurable. Mean pairwise error correlation is **φ = 0.75**, leaving nine members
-worth **1.28 effective independent opinions**; discussion drives it to 0.983, so a consultation at
-the moment of consensus is worth 1.01 physicians.
+The cause is measurable. Mean pairwise error correlation is **φ = 0.76**, leaving nine members
+worth **1.27 effective independent opinions**; discussion drives it to 0.990, so a consultation at
+the moment of consensus is worth 1.01 independent opinions.
 
 Independence cannot be bought. Normalising φ by its attainable maximum shows the apparent
 decorrelation from mixing capability is an artefact of unequal error rates, and every pair we can
@@ -29,16 +29,16 @@ form across six independently trained ecosystems — three American, three Chine
 nine-member panel from 2.60 effective opinions to **2.29**, and at matched capability from 2.31 to
 **2.02**: the wrong way.
 
-Nor can any rule read past it. On a scale where picking a member at random scores 0 and always
-picking a correct one scores 100, the five architectures score **−16 to +8**. A gradient-boosted
-selector trained on the panel's own output, with ground-truth labels and grouped cross-validation,
-does not beat counting votes.
+Nor can any rule read past it. On a scale where the single-agent baseline scores 0 and an oracle
+that always picks a correct member scores 100, the architectures score **−7.4 to +17.7**. Two
+learned selectors (logistic regression and gradient boosting) trained on the panel's first-round
+output, with ground-truth labels and grouped cross-validation, do not beat counting votes.
 
 ## Scale
 
 **480 multi-agent configurations** · 161,999 episodes · 8 models across 4 vendors ×
-3 medical benchmarks × 5 architectures × *N* ∈ {1,3,5,7,9}, with a budget-matched single-model
-control at every cell. The diversity analysis adds six more models, spanning six ecosystems:
+3 medical benchmarks × 4 architectures × *N* ∈ {1,3,5,7,9}, with a budget-matched single-model
+control at every cell. The diversity analysis adds five more models, thirteen in all, spanning six ecosystems:
 OpenAI, Google, Anthropic, DeepSeek, Alibaba, Zhipu.
 
 Medicine makes the measurement possible in a way general-domain agentic benchmarks cannot:

@@ -71,7 +71,7 @@ gains between $-2.0$ and $+7.6$\,pp over the single doctor. Table~\ref{tab:main}
 Figure~\ref{fig:capability} in Appendix~\ref{app:extra} plots these gains.
 
 \begin{table*}[t]\centering\small
-\caption{\textbf{Main results.} Each architecture appears at its best panel size; gain compares the best with the single doctor. Bold accuracies mark the row's best architecture; bold gains mark gains of at least $5$\,pp in absolute value.}
+\caption{\textbf{Main results.} Each architecture appears at its best panel size; gain compares the best with the single doctor. Bold accuracies mark the row's best architecture; bold gains mark gains of at least $5$\,pp in absolute value. Ties are listed at the largest panel size.}
 \label{tab:main}
 \input{tables/main_results_compact.tex}
 \end{table*}
@@ -83,7 +83,7 @@ on all three benchmarks. The ordering of topologies (star, complete, tiered, or 
 only weakly across benchmarks. Kendall's $\tau$ between the architecture rankings of any two
 benchmarks averages $+0.333$, and leave-one-benchmark-out cross-validation gives $R^2 = -0.047$.
 On \texttt{gpt-5-nano} / MedXpertQA, Independent peaks at 35.6\% at $N{=}5$, while Decentralized
-reaches 38.0\% at $N{=}3$. Gains mostly arrive by $N{=}3$. A panel larger than $N{=}5$ helps
+reaches 38.0\% at $N{=}3$ and holds it at $N{=}5$ and $7$. Gains mostly arrive by $N{=}3$. A panel larger than $N{=}5$ helps
 in $29$ of $96$ (cell, architecture) pairs, by at most $2.8$\,pp (Fig.~\ref{fig:nscaling},
 Fig.~\ref{fig:dist}).
 
@@ -373,8 +373,9 @@ MedAgents gains $+5.7$\,pp over the single doctor and MDAgents $+1.2$
 Across all six framework--benchmark combinations $\varphi$ stays between $0.803$ and
 $0.890$, on baselines running from $15.6\%$ to $66.0\%$, and both frameworks are
 more correlated than our \texttt{gpt-4.1-nano} panels at $\varphi = 0.792$.
-Six experts amount to $1.1$ independent opinions; nine members of our
-\texttt{gpt-4.1-nano} panels amount to $1.23$.
+Six experts amount to $1.1$ independent opinions; stated at nine agents as in
+Table~\ref{tab:frameworks}, the frameworks reach $1.14$ against $1.23$ for our
+\texttt{gpt-4.1-nano} panels.
 
 \paragraph{Revision ends early; complexity tracks difficulty on one benchmark.}
 MedAgents revises its report until no expert votes against it. That loop reaches

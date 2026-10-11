@@ -1,9 +1,11 @@
 Medical language-model systems use multi-agent consultation, prompting agents into clinical
 specialties to discuss cases and reach a shared answer. This design relies on specialists making
 different mistakes. In this work, we measure their error correlation across $480$ multi-agent
-configurations and $161{,}999$ clinical episodes. At nine members, an Independent panel is
-unanimous on $67.5\%$ of items and wrong on $38.1\%$ of what it agrees on. Errors correlate at
+configurations and $161{,}999$ clinical episodes. At nine members, discussion raises unanimity
+from $67.5\%$ to $98.0\%$ of items, while the share of unanimous answers that are wrong rises
+from $38.1\%$ to $44.9\%$. Errors correlate at
 $\varphi = 0.76$, giving nine agents $1.27$ effective independent opinions, falling to $1.01$
-after discussion. Mixing models from six vendors yields $2.29$ effective opinions. Two published medical agent frameworks, run from their own code, have
+after discussion. Specialty roles add little: nine samples of one generic prompt contain a correct
+answer on $63.5\%$ of items, nine specialists on $63.9\%$. Mixing models from six vendors yields $2.29$ effective opinions. Two published medical agent frameworks, run from their own code, have
 error correlations of $0.860$ and $0.863$. In simpler terms: a panel of nine is worth one, and it
 agrees anyway; its agreement must not reach a clinician as confidence.
