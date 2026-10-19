@@ -64,32 +64,48 @@ Pair accuracy was highest for Gemini 3.7 Flash among the API models tested. On S
 \end{figure*}
 
 \subsection{Seeing and judging}
-% PENDING: final data
+Reader accuracy depended on both the perceiver and the reasoner when each reader read its own question-blind findings report. Across reasoners, accuracy with Gemini 3.7 Flash reports ranged from 78.7\% to 81.3\% on VQA-RAD and from 84.3\% to 88.2\% on SLAKE (Fig.~\ref{fig:report}a). Corresponding ranges with GPT-5 mini reports were 69.0\% to 70.6\% and 81.0\% to 84.9\%; with Claude Haiku 4.5 reports, 61.6\% to 63.6\% and 76.3\% to 80.2\%.
+
+Gemini 3.7 Flash reports raised accuracy for the other reasoners relative to reading the image. Paired gains ranged from 6.1 percentage points (95\% CI, 1.4 to 10.9) to 16.3 percentage points (95\% CI, 9.9 to 22.6). Claude Haiku 4.5 reports lowered their accuracy, with paired differences ranging from $-$25.9 to $-$0.4 percentage points. Reading a reasoner's own reports improved accuracy with a CI excluding zero only for GPT-5 mini on SLAKE: 4.4 percentage points (95\% CI, 0.9 to 8.2). Gemini 3.7 Flash had a paired difference of $-$9.2 percentage points (95\% CI, $-$13.3 to $-$5.2) with its own reports on MedXpertQA-MM.
+
+The reasoner changed accuracy even with identical reports on MedXpertQA-MM. Gemini 3.7 Flash achieved 60.8\%, 74.5\%, and 57.8\% with GPT-5 mini, Gemini 3.7 Flash, and Claude Haiku 4.5 reports, respectively. Claude Haiku 4.5 achieved 30.6\%, 45.6\%, and 27.4\% with the same reports; GPT-5 mini achieved 50.1\%, 62.0\%, and 45.0\%. Image-reading accuracy was 83.7\%, 31.7\%, and 52.9\% for Gemini 3.7 Flash, Claude Haiku 4.5, and GPT-5 mini, respectively.
+
+One shared report produced higher error correlation than separate reports from the same model. Across data sets and reasoners, error correlation ranged from 0.800 to 0.990 with one shared report, from 0.641 to 0.818 with own reports, and from 0.692 to 0.915 with images (Fig.~\ref{fig:report}b).
+
+Reports omitted the queried SLAKE target among both errors and all reports. Omission affected 25.8\% to 47.1\% of errors and 26.5\% to 30.8\% of all reports. With Gemini 3.7 Flash as perceiver, these shares were 33.6\% to 47.1\% and 26.7\%, respectively.
 
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig6_report.pdf}
-\caption{CAPTION}
+\caption{Reader accuracy and error correlation with question-blind findings reports. (a) Mean reader accuracy when each reader reads its own report from the column's perceiver without the image or reads the image directly. Rows identify reasoners within VQA-RAD, SLAKE, and MedXpertQA-MM (250 items each). Cell numbers give accuracy percentages; darker blue denotes higher accuracy within each data set, and bold numbers identify matching perceiver and reasoner models. (b) Error correlation, $\phi$, among 9 readers. Filled squares denote image reading; filled circles, each reader's own report from the same model; open circles, one shared report from that model. Blue denotes GPT-5 mini; teal, Gemini 3.7 Flash; amber, Claude Haiku 4.5. Horizontal intervals are item bootstrap 95\% confidence intervals (CIs). Light gray horizontal lines separate data sets; no reference lines are plotted.}
 \label{fig:report}
 \end{figure*}
 
 \subsection{What two readers share}
-% PENDING: final data
+Readers sharing everything retained model-dependent error correlation. Across data sets, baseline correlations ranged from 0.692 to 0.800 for GPT-5 mini, 0.776 to 0.828 for Gemini 3.7 Flash, 0.878 to 0.915 for Claude Haiku 4.5, and 0.442 to 0.629 for Qwen 3.8 Flash (Fig.~\ref{fig:budget}a).
+
+Changing shared components lowered mean error correlation in the matched contrasts (Fig.~\ref{fig:budget}b). In VQA-RAD, SLAKE, and MedXpertQA-MM order, role contrasts averaged $-$0.048 (95\% CI, $-$0.071 to $-$0.023), $-$0.060 (95\% CI, $-$0.087 to $-$0.036), and $-$0.033 (95\% CI, $-$0.051 to $-$0.014). Rendering contrasts were $-$0.092 (95\% CI, $-$0.123 to $-$0.068), $-$0.094 (95\% CI, $-$0.123 to $-$0.066), and $-$0.045 (95\% CI, $-$0.062 to $-$0.027). Reference-case contrasts were $-$0.110 (95\% CI, $-$0.142 to $-$0.084) and $-$0.146 (95\% CI, $-$0.179 to $-$0.117) on VQA-RAD and SLAKE. Report contrasts were $-$0.199 (95\% CI, $-$0.233 to $-$0.164), $-$0.204 (95\% CI, $-$0.247 to $-$0.162), and $-$0.172 (95\% CI, $-$0.211 to $-$0.142). Perceiver contrasts were $-$0.311 (95\% CI, $-$0.362 to $-$0.260), $-$0.275 (95\% CI, $-$0.334 to $-$0.218), and $-$0.263 (95\% CI, $-$0.294 to $-$0.227). Reasoner contrasts were $-$0.108 (95\% CI, $-$0.132 to $-$0.083), $-$0.167 (95\% CI, $-$0.222 to $-$0.129), and $-$0.430 (95\% CI, $-$0.477 to $-$0.389). Model contrasts were $-$0.470 (95\% CI, $-$0.522 to $-$0.421), $-$0.473 (95\% CI, $-$0.544 to $-$0.406), and $-$0.492 (95\% CI, $-$0.536 to $-$0.445).
+
+Model-specific contrasts varied in direction for roles and rendering. VQA-RAD ranges were $-$0.148 to 0.011 and $-$0.181 to 0.023, respectively. Reference-case contrasts ranged from $-$0.229 to $-$0.043 on VQA-RAD and from $-$0.247 to $-$0.082 on SLAKE. MedXpertQA-MM reasoner contrasts ranged from $-$0.546 to $-$0.310; VQA-RAD model contrasts ranged from $-$0.696 to $-$0.272. The regression summary also associated different perceivers and reasoners with lower error correlation across data sets (Supplementary Tables).
 
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig7_budget.pdf}
-\caption{CAPTION}
+\caption{Error correlation by shared reader components. (a) Baseline error correlation, $\phi$, between generic-panel readers sharing the model, image, rendering, role, and reference cases. Circles denote VQA-RAD; squares, SLAKE; triangles, MedXpertQA-MM (250 items each). Colors identify models. (b) Matched differences in mean pairwise error correlation, $\Delta\phi$, for reader pairs differing in the named component relative to pairs sharing it. Columns identify data sets; reference-case contrasts use VQA-RAD and SLAKE. Role compares specialty with generic panels; rendering compares different renderings with original images; reference cases compare private with shared cases; report compares own with shared reports. Perceiver compares reports from different perceivers with separate reports from one perceiver. Reasoner compares different reasoner models with one reasoner model reading a shared report. Model compares different models with one model reading images. Colored markers denote individual models: blue circles, GPT-5 mini; teal squares, Gemini 3.7 Flash; amber diamonds, Claude Haiku 4.5; rose triangles, Qwen 3.8 Flash. Gray circles denote model pairs for reasoner and model contrasts. Black vertical ticks denote means over models or model pairs. Horizontal intervals in (a) and black intervals in (b) are item bootstrap 95\% confidence intervals (CIs). Dashed vertical reference lines in (b) mark zero change.}
 \label{fig:budget}
 \end{figure*}
 
 \subsection{Reference cases}
-% PENDING: final data
+Shared reference cases changed single-reader accuracy differently across models and data sets. On VQA-RAD, Claude Haiku 4.5 accuracy was 60.8\% without references, 68.8\% with reference images, and 61.2\% with reference text (Fig.~\ref{fig:memory}a). On SLAKE, its corresponding accuracies were 72.4\%, 67.6\%, and 76.8\%. GPT-5 mini and Gemini 3.7 Flash achieved 73.6\% and 82.4\% with reference images on VQA-RAD, compared with 75.6\% and 83.6\% with reference text. Corresponding SLAKE accuracies were 79.2\% and 89.2\% with images, and 81.6\% and 90.8\% with text.
+
+Private reference cases lowered error correlation relative to shared references in every model and reference format, while panel accuracy varied (Fig.~\ref{fig:memory}b,c). On SLAKE, GPT-5 mini panel accuracy was 81.6\% with shared reference images and 84.0\% with private reference images; error correlation was 0.741 and 0.667, respectively. Gemini 3.7 Flash panel accuracy was 90.4\% with shared reference text and 92.0\% with private reference text; error correlation was 0.823 and 0.716.
+
+Claude Haiku 4.5 private references lowered error correlation without raising panel accuracy in either format or data set. With SLAKE reference images, error correlation was 0.928 with shared references and 0.655 with private references, while panel accuracy was 70.4\% and 68.8\%. With reference text, error correlation was 0.941 and 0.720, while panel accuracy remained 78.0\%.
 
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_memory.pdf}
-\caption{CAPTION}
+\caption{Accuracy and error correlation with reference cases. (a) Single-reader accuracy without references, with shared reference images and question--answer pairs, or with the same pairs as text alone. (b) Majority-vote accuracy of generic panels of 9 readers. (c) Panel error correlation, $\phi$. Rows group VQA-RAD and SLAKE (250 items each) by model. Gray filled circles denote no references. Colored circles denote shared references; triangles, private references assigned separately to each reader. Filled colored markers denote references with images; open markers, text-only references. Blue denotes GPT-5 mini; teal, Gemini 3.7 Flash; amber, Claude Haiku 4.5. Horizontal intervals are item bootstrap 95\% confidence intervals (CIs). Light gray horizontal lines separate data sets; no reference lines are plotted.}
 \label{fig:memory}
 \end{figure*}
 
