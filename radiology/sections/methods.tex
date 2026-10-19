@@ -3,6 +3,13 @@
 \subsection{Study design}
 This reader study evaluated single readers and reading panels of artificial intelligence (AI) vision-language models answering closed questions about radiology images. Controlled manipulations varied the information available to readers and the components they shared. The design distinguished image evidence from the question-text prior and separated seeing from judging. The protocol and validation decisions were locked before the full runs. Pilot observations were excluded from the study analyses.
 
+\begin{figure*}[!t]
+\centering
+\fbox{\parbox[c][60mm][c]{0.95\textwidth}{\centering Study design (drawn by the authors)}}
+\caption{Study design. CAPTION}
+\label{fig:design}
+\end{figure*}
+
 \subsection{Data sets and sampling}
 Five item sets were assembled from public data sets. S1 contained 250 of 251 eligible VQA-RAD test questions with yes/no answers.\cite{lau2018vqarad} Duplicate image--question combinations were removed before sampling. S2 contained 250 of 355 eligible English SLAKE test questions labeled as closed and answered yes/no.\cite{liu2021slake} S3 contained 250 of 840 eligible MedXpertQA-MM items for which every attached image was a radiologic acquisition.\cite{zuo2025medxpertqa} Image modality was labeled by gpt-4.1-nano, and claude-haiku-4.5 confirmed that candidate images were actual acquisitions. Drawings, diagrams, photographs, pathology slides, charts, and tables were excluded.
 
