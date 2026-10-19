@@ -22,15 +22,16 @@ Sampling used stratified shuffling with seed 42. Strata were reference answer fo
 \caption{Item sets.}
 \label{tab:sets}
 \footnotesize
-\begin{tabular}{p{0.16\textwidth}p{0.33\textwidth}rrrp{0.09\textwidth}}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{ll>{\raggedright\arraybackslash}p{0.27\textwidth}rrrl}
 \toprule
-Set & Source and inclusion & Eligible & Sampled & Images & Answers \\
+Set & Data set & Inclusion & Eligible & Sampled & Images & Options \\
 \midrule
-S1, VQA-RAD & Test split, closed yes/no questions & 251 & 250 & 135 & Yes/no \\
-S2, SLAKE & English test split, closed yes/no questions & 355 & 250 & 93 & Yes/no \\
-S3, MedXpertQA-MM & Items whose every image is a radiologic acquisition; 48 items with 2--5 images & 840 & 250 & 326 & 5 options \\
-S4, SLAKE-target & English training and test splits, closed yes/no questions on an annotated organ or lesion, S2 excluded & 335 & 250 & 196 & Yes/no \\
-S5, SLAKE-pairs & The same question on two images with opposite reference answers, 104 templates & -- & 200 pairs & 252 & Yes/no \\
+S1 & VQA-RAD & Test split, closed yes/no questions & 251 & 250 & 135 & Yes/no \\
+S2 & SLAKE & English test split, closed yes/no questions & 355 & 250 & 93 & Yes/no \\
+S3 & MedXpertQA-MM & Every attached image a radiologic acquisition; 48 items with 2--5 images & 840 & 250 & 326 & 5 \\
+S4 & SLAKE-target & English training and test splits, closed yes/no questions on an annotated organ or lesion; S2 excluded & 335 & 250 & 196 & Yes/no \\
+S5 & SLAKE-pairs & The same question on two images with opposite reference answers; 104 templates & -- & 200 pairs & 252 & Yes/no \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -45,7 +46,7 @@ Five local open-weight models were evaluated: MedGemma-4B, Qwen3-VL-8B, Qwen2-VL
 \caption{Experiments, conditions, readers, and models.}
 \label{tab:design}
 \footnotesize
-\begin{tabular}{p{0.17\textwidth}p{0.07\textwidth}p{0.27\textwidth}p{0.2\textwidth}p{0.12\textwidth}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.17\textwidth}>{\raggedright\arraybackslash}p{0.07\textwidth}>{\raggedright\arraybackslash}p{0.27\textwidth}>{\raggedright\arraybackslash}p{0.2\textwidth}>{\raggedright\arraybackslash}p{0.12\textwidth}}
 \toprule
 Experiment & Sets & Conditions & Readers & Models \\
 \midrule
