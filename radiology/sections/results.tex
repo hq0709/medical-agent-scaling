@@ -1,47 +1,70 @@
 \section{Results}
 
-% Skeleton: subsection order follows the figures. Text and captions are written from numbers.md.
 
 \subsection{Reading panels and error correlation}
-% Fig. 2: panels, discussion, error correlation; panel arithmetic.
+Panels of nine readers changed accuracy little relative to the single reader for GPT-5 mini, Gemini 3.7 Flash, and Claude Haiku 4.5. Reading-panel differences ranged from $-$2.8 to 0.8, $-$1.2 to 1.2, and $-$2.8 to 4.0 percentage points, respectively (Fig.~\ref{fig:panels}a). Among their reading and discussion panels, only the Claude Haiku 4.5 discussion panel on VQA-RAD had a difference CI excluding zero: 5.6 percentage points (95\% CI, 0.8 to 10.8).
+
+Accuracy gains were larger for Qwen 3.8 Flash reading panels than for the other models' reading panels. The VQA-RAD difference was 13.4 percentage points (95\% CI, 7.3 to 19.8). Differences were 9.0 percentage points (95\% CI, 4.3 to 13.3) on SLAKE and 5.9 percentage points (95\% CI, 0.0 to 11.7) on MedXpertQA-MM. Discussion-panel differences ranged from 9.6 to 14.2 percentage points, and all their CIs excluded zero (Fig.~\ref{fig:panels}a).
+
+Higher accuracy among Qwen 3.8 Flash panel readers accounted for more of the panel advantage than majority voting did. Mean reader accuracy exceeded single-reader accuracy by 3.2 to 9.7 percentage points; majority voting added 1.2 to 3.5 percentage points relative to those readers. For the other models, majority voting changed accuracy by $-$2.1 to 2.4 percentage points relative to mean reader accuracy (Supplementary Tables).
+
+Panels behaved like few independent readers. The effective number of independent readers ranged from 1.17 to 1.39 for GPT-5 mini, Gemini 3.7 Flash, and Claude Haiku 4.5. It ranged from 1.45 to 2.06 for Qwen 3.8 Flash (Fig.~\ref{fig:panels}b).
+
+Discussion brought reader errors close to complete correlation, while unanimous answers still included errors. Final error correlations ranged from 0.995 to 1.000 for the first three models and from 0.843 to 0.919 for Qwen 3.8 Flash (Fig.~\ref{fig:panels}c). Unanimity after discussion ranged from 85.2\% to 100.0\%, and 8.9\% to 70.0\% of unanimous answers were wrong.
+
+The beta-binomial model closely reproduced majority accuracy on yes/no items. Across 94 panels, observed accuracy minus the prediction averaged $-$0.09 percentage points, with an SD of 0.85 percentage points (Fig.~\ref{fig:panels}d). The largest absolute difference was 2.59 percentage points. Majority accuracy minus mean reader accuracy ranged from $-$2.1 to 5.6 percentage points across error correlations of 0.42 to 0.99 (Fig.~\ref{fig:panels}e).
 
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig2_panels.pdf}\\[2mm]
 \includegraphics[width=\textwidth]{figures/fig_arithmetic.pdf}
-\caption{CAPTION}
+\caption{Reading-panel accuracy and error correlation. (a) Accuracy differences for independent specialty panels and discussion panels, each with 9 readers, relative to the single reader. (b) Effective number of independent readers, $N_{\mathrm{eff}}$. (c) Round-0 and final error correlations, $\phi$. Rows group VQA-RAD, SLAKE, and MedXpertQA-MM, with 250 items each; matched Qwen 3.8 Flash analyses use 240, 240, and 239 items, respectively. (d) Observed versus beta-binomial predicted majority accuracy for 94 panels on VQA-RAD, SLAKE, SLAKE-target (250 items each), and SLAKE-pairs (200 pairs). (e) Majority accuracy minus mean reader accuracy versus $\phi$. Filled and open markers denote independent specialty and discussion panels in (a), and round-0 and final estimates in (c); lines join paired estimates in (c). Blue circles denote GPT-5 mini; teal squares, Gemini 3.7 Flash; amber diamonds, Claude Haiku 4.5; rose triangles, Qwen 3.8 Flash. Dotted, dashed, and solid curves in (e) represent predictions at the labeled mean accuracies. Dashed reference lines mark no accuracy difference in (a), 9 independent readers in (b), and equality in (d); the horizontal reference in (e) marks no aggregation gain. Whiskers in (a) are paired item bootstrap 95\% confidence intervals (CIs); those in (b) are transformed item bootstrap 95\% CIs for $\phi$. pp indicates percentage points; SD, standard deviation.}
 \label{fig:panels}
 \end{figure*}
 
 \subsection{Image evidence and the question-text prior}
-% Fig. 3: graded evidence. Fig. 4: reader-level decomposition with the gray image; consensus errors.
+Replacing the image with gray lowered accuracy on VQA-RAD and SLAKE. Single-reader accuracy ranged from 60.8\% to 81.2\% with original VQA-RAD images and from 46.8\% to 60.8\% with gray images (Fig.~\ref{fig:evidence}a). Corresponding SLAKE ranges were 72.4\% to 91.2\% and 38.8\% to 54.4\%. Paired accuracy differences ranged from 11.2 to 26.8 percentage points on VQA-RAD and from 25.0 to 40.0 percentage points on SLAKE. All single-reader and reading-panel difference CIs excluded zero on both data sets.
+
+Removing the image changed single-reader accuracy little on MedXpertQA-MM for GPT-5 mini, Claude Haiku 4.5, and Qwen 3.8 Flash. Their paired differences ranged from 1.7 to 4.0 percentage points, and all CIs included zero. Gemini 3.7 Flash had a difference of 18.0 percentage points (95\% CI, 12.0 to 23.6). Reading-panel difference CIs excluded zero for GPT-5 mini, Gemini 3.7 Flash, and Qwen 3.8 Flash (Supplementary Tables).
+
+Removing the image increased error correlation for Gemini 3.7 Flash, Claude Haiku 4.5, and Qwen 3.8 Flash on VQA-RAD and SLAKE. Their VQA-RAD correlations ranged from 0.420 to 0.732 with original images and from 0.841 to 0.920 with gray images (Fig.~\ref{fig:evidence}b). Corresponding SLAKE ranges were 0.521 to 0.785 and 0.831 to 0.982. Error correlation did not change monotonically with image resolution (Fig.~\ref{fig:evidence}b).
+
+Claude Haiku 4.5 readers remained highly correlated when gray-image analyses excluded abstentions. Abstentions ranged from 4.3\% to 14.8\% across data sets. Error correlation among answered items was 0.963 (95\% CI, 0.942 to 0.982) on VQA-RAD and 0.931 (95\% CI, 0.901 to 0.956) on SLAKE. It was 0.852 (95\% CI, 0.803 to 0.891) on MedXpertQA-MM.
+
+More reader answers were correct only with the real image than only with the gray image. On VQA-RAD, these shares ranged from 24.1\% to 37.4\% and from 10.2\% to 13.6\%, respectively (Fig.~\ref{fig:prior}a). Corresponding SLAKE ranges were 36.3\% to 46.4\% and 4.4\% to 15.8\%. On MedXpertQA-MM, they were 8.1\% to 22.9\% and 4.6\% to 7.9\%; 11.9\% to 64.0\% of answers were wrong with both images.
+
+Most consensus errors on MedXpertQA-MM repeated the gray-image majority answer. The share ranged from 64.2\% to 77.5\%, compared with 37.5\% to 54.4\% on VQA-RAD and 15.0\% to 57.9\% on SLAKE (Fig.~\ref{fig:prior}b).
 
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig3_evidence.pdf}
-\caption{CAPTION}
+\caption{Accuracy and error correlation across image evidence levels. (a) Single-reader accuracy. (b) Error correlation, $\phi$, among independent specialty-panel readers. Columns show VQA-RAD, SLAKE, and MedXpertQA-MM (250 items each). Image conditions are original images capped at 1024 pixels on the longest side, images capped at 256 or 128 pixels, and uniform gray images of unchanged dimensions. Blue circles denote GPT-5 mini; teal squares, Gemini 3.7 Flash; amber diamonds, Claude Haiku 4.5; rose triangles, Qwen 3.8 Flash. Lines join adjacent available conditions; missing estimates are omitted. Dashed horizontal lines in (a) mark chance accuracy: 50.0\% for VQA-RAD and SLAKE and 20.0\% for MedXpertQA-MM. Vertical intervals are item bootstrap 95\% confidence intervals (CIs). px indicates pixels.}
 \label{fig:evidence}
 \end{figure*}
 
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig4_prior.pdf}
-\caption{CAPTION}
+\caption{Reader correctness with real and gray images and agreement of consensus errors with gray-image majorities. (a) Reader answers from independent specialty panels of 9, cross-tabulated by correctness with each image. (b) Proportion of consensus errors matching the gray-image majority. Consensus errors require at least 7 of 9 readers to be wrong. Data sets are VQA-RAD, SLAKE, and MedXpertQA-MM (250 items each). In (a), dark blue denotes correct only with the real image; light blue, correct with both; dark red, wrong only with the real image; light red, wrong with both. End labels give real-image accuracy. In (b), blue circles denote GPT-5 mini; teal squares, Gemini 3.7 Flash; amber diamonds, Claude Haiku 4.5; rose triangles, Qwen 3.8 Flash. The vertical zero line in (a) separates real-image errors on the left from correct answers on the right; the vertical reference in (b) marks 50.0\%. Horizontal intervals in (b) are item bootstrap 95\% confidence intervals (CIs). $n$ indicates consensus-error counts.}
 \label{fig:prior}
 \end{figure*}
 
 \subsection{Use of the queried region and of the image}
-% Fig. 4: region occlusion; same question, different image.
+API readers changed answers more often after target occlusion than after control occlusion, with the largest difference for Gemini 3.7 Flash. On SLAKE-target, region dependence was 17.1 percentage points (95\% CI, 13.2 to 21.2) for GPT-5 mini (Fig.~\ref{fig:region}a,b). It was 33.2 percentage points (95\% CI, 28.5 to 38.0) for Gemini 3.7 Flash and 3.2 percentage points (95\% CI, 0.8 to 5.7) for Claude Haiku 4.5.
+
+Region dependence was positive across open-weight models, with the LLaVA-1.5 7B interval including zero. Its region dependence was 2.4 percentage points (95\% CI, $-$2.0 to 6.8); all other open-weight model CIs excluded zero (Fig.~\ref{fig:region}b).
+
+Pair accuracy was highest for Gemini 3.7 Flash among the API models tested. On SLAKE-pairs, both single-reader answers were correct for 59.0\% (95\% CI, 52.0 to 65.5) of pairs with GPT-5 mini (Fig.~\ref{fig:region}c). Rates were 74.0\% (95\% CI, 67.5 to 80.0) with Gemini 3.7 Flash and 38.5\% (95\% CI, 31.5 to 45.0) with Claude Haiku 4.5. Their answers differed between paired images in 62.0\%, 75.0\%, and 42.5\% of pairs, respectively (Fig.~\ref{fig:region}c; Supplementary Tables).
 
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig5_region.pdf}
-\caption{CAPTION}
+\caption{Answer changes after region occlusion and between paired images. (a) Target and control occlusion flip rates on SLAKE-target (250 items). (b) Region dependence, target minus control flip rate. (c) Pair accuracy and proportion of answers differing on SLAKE-pairs (200 pairs with identical questions and opposite reference answers). API occlusion estimates average panel-reader responses within items; paired-image estimates use single readers. Open-weight models use one forward pass per item. Filled and open markers denote target and control occlusion in (a), and both answers correct and answers differing in (c). Lines in (a) join the rates. Blue circles denote GPT-5 mini; teal squares, Gemini 3.7 Flash; amber diamonds, Claude Haiku 4.5; dark gray circles denote the labeled open-weight models. The dashed vertical line in (b) marks zero. Horizontal intervals are item bootstrap 95\% confidence intervals (CIs), with complete pairs resampled in (c). API indicates application programming interface; pp, percentage points.}
 \label{fig:region}
 \end{figure*}
 
 \subsection{Seeing and judging}
-% Fig. 5: perceiver x reasoner; own and shared reports.
+% PENDING: final data
 
 \begin{figure*}[!t]
 \centering
@@ -51,7 +74,7 @@
 \end{figure*}
 
 \subsection{What two readers share}
-% Fig. 6: matched within-model contrasts.
+% PENDING: final data
 
 \begin{figure*}[!t]
 \centering
@@ -61,7 +84,7 @@
 \end{figure*}
 
 \subsection{Reference cases}
-% Fig. 7: shared and private reference cases, with images or as text.
+% PENDING: final data
 
 \begin{figure*}[!t]
 \centering
@@ -71,14 +94,26 @@
 \end{figure*}
 
 \subsection{Discussion among readers}
-% Fig. 8: correct round-0 answers abandoned, by origin and by round-0 position.
+On MedXpertQA-MM, readers abandoned correct answers that differed from their gray-image answer more often than correct answers that matched it. Abandonment ranged from 6.6\% to 23.6\% for the former and from 2.4\% to 6.3\% for the latter (Fig.~\ref{fig:conformity}a). Paired differences ranged from 4.2 percentage points (95\% CI, 0.7 to 8.7) for Gemini 3.7 Flash to 17.4 percentage points (95\% CI, 6.4 to 29.7) for Claude Haiku 4.5. All paired difference CIs excluded zero.
+
+The difference in abandonment was smaller on VQA-RAD and SLAKE. Only GPT-5 mini had difference CIs excluding zero: 5.1 percentage points (95\% CI, 0.4 to 10.4) and 2.6 percentage points (95\% CI, 0.3 to 5.2), respectively (Fig.~\ref{fig:conformity}a).
+
+Readers abandoned correct minority answers more often than correct majority answers. Across models and data sets, abandonment ranged from 41.5\% to 100.0\% for answers initially held by a minority and from 1.1\% to 5.4\% for majority answers (Fig.~\ref{fig:conformity}b).
+
+Correct answers differing from the gray-image answer were more often in the initial minority on MedXpertQA-MM than on the other data sets. The share ranged from 6.6\% to 20.1\%, compared with 2.6\% to 11.2\% on VQA-RAD and 1.8\% to 4.0\% on SLAKE (Fig.~\ref{fig:conformity}c).
 
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_conformity.pdf}
-\caption{CAPTION}
+\caption{Correct answers abandoned during discussion. (a) Proportion of correct round-0 answers that become wrong, separated by whether the answer differs from or matches the same reader's gray-image answer. (b) Abandonment among correct round-0 minority and majority answers. (c) Proportion of correct answers initially held by a minority. Discussion panels contain 9 readers. Rows group VQA-RAD, SLAKE, and MedXpertQA-MM (250 items each). Filled and open markers in (a) and (c) denote answers differing from and matching the gray-image answer, respectively. Circles and squares in (b) denote minority and majority answers. Blue denotes GPT-5 mini; teal, Gemini 3.7 Flash; amber, Claude Haiku 4.5; rose, Qwen 3.8 Flash. In (a) and (c), model markers are circles, squares, diamonds, and triangles, respectively. No reference lines are plotted. Estimates are ratios of reader counts; horizontal intervals are item bootstrap 95\% confidence intervals (CIs).}
 \label{fig:conformity}
 \end{figure*}
 
 \subsection{Open-weight models}
-% Fig. S1 (supplementary): accuracy with and without the image, visual reliance, cross-model error correlation.
+Open-weight models lost accuracy without the image on VQA-RAD and SLAKE, while MedXpertQA-MM accuracy stayed near chance. Original-image accuracy ranged from 56.0\% to 80.0\% on VQA-RAD and from 66.0\% to 88.8\% on SLAKE (Supplementary Fig.~S1a). Gray-image ranges were 54.0\% to 60.8\% and 40.0\% to 50.8\%, respectively. On MedXpertQA-MM, original-image accuracy ranged from 20.0\% to 24.4\%, compared with 20.0\% to 23.6\% with gray images. MedGemma 4B had the highest original-image accuracy on VQA-RAD and SLAKE; Qwen3-VL 8B had the highest on MedXpertQA-MM.
+
+Visual reliance varied across open-weight models. Mean absolute change in log-odds of yes ranged from 0.89 to 6.43 on VQA-RAD and from 1.40 to 11.23 on SLAKE (Supplementary Fig.~S1b). On MedXpertQA-MM, mean visual reliance measured by Kullback--Leibler divergence ranged from 0.10 to 0.88.
+
+Models sharing a vision encoder did not have consistently higher error correlation than models with different encoders. For HuatuoGPT-Vision 7B and LLaVA-1.5 7B, error correlation divided by its maximum given marginal error rates ranged from 0.213 to 0.451 (Supplementary Fig.~S1c). Values for pairs with different encoders ranged from 0.148 to 0.725.
+
+API consensus errors were associated with lower open-weight visual reliance on SLAKE, with little association on the other data sets. Spearman correlations were $-$0.050 on VQA-RAD, $-$0.402 on SLAKE, and 0.013 on MedXpertQA-MM.
