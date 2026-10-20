@@ -1,6 +1,7 @@
 \documentclass[preprint,12pt]{elsarticle}
 \usepackage{amsmath,amssymb,graphicx,booktabs,makecell}
 \usepackage[hidelinks]{hyperref}
+\biboptions{super,sort&compress}
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thefigure}{S\arabic{figure}}
 \journal{Meta-Radiology}
@@ -10,44 +11,48 @@
 \title{Supplementary material}
 \end{frontmatter}
 
-\section*{S1. Validation before the full runs}
-Each check was run before any full run, and the full runs used only the settings it fixed (Table~\ref{tab:validation}).
+\section*{S1. Validation before the main experiments}
+CLAHE indicates contrast-limited adaptive histogram equalization; CLIP indicates Contrastive Language--Image Pretraining. CT indicates computed tomography.
 
 \begin{table}[!htbp]
 \centering
 \caption{Validation checks and the settings they fixed.}
 \label{tab:validation}
-\small
+\footnotesize
 \begin{tabular}{p{0.14\textwidth}p{0.45\textwidth}p{0.31\textwidth}}
 \toprule
 Check & Result & Setting fixed \\
 \midrule
-V1 & All four API models parsed 100\% of single-reader answers through OpenRouter. GPT-5 mini used 256 reasoning tokens at low effort and 2,304 at high effort on the same prompt. & Claude Haiku 4.5 retained; GPT-5 mini at low effort. \\
-V2 & Single-reader accuracy relative to the original image, over 10 model-by-data-set cells: CLAHE $-$0.0 percentage points on average (range $-$6 to $+$14), grayscale inversion $-$6.6 ($-$12 to $+$2), 256 pixels $-$1.0, 128 pixels $-$5.6. & Inversion exceeded the 5-point limit and was replaced by gamma 0.7: readers 4--6 of the rendering panel saw gamma 0.7, readers 7--9 CLAHE. \\
-V3 & With four images per prompt (the query and three references), parsing was 100\%. A CLIP cosine threshold of 0.95 removed about 32 ordinary similar cases per query, because radiographs of different patients reach cosines of 0.91--0.95; a perceptual hash alone missed the same CT level and the same patient's chest radiograph (cosine 0.99). & References excluded if SHA-256 identical, within Hamming distance 8 of the 64-bit perceptual hash, or at CLIP cosine of at least 0.98. \\
-V4 & SLAKE-target: 335 eligible questions, 250 sampled; in 20 inspected cases the target box covered the queried organ or lesion and the control box did not overlap it and lay within the body. SLAKE-pairs: 200 pairs over 104 question templates. & Used as built. \\
-V5 & Findings reports had a median of 72--77 words (maximum 109); answer parsing 100\%. & Used as built. \\
-V6 & With option-letter readout, the LLaVA family put 96--100\% of the probability on ``A'' regardless of the image. Pooled accuracy on 100 items (50 each from VQA-RAD and SLAKE): MedGemma 84\%, HuatuoGPT-Vision 79\%, Qwen3-VL 78\%, Qwen2-VL 74\%, LLaVA-1.5 55\%, LLaVA-Med 53\%. & Yes/no items read from the ``yes''/``no'' tokens; LLaVA-Med excluded by the 55\% rule. \\
-Throughput & Qwen 3.8 Flash used 250--6,400 reasoning tokens and 6--77 s per call. & Qwen 3.8 Flash ran the original-image, graded-evidence, generic-panel and rendering conditions only. \\
+V1 & Single-reader answer parsing was 100\% for all four proprietary models called through OpenRouter. GPT-5 mini used 256 reasoning tokens at low effort and 2,304 at high effort on the same prompt. & GPT-5 mini at low effort. \\
+V2 & Single-reader accuracy relative to the original image, over 10 model-by-data-set cells: CLAHE 0.0 percentage points on average (range $-$6 to 14), grayscale inversion $-$6.6 ($-$12 to 2), 256 pixels $-$1.0, 128 pixels $-$5.6. & Inversion exceeded the limit of 5 percentage points. Contrast adjustment used gamma 0.7 for readers 4 to 6 and CLAHE for readers 7 to 9. \\
+V3 & With four images per prompt (the query and three reference cases), parsing was 100\%. A CLIP cosine threshold of 0.95 removed about 32 similar cases from different patients per query. Radiographs from different patients reached cosines of 0.91 to 0.95. A perceptual hash alone missed the same CT level and the same patient's chest radiograph (cosine 0.99). & Reference-case exclusion rule as in Methods. \\
+V4 & In 20 inspected SLAKE-target cases, the target box covered the queried organ or lesion; the control box did not overlap it and lay within the body. & Used as built. \\
+V5 & Findings reports had a median of 72 to 77 words (maximum 109); answer parsing 100\%. & Used as built. \\
+V6 & With option-letter probabilities, the LLaVA family put 96 to 100\% of the probability on ``A'' regardless of the image. Pooled accuracy on 100 items (50 each from VQA-RAD and SLAKE): MedGemma 84\%, HuatuoGPT-Vision 79\%, Qwen3-VL 78\%, Qwen2-VL 74\%, LLaVA-1.5 55\%, LLaVA-Med 53\%. & Yes/no items read from the ``yes''/``no'' tokens; LLaVA-Med excluded by the 55\% rule. \\
+Throughput & Qwen 3.8 Flash used 250 to 6,400 reasoning tokens and 6 to 77 s per call. & Qwen 3.8 Flash was evaluated with original images, reduced resolution and blank images, self-consistency panels and contrast adjustments. \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\section*{S2. Run record}
-Claude Haiku 4.5 declined to answer for part of the gray-image prompts. Declined answers counted as wrong, the abstention rate is reported for each condition, and the error correlation on answered items is reported as a sensitivity analysis. The output-quality stop that ends a run when more than 15\% of answers cannot be parsed was designed to catch configuration errors and was turned off for the gray-image conditions. Each perceiver wrote its findings reports once for each image and slot before any reasoner read a report (12,906 reports; median length 75 to 90 words by perceiver, maximum 118 to 127). After each model finished, every condition was run again to fill episodes lost to transient errors; calls already made were read from the cache.
+\section*{S2. Data collection}
+Perception models generated findings reports before interpretation-model calls and were instructed to write at most 120 words. Median report lengths were 75 words for GPT-5 mini and Claude Haiku 4.5 and 90 for Gemini 3.7 Flash. Maximum lengths were 118, 121 and 127 words, respectively. Provider routing and token budgets remained fixed. Calls that failed with transient service errors were repeated until every item had a response. The automatic stop at more than 15\% unparsed answers was not applied to blank-image conditions.
 
 \section*{S3. Detailed results}
+Detailed results are reported with 95\% confidence intervals (CIs).
 \input{sections/supplement_tables}
 
 \section*{S4. Open-weight models}
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_openweight.pdf}
-\caption{Open-weight models, one forward pass per item. (a) Accuracy with the image (filled) and with a uniform gray image (open); dashed lines, chance. (b) Visual reliance: absolute change in the log-odds of ``yes'' between the image and the gray image on yes/no items, Kullback--Leibler divergence on MedXpertQA-MM; mean with item bootstrap 95\% CI, log scale. (c) Error correlation between two models divided by its maximum for their error rates ($\phi/\phi_{\max}$); diamonds, the pair that shares the CLIP ViT-L/14-336 vision encoder.}
+\caption{Open-weight models, one forward pass per item. (a) Accuracy labeled Original image (filled) and Blank image (open, a uniform gray image of the same size); dashed lines mark chance. (b) Visual reliance: absolute change in the log-odds of ``yes'' between the original and blank images on yes/no items. On MedXpertQA-MM, visual reliance was the Kullback--Leibler divergence from the original-image to blank-image probability distribution. Means with item bootstrap 95\% CIs; log scale. (c) Error correlation between two models divided by its maximum for their error rates ($\phi/\phi_{\max}$). Diamonds mark HuatuoGPT-Vision 7B and LLaVA-1.5 7B, which share the CLIP vision encoder ViT-L/14-336.}
 \label{fig:openweight}
 \end{figure}
 
 \section*{S5. Text-only clinical questions}
-The same reading-panel designs were applied to text-only clinical questions in a companion analysis: 8 language models from OpenAI, Google, Anthropic and DeepSeek answered items from MedQA, MedAgentsBench and the text set of MedXpertQA as single readers and as independent, centralized, discussion and tiered panels of 3 to 9 readers with specialty roles. Over 340 panel configurations, the first-round error correlation between panel positions was 0.758, which leaves 1.27 effective independent readers in a panel of 9. Over the 96 discussion configurations, discussion raised the error correlation from 0.758 (SD 0.117) to 0.990 (SD 0.010), or 1.01 effective readers. Error correlation and its rise during discussion therefore had the same magnitude without images as in the imaging experiments.
+In a companion analysis (unpublished data), 8 language models answered text-only clinical questions from MedQA, MedAgentsBench and the text set of MedXpertQA. The models answered as single readers and in panels with specialty roles. The 340 configurations comprised 96 Independent, 96 Centralized, 96 Decentralized and 52 Hybrid panels, with architecture names from Kim et al.\cite{kim2026scaling} Across the 288 Independent, Centralized and Decentralized configurations with 3 to 9 readers, mean initial-answer error correlation was 0.758. These architectures shared the initial answers and had identical initial-answer error correlations by design. With 9 readers, error correlation was 0.762, of the same magnitude as the imaging values. The effective number of independent readers ($N_{\mathrm{eff}}$) was 1.27. Dispersion across configurations was described by the standard deviation (SD). Across the 96 Decentralized configurations, error correlation was 0.758 (SD 0.117) before discussion and 0.990 (SD 0.010) after discussion. After discussion, $N_{\mathrm{eff}}$ was 1.01.
+
+\bibliographystyle{elsarticle-num}
+\bibliography{refs}
 
 \end{document}

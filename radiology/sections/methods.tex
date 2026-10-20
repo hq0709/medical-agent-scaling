@@ -1,107 +1,224 @@
 \section{Material and methods}
 
 \subsection{Study design}
-This reader study evaluated single readers and reading panels of AI VLMs answering closed questions about radiology images. Controlled manipulations varied the information available to readers and the components they shared. The design distinguished image evidence from the question-text prior and separated seeing from judging. The protocol and validation decisions were locked before the full runs. Pilot observations were excluded from the study analyses.
+This controlled evaluation compared single readers with reading panels of VLMs.
+The outcomes were accuracy, error correlation, and the effective number of independent readers ($N_{\mathrm{eff}}$).
+In the report conditions, a perception model wrote a query-agnostic findings report without the question or answer options.\cite{qiao2024prism}
+An interpretation model answered from that report.
+The protocol was fixed before the main experiments.
 
 \begin{figure*}[!tbp]
 \centering
 \fbox{\parbox[c][60mm][c]{0.95\textwidth}{\centering Study design (drawn by the authors)}}
-\caption{Study design across five item sets: VQA-RAD (S1), SLAKE (S2), MedXpertQA-MM (S3), SLAKE-target (S4), and SLAKE-pairs (S5). The comparisons include the single reader and reading panels: independent specialty panels, discussion panels, and generic panels. Image manipulations include graded evidence, region occlusion, and paired images; manipulations of what readers share include question-blind findings reports written by a perceiver and read by a reasoner, renderings, and reference cases. Outcomes are accuracy, error correlation, and the effective number of independent readers.}
+\caption{Study design across five evaluation sets: VQA-RAD, SLAKE, MedXpertQA-MM, SLAKE-target, and SLAKE-pairs. Comparisons varied visual evidence and components shared by single readers and reading panels. Findings reports separated perception from interpretation. Outcomes were accuracy, error correlation, and the effective number of independent readers ($N_{\mathrm{eff}}$). Proprietary models: GPT-5 mini, Gemini 3.7 Flash, Claude Haiku 4.5, and Qwen 3.8 Flash. Open-weight models: MedGemma 4B, Qwen3-VL 8B, Qwen2-VL 7B, HuatuoGPT-Vision 7B, and LLaVA-1.5 7B.}
 \label{fig:design}
 \end{figure*}
 
 \subsection{Data sets and sampling}
-Five item sets were assembled from public data sets (Table~\ref{tab:sets}). S1 contained 250 of 251 eligible VQA-RAD test questions with yes/no answers.\cite{lau2018vqarad} Duplicate image--question combinations were removed before sampling. S2 contained 250 of 355 eligible English SLAKE test questions labeled as closed and answered yes/no.\cite{liu2021slake} S3 contained 250 of 840 eligible MedXpertQA-MM items for which every attached image was a radiologic acquisition.\cite{zuo2025medxpertqa} Image modality was labeled by GPT-4.1 nano (gpt-4.1-nano), and Claude Haiku 4.5 (claude-haiku-4.5) confirmed that candidate images were actual acquisitions. Drawings, diagrams, photographs, pathology slides, charts, and tables were excluded.
+Evaluation sets were drawn from VQA-RAD, SLAKE, and MedXpertQA-MM (Table~\ref{tab:sets}).\cite{lau2018vqarad,liu2021slake,zuo2025medxpertqa}
+Duplicate VQA-RAD image--question combinations were removed before sampling.
+For MedXpertQA-MM, GPT-4.1 nano (gpt-4.1-nano) labeled image modality, and Claude Haiku 4.5 (claude-haiku-4.5) also labeled each candidate image as radiologic or not.
+Drawings, diagrams, photographs, pathology slides, charts, and tables were excluded.
 
-S4, SLAKE-target, contained 250 of 335 eligible English closed yes/no questions from the SLAKE training and test sets, excluding S2 items. Questions concerned an organ or lesion present in the image and localized by the supplied annotations. The expanded target bounding box occupied at most 40\% of the image. Each item also had an equal-sized, nonoverlapping control box with at least 70\% of its area inside the body. S5, SLAKE-pairs, contained 200 pairs, or 400 questions, spanning 104 question templates. Each pair used the same question with different images and opposite reference answers. Sampling allowed at most 5 pairs per template.
+SLAKE-target excluded the items of the SLAKE evaluation set.
+Questions concerned an organ or lesion present in the image and localized by the supplied annotations.
+The expanded target bounding box occupied at most 40\% of the image.
+Each item also had an equal-sized, nonoverlapping control box with at least 70\% of its area inside the body.
+SLAKE-pairs contained paired images with the same question and opposite reference answers.
+Sampling allowed at most 5 pairs per question template.
 
-Sampling used stratified shuffling with seed 42. Strata were reference answer for S1, reference answer and modality for S2, body system and medical task for S3, and target type and modality for S4. S5 was stratified by question template. Yes/no option order was randomized separately for each item using its identifier. Images were resized proportionally, without upsampling, to at most 1024 pixels on the long side.
+Sampling used stratified shuffling with seed 42.
+Strata were reference answer for VQA-RAD, reference answer and modality for SLAKE, body system and medical task for MedXpertQA-MM, and target type and modality for SLAKE-target.
+SLAKE-pairs was stratified by question template.
+Yes/no option order was randomized separately for each item using its identifier.
+Images were resized proportionally, without upsampling, to at most 1024 pixels on the long side.
 
 \begin{table}[!htbp]
 \centering
-\caption{Item sets.}
+\caption{Evaluation sets and sampling counts.}
 \label{tab:sets}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{ll>{\raggedright\arraybackslash}p{0.27\textwidth}rrrl}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.18\textwidth}>{\raggedright\arraybackslash}p{0.34\textwidth}rrrl}
 \toprule
-Set & Data set & Inclusion & Eligible & Sampled & Images & Options \\
+Data set & Inclusion & Eligible & Sampled & Images & Options \\
 \midrule
-S1 & VQA-RAD & Test split, closed yes/no questions & 251 & 250 & 135 & Yes/no \\
-S2 & SLAKE & English test split, closed yes/no questions & 355 & 250 & 93 & Yes/no \\
-S3 & MedXpertQA-MM & Every attached image a radiologic acquisition; 48 items with 2--5 images & 840 & 250 & 326 & 5 \\
-S4 & SLAKE-target & English training and test splits, closed yes/no questions on an annotated organ or lesion; S2 excluded & 335 & 250 & 196 & Yes/no \\
-S5 & SLAKE-pairs & The same question on two images with opposite reference answers; 104 templates & -- & 200 pairs & 252 & Yes/no \\
+VQA-RAD & Test split, closed yes/no questions & 251 & 250 & 135 & Yes/no \\
+SLAKE & English test split, closed yes/no questions & 355 & 250 & 93 & Yes/no \\
+MedXpertQA-MM & Every attached image radiologic; 48 items with 2--5 images & 840 & 250 & 326 & 5 \\
+SLAKE-target & English training and test splits, closed yes/no questions on an annotated organ or lesion & 335 & 250 & 196 & Yes/no \\
+SLAKE-pairs & Closed yes/no questions; 104 question templates & -- & 200 pairs & 252 & Yes/no \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \subsection{Models}
-The API models were GPT-5 mini (gpt-5-mini), Gemini 3.7 Flash (gemini-3.7-flash), Claude Haiku 4.5, and Qwen 3.8 Flash (qwen3.8-flash). All reader calls used OpenRouter; the routing and modality-screening outputs of GPT-4.1 nano (temperature 0) were generated once and reused. Where a model accepted the parameter, panel readers, discussion rounds, and report writers sampled at temperature 0.7 and the single reader at 0.3; the seed was 1, and GPT-5 mini used low reasoning effort. Google models were restricted to Gemini 3.7 Flash. Routing and token budgets were held constant within each experimental condition. Because of its throughput, Qwen 3.8 Flash ran only the original-image baseline (A0), graded evidence (A1), generic reading panel (C1), and varied image rendering (C2).
+The proprietary models were GPT-5 mini (gpt-5-mini), Gemini 3.7 Flash (gemini-3.7-flash), Claude Haiku 4.5, and Qwen 3.8 Flash (qwen3.8-flash).
+All reader calls were made through OpenRouter in October 2026; each condition used one sampling seed.
+The configuration seed was 1; reader $i$ used seed $100+i$.
+Where a model accepted these parameters, panel readers, discussion rounds, and perception models sampled at temperature 0.7 and the single reader at 0.3.
+GPT-5 mini, an OpenAI reasoning model, accepted neither seed nor temperature and used low reasoning effort; its readers differed through separate sampling.
+GPT-4.1 nano used temperature 0 for role assignment and modality screening.
 
-Five local open-weight models were evaluated: MedGemma 4B, Qwen3-VL 8B, Qwen2-VL 7B, HuatuoGPT-Vision 7B, and LLaVA-1.5 7B.\cite{sellergren2025medgemma,bai2025qwen3vl,wang2024qwen2vl,chen2024huatuovision,liu2024llava15} HuatuoGPT-Vision 7B and LLaVA-1.5 7B shared the Contrastive Language--Image Pretraining (CLIP) ViT-L/14-336 vision encoder.\cite{radford2021clip} LLaVA-Med v1.5 was screened and excluded under the prespecified accuracy rule: its accuracy was 53\%, below the 55\% threshold, pooled over 100 validation items. These comprised 50 items each from S1 and S2. LLaVA-1.5 7B met the pooled threshold; its VQA-RAD validation accuracy was near chance.
+Local evaluation used MedGemma 4B, Qwen3-VL 8B, Qwen2-VL 7B, HuatuoGPT-Vision 7B, and LLaVA-1.5 7B.\cite{sellergren2025medgemma,bai2025qwen3vl,wang2024qwen2vl,chen2024huatuovision,liu2024llava15}
+HuatuoGPT-Vision 7B and LLaVA-1.5 7B shared a vision encoder: the vision transformer (ViT) ViT-L/14-336 from Contrastive Language--Image Pretraining (CLIP).\cite{radford2021clip}
+LLaVA-Med v1.5 was excluded by the 55\% pooled validation accuracy threshold (Supplementary Table S1).
+
+\subsection{Readers and reading panels}
+The single reader received a general-radiologist role and instructions to reason briefly, step by step, before selecting an answer.
+A self-consistency panel comprised 9 readers with an identical general-radiologist prompt; answers were combined by majority vote.\cite{wang2023selfconsistency}
+An independent panel comprised 9 readers with subspecialty roles who answered without seeing each other's answers; answers were combined by majority vote.
+A discussion panel comprised readers with subspecialty roles who saw each other's answers over discussion rounds.
+These panels followed Kim et al.'s Independent and Decentralized architectures, respectively.\cite{kim2026scaling}
+
+For each independent or discussion panel, GPT-4.1 nano selected and ranked the 9 most relevant of 12 subspecialty roles from the question text.
+When it returned fewer than 9 roles, the remaining positions were filled in roster order.
+The roster covered neuroradiology, head and neck, thoracic, cardiovascular, abdominal, genitourinary, musculoskeletal, breast, pediatric, nuclear medicine, interventional, and emergency radiology.
+Panels of 1, 3, and 9 readers were nested: smaller panels used the first members of the same ranked roster and reused their initial answers.
+
+Discussion panels started from the independent panels' initial answers and allowed up to 3 subsequent rounds.
+Discussion stopped at unanimity.
+Readers reviewed peer answers and reasoning and could retain or revise their answers.
+Peer context was capped at 900 characters, with peer order shuffled by item and round.
+
+\subsection{Experiment A: visual evidence and the language prior}
+Original images were compared with images capped at 256 or 128 pixels and with blank images.
+Prompts and options remained unchanged across image conditions.
+The single reader and independent panels were evaluated in each condition.
+
+On SLAKE-target, the annotated target bounding box was expanded by 10\% on each side and clipped to image boundaries.
+Target and control boxes were filled with mid-gray before resizing.
+On SLAKE-pairs, readers answered each member separately using the original images.
+
+\subsection{Experiment B: perception and interpretation}
+GPT-5 mini, Gemini 3.7 Flash, and Claude Haiku 4.5 each served as perception and interpretation models.
+The perception model was instructed to write at most 120 words.
+Reports described modality and plane alongside visible anatomy.
+They also recorded every abnormal or notable finding and its location.
+Each perception model wrote 9 reports per image or multi-image set, reused across questions about that image.
+All interpretation models read identical reports for a given perception model, image, and report index (1 to 9).
+
+Interpretation models received the report, question, and options without the image.
+In the own-report condition, each of 9 readers received its own report; all perception--interpretation model combinations were evaluated.
+In the shared-report condition, all readers received the first report; this condition used matching perception and interpretation models.
+Each interpretation model was compared with its own self-consistency panel reading the images.
+For SLAKE, report coverage of the queried organ or lesion was assessed using a synonym list based on SLAKE labels.
+
+\subsection{Experiment C: shared components}
+For contrast adjustment, self-consistency readers 1--3 viewed original images and readers 4--6 viewed gamma-transformed images with gamma 0.7.
+Readers 7--9 viewed images processed by contrast-limited adaptive histogram equalization (CLAHE).\cite{zuiderveld1994clahe}
+CLAHE used a clip limit of 2.0 and an $8\times8$ tile grid on the lightness channel.
+Cross-provider comparisons combined existing self-consistency-reader responses.
+
+Reference cases were retrieved in-context (few-shot) examples: closed question--answer pairs from training images.
+They were evaluated on VQA-RAD and SLAKE using VQA-RAD and English SLAKE training images with closed yes/no questions.
+The data sets carried no patient identifiers; reference cases were excluded by image identity and similarity.
+Images identical to any test image were excluded by Secure Hash Algorithm 256 (SHA-256) hash.
+For each query, exclusions also removed reference cases within Hamming distance 8 of its 64-bit perceptual hash or with CLIP cosine similarity of at least 0.98.
+
+Retrieval used CLIP ViT-L/14-336 image embeddings.
+The 27 nearest eligible images were shuffled deterministically by question identifier into 9 groups of 3.
+For shared reference cases, the first group was supplied to every reader; for private reference cases, group $i$ was supplied to reader $i$.
+Reference images accompanied question--answer pairs selected by maximal term frequency--inverse document frequency (TF-IDF) cosine similarity to the current question.
+Text-only reference cases supplied the same question and answer without the reference image.
+Single readers also received reference cases with images or as text.
+
+\subsection{Experiment D: open-weight models}
+Open-weight models received the same rendered pixels as the proprietary models.
+Conditions included original and blank images, 256- and 128-pixel images, gamma 0.7, CLAHE, and target and control occlusion on SLAKE-target.
+SLAKE-pairs used original images only.
+Each item and condition required one forward pass without sampling.
+Option probabilities were obtained by applying softmax to next-token logits for the answer words yes/no on binary items and option letters otherwise.
+The highest logit among accepted capitalization and leading-space token variants represented each answer.
 
 \begin{table}[!htbp]
 \centering
-\caption{Experiments, conditions, readers, and models. CLAHE indicates contrast-limited adaptive histogram equalization.}
+\caption{Experiments, conditions, readers, and models. Proprietary models were GPT-5 mini, Gemini 3.7 Flash, Claude Haiku 4.5, and Qwen 3.8 Flash. Qwen 3.8 Flash ran A0, A1, the self-consistency panel, and contrast adjustment; the other proprietary conditions used the first three models. CLAHE indicates contrast-limited adaptive histogram equalization.}
 \label{tab:design}
 \footnotesize
-\begin{tabular}{>{\raggedright\arraybackslash}p{0.17\textwidth}>{\raggedright\arraybackslash}p{0.07\textwidth}>{\raggedright\arraybackslash}p{0.27\textwidth}>{\raggedright\arraybackslash}p{0.2\textwidth}>{\raggedright\arraybackslash}p{0.12\textwidth}}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.17\textwidth}>{\raggedright\arraybackslash}p{0.19\textwidth}>{\raggedright\arraybackslash}p{0.24\textwidth}>{\raggedright\arraybackslash}p{0.19\textwidth}>{\raggedright\arraybackslash}p{0.14\textwidth}@{}}
 \toprule
-Experiment & Sets & Conditions & Readers & Models \\
+Experiment & Data sets & Conditions & Readers & Models \\
 \midrule
-A0, original images & S1--S3 & Original image & Single reader; specialty panels of 1, 3, 9; discussion panels of 3, 9 & 4 API \\
-A1, graded evidence & S1--S3 & 256 and 128 pixels; uniform gray image & Single reader; specialty panels & 4 API \\
-A2, region occlusion & S4 & Target box; control box & Single reader; specialty panels & 3 API \\
-A3, image pairs & S5 & Original images & Single reader; specialty panels & 3 API \\
-B, seeing and judging & S1--S3 & Question-blind findings reports by 3 perceivers; each reader's own report or one shared report & Panels of 9 report readers & 3 perceivers $\times$ 3 reasoners \\
-C, shared components & S1--S3 & Generic panel; renderings (original, gamma 0.7, CLAHE); reference cases (S1--S2: shared or private, with images or as text) & Generic panels of 9; single reader with reference cases & 4 API (reference cases: 3 API) \\
-D, open-weight models & S1--S5 & Original, gray, 256 and 128 pixels, gamma 0.7, CLAHE; target and control occlusion (S4) & One forward pass per item & 5 open-weight \\
+A0, original images & VQA-RAD, SLAKE, MedXpertQA-MM & Original image & Single reader; independent panels of 1, 3, 9; discussion panels of 3, 9 & 4 proprietary \\
+A1, reduced resolution and blank images & VQA-RAD, SLAKE, MedXpertQA-MM & 256 and 128 pixels; blank image & Single reader; independent panels & 4 proprietary \\
+A2, region occlusion & SLAKE-target & Target box; control box & Single reader; independent panels & 3 proprietary \\
+A3, paired images & SLAKE-pairs & Original images & Single reader; independent panels & 3 proprietary \\
+B, perception and interpretation & VQA-RAD, SLAKE, MedXpertQA-MM & Query-agnostic findings reports; own-report or shared-report condition & Panels of 9 readers answering from reports & 3 perception $\times$ 3 interpretation \\
+C, shared components & VQA-RAD, SLAKE, MedXpertQA-MM & Self-consistency panel; contrast adjustment (original, gamma 0.7, CLAHE); reference cases on VQA-RAD and SLAKE (shared or private, with images or as text) & Self-consistency panels of 9; single reader with reference cases & 4 proprietary; reference cases: 3 \\
+D, open-weight models & VQA-RAD, SLAKE, MedXpertQA-MM, SLAKE-target, SLAKE-pairs & Original, blank, reduced resolution, contrast adjustment; occlusion on SLAKE-target; original images only on SLAKE-pairs & One forward pass per item & 5 open-weight \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Readers and reading panels}
-The single reader received a general-radiologist role and instructions to reason briefly, step by step, before selecting an answer. For each specialty panel, GPT-4.1 nano ranked 9 radiology subspecialty roles using the question text. The roster covered neuroradiology, head and neck, thoracic, cardiovascular, abdominal, genitourinary, musculoskeletal, breast, pediatric, nuclear medicine, interventional, and emergency radiology. Panels of 1, 3, and 9 readers were nested: smaller panels used the first members of the same ranked roster and reused their initial answers. Answers were aggregated by majority vote.
-
-Discussion panels started from these independent answers and allowed up to 3 subsequent rounds, stopping at unanimity. Readers reviewed peer answers and reasoning and could retain or revise their answers. Peer context was capped at 900 characters, with peer order shuffled by item and round. Generic panels contained 9 readers with identical general-radiologist prompts; their initial responses differed only through separate sampling.
-
-\subsection{Experiment A: image evidence and question-text prior}
-Experiment A used S1--S5. The original-image baseline compared the single reader, independent specialty panels, and discussion panels of 3 and 9 readers. Graded evidence compared original images capped at 1024 pixels, images capped at 256 or 128 pixels, and uniform gray images. Gray images retained the original rendered dimensions, and prompts and options remained unchanged. The single reader and independent specialty panels were evaluated at each evidence level.
-
-On S4, the annotated target bounding box was expanded by 10\% on each side and clipped to image boundaries. Target and control boxes were filled with mid-gray before resizing. Control boxes matched target-box dimensions, did not overlap the target, and met the body-coverage criterion. On S5, readers answered each member of the same-question, different-image pairs separately using the original images.
-
-\subsection{Experiment B: seeing and judging}
-Experiment B used S1--S3 and crossed 3 perceiver models with 3 reasoner models: GPT-5 mini, Gemini 3.7 Flash, and Claude Haiku 4.5. Each perceiver received images without questions or answer options. It wrote findings reports of at most 120 words describing modality and plane, anatomy shown, and every abnormal or notable finding with its location. Reports were reused across questions about the same image. Each perceiver wrote its 9 reports for each image once, before any reasoner read a report. Every reasoner therefore read identical reports for a given perceiver, image, and slot. In total, 3 perceivers wrote 9 reports for each of 478 images or, for multi-image items, image sets (12,906 reports).
-
-Reasoners received the report, question, and options without the image. In the independent-report condition, each of 9 readers received its own report; all perceiver--reasoner combinations were evaluated. In the shared-report condition, all readers received the first report; this condition used matching perceiver and reasoner models. Generic panels reading images directly provided the reference comparison. For S2, report coverage of the queried organ or lesion was assessed using a synonym list fixed from SLAKE labels before running this pathway.
-
-\subsection{Experiment C: shared components}
-Experiment C used S1--S3 to vary shared VLMs, image rendering, roles, reports, reference cases, and discussion records. In the rendering condition, generic readers 1--3 viewed original images, readers 4--6 viewed gamma-transformed images with gamma 0.7, and readers 7--9 viewed CLAHE images.\cite{zuiderveld1994clahe} CLAHE used a clip limit of 2.0 and an $8\times8$ tile grid on the lightness channel. Gamma 0.7 replaced grayscale inversion because inversion reduced mean single-reader accuracy by 6.6 percentage points in validation, exceeding the prespecified 5-percentage-point limit. Cross-vendor comparisons combined existing reader responses without additional calls.
-
-Reference cases were evaluated on S1 and S2 using VQA-RAD and English SLAKE training images with closed yes/no questions. Images identical to any test image were excluded by SHA-256 hash. For each query, exclusions also removed reference cases within Hamming distance 8 of its 64-bit perceptual hash or with CLIP cosine similarity of at least 0.98. The data sets carried no patient identifiers; these bounds guarded against reference cases from the same scan or patient.
-
-Retrieval used CLIP ViT-L/14-336 image embeddings. The 27 nearest eligible images were shuffled deterministically by question identifier into 9 sets of 3. For shared reference cases, set 1 was supplied to every reader; for private reference cases, set $i$ was supplied to reader $i$. Each reference case included its image and a closed question--answer pair. The question was selected by maximal term frequency--inverse document frequency (TF-IDF) cosine similarity to the current question. Text-only reference cases supplied the same question and answer without the reference image. Single readers also received image-based or text-only reference cases.
-
-\subsection{Experiment D: open-weight models}
-Experiment D used S1--S5 and the same rendered pixels as the API arm. Conditions included original and gray images, 256- and 128-pixel images, gamma 0.7, CLAHE, and target and control occlusion on S4. S5 used original images only. Each item and condition required one forward pass without sampling. Option probabilities were obtained by applying softmax to next-token logits for the answer words yes/no on binary items and option letters otherwise. The highest logit among accepted capitalization and leading-space token variants represented each answer. Letter readout for yes/no items was rejected during validation because the LLaVA family assigned 96\%--100\% probability to ``A'' regardless of image content.
-
 \subsection{Outcome measures}
-Accuracy was the proportion of answers matching the reference. Error correlation, $\phi$, was the mean Pearson correlation of binary error indicators across items over reader pairs. Pairs with constant error indicators were omitted. The effective number of independent readers was $N_{\mathrm{eff}}=9/(1+8\phi)$. For readers of unequal accuracy, correlation was also divided by its maximum given their marginal error rates, $\phi_{\max}$.
+Accuracy was the proportion of answers matching the reference.
+Error correlation, $\phi$, was the mean Pearson correlation of binary error indicators across items over reader pairs.
+Pairs with constant error indicators were omitted.
+$N_{\mathrm{eff}}$ was calculated as $N_{\mathrm{eff}}=9/(1+8\phi)$.\cite{kish1965survey}
+For readers of unequal accuracy, correlation was also divided by its maximum given their marginal error rates, $\phi_{\max}$.
 
-The accuracy difference between a reading panel and the single reader was divided into two parts that summed to it. The first was the mean accuracy of the panel's readers minus the single reader's accuracy. The second was the panel's majority-vote accuracy minus the mean accuracy of its own readers (aggregation). Both differences were paired by item. For every reading panel of 9 readers on yes/no items, observed majority-vote accuracy was compared with accuracy predicted by a beta-binomial model. This comparison covered VQA-RAD, SLAKE, SLAKE-target and SLAKE-pairs across all conditions. The model's mean was the readers' mean accuracy, and its intraclass correlation was their error correlation. A majority of 9 required at least 5 correct readers.
+The gain over the single reader was divided into two parts that summed to it.
+The first was the mean accuracy of the panel's readers minus the single reader's accuracy.
+The second was majority-vote accuracy minus the mean accuracy of the panel's readers (aggregation).
+For all panels of 9 readers on yes/no items, observed majority-vote accuracy was compared with accuracy predicted by a beta-binomial model.
+The model's mean was the readers' mean accuracy, and its intraclass correlation was their error correlation.
+A majority of 9 required at least 5 correct readers.
+Illustrative beta-binomial curves used mean reader accuracies of 60\%, 75\%, and 90\%.
 
-The prior decomposition cross-tabulated each reader's correctness with real and gray images. Consensus errors required at least 7 of 9 readers to be wrong; their majority answers were compared with gray-image majorities. Flip rate measured the proportion of answers changed by occlusion. Region dependence was target flip rate minus control flip rate, calculated for readers and panel majorities. Pair accuracy required both paired answers to be correct; the proportion of pairs answered differently was also measured. The two answers of each pair were compared as option text (yes or no) because option order was randomized separately for each item. Report-pathway analyses compared accuracy and error correlation and separated errors by report coverage of the queried target. Reader and panel accuracies from reports were compared with those of the generic panel of the same reasoner model reading images directly. Differences were paired by item.
+Each reader's correctness with original and blank images was cross-tabulated.
+Shared wrong answers were items that at least 7 of 9 readers answered wrongly; their majority answers were compared with blank-image majorities.
 
-The primary analysis compared matched groups of reader pairs within each reasoner model using differences in mean pairwise error correlation. The role contrast was the mean for reader pairs in specialty panels minus that for reader pairs in generic panels. The image rendering contrast was the mean for pairs that saw different renderings minus that for generic-panel pairs. The reference cases contrast was the mean for pairs with private reference cases minus that for pairs with shared reference cases. The report contrast was the mean for pairs that each read their own report from the same model minus that for pairs reading one shared report. The perceiver model contrast was the mean for pairs reading reports from two different perceivers minus that for pairs reading different reports from one perceiver. The reasoner model contrast compared pairs of two reasoner models reading the same report with pairs of one reasoner model reading one shared report. The model contrast compared generic-panel readers of two models with generic-panel readers of one model. Both contrasts subtracted the mean for pairs of one model, averaged over the two models. The baseline was the error correlation between generic-panel readers of one model, which shared the model, image, rendering, role, and reference cases. Each contrast was computed for each model or model pair and averaged over models. An ordinary least squares regression of pairwise error correlation on indicators of the components two readers did not share summarized the same comparisons. The regression included one intercept per pair of reasoner models. Discussion was evaluated separately by comparing round-0 and final error correlation. Conformity was the proportion of readers correct in round 0 who ended the discussion wrong. It was stratified by whether their round-0 answer differed from the same reader's answer with the gray image. It was also stratified by whether the reader's round-0 answer was in the round-0 majority.
+Answer-change rate was the proportion of answers changed by occlusion.
+Occlusion sensitivity was the target-occlusion answer-change rate minus the control-occlusion answer-change rate, calculated for readers and panel majorities.\cite{zeiler2014visualizing}
+Pair accuracy required both paired answers to be correct; the proportion of pairs answered differently was also measured.
+Paired answers were compared as option text (yes or no).
 
-For open-weight models, visual reliance was the absolute change in log-odds of yes between real and gray images. For multiple-option items, visual reliance was the Kullback--Leibler divergence from the real-image to gray-image probability distribution. Region reliance subtracted the corresponding control-occlusion change from the target-occlusion change. Model-pair error correlations were compared by shared vision encoder, and Spearman correlation related API consensus errors to open-weight visual reliance.
+The report conditions (Experiment B) were compared by accuracy and error correlation, and errors were separated by report coverage of the queried target.
+Reader and panel accuracies from reports were compared with those of the self-consistency panel of the same interpretation model reading images directly.
+
+Matched contrasts of mean pairwise error correlation were the primary analysis of Experiment C.
+The seven contrasts were defined as follows:
+\begin{itemize}
+\item Role: independent panel minus self-consistency panel.
+\item Contrast adjustment: readers viewing different contrast adjustments minus self-consistency readers viewing original images.
+\item Reference cases: private minus shared reference cases.
+\item Report: own-report minus shared-report condition, using same-model reports.
+\item Perception model: reports from different perception models minus different reports from one perception model, within an interpretation model.
+\item Interpretation model: two interpretation models reading the same report minus one interpretation model reading one shared report.
+\item Model: self-consistency readers from two models minus self-consistency readers from one model.
+\end{itemize}
+Contrasts were computed within each interpretation model or model pair and then averaged over models.
+For the interpretation-model and model contrasts, the subtracted mean was averaged over the two models.
+The reference error correlation came from self-consistency readers of one model.
+
+An ordinary least squares regression was an additive secondary summary of pairwise error correlation.
+Predictors indicated the components two readers did not share; the regression included one intercept per pair of interpretation models.
+
+Discussion analyses compared initial and final error correlation.
+Conformity was the proportion of readers correct in their initial answer whose final answer was wrong.\cite{asch1956conformity,demystifying_mad}
+It was stratified by whether the initial answer differed from the same reader's blank-image answer and by whether it was in the initial majority.
+
+For open-weight models, visual reliance was the absolute change in log-odds of yes between original and blank images.
+For multiple-option items, visual reliance was the Kullback--Leibler divergence from the original-image to blank-image probability distribution.
+Model-pair error correlations were compared by shared vision encoder, and Spearman correlation related proprietary-model shared wrong answers to open-weight visual reliance.
 
 \subsection{Statistical analysis}
-Percentile bootstrap 95\% confidence intervals (CIs) used 2,000 item-level resamples with seed 0, including paired differences. Error-correlation intervals used 500 resamples; the regression, the matched contrasts, and the comparison of round-0 with final error correlation used 300 resamples. Matched contrasts were computed within the same resampled item sets as the regression. Resampling retained all reader responses and matched conditions for each item; paired-image measures resampled complete pairs. Unparsed answers counted as wrong. Abstentions (answers that could not be parsed, mostly refusals to read the gray image) were reported for each condition, and error correlation was also computed on the items both readers answered, as a sensitivity analysis. Analyses used descriptive estimates and CIs without hypothesis tests or $P$ values.
+Percentile bootstrap 95\% confidence intervals (CIs) used 2,000 item-level resamples with seed 0.
+Error-correlation intervals used 500 resamples; the regression, matched contrasts, and comparison of initial with final error correlation used 300 resamples.
+Matched contrasts used the same resampled items as the regression.
+All differences were paired by item; resampling retained all reader responses and matched conditions for each item.
+Paired-image measures resampled complete pairs.
 
-\subsection{Validation before full runs}
-V1 checked API answer parsing and reasoning effort; V2 checked image transformations; V3 checked reference retrieval, leakage exclusions, and multiple-image parsing. V4 checked target and control boxes and image pairs; V5 checked report length, completeness, and answer parsing; V6 checked local-model probabilities and accuracy eligibility. Full runs used only the settings fixed by these checks.
+Abstentions were answers that could not be parsed, mostly refusals to read the blank image.
+They counted as wrong and were reported for each condition.
+A sensitivity analysis computed error correlation on items both readers answered.
+Results are reported as estimates with 95\% CIs.
+Differences whose 95\% CI excluded zero are described as increases or decreases.
+
+\subsection{Validation before the main experiments}
+Six validation checks fixed the settings of the main experiments (Supplementary Table S1).
 
 \subsection{Code and data availability}
 The code is public at \url{https://github.com/hq0709/consultation-arithmetic}. VQA-RAD, SLAKE, and MedXpertQA are public data sets.
