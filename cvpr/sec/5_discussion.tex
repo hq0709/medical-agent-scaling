@@ -1,16 +1,16 @@
 \section{Discussion}\label{sec:discussion}
 
-Multi-agent systems should be sized by agent accuracy and error dependence, as captured by the beta-binomial analysis (\cref{fig:teaser,fig:supp-arithmetic}). Majority voting has little room to improve decisions when agents fail on the same items. Interventions that reduce $\phi$ should be assessed at matched mean agent accuracy, because majority accuracy depends on both quantities. The gain decomposition separates better agents from better aggregation: a multi-agent gain can reflect a change in mean agent accuracy rather than a benefit from voting.
+The return from adding agents of one VLM is predictable from mean agent accuracy and $\phi$ (\cref{fig:teaser}). A MAS design can be tested by its effect on these quantities. The gain decomposition distinguishes improved agents from a better vote, as for Qwen (\cref{fig:panels}).
 
-Shared perception exposes reasoning agents to common omissions, while a shared language prior can favor the same answer without visual support. The report comparisons isolate dependence on common findings (\cref{fig:report}). A query-agnostic report makes the extracted findings available for inspection before reasoning. Its omissions restrict the visual information available to every agent that reads it. On MedXpertQA-MM, agreement with blank-image majorities identifies shared errors that persist without the image (\cref{fig:prior}). Prism's perception--reasoning split makes each module available for model substitution~\cite{qiao2024prism}.
+Shared errors reflect common perception and language priors when images do not decide the answer (\cref{fig:report,fig:prior}). Matched contrasts rank changes to perception and to the answering model above roles or contrast adjustment (\cref{fig:contrasts}). These contrasts predict that prompt diversity within one VLM cannot produce independent errors.
 
-Debate adds peer answers and reasoning to the evidence available to each agent~\cite{du2024debate}. Correct minority answers can be displaced during revision (\cref{fig:conformity}), consistent with conformity in multiagent debate~\cite{demystifying_mad}. Retaining initial answers permits evaluation of which errors communication corrects and which it introduces.
+Debate trades disagreement for unanimity (\cref{fig:panels,fig:conformity}). Correct minority answers become wrong, especially on MedXpertQA-MM when they differ from the agent's blank-image answer. Keeping initial answers separates errors that communication corrects from those it creates.
 
-An AI second reading in radiology should be assessed by its complementary errors, with clinical double reading as the reference~\cite{geijer2018double}. The model-substitution contrasts motivate testing a different VLM for this role (\cref{fig:contrasts}). Evaluation should measure joint errors before advice is exchanged: incorrect AI suggestions can alter radiologists' decisions~\cite{dratsch2023automation}.
+An AI second reading in radiology is measured by its joint error with the first reading~\cite{geijer2018double}. Our contrasts predict greater complementarity from a different model than another instance of the same VLM (\cref{fig:contrasts}). Reader studies can test this prediction alongside the influence of wrong AI suggestions on radiologists~\cite{dratsch2023automation}.
 
 \paragraph{Limitations.}
-This controlled evaluation concerns closed questions from public data sets. Its scope includes neither human readers nor clinical reporting.
+The evaluation uses closed questions from public data sets and includes no human readers or clinical reporting.
 
 \section{Conclusion}
 
-Across the original-image comparisons, nine agents from one VLM represented 1.17 to 1.99 effective independent agents. Shared-report error correlations were $0.800$--$0.990$; $64.2\%$--$76.2\%$ of shared wrong answers matched blank-image majorities on MedXpertQA-MM. Conformity reached $41.5\%$--$100.0\%$ for correct initial minority answers. Changing the model reduced error correlation by $0.470$--$0.492$, the largest reduction among the tested contrasts.
+Agents of one VLM share perception and the language prior, so they fail on the same items and majority vote and debate recover little. Error correlation, rather than the number of agents, sets what a MAS can gain. A second reading decorrelates errors when it comes from a different model, not a different prompt.

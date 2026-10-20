@@ -1,10 +1,22 @@
 \section{Related work}\label{sec:related}
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig4_prior.pdf}
+\caption{\textbf{Most shared wrong answers on MedXpertQA-MM match the blank-image majority.}
+(a) Single-agent accuracy with original (filled) and blank (open) images; dashed lines mark chance.
+(b) Independent MAS error correlation with each image.
+(c) Agent answers cross-tabulated by correctness: wrong with both images, wrong only with original, right only with original, and right with both images; end numbers give original-image accuracy.
+(d) Shared wrong answers whose majority matches the blank-image majority; $n$ counts items with at least 7 of 9 agents wrong.
+Each data set has 250 items. Intervals are item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
+\label{fig:prior}
+\end{figure*}
+
 \paragraph{Multi-agent systems in medicine.}
-MDAgents adapts collaboration to task complexity \cite{kim2024mdagents}, while MedAgents uses expert analysis and collaborative refinement for zero-shot medical reasoning \cite{tang2024medagents}. Kim et al. identify a capability-saturation threshold for multi-agent gains \cite{kim2026scaling}. Multiagent debate lets model instances revise their responses after reviewing other agents' answers \cite{du2024debate}. MedAgentBoard benchmarks multi-agent collaboration against conventional methods across medical tasks \cite{medagentboard}; Zhu et al. analyze confidence and diversity in debate \cite{demystifying_mad}. We quantify the effective number of independent agents on radiology images and test which shared components account for correlated errors.
+Role-prompted medical MAS improve medical question answering~\cite{kim2024mdagents,tang2024medagents}, and their gains shrink as the base model becomes more capable~\cite{kim2026scaling}. Multiagent debate supports revision from peer responses~\cite{du2024debate}; benchmarks and debate analyses characterize collaboration, confidence and diversity~\cite{medagentboard,demystifying_mad}. We connect these systems' radiology accuracy to their effective number of independent agents and identify shared components behind correlated errors.
 
 \paragraph{Correlated errors and aggregation.}
-Dependence limits the precision and value of information from multiple sources \cite{clemen1985limits}. CorrErr measures agreement when language models are both wrong and finds correlated errors across models \cite{correlated2025}. Kish's design effect relates pairwise correlation to effective sample size \cite{kish1965survey}. Pooling independent diagnostic judgments outperforms the best doctor when individual accuracies are similar \cite{kurvers2016pooling}. We predict majority accuracy from Pearson correlation of binary error indicators and mean agent accuracy, then test shared components through matched contrasts.
+Dependence limits information pooling~\cite{clemen1985limits}, and correlated wrong answers occur across language models~\cite{correlated2025}. Kish's design effect relates correlation to effective sample size~\cite{kish1965survey}; diagnostic pooling benefits from independent judgments with similar accuracy~\cite{kurvers2016pooling}. We predict majority accuracy from mean agent accuracy and error correlation, then measure changes in dependence through matched component contrasts.
 
 \paragraph{Language priors and visual reliance in VLMs.}
-VQAv2 counters language priors with complementary images \cite{goyal2017vqa}; MMStar emphasizes visual dependency in evaluation \cite{chen2024mmstar}. NaturalBench pairs questions with images that require different answers \cite{li2024naturalbench}, and MMVP tests visual differences missed by CLIP \cite{tong2024eyes}. Medical probing reveals failures on simple diagnosis questions \cite{yan2025worse}, and correct answers can conceal flawed image comprehension \cite{jin2024hidden}. Counterfactual grounding measures reliance on visual evidence \cite{zafar2026see}. Prism decouples VLM perception and reasoning through visual descriptions \cite{qiao2024prism}. We use blank images and query-agnostic reports to measure how language priors and perception contribute to shared errors in multi-agent systems.
+Visual-question-answering benchmarks show that language priors affect answers~\cite{goyal2017vqa,chen2024mmstar} and that models can fail on paired images requiring different answers~\cite{li2024naturalbench,tong2024eyes}. Medical probes expose diagnosis failures and flawed image comprehension behind correct answers~\cite{yan2025worse,jin2024hidden}. Counterfactual grounding tests visual reliance~\cite{zafar2026see}, while Prism separates perception from reasoning through visual descriptions~\cite{qiao2024prism}. We trace shared MAS errors through blank-image answers and report swaps that isolate dependence on common findings.

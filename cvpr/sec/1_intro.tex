@@ -1,8 +1,10 @@
 \section{Introduction}\label{sec:intro}
 
-Double reading in radiology pays off when the second reader's errors differ from the first reader's \cite{taylor2008double,geijer2018double,kurvers2016pooling}. Medical multi-agent systems use role prompts and multiagent debate to coordinate instances of one model \cite{kim2024mdagents,tang2024medagents,du2024debate,kim2026scaling}. These agents share the same model weights, including the vision encoder and language model.
+Double reading pays off when the second reader errs on different cases from the first reader~\cite{taylor2008double,geijer2018double,kurvers2016pooling}. Medical multi-agent systems coordinate role-prompted instances of one model through voting or multiagent debate~\cite{kim2024mdagents,tang2024medagents,du2024debate,kim2026scaling}.
 
-We ask how many independent readings a multi-agent system of one VLM provides, and where its shared errors come from. We evaluate four proprietary and five open-weight VLMs on VQA-RAD, SLAKE, and MedXpertQA-MM, with single-agent and self-consistency baselines alongside Independent and Decentralized multi-agent systems (MAS). We measure error correlation $\phi$ and the effective number of independent agents, $N_{\mathrm{eff}}$ \cite{kish1965survey}, to quantify the return from majority voting (\cref{fig:teaser}). Controlled manipulations vary the image and what agents share. Code and data will be released.
+Agents of one VLM share the vision encoder, the language model and its language prior. A role prompt changes instructions; it changes neither what the vision encoder sees nor the answer the model falls back on when the image does not decide the question. Majority vote corrects an agent when others err on different items~\cite{clemen1985limits}; when they fail together, it returns their shared error. The gain available to a MAS of one VLM is set by error correlation rather than agent count.
+
+We measure error correlation $\phi$ and the effective number of independent agents $N_{\mathrm{eff}}$~\cite{kish1965survey}, and relate them to majority accuracy with a beta-binomial model (\cref{fig:teaser}). We vary the image through blanking, reduced resolution, occlusion and pairing, and vary shared components through roles, contrast adjustment, in-context examples, reports and models. Query-agnostic reports separate perception from reasoning~\cite{qiao2024prism}. We compare Independent and Decentralized MAS with single-agent and self-consistency baselines across proprietary and open-weight VLMs (\cref{sec:setup}).
 
 \begin{figure}[t]
 \centering
@@ -11,9 +13,30 @@ We ask how many independent readings a multi-agent system of one VLM provides, a
 \label{fig:teaser}
 \end{figure}
 
+\begin{figure}[t]
+  \centering
+  \fbox{\parbox[c][3.6cm][c]{0.95\linewidth}{\centering\small Study design (drawn by the authors)}}
+  \caption{\textbf{Controlled comparisons vary visual evidence and shared components.} Systems are single agent, self-consistency, Independent and Decentralized; image manipulations include blank images, reduced resolution, region occlusion and paired images. Query-agnostic reports separate perception from reasoning; outcomes are accuracy, $\phi$ and $N_{\mathrm{eff}}$.}
+  \label{fig:design}
+\end{figure}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig3_panels.pdf}
+\caption{\textbf{Nine agents from one VLM are worth fewer than two.}
+Rows group models within data sets (250 items each).
+(a) Multi-agent gain: Independent (filled) and Decentralized (open) accuracy minus single-agent accuracy.
+(b) Independent gain decomposed into mean agent minus single-agent accuracy (Agents, filled) and majority minus mean agent accuracy (Majority vote, open).
+(c) Error correlation $\phi$ for initial (filled) and final (open) answers; the top axis gives $N_{\mathrm{eff}}$.
+Intervals are paired item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
+\label{fig:panels}
+\end{figure*}
+
+Our contributions are:
 \begin{itemize}
-\item \textbf{Aggregation arithmetic.} Mean agent accuracy and error correlation predict every system's majority accuracy under a beta-binomial model on yes/no items (prediction-error SD: $0.84$~pp). Nine agents of one VLM in the Independent MAS provide $1.17$ to $1.99$ effective independent agents.
-\item \textbf{Language prior.} On MedXpertQA-MM, $64.2\%$ to $76.2\%$ of shared wrong answers (at least seven of nine agents wrong) match the majority answer with a blank image.
-\item \textbf{Perception versus reasoning.} A perception module writes query-agnostic reports without the question or options; a reasoning module answers from them. Sharing one report increases $\phi$ to $0.800$--$0.990$ relative to own reports. Changing the model lowers $\phi$ most in matched contrasts: $0.470$--$0.492$, compared with $0.033$--$0.060$ for roles.
-\item \textbf{Debate and conformity.} In the Decentralized MAS, agents change $41.5\%$ to $100.0\%$ of correct initial minority answers to wrong final answers.
+\item \textbf{Measuring dependence.} We measure how many independent agents a MAS of one VLM provides and show that mean agent accuracy and error correlation predict majority accuracy. We decompose multi-agent gains into gains from better agents and gains from the vote.
+\item \textbf{Tracing shared errors.} We use blank-image probes to show that shared wrong answers follow the answer the model gives without visual evidence.
+\item \textbf{Separating shared components.} We use query-agnostic reports to show that the perception module sets accuracy and a shared report sets error correlation. Matched contrasts show that changing the model decorrelates agents more than changing their role or input.
+\item \textbf{Tracking conformity.} We compare initial with final answers to show that debate changes correct minority answers to wrong answers.
 \end{itemize}
+

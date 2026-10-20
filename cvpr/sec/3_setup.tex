@@ -1,23 +1,33 @@
-\section{Setup}\label{sec:setup}
+\section{Experimental setup}\label{sec:setup}
 
-\begin{figure}[t]
+\begin{table}[t]
   \centering
-  \fbox{\parbox[c][3.6cm][c]{0.95\linewidth}{\centering\small Study design (drawn by the authors)}}
-  \caption{\textbf{Controlled comparisons vary visual evidence and shared components.} Systems are single agent, self-consistency, Independent and Decentralized; image manipulations include blank images, reduced resolution, region occlusion and paired images. Query-agnostic reports separate perception from reasoning; outcomes are accuracy, $\phi$ and $N_{\mathrm{eff}}$.}
-  \label{fig:design}
-\end{figure}
+  \caption{\textbf{Probes and coverage.} Main denotes VQA-RAD, SLAKE and MedXpertQA-MM (250 items each); SLAKE-pairs has 200 pairs. The 4 proprietary models are GPT-5 mini, Gemini 3.7 Flash, Claude Haiku 4.5 and Qwen 3.8 Flash; where 3 are listed, Qwen is excluded.}
+  \label{tab:setup}
+  \footnotesize
+  \setlength{\tabcolsep}{2pt}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.21\linewidth}>{\raggedright\arraybackslash}p{0.13\linewidth}>{\raggedright\arraybackslash}p{0.39\linewidth}>{\raggedright\arraybackslash}p{0.20\linewidth}@{}}
+    \toprule
+    Probe & Data sets & Conditions & Models \\
+    \midrule
+    Original images & Main & $\leq$1024 pixels & 4 proprietary \\
+    Reduced resolution, blank images & Main & 256 and 128 pixels; uniform gray & 4 proprietary \\
+    Region occlusion & SLAKE-target & Target or control box & 3 proprietary \\
+    Paired images & SLAKE-pairs & One question, two images, opposite answers & 3 proprietary \\
+    Query-agnostic reports & Main & Own or shared report & 3 perception $\times$ 3 reasoning modules \\
+    Matched contrasts & Main & Role, contrast adjustment, model; in-context examples (VQA-RAD, SLAKE) & 4 proprietary (in-context examples: 3) \\
+    Open-weight probes & All five & Original, reduced-resolution and blank images; occlusion; paired images & 5 open-weight \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \subsection{Agents and multi-agent systems}
-A multi-agent system (MAS) comprises 9 instances of one VLM.
-The single agent uses a general-radiologist prompt at temperature 0.3.
-Self-consistency is a single-agent baseline with 9 samples of that prompt and majority vote~\cite{wang2023selfconsistency}.
-For the Independent MAS, GPT-4.1 nano selects and ranks 9 of 12 subspecialty roles from the question; agents answer separately and majority vote decides.
-The Decentralized MAS starts from the same agents' initial answers and allows up to 3 debate rounds, with majority vote over final answers~\cite{kim2026scaling,du2024debate}.
-Debate stops at unanimity; peer context is capped at 900 characters.
-The nine-agent conditions use temperature 0.7 with seed $100+i$ for agent $i$.
-GPT-5 mini accepts neither parameter and uses low reasoning effort.
+A MAS comprises 9 instances of one VLM (\cref{fig:design}).
+The single agent uses a general-radiologist prompt; self-consistency samples that prompt with majority vote~\cite{wang2023selfconsistency}.
+Independent MAS agents receive subspecialty roles, answer separately and vote.
+The Decentralized MAS debates for at most 3 rounds from the same initial answers and votes over final answers~\cite{kim2026scaling,du2024debate}.
 
-\subsection{Error correlation and the effective number of agents}
+\subsection{Error correlation and majority accuracy}
 Error correlation $\phi$ is the mean pairwise Pearson correlation of binary error indicators across items; pairs with constant indicators are omitted.
 The effective number of independent agents is $N_{\mathrm{eff}}=9/(1+8\phi)$~\cite{kish1965survey}.
 On yes/no items, a beta-binomial model predicts majority accuracy from mean agent accuracy $\bar p$ and intraclass correlation $\phi$:
@@ -33,51 +43,46 @@ On yes/no items, a beta-binomial model predicts majority accuracy from mean agen
 \end{equation}
 Multi-agent gain (MAS minus single-agent accuracy) splits into mean agent minus single-agent accuracy plus majority-vote minus mean agent accuracy.
 
-\subsection{Data and models}
-Each evaluation set contains 250 items, except SLAKE-pairs (200 pairs).
-VQA-RAD and SLAKE use closed yes/no questions~\cite{lau2018vqarad,liu2021slake}; MedXpertQA-MM retains radiologic images only and has 5 options~\cite{zuo2025medxpertqa}.
-SLAKE-target adds target and equal-sized, nonoverlapping control boxes.
-SLAKE-pairs asks the same question on two images with opposite reference answers, as in NaturalBench and MMVP~\cite{li2024naturalbench,tong2024eyes}.
-Proprietary models are GPT-5 mini, Gemini 3.7 Flash, Claude Haiku 4.5 and Qwen 3.8 Flash, accessed through OpenRouter.
-Open-weight models are MedGemma 4B, Qwen3-VL 8B, Qwen2-VL 7B, HuatuoGPT-Vision 7B and LLaVA-1.5 7B~\cite{sellergren2025medgemma,bai2025qwen3vl,wang2024qwen2vl,chen2024huatuovision,liu2024llava15}.
-Each open-weight item uses one forward pass; answers follow yes/no token probabilities or option-letter probabilities.
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig5_example.pdf}
+\caption{\textbf{Occluding the queried organ changes Gemini agents' answers, while Claude agents keep theirs.}
+(a) SLAKE-target: ``Does the picture contain liver?'' (reference Yes).
+The original image marks target (red dashed) and control (blue dashed) boxes; occluded images show the mid-gray pixels sent to the models.
+All 9 Independent MAS agents per model initially answer Yes.
+Target occlusion changes 9/9 Gemini 3.7 Flash, 6/9 GPT-5 mini and 0/9 Claude Haiku 4.5 answers; control occlusion changes 0/9 for each.
+(b) SLAKE-pairs: the same question has reference Yes for Image 1 and No for Image 2.
+All single agents answer Yes to Image 1; Gemini and GPT-5 mini answer No to Image 2, while Claude answers Yes.
+Model colors as in \cref{fig:teaser}.}
+\label{fig:region-example}
+\end{figure*}
 
-\begin{table}[t]
-  \centering
-  \caption{Experiments and coverage. Main: VQA-RAD, SLAKE and MedXpertQA-MM. Prop.: all four proprietary models for A0/A1 and C role/contrast/model comparisons; the first three otherwise. B crosses perception and reasoning modules.}
-  \label{tab:setup}
-  \footnotesize
-  \setlength{\tabcolsep}{3pt}
-  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.07\linewidth}>{\raggedright\arraybackslash}p{0.20\linewidth}>{\raggedright\arraybackslash}p{0.48\linewidth}>{\raggedright\arraybackslash}p{0.16\linewidth}@{}}
-    \toprule
-    Exp. & Data sets & Conditions & Models \\
-    \midrule
-    A0 & Main & Original images ($\leq$1024 pixels) & Prop. \\
-    A1 & Main & Reduced resolution (256, 128 pixels); blank images & Prop. \\
-    A2 & SLAKE-target & Target/control occlusion & Prop. \\
-    A3 & SLAKE-pairs & Paired original images & Prop. \\
-    B & Main & Own/shared query-agnostic reports & $3\times3$ \\
-    C & Main & Shared components; in-context examples on VQA-RAD/SLAKE & Prop. \\
-    D & All five & A0--A3 image conditions; contrast adjustment & 5 open-weight \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-\subsection{Manipulations}
-Image manipulations vary visual evidence (\cref{fig:design,tab:setup}); blank images are uniform gray and reduced resolution caps the long side.
+\subsection{Probes}
+Image probes use uniform gray blank images, reduced resolution, target or control occlusion, and paired images with opposite reference answers (\cref{tab:setup}).
 Occlusion sensitivity is target minus control answer-change rate~\cite{zeiler2014visualizing}; pair accuracy requires both answers correct.
-Perception modules write query-agnostic reports without the question or options; reasoning modules receive the report, question and options without the image~\cite{qiao2024prism}.
-Each agent receives a different report in the own-report condition or the same report in the shared-report condition.
-Own-report conditions cross all perception and reasoning modules; shared-report conditions use matching models.
-The image baseline is self-consistency with the same reasoning module.
-Matched contrasts measure $\Delta\phi$ for agents without versus with a shared component: role, contrast adjustment, in-context examples, report, perception module, reasoning module or model.
-Contrast adjustment compares original images with gamma correction ($\gamma=0.7$) or contrast-limited adaptive histogram equalization (CLAHE)~\cite{zuiderveld1994clahe}.
-In-context examples are shared (the same 3 for all agents) or private (different examples per agent).
-Conformity is the share of initially correct agents whose final answer is wrong~\cite{asch1956conformity,demystifying_mad}.
-We stratify conformity by initial majority/minority status and agreement with the same agent's blank-image answer.
-Protocol details appear in Sec.~\ref{sec:supp-protocol}.
+Shared wrong answers have at least 7 of 9 agents wrong.
+Perception modules write query-agnostic reports without questions or options; reasoning modules answer from their own or a shared report without the image~\cite{qiao2024prism}.
+Matched contrasts compare $\phi$ without versus with a shared component: role, contrast adjustment ($\gamma=0.7$ or CLAHE~\cite{zuiderveld1994clahe}), in-context examples (3 shared or private), report, perception module, reasoning module or model.
+Conformity is the share of initially correct answers that become wrong after debate~\cite{asch1956conformity,demystifying_mad}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig5_region.pdf}
+\caption{\textbf{Models differ in their sensitivity to the queried image region.}
+(a) Occlusion sensitivity, target minus control answer-change rate, on SLAKE-target (250 items).
+(b) Pair accuracy, both answers correct, on SLAKE-pairs (200 pairs with opposite reference answers).
+Occlusion estimates average Independent MAS agents for proprietary models; pair accuracy uses single agents.
+Open-weight models use one forward pass per item.
+Intervals are item-bootstrap 95\% CIs; pairs are resampled intact in (b). Model colors as in \cref{fig:teaser}.}
+\label{fig:region}
+\end{figure}
+
+\subsection{Data and models}
+VQA-RAD and SLAKE use closed yes/no questions~\cite{lau2018vqarad,liu2021slake}; MedXpertQA-MM retains radiologic images~\cite{zuo2025medxpertqa}.
+SLAKE-target has annotated target and control regions; SLAKE-pairs uses opposite-answer images~\cite{li2024naturalbench,tong2024eyes}.
+Proprietary-model coverage appears in \cref{tab:setup}.
+Open-weight models are MedGemma 4B, Qwen3-VL 8B, Qwen2-VL 7B, HuatuoGPT-Vision 7B and LLaVA-1.5 7B~\cite{sellergren2025medgemma,bai2025qwen3vl,wang2024qwen2vl,chen2024huatuovision,liu2024llava15}.
 
 \subsection{Statistics}
-Item-bootstrap 95\% confidence intervals (CIs) use 2,000 resamples; $\phi$ uses 500 and matched contrasts use 300.
-Resampling retains all responses and matched conditions per item; paired-image analyses resample complete pairs.
-Abstentions count as wrong; a sensitivity analysis recomputes $\phi$ on items answered by both agents.
+Item-bootstrap 95\% CIs are paired by item; image pairs are resampled intact.
+Abstentions count as wrong; details are in \cref{sec:supp-protocol}.

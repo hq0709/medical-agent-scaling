@@ -1,20 +1,23 @@
+% One-column supplement: the wide tables and figures need the full text width.
 \clearpage
+\onecolumn
 \setcounter{page}{1}
-\maketitlesupplementary
+\begin{center}\Large\textbf{\thetitle}\\\vspace{0.5em}Supplementary Material\\\vspace{1.0em}\end{center}
 \setcounter{table}{0}\renewcommand{\thetable}{S\arabic{table}}
 \setcounter{figure}{0}\renewcommand{\thefigure}{S\arabic{figure}}
+\setcounter{section}{0}\renewcommand{\thesection}{S\arabic{section}}
 
 \section{Protocol details}\label{sec:supp-protocol}
 
 \subsection{Exclusions and image preparation}
-Image eligibility was established before sampling. VQA-RAD used closed yes/no questions from its test split; SLAKE used closed yes/no questions from its English test split. Duplicate image--question combinations were removed from VQA-RAD. For MedXpertQA-MM, GPT-4.1 nano labeled image modality, and Claude Haiku 4.5 also labeled each candidate image as radiologic or not. Drawings and diagrams were excluded, as were photographs, pathology slides, charts and tables. Every attached image had to be radiologic for an item to be eligible.
+Image eligibility was established before sampling. VQA-RAD used closed yes/no questions from its test split; SLAKE used closed yes/no questions from its English test split. Duplicate image--question combinations were removed from VQA-RAD. For MedXpertQA-MM, GPT-4.1 nano labeled image modality, and Claude Haiku 4.5 also labeled each candidate image as radiologic or not. Drawings and diagrams were excluded, as were photographs, pathology slides, charts and tables. Every attached image had to be radiologic for an item to be eligible; these questions had 5 answer options.
 
 SLAKE-target required an annotated organ or lesion that was present in the image. It used the English training and test splits and excluded items in the SLAKE evaluation set. The target bounding box was expanded by 10\% on each side and clipped to the image boundaries; the expanded box occupied at most 40\% of the image. An equal-sized control box did not overlap the target and had at least 70\% of its area inside the body. Target and control occlusion used mid-gray fills before resizing. SLAKE-pairs contained the same question with opposite reference answers and allowed at most 5 pairs per question template.
 
 Sampling used stratified shuffling with seed 42. VQA-RAD strata used the reference answer; SLAKE strata also used modality. MedXpertQA-MM strata used body system and medical task. SLAKE-target strata used target type and modality; SLAKE-pairs strata used question template. Yes/no option order was randomized separately for each item from its identifier. Images were resized proportionally, without upsampling, to at most 1024 pixels on the long side. Reduced-resolution conditions capped that side at 256 or 128 pixels. Blank images were uniform gray images of the same dimensions~\cite{zafar2026see}.
 
 \subsection{Agent prompts and sampling}
-Role assignment used the question text to select subspecialties. GPT-4.1 nano selected and ranked the 9 most relevant roles from a roster of 12. The roster covered neuroradiology, head and neck, thoracic, cardiovascular, abdominal, genitourinary, musculoskeletal, breast, pediatric, nuclear medicine, interventional and emergency radiology. If fewer than 9 roles were returned, the remaining positions were filled in roster order. Systems of 1, 3 and 9 agents used the first members of this roster and reused their initial answers. The single agent and self-consistency baseline used a general-radiologist prompt, with instructions to reason briefly, step by step, before selecting an answer.
+Role assignment used the question text to select subspecialties. GPT-4.1 nano selected and ranked the 9 most relevant roles from a roster of 12. The roster covered neuroradiology, head and neck, thoracic, cardiovascular, abdominal, genitourinary, musculoskeletal, breast, pediatric, nuclear medicine, interventional and emergency radiology. If fewer than 9 roles were returned, the remaining positions were filled in roster order. Systems of 1, 3 and 9 agents used the first members of the selected roles and reused their initial answers. The single agent and self-consistency baseline used a general-radiologist prompt, with instructions to reason briefly, step by step, before selecting an answer.
 
 Generation settings were fixed by model and condition. The configuration seed was 1; agent $i$ used seed $100+i$. Where supported, agents in a MAS, debate rounds and perception modules used temperature 0.7; the single agent used 0.3. GPT-5 mini accepted neither seed nor temperature and used low reasoning effort, with separate sampling for its agents. GPT-4.1 nano used temperature 0 for role assignment and modality screening. Decentralized MAS reused Independent MAS initial answers and allowed up to 3 subsequent rounds, with a stop at unanimity. Agents saw peer answers and reasoning; peer context was capped at 900 characters and peer order was shuffled by item and round.
 
@@ -50,10 +53,10 @@ The primary component analysis used matched differences in mean pairwise error c
     \item \textbf{Model:} self-consistency samples from different models minus self-consistency samples from one model.
 \end{itemize}
 
-Contrasts were computed within each reasoning model or model pair and then averaged over models or model pairs. For the reasoning-module and model contrasts, the subtracted mean averaged the separate within-model correlations of both models. Cross-model comparisons reused the existing self-consistency responses. Self-consistency error correlation from one model was the reference; it was reported as $\phi$, rather than $\Delta\phi$ (Tab.~S20--S22).
+Contrasts were computed within each reasoning model or model pair and then averaged over models or model pairs. For the reasoning-module and model contrasts, the subtracted mean averaged the separate within-model correlations of both models. Cross-model comparisons reused the existing self-consistency responses. Self-consistency error correlation from one model was the reference; it was reported as $\phi$, rather than $\Delta\phi$ (\cref{tab:s-contrasts}).
 
 \subsection{Regression and statistical inference}
-Ordinary least squares regression supplied an additive secondary summary of pairwise error correlation (Tab.~S23--S24). Predictors indicated components that two agents did not share, including image versus report input. The regression included one intercept per pair of reasoning models. Its coefficients were conditional on the other predictors; the matched contrasts were the primary component analysis.
+Ordinary least squares regression supplied an additive secondary summary of pairwise error correlation (\cref{tab:s-regression}). Predictors indicated components that two agents did not share, including image versus report input. The regression included one intercept per pair of reasoning models. Its coefficients were conditional on the other predictors; the matched contrasts were the primary component analysis.
 
 Error correlation was the mean Pearson correlation of binary error indicators over agent pairs. Pairs with constant error indicators were omitted. For yes/no systems, the beta-binomial majority prediction used mean agent accuracy and error correlation; a majority required at least 5 correct agents out of 9. Shared wrong answers required at least 7 of 9 agents to be wrong. Conformity was the share of initially correct agents whose final answer was wrong~\cite{asch1956conformity,demystifying_mad}. It was stratified by initial majority status and by agreement with the same agent's blank-image answer.
 
@@ -61,7 +64,6 @@ Percentile bootstrap 95\% confidence intervals (CIs) retained all responses and 
 
 Unparsed answers counted as wrong. These abstentions were reported by condition and mostly reflected refusals to read blank images. A sensitivity analysis recomputed error correlation on items that both agents answered. Pair accuracy required both answers to be correct, with answers compared as option text, yes or no.
 
-\onecolumn
 \section{Validation before the main experiments}\label{sec:supp-validation}
 
 Validation fixed generation settings and the open-weight probability readout before the main experiments (\cref{tab:supp-validation}). Accuracy differences in this table use pp.
@@ -89,12 +91,114 @@ Runtime & Qwen 3.8 Flash used 250 to 6,400 reasoning tokens and 6 to 77 seconds 
 
 \section{Data collection}\label{sec:supp-collection}
 
-All proprietary-model calls used OpenRouter in October 2026. Perception modules generated reports before reasoning-module calls and were instructed to write at most 120 words. GPT-5 mini and Claude Haiku 4.5 each had a median report length of 75 words; Gemini 3.7 Flash had a median of 90. Maximum lengths were 118, 121 and 127 words, respectively. Provider routing and token budgets remained fixed. Transient service failures were retried until every item had a response. The automatic stop at more than 15\% unparsed answers was not applied to blank-image conditions.
+All proprietary-model calls used OpenRouter in October 2026. Perception modules generated reports before reasoning-module calls. GPT-5 mini and Claude Haiku 4.5 each had a median report length of 75 words; Gemini 3.7 Flash had a median of 90. Maximum lengths were 118, 121 and 127 words, respectively. Provider routing and token budgets remained fixed. Transient service failures were retried until every item had a response. The automatic stop at more than 15\% unparsed answers was not applied to blank-image conditions.
+
+\section{Additional results}\label{sec:supp-results}
+
+\subsection{Nine agents are worth fewer than two}
+
+Multi-agent gains differed mainly in the accuracy of the agents before voting.
+For GPT-5 mini, Gemini 3.7 Flash and Claude Haiku 4.5, Independent gains ranged from $-2.8$ to 4.0~pp and Decentralized gains from $-3.2$ to 5.6~pp.
+Claude's Decentralized MAS gained 5.6~pp [0.8, 10.8] on VQA-RAD.
+Qwen 3.8 Flash's Independent MAS gained 13.6~pp [7.6, 19.6] on VQA-RAD, 8.0~pp [4.0, 12.4] on SLAKE and 5.6~pp [0.4, 11.2] on MedXpertQA-MM; its Decentralized gains ranged from 8.8 to 14.0~pp.
+For the other models, majority voting changed accuracy by $-2.1$ to 2.4~pp relative to mean agent accuracy (\cref{tab:s-mas}).
+
+Debate produced unanimity even on incorrectly answered items.
+Qwen's final-answer $\phi$ ranged from 0.822 to 0.913.
+Final answers were unanimous on 82.4\% to 100.0\% of items, and 8.9\% to 70.0\% of unanimous answers were wrong (\cref{tab:s-mas}).
+
+The beta-binomial fit held across systems with different error correlations.
+The largest absolute residual was 2.59~pp; majority minus mean agent accuracy ranged from $-2.1$ to 5.6~pp over $\phi=0.44$ to $0.99$ (\cref{fig:supp-arithmetic}).
+
+\subsection{Shared wrong answers follow the language prior}
+
+Blank-image agreement also identified shared errors on the binary-question data sets.
+Shared wrong answers matched the blank-image majority in 42.9\% to 54.4\% of cases on VQA-RAD and 14.3\% to 57.9\% on SLAKE (\cref{tab:s-prior}).
+
+Single-agent blank-image losses differed across data sets.
+They ranged from 11.2 to 26.8~pp on VQA-RAD and 25.2 to 40.0~pp on SLAKE.
+On MedXpertQA-MM, losses were 4.0~pp [$-2.0$, 10.0] for GPT-5 mini, 3.6~pp [$-0.4$, 8.0] for Claude and 2.0~pp [$-4.4$, 8.0] for Qwen; Gemini lost 18.0~pp [12.0, 23.6] (\cref{tab:s-resolution}).
+
+Blank images raised error correlation.
+For Gemini, Claude and Qwen, blank-image $\phi$ ranged from 0.841 to 0.922 on VQA-RAD and 0.831 to 0.982 on SLAKE, compared with original-image ranges of 0.439 to 0.731 and 0.529 to 0.785, respectively (\cref{tab:s-resolution}).
+
+The rise in error correlation held on items both agents answered.
+Claude's blank-image $\phi$ on items both agents answered was 0.963 on VQA-RAD, 0.931 on SLAKE and 0.852 on MedXpertQA-MM (\cref{tab:s-resolution}).
+
+Reduced resolution moved error correlation in opposite directions across models.
+On VQA-RAD, GPT-5 mini's $\phi$ fell from 0.752 to 0.644, while Qwen's rose from 0.439 to 0.480 (\cref{tab:s-resolution,fig:supp-resolution}).
+
+Answer cross-tabulation separated visual benefits from answers that became correct without the image.
+On VQA-RAD, 24.1\% to 37.3\% of agent answers were correct only with the original image, versus 10.4\% to 13.6\% only with the blank image.
+SLAKE shares were 36.3\% to 46.4\% versus 4.4\% to 15.8\%; MedXpertQA-MM shares were 8.1\% to 22.3\% versus 4.4\% to 7.9\%.
+On MedXpertQA-MM, 12.3\% to 64.0\% were wrong with both images (\cref{tab:s-prior}).
+
+Open-weight models also lost accuracy without visual evidence.
+Blank images cost four of five models 16.4 to 19.2~pp on VQA-RAD; LLaVA-1.5 7B lost 2.0~pp.
+All five lost 16.0 to 48.8~pp on SLAKE.
+On MedXpertQA-MM, original-image accuracy was 20.0\% to 24.4\%, versus 20.0\% to 23.6\% with blank images (\cref{tab:s-openweight,fig:supp-openweight}).
+
+Open-weight probability changes showed visual reliance beyond answer changes.
+Mean absolute change in the log-odds of yes ranged from 0.89 to 6.43 on VQA-RAD and 1.40 to 11.23 on SLAKE.
+On MedXpertQA-MM, Kullback--Leibler divergence ranged from 0.10 to 0.88 (\cref{tab:s-openweight,fig:supp-openweight}).
+
+Proprietary-model shared wrong answers were associated with lower open-weight visual reliance on SLAKE.
+Spearman $\rho$ was $-0.401$ [$-0.502$, $-0.295$] on SLAKE, $-0.048$ [$-0.165$, 0.068] on VQA-RAD and 0.006 [$-0.128$, 0.136] on MedXpertQA-MM (\cref{fig:supp-openweight}).
+
+\subsection{Models differ in where they look}
+
+Occlusion effects differed across proprietary and open-weight models.
+GPT-5 mini's sensitivity was 17.1~pp [13.2, 21.2] and Claude's was 3.2~pp [0.8, 5.7].
+Open-weight estimates ranged from 2.4 to 21.6~pp; LLaVA-1.5 7B had 2.4~pp [$-2.0$, 6.8] (\cref{tab:s-region}).
+
+Models sometimes gave identical answers to images with opposite reference answers.
+Gemini's pair accuracy was 74.0\% [67.5, 80.0].
+Single-agent answers differed within 75.0\% of pairs for Gemini, 62.0\% for GPT-5 mini and 42.5\% for Claude; remaining pairs received identical answers (\cref{tab:s-region}).
+
+\subsection{Perception sets accuracy; a shared report sets correlation}
+
+Gemini reports improved the other reasoning modules' accuracy relative to image input.
+The endpoint effects on VQA-RAD were 6.1~pp [1.4, 10.9] for GPT-5 mini and 16.3~pp [9.9, 22.6] for Claude.
+Across reasoning modules, Gemini reports yielded 78.7\% to 81.3\% accuracy on VQA-RAD and 84.3\% to 88.2\% on SLAKE (\cref{tab:s-report}).
+
+Claude reports usually reduced the other reasoning modules' accuracy relative to image input.
+They lowered accuracy in 5 of 6 cells, by 7.9 to 25.9~pp.
+The remaining cell, GPT-5 mini on SLAKE, differed by $-0.4$~pp [$-5.0$, 4.6] (\cref{tab:s-report}).
+
+Reasoning modules also differed when they read GPT-5 mini reports.
+On MedXpertQA-MM, accuracy was 60.8\% for Gemini, 50.1\% for GPT-5 mini and 30.6\% for Claude (\cref{tab:s-report}).
+
+Query-agnostic reports omitted queried targets even when they improved overall accuracy.
+The target was absent from 26.5\% to 30.8\% of SLAKE reports and from 25.8\% to 47.1\% of reports behind errors.
+For Gemini reports, omissions occurred in 26.7\% overall and 33.6\% to 47.1\% of reports behind errors across reasoning modules (\cref{tab:s-report}).
+
+\subsection{Changing the model decorrelates errors most}
+
+Changes to shared components produced different reductions in error correlation.
+Contrast adjustment lowered $\phi$ by 0.045 to 0.094; private in-context examples lowered it by 0.110 to 0.146 relative to shared examples.
+Own reports lowered $\phi$ by 0.172 to 0.204 relative to a shared report.
+Changing the perception module lowered it by 0.263 to 0.311; reasoning-module contrasts under identical reports ranged from $\Delta\phi=-0.430$ to $-0.108$ (\cref{tab:s-contrasts}).
+
+Private examples lowered error correlation and accuracy together.
+For Claude on SLAKE, private image examples lowered $\phi$ from 0.928 to 0.655 while MAS accuracy fell from 70.4\% to 68.8\% (\cref{tab:s-icl}).
+
+The additive regression supplied a conditional summary alongside the matched contrasts.
+Its coefficients summarize the components agents did not share after adjustment for other predictors and a separate intercept for each reasoning-model pair (\cref{tab:s-regression}).
+
+Open-weight models sharing an encoder did not have the highest normalized error correlation.
+Between-model $\phi$ ranged from 0.099 to 0.535.
+HuatuoGPT-Vision 7B and LLaVA-1.5 7B share the CLIP ViT-L/14-336 encoder; their $\phi/\phi_{\max}$ ranged from 0.213 to 0.451, versus 0.148 to 0.725 for pairs with different encoders (\cref{tab:s-openweight,fig:supp-openweight}).
+
+\subsection{Debate removes correct minority answers}
+
+Conformity was higher on MedXpertQA-MM when correct answers differed from the agent's blank-image answer.
+Paired differences ranged from 4.6~pp [0.8, 9.0] for Gemini to 17.4~pp [6.4, 29.7] for Claude.
+Among correct answers that differed from the blank-image answer, 6.6\% to 23.5\% were initially in the minority (\cref{tab:s-conformity}).
 
 % Keep the generated tables at their native width without changing their source.
 \section{Detailed results}\label{sec:supp-tables}
 
-Tables S2--S31 report the detailed results with item-bootstrap 95\% CIs. Tables S2--S5 cover original-image systems; S6--S10 cover image resolution and blank-image comparisons. Tables S11--S14 cover occlusion and paired images; S15--S16 cover conformity. Tables S17--S19 cover the perception--reasoning split; S20--S24 cover component contrasts and regression. Tables S25--S28 cover in-context examples; S29--S31 cover open-weight models.
+Detailed results with item-bootstrap 95\% CIs cover original-image MAS (\cref{tab:s-mas}), reduced resolution and blank images (\cref{tab:s-resolution}), blank-image answer agreement (\cref{tab:s-prior}), region occlusion and paired images (\cref{tab:s-region}), conformity (\cref{tab:s-conformity}), query-agnostic reports (\cref{tab:s-report}), matched contrasts (\cref{tab:s-contrasts}), additive regression (\cref{tab:s-regression}), in-context examples (\cref{tab:s-icl}) and open-weight models (\cref{tab:s-openweight}).
 
 \begingroup
 % Keep the longest generated tables within the page height.
@@ -108,14 +212,14 @@ Tables S2--S31 report the detailed results with item-bootstrap 95\% CIs. Tables 
 \begin{figure*}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/fig1_teaser_full.pdf}
-\caption{\textbf{Mean agent accuracy and error correlation predict majority accuracy on yes/no items.} (a) Observed versus beta-binomial predicted majority accuracy for 108 systems of 9 agents; the dashed diagonal marks equality. Observed minus predicted accuracy averaged $-0.07$~pp, with standard deviation (SD) 0.84~pp. (b) Majority minus mean agent accuracy against error correlation $\phi$; gray curves give predictions at mean agent accuracy 60\% (dashed), 75\% (solid) and 90\% (dotted). The top axis gives $N_{\mathrm{eff}}=9/(1+8\phi)$. The systems used VQA-RAD, SLAKE and SLAKE-target (250 items each), and SLAKE-pairs (200 pairs). Model colors as in Fig.~1.}
+\caption{\textbf{Mean agent accuracy and error correlation predict majority accuracy on yes/no items.} (a) Observed versus beta-binomial predicted majority accuracy for 108 systems of 9 agents; the dashed diagonal marks equality. Observed minus predicted accuracy averaged $-0.07$~pp, with standard deviation (SD) 0.84~pp. (b) Majority minus mean agent accuracy against error correlation $\phi$; gray curves give predictions at mean agent accuracy 60\% (dashed), 75\% (solid) and 90\% (dotted). The top axis gives $N_{\mathrm{eff}}=9/(1+8\phi)$. The systems used VQA-RAD, SLAKE and SLAKE-target (250 items each), and SLAKE-pairs (200 pairs). Model colors as in \cref{fig:teaser}.}
 \label{fig:supp-arithmetic}
 \end{figure*}
 
 \begin{figure*}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/supp_resolution.pdf}
-\caption{\textbf{Reduced resolution changes error correlation in different directions across models.} (a) Single-agent accuracy and (b) error correlation $\phi$ of the Independent MAS across image conditions. Columns show VQA-RAD, SLAKE and MedXpertQA-MM, with 250 items each. Labels $\leq1024$, 256 and 128 cap the longest image side in pixels; Blank denotes a uniform gray image of unchanged dimensions. Lines join adjacent conditions. Dashed lines mark chance accuracy; vertical intervals are item-bootstrap 95\% CIs. Model colors as in Fig.~1.}
+\caption{\textbf{Reduced resolution changes error correlation in different directions across models.} (a) Single-agent accuracy and (b) error correlation $\phi$ of the Independent MAS across image conditions. Columns show VQA-RAD, SLAKE and MedXpertQA-MM, with 250 items each. Labels $\leq1024$, 256 and 128 cap the longest image side in pixels; Blank denotes a uniform gray image of unchanged dimensions. Lines join adjacent conditions. Dashed lines mark chance accuracy; vertical intervals are item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
 \label{fig:supp-resolution}
 \end{figure*}
 
@@ -126,8 +230,6 @@ Tables S2--S31 report the detailed results with item-bootstrap 95\% CIs. Tables 
 \label{fig:supp-openweight}
 \end{figure*}
 
-\clearpage
-\twocolumn
 \section{Text-only clinical questions}\label{sec:supp-text}
 
 An unpublished companion analysis evaluated language-model agents on text-only clinical questions. The data sets were MedQA, MedAgentsBench and the text set of MedXpertQA~\cite{jin2021medqa,medagentsbench,zuo2025medxpertqa}. The 8 models were Claude Haiku 4.5, Claude Sonnet 5, DeepSeek V4 Flash, Gemini 3.5 Flash Lite, Gemini 3.7 Flash, GPT-4.1 nano, GPT-5 mini and GPT-5 nano. They answered as single agents and in multi-agent systems with specialty roles. The 340 configurations comprised 96 Independent, 96 Centralized, 96 Decentralized and 52 Hybrid systems, with architecture names from Kim et al.~\cite{kim2026scaling}.
