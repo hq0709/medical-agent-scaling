@@ -2,14 +2,14 @@
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{figures/fig4_prior.pdf}
-\caption{\textbf{Most shared wrong answers on MedXpertQA-MM match the blank-image majority.}
-(a) Single-agent accuracy with original (filled) and blank (open) images; dashed lines mark chance.
-(b) Independent MAS error correlation with each image.
-(c) Agent answers cross-tabulated by correctness: wrong with both images, wrong only with original, right only with original, and right with both images; end numbers give original-image accuracy.
-(d) Shared wrong answers whose majority matches the blank-image majority; $n$ counts items with at least 7 of 9 agents wrong.
-Each data set has 250 items. Intervals are item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
-\label{fig:prior}
+\includegraphics[width=\textwidth]{figures/fig3_panels.pdf}
+\caption{\textbf{Nine agents from one VLM are worth fewer than two.}
+Rows group models within data sets (250 items each).
+(a) Multi-agent gain: Independent (filled) and Decentralized (open) accuracy minus single-agent accuracy.
+(b) Independent gain decomposed into mean agent minus single-agent accuracy (Agents, filled) and majority minus mean agent accuracy (Majority vote, open).
+(c) Error correlation $\phi$ for initial (filled) and final (open) answers; the top axis gives $N_{\mathrm{eff}}$.
+Intervals are paired item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
+\label{fig:panels}
 \end{figure*}
 
 \paragraph{Multi-agent systems in medicine.}

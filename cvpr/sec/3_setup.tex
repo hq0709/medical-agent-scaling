@@ -1,5 +1,17 @@
 \section{Experimental setup}\label{sec:setup}
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig4_prior.pdf}
+\caption{\textbf{Most shared wrong answers on MedXpertQA-MM match the blank-image majority.}
+(a) Single-agent accuracy with original (filled) and blank (open) images; dashed lines mark chance.
+(b) Independent MAS error correlation with each image.
+(c) Agent answers cross-tabulated by correctness: wrong with both images, wrong only with original, right only with original, and right with both images; end numbers give original-image accuracy.
+(d) Shared wrong answers whose majority matches the blank-image majority; $n$ counts items with at least 7 of 9 agents wrong.
+Each data set has 250 items. Intervals are item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
+\label{fig:prior}
+\end{figure*}
+
 \begin{table}[t]
   \centering
   \caption{\textbf{Probes and coverage.} Main denotes VQA-RAD, SLAKE and MedXpertQA-MM (250 items each); SLAKE-pairs has 200 pairs. The 4 proprietary models are GPT-5 mini, Gemini 3.7 Flash, Claude Haiku 4.5 and Qwen 3.8 Flash; where 3 are listed, Qwen is excluded.}
@@ -47,13 +59,10 @@ Multi-agent gain (MAS minus single-agent accuracy) splits into mean agent minus 
 \centering
 \includegraphics[width=\textwidth]{figures/fig5_example.pdf}
 \caption{\textbf{Occluding the queried organ changes Gemini agents' answers, while Claude agents keep theirs.}
-(a) SLAKE-target: ``Does the picture contain liver?'' (reference Yes).
-The original image marks target (red dashed) and control (blue dashed) boxes; occluded images show the mid-gray pixels sent to the models.
-All 9 Independent MAS agents per model initially answer Yes.
-Target occlusion changes 9/9 Gemini 3.7 Flash, 6/9 GPT-5 mini and 0/9 Claude Haiku 4.5 answers; control occlusion changes 0/9 for each.
-(b) SLAKE-pairs: the same question has reference Yes for Image 1 and No for Image 2.
-All single agents answer Yes to Image 1; Gemini and GPT-5 mini answer No to Image 2, while Claude answers Yes.
-Model colors as in \cref{fig:teaser}.}
+(a) Region occlusion (SLAKE-target): ``Does the picture contain liver?'' (reference Yes).
+Rows identify Gemini 3.7 Flash, GPT-5 mini and Claude Haiku 4.5; columns show the original image (target box red, control box blue), target occluded and control occluded, as sent to the models.
+Each cell shows 9 agents of the model's Independent MAS: filled dots denote Yes, open dots No.
+(b) Paired images (SLAKE-pairs): the same question on images with reference Yes and No; one single-agent answer per model, with a check for correct and a cross for wrong.}
 \label{fig:region-example}
 \end{figure*}
 

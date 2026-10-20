@@ -17,10 +17,10 @@ Intervals are item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
 \includegraphics[width=\textwidth]{figures/fig6_example.pdf}
 \caption{\textbf{The perception module determines whether reasoning agents can identify biliary duct dilation in this case.}
 VQA-RAD CT: ``Is there biliary duct dilation?'' (reference Yes).
-Left: correct self-consistency answers from the image, out of 9 agents per model: Gemini 9/9, GPT-5 mini 0/9, Claude 0/9.
-Right: verbatim excerpts of the first query-agnostic report from each perception module; counts give correct answers among 9 agents of each reasoning module, each reading its own report from that perception module.
-Only Gemini's report mentions dilated intrahepatic bile ducts: it yields 9/9 correct answers for every reasoning module; the other reports yield 0/9 for every module.
-Model colors as in \cref{fig:teaser}.}
+Columns show the image, then verbatim excerpts of the first query-agnostic report from Gemini 3.7 Flash, GPT-5 mini and Claude Haiku 4.5; the finding that answers the question is highlighted.
+Rows identify reasoning modules.
+Each cell shows 9 agents: self-consistency agents reading the image, or agents each reading its own report from the column's perception module.
+Filled dots denote correct answers, open dots wrong answers.}
 \label{fig:report-example}
 \end{figure*}
 
@@ -52,6 +52,8 @@ Intervals are item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
 \end{figure*}
 
 \subsection{Nine agents are worth fewer than two}
+
+In every system, most items were answered correctly by all nine agents or by none, a U-shaped distribution that the beta-binomial with the observed $\phi$ reproduces and the binomial for independent agents does not (\cref{fig:hist}).
 The Independent MAS provided $N_{\mathrm{eff}}=1.17$ to $1.39$ for GPT-5 mini, Gemini 3.7 Flash and Claude Haiku 4.5, and $1.46$ to $1.99$ for Qwen 3.8 Flash (\cref{fig:panels}).
 For GPT-5 mini, Gemini and Claude, Independent and Decentralized multi-agent gains stayed within $-3.2$ to 5.6 percentage points (pp) (\cref{fig:panels}a).
 Qwen's gains arose before the vote: mean agent minus single-agent accuracy was 3.1 to 10.3~pp, while majority minus mean agent accuracy was 1.1 to 3.3~pp (\cref{fig:panels}b).

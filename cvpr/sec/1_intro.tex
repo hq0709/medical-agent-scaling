@@ -22,14 +22,13 @@ We measure error correlation $\phi$ and the effective number of independent agen
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{figures/fig3_panels.pdf}
-\caption{\textbf{Nine agents from one VLM are worth fewer than two.}
-Rows group models within data sets (250 items each).
-(a) Multi-agent gain: Independent (filled) and Decentralized (open) accuracy minus single-agent accuracy.
-(b) Independent gain decomposed into mean agent minus single-agent accuracy (Agents, filled) and majority minus mean agent accuracy (Majority vote, open).
-(c) Error correlation $\phi$ for initial (filled) and final (open) answers; the top axis gives $N_{\mathrm{eff}}$.
-Intervals are paired item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
-\label{fig:panels}
+\includegraphics[width=\textwidth]{figures/fig_hist.pdf}
+\caption{\textbf{Agents of one VLM are right or wrong together.}
+Rows show VQA-RAD, SLAKE and MedXpertQA-MM (250 items each); columns show GPT-5 mini, Gemini 3.7 Flash, Claude Haiku 4.5 and Qwen 3.8 Flash.
+Bars (``Observed'') show the percentage of items with 0 to 9 correct agents in the Independent MAS with original images.
+Dashed lines with dots (``Independent agents (binomial)'') show the binomial distribution for 9 independent agents with the same mean agent accuracy; solid lines (``Beta-binomial, observed $\phi$'') show the beta-binomial distribution with the observed error correlation.
+Each plot reports $\phi$ and $N_{\mathrm{eff}}$.}
+\label{fig:hist}
 \end{figure*}
 
 Our contributions are:
