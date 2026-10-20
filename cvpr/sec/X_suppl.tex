@@ -60,8 +60,6 @@ Ordinary least squares regression supplied an additive secondary summary of pair
 
 Error correlation was the mean Pearson correlation of binary error indicators over agent pairs. Pairs with constant error indicators were omitted. For yes/no systems, the beta-binomial majority prediction used mean agent accuracy and error correlation; a majority required at least 5 correct agents out of 9. Shared wrong answers required at least 7 of 9 agents to be wrong. Conformity was the share of initially correct agents whose final answer was wrong~\cite{asch1956conformity,demystifying_mad}. It was stratified by initial majority status and by agreement with the same agent's blank-image answer.
 
-Percentile bootstrap 95\% confidence intervals (CIs) retained all responses and matched conditions for each sampled item. Accuracy intervals used 2,000 item resamples with seed 0; error-correlation intervals used 500. Regression, matched contrasts and initial-to-final correlation comparisons used 300 resamples. Matched contrasts used the same resampled items as the regression. All differences were paired by item; paired-image measures resampled complete pairs. An increase or decrease required a difference CI that excluded zero.
-
 Unparsed answers counted as wrong. These abstentions were reported by condition and mostly reflected refusals to read blank images. A sensitivity analysis recomputed error correlation on items that both agents answered. Pair accuracy required both answers to be correct, with answers compared as option text, yes or no.
 
 \section{Validation before the main experiments}\label{sec:supp-validation}
@@ -99,8 +97,8 @@ All proprietary-model calls used OpenRouter in October 2026. Perception modules 
 
 Multi-agent gains differed mainly in the accuracy of the agents before voting.
 For GPT-5 mini, Gemini 3.7 Flash and Claude Haiku 4.5, Independent gains ranged from $-2.8$ to 4.0~pp and Decentralized gains from $-3.2$ to 5.6~pp.
-Claude's Decentralized MAS gained 5.6~pp [0.8, 10.8] on VQA-RAD.
-Qwen 3.8 Flash's Independent MAS gained 13.6~pp [7.6, 19.6] on VQA-RAD, 8.0~pp [4.0, 12.4] on SLAKE and 5.6~pp [0.4, 11.2] on MedXpertQA-MM; its Decentralized gains ranged from 8.8 to 14.0~pp.
+Claude's Decentralized MAS gained 5.6~pp on VQA-RAD.
+Qwen 3.8 Flash's Independent MAS gained 13.6~pp on VQA-RAD, 8.0~pp on SLAKE and 5.6~pp on MedXpertQA-MM; its Decentralized gains ranged from 8.8 to 14.0~pp.
 For the other models, majority voting changed accuracy by $-2.1$ to 2.4~pp relative to mean agent accuracy (\cref{tab:s-mas}).
 
 Debate produced unanimity even on incorrectly answered items.
@@ -117,7 +115,7 @@ Shared wrong answers matched the blank-image majority in 42.9\% to 54.4\% of cas
 
 Single-agent blank-image losses differed across data sets.
 They ranged from 11.2 to 26.8~pp on VQA-RAD and 25.2 to 40.0~pp on SLAKE.
-On MedXpertQA-MM, losses were 4.0~pp [$-2.0$, 10.0] for GPT-5 mini, 3.6~pp [$-0.4$, 8.0] for Claude and 2.0~pp [$-4.4$, 8.0] for Qwen; Gemini lost 18.0~pp [12.0, 23.6] (\cref{tab:s-resolution}).
+On MedXpertQA-MM, losses were 4.0~pp for GPT-5 mini, 3.6~pp for Claude and 2.0~pp for Qwen; Gemini lost 18.0~pp (\cref{tab:s-resolution}).
 
 Blank images raised error correlation.
 For Gemini, Claude and Qwen, blank-image $\phi$ ranged from 0.841 to 0.922 on VQA-RAD and 0.831 to 0.982 on SLAKE, compared with original-image ranges of 0.439 to 0.731 and 0.529 to 0.785, respectively (\cref{tab:s-resolution}).
@@ -143,27 +141,27 @@ Mean absolute change in the log-odds of yes ranged from 0.89 to 6.43 on VQA-RAD 
 On MedXpertQA-MM, Kullback--Leibler divergence ranged from 0.10 to 0.88 (\cref{tab:s-openweight,fig:supp-openweight}).
 
 Proprietary-model shared wrong answers were associated with lower open-weight visual reliance on SLAKE.
-Spearman $\rho$ was $-0.401$ [$-0.502$, $-0.295$] on SLAKE, $-0.048$ [$-0.165$, 0.068] on VQA-RAD and 0.006 [$-0.128$, 0.136] on MedXpertQA-MM (\cref{fig:supp-openweight}).
+Spearman $\rho$ was $-0.401$ on SLAKE, $-0.048$ on VQA-RAD and 0.006 on MedXpertQA-MM (\cref{fig:supp-openweight}).
 
 \subsection{Models differ in where they look}
 
 Occlusion effects differed across proprietary and open-weight models.
-GPT-5 mini's sensitivity was 17.1~pp [13.2, 21.2] and Claude's was 3.2~pp [0.8, 5.7].
-Open-weight estimates ranged from 2.4 to 21.6~pp; LLaVA-1.5 7B had 2.4~pp [$-2.0$, 6.8] (\cref{tab:s-region}).
+GPT-5 mini's sensitivity was 17.1~pp and Claude's was 3.2~pp.
+Open-weight estimates ranged from 2.4 to 21.6~pp; LLaVA-1.5 7B had 2.4~pp (\cref{tab:s-region}).
 
 Models sometimes gave identical answers to images with opposite reference answers.
-Gemini's pair accuracy was 74.0\% [67.5, 80.0].
+Gemini's pair accuracy was 74.0\%.
 Single-agent answers differed within 75.0\% of pairs for Gemini, 62.0\% for GPT-5 mini and 42.5\% for Claude; remaining pairs received identical answers (\cref{tab:s-region}).
 
 \subsection{Perception sets accuracy; a shared report sets correlation}
 
 Gemini reports improved the other reasoning modules' accuracy relative to image input.
-The endpoint effects on VQA-RAD were 6.1~pp [1.4, 10.9] for GPT-5 mini and 16.3~pp [9.9, 22.6] for Claude.
+The endpoint effects on VQA-RAD were 6.1~pp for GPT-5 mini and 16.3~pp for Claude.
 Across reasoning modules, Gemini reports yielded 78.7\% to 81.3\% accuracy on VQA-RAD and 84.3\% to 88.2\% on SLAKE (\cref{tab:s-report}).
 
-Claude reports usually reduced the other reasoning modules' accuracy relative to image input.
-They lowered accuracy in 5 of 6 cells, by 7.9 to 25.9~pp.
-The remaining cell, GPT-5 mini on SLAKE, differed by $-0.4$~pp [$-5.0$, 4.6] (\cref{tab:s-report}).
+Claude reports reduced the other reasoning modules' accuracy relative to image input.
+They lowered accuracy by 7.9 to 25.9~pp in 5 of 6 cells.
+The remaining cell, GPT-5 mini on SLAKE, differed by $-0.4$~pp (\cref{tab:s-report}).
 
 Reasoning modules also differed when they read GPT-5 mini reports.
 On MedXpertQA-MM, accuracy was 60.8\% for Gemini, 50.1\% for GPT-5 mini and 30.6\% for Claude (\cref{tab:s-report}).
@@ -192,13 +190,13 @@ HuatuoGPT-Vision 7B and LLaVA-1.5 7B share the CLIP ViT-L/14-336 encoder; their 
 \subsection{Debate removes correct minority answers}
 
 Conformity was higher on MedXpertQA-MM when correct answers differed from the agent's blank-image answer.
-Paired differences ranged from 4.6~pp [0.8, 9.0] for Gemini to 17.4~pp [6.4, 29.7] for Claude.
+Paired differences ranged from 4.6~pp for Gemini to 17.4~pp for Claude.
 Among correct answers that differed from the blank-image answer, 6.6\% to 23.5\% were initially in the minority (\cref{tab:s-conformity}).
 
 % Keep the generated tables at their native width without changing their source.
 \section{Detailed results}\label{sec:supp-tables}
 
-Detailed results with item-bootstrap 95\% CIs cover original-image MAS (\cref{tab:s-mas}), reduced resolution and blank images (\cref{tab:s-resolution}), blank-image answer agreement (\cref{tab:s-prior}), region occlusion and paired images (\cref{tab:s-region}), conformity (\cref{tab:s-conformity}), query-agnostic reports (\cref{tab:s-report}), matched contrasts (\cref{tab:s-contrasts}), additive regression (\cref{tab:s-regression}), in-context examples (\cref{tab:s-icl}) and open-weight models (\cref{tab:s-openweight}).
+Detailed results cover original-image MAS (\cref{tab:s-mas}), reduced resolution and blank images (\cref{tab:s-resolution}), blank-image answer agreement (\cref{tab:s-prior}), region occlusion and paired images (\cref{tab:s-region}), conformity (\cref{tab:s-conformity}), query-agnostic reports (\cref{tab:s-report}), matched contrasts (\cref{tab:s-contrasts}), additive regression (\cref{tab:s-regression}), in-context examples (\cref{tab:s-icl}) and open-weight models (\cref{tab:s-openweight}).
 
 \begingroup
 % Keep the longest generated tables within the page height.
@@ -219,14 +217,14 @@ Detailed results with item-bootstrap 95\% CIs cover original-image MAS (\cref{ta
 \begin{figure*}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/supp_resolution.pdf}
-\caption{\textbf{Reduced resolution changes error correlation in different directions across models.} (a) Single-agent accuracy and (b) error correlation $\phi$ of the Independent MAS across image conditions. Columns show VQA-RAD, SLAKE and MedXpertQA-MM, with 250 items each. Labels $\leq1024$, 256 and 128 cap the longest image side in pixels; Blank denotes a uniform gray image of unchanged dimensions. Lines join adjacent conditions. Dashed lines mark chance accuracy; vertical intervals are item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
+\caption{\textbf{Reduced resolution changes error correlation in different directions across models.} (a) Single-agent accuracy and (b) error correlation $\phi$ of the Independent MAS across image conditions. Columns show VQA-RAD, SLAKE and MedXpertQA-MM, with 250 items each. Labels $\leq1024$, 256 and 128 cap the longest image side in pixels; Blank denotes a uniform gray image of unchanged dimensions. Lines join adjacent conditions. Dashed lines mark chance accuracy. Model colors as in \cref{fig:teaser}.}
 \label{fig:supp-resolution}
 \end{figure*}
 
 \begin{figure*}[!htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/supp_openweight.pdf}
-\caption{\textbf{Open-weight probes show visual reliance without sampling.} Each model used one forward pass per item on VQA-RAD, SLAKE and MedXpertQA-MM, with 250 items each. (a) Accuracy with the original image (filled) and blank image (open); dashed vertical lines mark chance. (b) Visual reliance on a log scale: absolute change in log-odds of yes on binary items, and Kullback--Leibler divergence from original-image to blank-image probabilities on MedXpertQA-MM. Points are means with item-bootstrap 95\% CIs. Dark gray markers in (a,b) identify the labeled open-weight models. (c) Between-model error correlation divided by its maximum given the marginal error rates, $\phi/\phi_{\max}$. Rose diamonds identify HuatuoGPT-Vision 7B and LLaVA-1.5 7B, which share the CLIP ViT-L/14-336 encoder; gray circles identify pairs with different encoders.}
+\caption{\textbf{Open-weight probes show visual reliance without sampling.} Each model used one forward pass per item on VQA-RAD, SLAKE and MedXpertQA-MM, with 250 items each. (a) Accuracy with the original image (filled) and blank image (open); dashed vertical lines mark chance. (b) Visual reliance on a log scale: absolute change in log-odds of yes on binary items, and Kullback--Leibler divergence from original-image to blank-image probabilities on MedXpertQA-MM. Points are means. Dark gray markers in (a,b) identify the labeled open-weight models. (c) Between-model error correlation divided by its maximum given the marginal error rates, $\phi/\phi_{\max}$. Rose diamonds identify HuatuoGPT-Vision 7B and LLaVA-1.5 7B, which share the CLIP ViT-L/14-336 encoder; gray circles identify pairs with different encoders.}
 \label{fig:supp-openweight}
 \end{figure*}
 

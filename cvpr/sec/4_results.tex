@@ -8,7 +8,7 @@
 Rows identify reasoning modules within data sets (250 items each); shading scales within each data set.
 Bold cells use the same model for both modules.
 (b) Error correlation among 9 agents: image (filled square), own report (filled circle), and shared report (open circle), with same-model reports.
-Intervals are item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
+Model colors as in \cref{fig:teaser}.}
 \label{fig:report}
 \end{figure*}
 
@@ -35,7 +35,7 @@ Black markers give data-set means: circle, VQA-RAD; square, SLAKE; triangle, Med
 Colored dots give models; gray dots give model pairs.
 In-context examples compare private with shared examples on VQA-RAD and SLAKE.
 Report compares own with shared reports; reasoning-module contrasts hold the report fixed.
-Intervals are item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
+Model colors as in \cref{fig:teaser}.}
 \label{fig:contrasts}
 \end{minipage}\hfill
 \begin{minipage}[t]{\columnwidth}
@@ -46,7 +46,7 @@ Conformity is the share of initially correct agents whose final answer is wrong 
 (a) Initial minority (filled) versus majority (open).
 (b) Initial answer differs from (filled) or matches (open) the same agent's blank-image answer.
 Rows group models within data sets (250 items each; 9 agents).
-Intervals are item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
+Model colors as in \cref{fig:teaser}.}
 \label{fig:conformity}
 \end{minipage}
 \end{figure*}
@@ -62,11 +62,11 @@ Debate drove final-answer $\phi$ to 0.995 to 1.000 for GPT-5 mini, Gemini and Cl
 
 \subsection{Shared wrong answers follow the language prior}
 On MedXpertQA-MM, 64.2\% to 76.2\% of shared wrong answers matched the blank-image majority (\cref{fig:prior}d; \cref{tab:s-prior}).
-Blank images cost single agents 11.2 to 40.0~pp on VQA-RAD and SLAKE, versus 2.0 to 4.0~pp for GPT-5 mini, Claude and Qwen on MedXpertQA-MM (intervals included zero) and 18.0~pp for Gemini (\cref{fig:prior}a).
+Blank images cost single agents 11.2 to 40.0~pp on VQA-RAD and SLAKE, versus 2.0 to 4.0~pp for GPT-5 mini, Claude and Qwen on MedXpertQA-MM and 18.0~pp for Gemini (\cref{fig:prior}a).
 With blank images, Gemini, Claude and Qwen reached $\phi=0.831$ to $0.982$ on VQA-RAD and SLAKE, up from 0.439 to 0.785 with original images (\cref{fig:prior}b; \cref{tab:s-resolution}).
 
 \subsection{Models differ in where they look}
-Gemini's occlusion sensitivity was 32.9~pp [28.2, 38.0], versus 17.1~pp for GPT-5 mini and 3.2~pp for Claude (\cref{fig:region}a).
+Gemini's occlusion sensitivity was 32.9~pp, versus 17.1~pp for GPT-5 mini and 3.2~pp for Claude (\cref{fig:region}a).
 Pair accuracy was 74.0\% for Gemini, 59.0\% for GPT-5 mini and 38.5\% for Claude (\cref{fig:region}b; \cref{tab:s-region}).
 Occluding the liver changed every Gemini agent's answer and no Claude agent's answer; Claude answered yes to both paired images (\cref{fig:region-example}).
 
@@ -80,7 +80,7 @@ Only Gemini's report mentioned the dilated bile ducts in \cref{fig:report-exampl
 Self-consistency agents of one model already make correlated errors, $\phi$ 0.692 to 0.915 for GPT-5 mini, Gemini and Claude and 0.442 to 0.629 for Qwen (\cref{tab:s-contrasts}).
 Changing the model lowered $\phi$ by 0.470 to 0.492, the largest reduction among tested contrasts (\cref{fig:contrasts}).
 Changing the role produced the smallest reduction, 0.033 to 0.060; contrast adjustment, in-context examples, report and perception module lay between.
-On MedXpertQA-MM, changing the reasoning module under an identical report lowered $\phi$ by 0.430 [0.389, 0.477], more than changing the perception module (0.263; \cref{tab:s-contrasts}).
+On MedXpertQA-MM, changing the reasoning module under an identical report lowered $\phi$ by 0.430, more than changing the perception module (0.263; \cref{tab:s-contrasts}).
 
 \subsection{Debate removes correct minority answers}
 Debate changed 41.5\% to 100.0\% of correct initial minority answers to wrong answers, versus 1.0\% to 6.5\% of correct majority answers (\cref{fig:conformity}).

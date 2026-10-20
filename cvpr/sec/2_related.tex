@@ -8,12 +8,12 @@ Rows group models within data sets (250 items each).
 (a) Multi-agent gain: Independent (filled) and Decentralized (open) accuracy minus single-agent accuracy.
 (b) Independent gain decomposed into mean agent minus single-agent accuracy (Agents, filled) and majority minus mean agent accuracy (Majority vote, open).
 (c) Error correlation $\phi$ for initial (filled) and final (open) answers; the top axis gives $N_{\mathrm{eff}}$.
-Intervals are paired item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
+Model colors as in \cref{fig:teaser}.}
 \label{fig:panels}
 \end{figure*}
 
 \paragraph{Multi-agent systems in medicine.}
-Role-prompted medical MAS improve medical question answering~\cite{kim2024mdagents,tang2024medagents}, and their gains shrink as the base model becomes more capable~\cite{kim2026scaling}. Multiagent debate supports revision from peer responses~\cite{du2024debate}; benchmarks and debate analyses characterize collaboration, confidence and diversity~\cite{medagentboard,demystifying_mad}. We connect these systems' radiology accuracy to their effective number of independent agents and identify shared components behind correlated errors.
+Role-prompted medical MAS improve medical question answering~\cite{kim2024mdagents,tang2024medagents}, and their gains shrink as the base model becomes more capable~\cite{kim2026scaling}. Multiagent debate supports revision from peer responses~\cite{du2024debate}; benchmarks and debate analyses characterize collaboration and diversity~\cite{medagentboard,demystifying_mad}. We connect these systems' radiology accuracy to their effective number of independent agents and identify shared components behind correlated errors.
 
 \paragraph{Correlated errors and aggregation.}
 Dependence limits information pooling~\cite{clemen1985limits}, and correlated wrong answers occur across language models~\cite{correlated2025}. Kish's design effect relates correlation to effective sample size~\cite{kish1965survey}; diagnostic pooling benefits from independent judgments with similar accuracy~\cite{kurvers2016pooling}. We predict majority accuracy from mean agent accuracy and error correlation, then measure changes in dependence through matched component contrasts.

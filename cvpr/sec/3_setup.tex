@@ -8,7 +8,7 @@
 (b) Independent MAS error correlation with each image.
 (c) Agent answers cross-tabulated by correctness: wrong with both images, wrong only with original, right only with original, and right with both images; end numbers give original-image accuracy.
 (d) Shared wrong answers whose majority matches the blank-image majority; $n$ counts items with at least 7 of 9 agents wrong.
-Each data set has 250 items. Intervals are item-bootstrap 95\% CIs. Model colors as in \cref{fig:teaser}.}
+Each data set has 250 items. Model colors as in \cref{fig:teaser}.}
 \label{fig:prior}
 \end{figure*}
 
@@ -82,7 +82,7 @@ Conformity is the share of initially correct answers that become wrong after deb
 (b) Pair accuracy, both answers correct, on SLAKE-pairs (200 pairs with opposite reference answers).
 Occlusion estimates average Independent MAS agents for proprietary models; pair accuracy uses single agents.
 Open-weight models use one forward pass per item.
-Intervals are item-bootstrap 95\% CIs; pairs are resampled intact in (b). Model colors as in \cref{fig:teaser}.}
+Model colors as in \cref{fig:teaser}.}
 \label{fig:region}
 \end{figure}
 
@@ -93,5 +93,4 @@ Proprietary-model coverage appears in \cref{tab:setup}.
 Open-weight models are MedGemma 4B, Qwen3-VL 8B, Qwen2-VL 7B, HuatuoGPT-Vision 7B and LLaVA-1.5 7B~\cite{sellergren2025medgemma,bai2025qwen3vl,wang2024qwen2vl,chen2024huatuovision,liu2024llava15}.
 
 \subsection{Statistics}
-Item-bootstrap 95\% CIs are paired by item; image pairs are resampled intact.
-Abstentions count as wrong; details are in \cref{sec:supp-protocol}.
+Abstentions (unparsed answers) count as wrong; details are in \cref{sec:supp-protocol}.

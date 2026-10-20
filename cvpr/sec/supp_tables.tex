@@ -10,20 +10,20 @@
 \toprule
 \makecell{Data set} & \makecell{Model} & \makecell{Single\\agent} & \makecell{Mean\\agent} & \makecell{Indep.} & \makecell{Decentr.} & \makecell{Indep.\\$-$ single} & \makecell{Decentr.\\$-$ single} & \makecell{Mean agent\\$-$ single} & \makecell{Majority $-$\\mean agent} & \makecell{$\phi$\\initial} & \makecell{$N_{\mathrm{eff}}$} & \makecell{$\phi$\\final} & \makecell{Unani-\\mous} & \makecell{Wrong if\\unanimous} \\
 \midrule
-VQA-RAD & GPT-5 mini & 72.0 & 71.3 & 69.2 & 70.0 & \makecell{$-$2.8\\{\tiny[$-$6.4, 0.8]}} & \makecell{$-$2.0\\{\tiny[$-$5.6, 1.6]}} & \makecell{$-$0.7\\{\tiny[$-$3.5, 2.2]}} & \makecell{$-$2.1\\{\tiny[$-$4.0, $-$0.4]}} & \makecell{0.752\\{\tiny[0.697, 0.801]}} & 1.28 & \makecell{1.000\\{\tiny[1.000, 1.000]}} & 100.0 & 30.0 \\
- & Gemini 3.7 Flash & 81.2 & 81.3 & 82.4 & 81.2 & \makecell{1.2\\{\tiny[$-$2.4, 4.8]}} & \makecell{0.0\\{\tiny[$-$3.6, 3.6]}} & \makecell{0.1\\{\tiny[$-$2.7, 2.7]}} & \makecell{1.1\\{\tiny[$-$0.5, 2.7]}} & \makecell{0.725\\{\tiny[0.653, 0.785]}} & 1.32 & \makecell{0.997\\{\tiny[0.991, 1.000]}} & 99.6 & 18.9 \\
- & Claude Haiku 4.5 & 60.8 & 65.9 & 64.8 & 66.4 & \makecell{4.0\\{\tiny[$-$0.8, 8.8]}} & \makecell{5.6\\{\tiny[0.8, 10.8]}} & \makecell{5.1\\{\tiny[1.0, 9.1]}} & \makecell{$-$1.1\\{\tiny[$-$3.1, 0.8]}} & \makecell{0.731\\{\tiny[0.678, 0.781]}} & 1.31 & \makecell{0.996\\{\tiny[0.990, 1.000]}} & 99.2 & 33.5 \\
- & Qwen 3.8 Flash & 69.6 & 79.9 & 83.2 & 80.4 & \makecell{13.6\\{\tiny[7.6, 19.6]}} & \makecell{10.8\\{\tiny[5.2, 16.4]}} & \makecell{10.3\\{\tiny[5.2, 15.5]}} & \makecell{3.3\\{\tiny[0.8, 5.8]}} & \makecell{0.439\\{\tiny[0.369, 0.501]}} & 1.99 & \makecell{0.822\\{\tiny[0.762, 0.874]}} & 86.0 & 15.8 \\
+VQA-RAD & GPT-5 mini & 72.0 & 71.3 & 69.2 & 70.0 & $-$2.8 & $-$2.0 & $-$0.7 & $-$2.1 & 0.752 & 1.28 & 1.000 & 100.0 & 30.0 \\
+ & Gemini 3.7 Flash & 81.2 & 81.3 & 82.4 & 81.2 & 1.2 & 0.0 & 0.1 & 1.1 & 0.725 & 1.32 & 0.997 & 99.6 & 18.9 \\
+ & Claude Haiku 4.5 & 60.8 & 65.9 & 64.8 & 66.4 & 4.0 & 5.6 & 5.1 & $-$1.1 & 0.731 & 1.31 & 0.996 & 99.2 & 33.5 \\
+ & Qwen 3.8 Flash & 69.6 & 79.9 & 83.2 & 80.4 & 13.6 & 10.8 & 10.3 & 3.3 & 0.439 & 1.99 & 0.822 & 86.0 & 15.8 \\
 \midrule
-SLAKE & GPT-5 mini & 80.8 & 79.8 & 78.4 & 80.8 & \makecell{$-$2.4\\{\tiny[$-$5.2, 0.4]}} & \makecell{0.0\\{\tiny[$-$2.8, 2.8]}} & \makecell{$-$1.0\\{\tiny[$-$3.5, 1.3]}} & \makecell{$-$1.4\\{\tiny[$-$2.9, 0.0]}} & \makecell{0.785\\{\tiny[0.729, 0.844]}} & 1.24 & \makecell{0.995\\{\tiny[0.984, 1.000]}} & 99.6 & 18.9 \\
- & Gemini 3.7 Flash & 91.2 & 89.9 & 90.0 & 89.2 & \makecell{$-$1.2\\{\tiny[$-$3.2, 0.4]}} & \makecell{$-$2.0\\{\tiny[$-$4.4, 0.0]}} & \makecell{$-$1.3\\{\tiny[$-$2.8, 0.1]}} & \makecell{0.1\\{\tiny[$-$1.0, 1.3]}} & \makecell{0.785\\{\tiny[0.696, 0.859]}} & 1.24 & \makecell{1.000\\{\tiny[1.000, 1.000]}} & 100.0 & 10.8 \\
- & Claude Haiku 4.5 & 72.4 & 72.3 & 72.4 & 74.4 & \makecell{0.0\\{\tiny[$-$4.4, 4.4]}} & \makecell{2.0\\{\tiny[$-$2.0, 6.0]}} & \makecell{$-$0.1\\{\tiny[$-$3.8, 3.6]}} & \makecell{0.1\\{\tiny[$-$1.6, 1.7]}} & \makecell{0.775\\{\tiny[0.723, 0.821]}} & 1.25 & \makecell{1.000\\{\tiny[1.000, 1.000]}} & 100.0 & 25.6 \\
- & Qwen 3.8 Flash & 76.4 & 83.3 & 84.4 & 90.4 & \makecell{8.0\\{\tiny[4.0, 12.4]}} & \makecell{14.0\\{\tiny[9.2, 18.8]}} & \makecell{6.9\\{\tiny[3.5, 10.6]}} & \makecell{1.1\\{\tiny[$-$0.8, 2.9]}} & \makecell{0.529\\{\tiny[0.448, 0.597]}} & 1.72 & \makecell{0.884\\{\tiny[0.811, 0.940]}} & 94.4 & 8.9 \\
+SLAKE & GPT-5 mini & 80.8 & 79.8 & 78.4 & 80.8 & $-$2.4 & 0.0 & $-$1.0 & $-$1.4 & 0.785 & 1.24 & 0.995 & 99.6 & 18.9 \\
+ & Gemini 3.7 Flash & 91.2 & 89.9 & 90.0 & 89.2 & $-$1.2 & $-$2.0 & $-$1.3 & 0.1 & 0.785 & 1.24 & 1.000 & 100.0 & 10.8 \\
+ & Claude Haiku 4.5 & 72.4 & 72.3 & 72.4 & 74.4 & 0.0 & 2.0 & $-$0.1 & 0.1 & 0.775 & 1.25 & 1.000 & 100.0 & 25.6 \\
+ & Qwen 3.8 Flash & 76.4 & 83.3 & 84.4 & 90.4 & 8.0 & 14.0 & 6.9 & 1.1 & 0.529 & 1.72 & 0.884 & 94.4 & 8.9 \\
 \midrule
-MedXpertQA-MM & GPT-5 mini & 54.8 & 53.2 & 55.6 & 58.4 & \makecell{0.8\\{\tiny[$-$3.6, 5.6]}} & \makecell{3.6\\{\tiny[$-$0.8, 8.0]}} & \makecell{$-$1.6\\{\tiny[$-$5.2, 2.4]}} & \makecell{2.4\\{\tiny[0.1, 4.6]}} & \makecell{0.685\\{\tiny[0.636, 0.735]}} & 1.39 & \makecell{0.996\\{\tiny[0.991, 1.000]}} & 98.8 & 41.7 \\
- & Gemini 3.7 Flash & 84.4 & 83.3 & 83.6 & 82.4 & \makecell{$-$0.8\\{\tiny[$-$4.0, 2.4]}} & \makecell{$-$2.0\\{\tiny[$-$5.2, 0.8]}} & \makecell{$-$1.1\\{\tiny[$-$3.5, 1.2]}} & \makecell{0.3\\{\tiny[$-$1.4, 2.0]}} & \makecell{0.749\\{\tiny[0.669, 0.817]}} & 1.29 & \makecell{1.000\\{\tiny[1.000, 1.000]}} & 100.0 & 17.6 \\
- & Claude Haiku 4.5 & 33.2 & 30.8 & 30.4 & 30.0 & \makecell{$-$2.8\\{\tiny[$-$6.0, 0.4]}} & \makecell{$-$3.2\\{\tiny[$-$6.8, 0.4]}} & \makecell{$-$2.4\\{\tiny[$-$5.4, 0.5]}} & \makecell{$-$0.4\\{\tiny[$-$1.9, 1.1]}} & \makecell{0.836\\{\tiny[0.790, 0.882]}} & 1.17 & \makecell{1.000\\{\tiny[1.000, 1.000]}} & 100.0 & 70.0 \\
- & Qwen 3.8 Flash & 43.6 & 46.7 & 49.2 & 52.4 & \makecell{5.6\\{\tiny[0.4, 11.2]}} & \makecell{8.8\\{\tiny[3.6, 14.4]}} & \makecell{3.1\\{\tiny[$-$1.5, 7.6]}} & \makecell{2.5\\{\tiny[0.0, 4.9]}} & \makecell{0.647\\{\tiny[0.591, 0.701]}} & 1.46 & \makecell{0.913\\{\tiny[0.883, 0.941]}} & 82.4 & 42.7 \\
+MedXpertQA-MM & GPT-5 mini & 54.8 & 53.2 & 55.6 & 58.4 & 0.8 & 3.6 & $-$1.6 & 2.4 & 0.685 & 1.39 & 0.996 & 98.8 & 41.7 \\
+ & Gemini 3.7 Flash & 84.4 & 83.3 & 83.6 & 82.4 & $-$0.8 & $-$2.0 & $-$1.1 & 0.3 & 0.749 & 1.29 & 1.000 & 100.0 & 17.6 \\
+ & Claude Haiku 4.5 & 33.2 & 30.8 & 30.4 & 30.0 & $-$2.8 & $-$3.2 & $-$2.4 & $-$0.4 & 0.836 & 1.17 & 1.000 & 100.0 & 70.0 \\
+ & Qwen 3.8 Flash & 43.6 & 46.7 & 49.2 & 52.4 & 5.6 & 8.8 & 3.1 & 2.5 & 0.647 & 1.46 & 0.913 & 82.4 & 42.7 \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -38,20 +38,20 @@ MedXpertQA-MM & GPT-5 mini & 54.8 & 53.2 & 55.6 & 58.4 & \makecell{0.8\\{\tiny[$
 \toprule
 \makecell{Data set} & \makecell{Model} & \makecell{Acc.\\original} & \makecell{Acc.\\256 px} & \makecell{Acc.\\128 px} & \makecell{Acc.\\blank} & \makecell{$\phi$\\original} & \makecell{$\phi$\\256 px} & \makecell{$\phi$\\128 px} & \makecell{$\phi$\\blank} & \makecell{Original $-$\\blank} & \makecell{Unparsed,\\blank} & \makecell{$\phi$ blank,\\answered} \\
 \midrule
-VQA-RAD & GPT-5 mini & \makecell{72.0\\{\tiny[66.4, 77.2]}} & \makecell{74.0\\{\tiny[68.8, 79.2]}} & \makecell{72.8\\{\tiny[67.2, 78.0]}} & \makecell{60.8\\{\tiny[54.8, 66.4]}} & \makecell{0.752\\{\tiny[0.697, 0.801]}} & \makecell{0.694\\{\tiny[0.636, 0.751]}} & \makecell{0.644\\{\tiny[0.586, 0.703]}} & \makecell{0.742\\{\tiny[0.689, 0.789]}} & \makecell{11.2\\{\tiny[4.0, 18.4]}} & 0.0 & -- \\
- & Gemini 3.7 Flash & \makecell{81.2\\{\tiny[76.4, 86.0]}} & \makecell{83.6\\{\tiny[78.8, 88.0]}} & \makecell{77.6\\{\tiny[72.4, 82.4]}} & \makecell{54.4\\{\tiny[48.4, 60.4]}} & \makecell{0.725\\{\tiny[0.653, 0.785]}} & \makecell{0.726\\{\tiny[0.646, 0.793]}} & \makecell{0.749\\{\tiny[0.698, 0.804]}} & \makecell{0.922\\{\tiny[0.889, 0.951]}} & \makecell{26.8\\{\tiny[18.8, 35.2]}} & 0.0 & -- \\
- & Claude Haiku 4.5 & \makecell{60.8\\{\tiny[54.4, 66.8]}} & \makecell{63.2\\{\tiny[57.2, 69.2]}} & \makecell{65.2\\{\tiny[59.2, 70.8]}} & \makecell{46.8\\{\tiny[40.8, 52.8]}} & \makecell{0.731\\{\tiny[0.678, 0.781]}} & \makecell{0.706\\{\tiny[0.651, 0.756]}} & \makecell{0.591\\{\tiny[0.539, 0.650]}} & \makecell{0.876\\{\tiny[0.840, 0.911]}} & \makecell{14.0\\{\tiny[6.0, 22.0]}} & 10.4 & \makecell{0.963\\{\tiny[0.942, 0.982]}} \\
- & Qwen 3.8 Flash & \makecell{69.6\\{\tiny[64.0, 75.2]}} & \makecell{67.6\\{\tiny[61.6, 73.2]}} & \makecell{72.0\\{\tiny[66.4, 77.6]}} & \makecell{54.8\\{\tiny[48.4, 60.8]}} & \makecell{0.439\\{\tiny[0.369, 0.501]}} & \makecell{0.442\\{\tiny[0.377, 0.501]}} & \makecell{0.480\\{\tiny[0.415, 0.541]}} & \makecell{0.841\\{\tiny[0.805, 0.879]}} & \makecell{14.8\\{\tiny[6.4, 23.2]}} & 0.1 & -- \\
+VQA-RAD & GPT-5 mini & 72.0 & 74.0 & 72.8 & 60.8 & 0.752 & 0.694 & 0.644 & 0.742 & 11.2 & 0.0 & -- \\
+ & Gemini 3.7 Flash & 81.2 & 83.6 & 77.6 & 54.4 & 0.725 & 0.726 & 0.749 & 0.922 & 26.8 & 0.0 & -- \\
+ & Claude Haiku 4.5 & 60.8 & 63.2 & 65.2 & 46.8 & 0.731 & 0.706 & 0.591 & 0.876 & 14.0 & 10.4 & 0.963 \\
+ & Qwen 3.8 Flash & 69.6 & 67.6 & 72.0 & 54.8 & 0.439 & 0.442 & 0.480 & 0.841 & 14.8 & 0.1 & -- \\
 \midrule
-SLAKE & GPT-5 mini & \makecell{80.8\\{\tiny[76.0, 85.6]}} & \makecell{78.8\\{\tiny[73.6, 83.6]}} & \makecell{75.2\\{\tiny[70.0, 80.4]}} & \makecell{54.4\\{\tiny[48.4, 60.8]}} & \makecell{0.785\\{\tiny[0.729, 0.844]}} & \makecell{0.792\\{\tiny[0.741, 0.845]}} & \makecell{0.709\\{\tiny[0.645, 0.761]}} & \makecell{0.802\\{\tiny[0.755, 0.845]}} & \makecell{26.4\\{\tiny[18.8, 33.2]}} & 0.0 & -- \\
- & Gemini 3.7 Flash & \makecell{91.2\\{\tiny[87.6, 94.4]}} & \makecell{91.2\\{\tiny[87.6, 94.8]}} & \makecell{85.2\\{\tiny[80.8, 89.2]}} & \makecell{51.2\\{\tiny[44.8, 57.6]}} & \makecell{0.785\\{\tiny[0.696, 0.859]}} & \makecell{0.803\\{\tiny[0.716, 0.869]}} & \makecell{0.820\\{\tiny[0.753, 0.872]}} & \makecell{0.982\\{\tiny[0.968, 0.994]}} & \makecell{40.0\\{\tiny[33.2, 46.8]}} & 0.0 & -- \\
- & Claude Haiku 4.5 & \makecell{72.4\\{\tiny[67.2, 78.0]}} & \makecell{73.6\\{\tiny[68.0, 78.8]}} & \makecell{70.0\\{\tiny[64.4, 75.6]}} & \makecell{38.8\\{\tiny[32.8, 44.8]}} & \makecell{0.775\\{\tiny[0.723, 0.821]}} & \makecell{0.752\\{\tiny[0.695, 0.811]}} & \makecell{0.718\\{\tiny[0.664, 0.768]}} & \makecell{0.879\\{\tiny[0.841, 0.915]}} & \makecell{33.6\\{\tiny[24.0, 42.8]}} & 4.3 & \makecell{0.931\\{\tiny[0.901, 0.956]}} \\
- & Qwen 3.8 Flash & \makecell{76.4\\{\tiny[70.8, 81.2]}} & \makecell{74.8\\{\tiny[69.2, 80.8]}} & \makecell{79.2\\{\tiny[74.4, 84.0]}} & \makecell{51.2\\{\tiny[44.8, 57.2]}} & \makecell{0.529\\{\tiny[0.448, 0.597]}} & \makecell{0.547\\{\tiny[0.479, 0.607]}} & \makecell{0.490\\{\tiny[0.408, 0.560]}} & \makecell{0.831\\{\tiny[0.788, 0.866]}} & \makecell{25.2\\{\tiny[16.4, 33.6]}} & 0.0 & -- \\
+SLAKE & GPT-5 mini & 80.8 & 78.8 & 75.2 & 54.4 & 0.785 & 0.792 & 0.709 & 0.802 & 26.4 & 0.0 & -- \\
+ & Gemini 3.7 Flash & 91.2 & 91.2 & 85.2 & 51.2 & 0.785 & 0.803 & 0.820 & 0.982 & 40.0 & 0.0 & -- \\
+ & Claude Haiku 4.5 & 72.4 & 73.6 & 70.0 & 38.8 & 0.775 & 0.752 & 0.718 & 0.879 & 33.6 & 4.3 & 0.931 \\
+ & Qwen 3.8 Flash & 76.4 & 74.8 & 79.2 & 51.2 & 0.529 & 0.547 & 0.490 & 0.831 & 25.2 & 0.0 & -- \\
 \midrule
-MedXpertQA-MM & GPT-5 mini & \makecell{54.8\\{\tiny[48.8, 60.4]}} & \makecell{50.4\\{\tiny[44.4, 56.8]}} & \makecell{50.8\\{\tiny[44.8, 56.8]}} & \makecell{50.8\\{\tiny[44.8, 56.4]}} & \makecell{0.685\\{\tiny[0.636, 0.735]}} & \makecell{0.690\\{\tiny[0.637, 0.739]}} & \makecell{0.700\\{\tiny[0.652, 0.752]}} & \makecell{0.730\\{\tiny[0.679, 0.780]}} & \makecell{4.0\\{\tiny[$-$2.0, 10.0]}} & 0.0 & -- \\
- & Gemini 3.7 Flash & \makecell{84.4\\{\tiny[79.6, 88.8]}} & \makecell{80.4\\{\tiny[75.2, 85.2]}} & \makecell{78.4\\{\tiny[73.2, 83.2]}} & \makecell{66.4\\{\tiny[60.8, 71.6]}} & \makecell{0.749\\{\tiny[0.669, 0.817]}} & \makecell{0.762\\{\tiny[0.698, 0.823]}} & \makecell{0.784\\{\tiny[0.715, 0.841]}} & \makecell{0.799\\{\tiny[0.748, 0.844]}} & \makecell{18.0\\{\tiny[12.0, 23.6]}} & 0.0 & -- \\
- & Claude Haiku 4.5 & \makecell{33.2\\{\tiny[27.6, 38.8]}} & \makecell{32.0\\{\tiny[26.4, 37.6]}} & \makecell{32.0\\{\tiny[26.4, 37.6]}} & \makecell{29.6\\{\tiny[24.0, 35.2]}} & \makecell{0.836\\{\tiny[0.790, 0.882]}} & \makecell{0.821\\{\tiny[0.776, 0.868]}} & \makecell{0.840\\{\tiny[0.795, 0.881]}} & \makecell{0.818\\{\tiny[0.765, 0.861]}} & \makecell{3.6\\{\tiny[$-$0.4, 8.0]}} & 14.8 & \makecell{0.852\\{\tiny[0.803, 0.891]}} \\
- & Qwen 3.8 Flash & \makecell{43.6\\{\tiny[37.6, 49.6]}} & \makecell{40.8\\{\tiny[34.8, 47.2]}} & \makecell{43.2\\{\tiny[37.2, 49.6]}} & \makecell{41.6\\{\tiny[35.6, 47.6]}} & \makecell{0.647\\{\tiny[0.591, 0.701]}} & \makecell{0.630\\{\tiny[0.573, 0.688]}} & \makecell{0.609\\{\tiny[0.556, 0.667]}} & \makecell{0.656\\{\tiny[0.602, 0.709]}} & \makecell{2.0\\{\tiny[$-$4.4, 8.0]}} & 0.5 & -- \\
+MedXpertQA-MM & GPT-5 mini & 54.8 & 50.4 & 50.8 & 50.8 & 0.685 & 0.690 & 0.700 & 0.730 & 4.0 & 0.0 & -- \\
+ & Gemini 3.7 Flash & 84.4 & 80.4 & 78.4 & 66.4 & 0.749 & 0.762 & 0.784 & 0.799 & 18.0 & 0.0 & -- \\
+ & Claude Haiku 4.5 & 33.2 & 32.0 & 32.0 & 29.6 & 0.836 & 0.821 & 0.840 & 0.818 & 3.6 & 14.8 & 0.852 \\
+ & Qwen 3.8 Flash & 43.6 & 40.8 & 43.2 & 41.6 & 0.647 & 0.630 & 0.609 & 0.656 & 2.0 & 0.5 & -- \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -66,20 +66,20 @@ MedXpertQA-MM & GPT-5 mini & \makecell{54.8\\{\tiny[48.8, 60.4]}} & \makecell{50
 \toprule
 \makecell{Data set} & \makecell{Model} & \makecell{Right with\\both} & \makecell{Right only\\with original} & \makecell{Wrong only\\with original} & \makecell{Wrong with\\both} & \makecell{Shared wrong\\answers ($n$)} & \makecell{Matching blank-\\image majority (\%)} \\
 \midrule
-VQA-RAD & GPT-5 mini & 47.2 & 24.1 & 12.0 & 16.7 & 57 & \makecell{54.4\\{\tiny[42.1, 66.7]}} \\
- & Gemini 3.7 Flash & 44.0 & 37.3 & 10.4 & 8.3 & 35 & \makecell{42.9\\{\tiny[25.7, 60.0]}} \\
- & Claude Haiku 4.5 & 36.6 & 29.3 & 13.6 & 20.5 & 70 & \makecell{54.3\\{\tiny[42.9, 65.7]}} \\
- & Qwen 3.8 Flash & 46.0 & 33.9 & 10.8 & 9.3 & 18 & \makecell{44.4\\{\tiny[22.2, 66.7]}} \\
+VQA-RAD & GPT-5 mini & 47.2 & 24.1 & 12.0 & 16.7 & 57 & 54.4 \\
+ & Gemini 3.7 Flash & 44.0 & 37.3 & 10.4 & 8.3 & 35 & 42.9 \\
+ & Claude Haiku 4.5 & 36.6 & 29.3 & 13.6 & 20.5 & 70 & 54.3 \\
+ & Qwen 3.8 Flash & 46.0 & 33.9 & 10.8 & 9.3 & 18 & 44.4 \\
 \midrule
-SLAKE & GPT-5 mini & 43.5 & 36.3 & 9.5 & 10.7 & 42 & \makecell{57.1\\{\tiny[42.9, 71.4]}} \\
- & Gemini 3.7 Flash & 46.7 & 43.2 & 4.4 & 5.8 & 19 & \makecell{57.9\\{\tiny[36.8, 78.9]}} \\
- & Claude Haiku 4.5 & 25.9 & 46.4 & 15.8 & 11.9 & 56 & \makecell{33.9\\{\tiny[21.4, 46.4]}} \\
- & Qwen 3.8 Flash & 38.5 & 44.8 & 12.0 & 4.7 & 21 & \makecell{14.3\\{\tiny[0.0, 28.6]}} \\
+SLAKE & GPT-5 mini & 43.5 & 36.3 & 9.5 & 10.7 & 42 & 57.1 \\
+ & Gemini 3.7 Flash & 46.7 & 43.2 & 4.4 & 5.8 & 19 & 57.9 \\
+ & Claude Haiku 4.5 & 25.9 & 46.4 & 15.8 & 11.9 & 56 & 33.9 \\
+ & Qwen 3.8 Flash & 38.5 & 44.8 & 12.0 & 4.7 & 21 & 14.3 \\
 \midrule
-MedXpertQA-MM & GPT-5 mini & 39.7 & 13.5 & 7.9 & 38.9 & 95 & \makecell{64.2\\{\tiny[54.7, 72.7]}} \\
- & Gemini 3.7 Flash & 61.0 & 22.3 & 4.4 & 12.3 & 31 & \makecell{74.2\\{\tiny[58.1, 90.3]}} \\
- & Claude Haiku 4.5 & 22.7 & 8.1 & 5.2 & 64.0 & 163 & \makecell{71.2\\{\tiny[64.4, 77.9]}} \\
- & Qwen 3.8 Flash & 32.9 & 13.8 & 7.0 & 46.4 & 105 & \makecell{76.2\\{\tiny[67.6, 83.8]}} \\
+MedXpertQA-MM & GPT-5 mini & 39.7 & 13.5 & 7.9 & 38.9 & 95 & 64.2 \\
+ & Gemini 3.7 Flash & 61.0 & 22.3 & 4.4 & 12.3 & 31 & 74.2 \\
+ & Claude Haiku 4.5 & 22.7 & 8.1 & 5.2 & 64.0 & 163 & 71.2 \\
+ & Qwen 3.8 Flash & 32.9 & 13.8 & 7.0 & 46.4 & 105 & 76.2 \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -94,16 +94,16 @@ MedXpertQA-MM & GPT-5 mini & 39.7 & 13.5 & 7.9 & 38.9 & 95 & \makecell{64.2\\{\t
 \toprule
 \makecell{Model} & \makecell{} & \makecell{Target\\change} & \makecell{Control\\change} & \makecell{Occlusion\\sensitivity} & \makecell{Pair\\accuracy} & \makecell{Answers\\differ} \\
 \midrule
-GPT-5 mini & proprietary & \makecell{23.5\\{\tiny[19.7, 27.6]}} & \makecell{6.4\\{\tiny[4.7, 8.4]}} & \makecell{17.1\\{\tiny[13.2, 21.2]}} & \makecell{59.0\\{\tiny[52.0, 65.5]}} & \makecell{62.0\\{\tiny[55.5, 68.5]}} \\
-Gemini 3.7 Flash & proprietary & \makecell{36.4\\{\tiny[31.6, 41.4]}} & \makecell{3.6\\{\tiny[2.4, 4.9]}} & \makecell{32.9\\{\tiny[28.2, 38.0]}} & \makecell{74.0\\{\tiny[67.5, 80.0]}} & \makecell{75.0\\{\tiny[69.0, 81.0]}} \\
-Claude Haiku 4.5 & proprietary & \makecell{10.7\\{\tiny[8.2, 13.6]}} & \makecell{7.5\\{\tiny[5.5, 9.6]}} & \makecell{3.2\\{\tiny[0.8, 5.7]}} & \makecell{38.5\\{\tiny[31.5, 45.0]}} & \makecell{42.5\\{\tiny[35.5, 49.5]}} \\
+GPT-5 mini & proprietary & 23.5 & 6.4 & 17.1 & 59.0 & 62.0 \\
+Gemini 3.7 Flash & proprietary & 36.4 & 3.6 & 32.9 & 74.0 & 75.0 \\
+Claude Haiku 4.5 & proprietary & 10.7 & 7.5 & 3.2 & 38.5 & 42.5 \\
 \midrule
-MedGemma 4B & open-weight & \makecell{13.2\\{\tiny[9.2, 17.6]}} & \makecell{1.6\\{\tiny[0.4, 3.2]}} & \makecell{11.6\\{\tiny[7.6, 15.6]}} & \makecell{62.5\\{\tiny[56.0, 68.5]}} & \makecell{63.5\\{\tiny[57.0, 69.5]}} \\
-Qwen3-VL 8B & open-weight & \makecell{23.6\\{\tiny[18.4, 28.8]}} & \makecell{3.6\\{\tiny[1.6, 6.0]}} & \makecell{20.0\\{\tiny[14.4, 26.0]}} & \makecell{53.5\\{\tiny[46.5, 60.5]}} & \makecell{56.5\\{\tiny[49.5, 63.0]}} \\
-Qwen2-VL 7B & open-weight & \makecell{11.2\\{\tiny[7.6, 15.2]}} & \makecell{4.8\\{\tiny[2.4, 7.6]}} & \makecell{6.4\\{\tiny[2.0, 10.4]}} & \makecell{49.5\\{\tiny[42.5, 56.0]}} & \makecell{53.5\\{\tiny[46.5, 60.0]}} \\
+MedGemma 4B & open-weight & 13.2 & 1.6 & 11.6 & 62.5 & 63.5 \\
+Qwen3-VL 8B & open-weight & 23.6 & 3.6 & 20.0 & 53.5 & 56.5 \\
+Qwen2-VL 7B & open-weight & 11.2 & 4.8 & 6.4 & 49.5 & 53.5 \\
 \midrule
-HuatuoGPT-Vision 7B & open-weight & \makecell{28.0\\{\tiny[22.4, 34.0]}} & \makecell{6.4\\{\tiny[3.6, 9.6]}} & \makecell{21.6\\{\tiny[15.6, 28.0]}} & \makecell{48.5\\{\tiny[41.5, 55.5]}} & \makecell{53.0\\{\tiny[46.0, 60.0]}} \\
-LLaVA-1.5 7B & open-weight & \makecell{12.8\\{\tiny[8.8, 17.2]}} & \makecell{10.4\\{\tiny[6.8, 14.4]}} & \makecell{2.4\\{\tiny[$-$2.0, 6.8]}} & \makecell{31.5\\{\tiny[25.5, 38.0]}} & \makecell{39.5\\{\tiny[33.0, 46.5]}} \\
+HuatuoGPT-Vision 7B & open-weight & 28.0 & 6.4 & 21.6 & 48.5 & 53.0 \\
+LLaVA-1.5 7B & open-weight & 12.8 & 10.4 & 2.4 & 31.5 & 39.5 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -118,20 +118,20 @@ LLaVA-1.5 7B & open-weight & \makecell{12.8\\{\tiny[8.8, 17.2]}} & \makecell{10.
 \toprule
 \makecell{Data set} & \makecell{Model} & \makecell{Initial\\minority} & \makecell{Initial\\majority} & \makecell{Differs\\from blank} & \makecell{Matches\\blank} & \makecell{Difference} & \makecell{In minority,\\differs} & \makecell{In minority,\\matches} \\
 \midrule
-VQA-RAD & GPT-5 mini & \makecell{72.3\\{\tiny[55.2, 88.9]}} & \makecell{1.9\\{\tiny[0.4, 3.8]}} & \makecell{9.8\\{\tiny[5.5, 14.9]}} & \makecell{4.6\\{\tiny[2.3, 7.4]}} & \makecell{5.1\\{\tiny[0.4, 10.4]}} & \makecell{11.2\\{\tiny[6.8, 16.4]}} & \makecell{3.8\\{\tiny[2.0, 5.9]}} \\
- & Gemini 3.7 Flash & \makecell{100.0\\{\tiny[100.0, 100.0]}} & \makecell{1.0\\{\tiny[0.0, 2.3]}} & \makecell{3.7\\{\tiny[1.4, 6.2]}} & \makecell{3.4\\{\tiny[1.6, 5.7]}} & \makecell{0.3\\{\tiny[$-$2.9, 3.3]}} & \makecell{2.5\\{\tiny[0.8, 4.5]}} & \makecell{2.6\\{\tiny[1.1, 4.5]}} \\
- & Claude Haiku 4.5 & \makecell{75.0\\{\tiny[59.2, 89.7]}} & \makecell{1.4\\{\tiny[0.0, 3.2]}} & \makecell{7.1\\{\tiny[3.9, 11.0]}} & \makecell{5.7\\{\tiny[3.1, 8.9]}} & \makecell{1.4\\{\tiny[$-$2.9, 5.9]}} & \makecell{8.5\\{\tiny[5.2, 12.8]}} & \makecell{5.3\\{\tiny[3.0, 8.0]}} \\
- & Qwen 3.8 Flash & \makecell{54.1\\{\tiny[37.4, 70.6]}} & \makecell{6.5\\{\tiny[3.9, 9.4]}} & \makecell{12.5\\{\tiny[7.8, 17.7]}} & \makecell{6.6\\{\tiny[3.8, 9.8]}} & \makecell{5.9\\{\tiny[0.6, 11.5]}} & \makecell{6.2\\{\tiny[3.4, 9.4]}} & \makecell{4.9\\{\tiny[2.6, 7.7]}} \\
+VQA-RAD & GPT-5 mini & 72.3 & 1.9 & 9.8 & 4.6 & 5.1 & 11.2 & 3.8 \\
+ & Gemini 3.7 Flash & 100.0 & 1.0 & 3.7 & 3.4 & 0.3 & 2.5 & 2.6 \\
+ & Claude Haiku 4.5 & 75.0 & 1.4 & 7.1 & 5.7 & 1.4 & 8.5 & 5.3 \\
+ & Qwen 3.8 Flash & 54.1 & 6.5 & 12.5 & 6.6 & 5.9 & 6.2 & 4.9 \\
 \midrule
-SLAKE & GPT-5 mini & \makecell{56.1\\{\tiny[34.9, 78.8]}} & \makecell{1.1\\{\tiny[0.0, 2.5]}} & \makecell{4.5\\{\tiny[2.1, 7.3]}} & \makecell{1.9\\{\tiny[0.8, 3.3]}} & \makecell{2.6\\{\tiny[0.3, 5.2]}} & \makecell{4.0\\{\tiny[2.1, 6.4]}} & \makecell{3.4\\{\tiny[1.7, 5.5]}} \\
- & Gemini 3.7 Flash & \makecell{71.4\\{\tiny[41.2, 100.0]}} & \makecell{1.2\\{\tiny[0.2, 2.4]}} & \makecell{2.9\\{\tiny[0.7, 5.3]}} & \makecell{1.4\\{\tiny[0.3, 2.9]}} & \makecell{1.5\\{\tiny[$-$1.1, 4.2]}} & \makecell{1.8\\{\tiny[0.5, 3.5]}} & \makecell{1.0\\{\tiny[0.3, 2.1]}} \\
- & Claude Haiku 4.5 & \makecell{62.5\\{\tiny[41.4, 83.0]}} & \makecell{1.4\\{\tiny[0.3, 2.9]}} & \makecell{4.0\\{\tiny[1.9, 6.7]}} & \makecell{3.4\\{\tiny[1.1, 6.4]}} & \makecell{0.6\\{\tiny[$-$3.3, 4.1]}} & \makecell{3.4\\{\tiny[1.8, 5.7]}} & \makecell{4.8\\{\tiny[2.0, 8.3]}} \\
- & Qwen 3.8 Flash & \makecell{41.5\\{\tiny[23.7, 61.2]}} & \makecell{1.8\\{\tiny[0.7, 3.1]}} & \makecell{4.2\\{\tiny[2.0, 6.9]}} & \makecell{2.8\\{\tiny[1.3, 4.6]}} & \makecell{1.4\\{\tiny[$-$1.4, 4.6]}} & \makecell{3.4\\{\tiny[1.6, 5.5]}} & \makecell{5.5\\{\tiny[3.3, 8.5]}} \\
+SLAKE & GPT-5 mini & 56.1 & 1.1 & 4.5 & 1.9 & 2.6 & 4.0 & 3.4 \\
+ & Gemini 3.7 Flash & 71.4 & 1.2 & 2.9 & 1.4 & 1.5 & 1.8 & 1.0 \\
+ & Claude Haiku 4.5 & 62.5 & 1.4 & 4.0 & 3.4 & 0.6 & 3.4 & 4.8 \\
+ & Qwen 3.8 Flash & 41.5 & 1.8 & 4.2 & 2.8 & 1.4 & 3.4 & 5.5 \\
 \midrule
-MedXpertQA-MM & GPT-5 mini & \makecell{68.5\\{\tiny[52.6, 85.3]}} & \makecell{1.4\\{\tiny[0.0, 3.4]}} & \makecell{18.1\\{\tiny[11.5, 26.1]}} & \makecell{2.7\\{\tiny[1.4, 4.3]}} & \makecell{15.4\\{\tiny[9.6, 23.1]}} & \makecell{20.1\\{\tiny[13.3, 28.4]}} & \makecell{3.5\\{\tiny[1.8, 5.5]}} \\
- & Gemini 3.7 Flash & \makecell{71.7\\{\tiny[48.0, 93.9]}} & \makecell{1.9\\{\tiny[0.6, 3.5]}} & \makecell{7.2\\{\tiny[3.7, 11.6]}} & \makecell{2.6\\{\tiny[1.2, 4.5]}} & \makecell{4.6\\{\tiny[0.8, 9.0]}} & \makecell{6.6\\{\tiny[3.3, 11.0]}} & \makecell{1.5\\{\tiny[0.6, 2.6]}} \\
- & Claude Haiku 4.5 & \makecell{83.9\\{\tiny[67.3, 100.0]}} & \makecell{4.4\\{\tiny[0.9, 9.1]}} & \makecell{23.6\\{\tiny[12.8, 36.3]}} & \makecell{6.3\\{\tiny[2.9, 11.1]}} & \makecell{17.4\\{\tiny[6.4, 29.7]}} & \makecell{19.8\\{\tiny[11.1, 31.0]}} & \makecell{3.9\\{\tiny[1.7, 6.9]}} \\
- & Qwen 3.8 Flash & \makecell{62.2\\{\tiny[48.6, 76.7]}} & \makecell{2.4\\{\tiny[0.7, 4.5]}} & \makecell{18.1\\{\tiny[12.3, 25.1]}} & \makecell{5.4\\{\tiny[2.9, 8.5]}} & \makecell{12.7\\{\tiny[6.6, 19.8]}} & \makecell{23.5\\{\tiny[16.3, 32.1]}} & \makecell{6.2\\{\tiny[3.6, 9.4]}} \\
+MedXpertQA-MM & GPT-5 mini & 68.5 & 1.4 & 18.1 & 2.7 & 15.4 & 20.1 & 3.5 \\
+ & Gemini 3.7 Flash & 71.7 & 1.9 & 7.2 & 2.6 & 4.6 & 6.6 & 1.5 \\
+ & Claude Haiku 4.5 & 83.9 & 4.4 & 23.6 & 6.3 & 17.4 & 19.8 & 3.9 \\
+ & Qwen 3.8 Flash & 62.2 & 2.4 & 18.1 & 5.4 & 12.7 & 23.5 & 6.2 \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -147,17 +147,17 @@ MedXpertQA-MM & GPT-5 mini & \makecell{68.5\\{\tiny[52.6, 85.3]}} & \makecell{1.
 \toprule
 \makecell{Data set} & \makecell{Reasoning\\module} & \makecell{Reports by\\GPT-5 mini} & \makecell{Reports by\\Gemini} & \makecell{Reports by\\Claude} & \makecell{Image} & \makecell{GPT-5 mini reports\\$-$ image} & \makecell{Gemini reports\\$-$ image} & \makecell{Claude reports\\$-$ image} & \makecell{$\phi$\\image} & \makecell{$\phi$ own\\reports} & \makecell{$\phi$ shared\\report} \\
 \midrule
-VQA-RAD & GPT-5 mini & \makecell{69.0\\{\tiny[63.7, 73.9]}} & \makecell{78.7\\{\tiny[74.1, 82.8]}} & \makecell{61.6\\{\tiny[56.4, 66.7]}} & \makecell{72.6\\{\tiny[67.6, 77.3]}} & \makecell{$-$3.6\\{\tiny[$-$8.4, 1.4]}} & \makecell{6.1\\{\tiny[1.4, 10.9]}} & \makecell{$-$10.9\\{\tiny[$-$16.8, $-$5.0]}} & \makecell{0.741\\{\tiny[0.683, 0.797]}} & \makecell{0.818\\{\tiny[0.770, 0.866]}} & \makecell{0.944\\{\tiny[0.917, 0.970]}} \\
- & Gemini 3.7 Flash & \makecell{70.2\\{\tiny[64.6, 75.2]}} & \makecell{81.3\\{\tiny[76.9, 85.4]}} & \makecell{63.6\\{\tiny[58.4, 68.6]}} & \makecell{80.3\\{\tiny[75.6, 84.5]}} & \makecell{$-$10.1\\{\tiny[$-$16.1, $-$4.0]}} & \makecell{1.0\\{\tiny[$-$4.0, 6.0]}} & \makecell{$-$16.7\\{\tiny[$-$23.4, $-$10.1]}} & \makecell{0.776\\{\tiny[0.715, 0.836]}} & \makecell{0.783\\{\tiny[0.727, 0.841]}} & \makecell{0.990\\{\tiny[0.975, 1.000]}} \\
- & Claude Haiku 4.5 & \makecell{70.6\\{\tiny[65.4, 75.6]}} & \makecell{78.8\\{\tiny[74.2, 83.1]}} & \makecell{63.5\\{\tiny[58.1, 68.4]}} & \makecell{62.5\\{\tiny[56.7, 68.0]}} & \makecell{8.1\\{\tiny[1.4, 14.9]}} & \makecell{16.3\\{\tiny[9.9, 22.6]}} & \makecell{0.9\\{\tiny[$-$5.3, 6.8]}} & \makecell{0.878\\{\tiny[0.835, 0.911]}} & \makecell{0.723\\{\tiny[0.668, 0.773]}} & \makecell{0.986\\{\tiny[0.973, 0.998]}} \\
+VQA-RAD & GPT-5 mini & 69.0 & 78.7 & 61.6 & 72.6 & $-$3.6 & 6.1 & $-$10.9 & 0.741 & 0.818 & 0.944 \\
+ & Gemini 3.7 Flash & 70.2 & 81.3 & 63.6 & 80.3 & $-$10.1 & 1.0 & $-$16.7 & 0.776 & 0.783 & 0.990 \\
+ & Claude Haiku 4.5 & 70.6 & 78.8 & 63.5 & 62.5 & 8.1 & 16.3 & 0.9 & 0.878 & 0.723 & 0.986 \\
 \midrule
-SLAKE & GPT-5 mini & \makecell{83.5\\{\tiny[79.3, 87.5]}} & \makecell{87.4\\{\tiny[83.7, 90.9]}} & \makecell{78.8\\{\tiny[74.3, 82.9]}} & \makecell{79.1\\{\tiny[74.5, 83.6]}} & \makecell{4.4\\{\tiny[0.9, 8.2]}} & \makecell{8.3\\{\tiny[4.4, 12.4]}} & \makecell{$-$0.4\\{\tiny[$-$5.0, 4.6]}} & \makecell{0.800\\{\tiny[0.746, 0.844]}} & \makecell{0.777\\{\tiny[0.711, 0.842]}} & \makecell{0.955\\{\tiny[0.921, 0.985]}} \\
- & Gemini 3.7 Flash & \makecell{84.9\\{\tiny[81.0, 88.7]}} & \makecell{88.2\\{\tiny[84.6, 91.6]}} & \makecell{80.2\\{\tiny[76.0, 84.4]}} & \makecell{89.7\\{\tiny[86.3, 93.1]}} & \makecell{$-$4.8\\{\tiny[$-$8.5, $-$1.3]}} & \makecell{$-$1.6\\{\tiny[$-$4.0, 1.2]}} & \makecell{$-$9.5\\{\tiny[$-$13.9, $-$4.9]}} & \makecell{0.828\\{\tiny[0.744, 0.895]}} & \makecell{0.771\\{\tiny[0.687, 0.840]}} & \makecell{0.965\\{\tiny[0.934, 0.988]}} \\
- & Claude Haiku 4.5 & \makecell{81.0\\{\tiny[76.8, 85.1]}} & \makecell{84.3\\{\tiny[80.4, 88.1]}} & \makecell{76.3\\{\tiny[71.8, 80.8]}} & \makecell{73.4\\{\tiny[68.1, 78.5]}} & \makecell{7.6\\{\tiny[3.1, 12.1]}} & \makecell{10.9\\{\tiny[6.4, 15.7]}} & \makecell{2.9\\{\tiny[$-$1.6, 7.3]}} & \makecell{0.882\\{\tiny[0.838, 0.922]}} & \makecell{0.728\\{\tiny[0.665, 0.785]}} & \makecell{0.969\\{\tiny[0.943, 0.990]}} \\
+SLAKE & GPT-5 mini & 83.5 & 87.4 & 78.8 & 79.1 & 4.4 & 8.3 & $-$0.4 & 0.800 & 0.777 & 0.955 \\
+ & Gemini 3.7 Flash & 84.9 & 88.2 & 80.2 & 89.7 & $-$4.8 & $-$1.6 & $-$9.5 & 0.828 & 0.771 & 0.965 \\
+ & Claude Haiku 4.5 & 81.0 & 84.3 & 76.3 & 73.4 & 7.6 & 10.9 & 2.9 & 0.882 & 0.728 & 0.969 \\
 \midrule
-MedXpertQA-MM & GPT-5 mini & \makecell{50.1\\{\tiny[45.0, 55.2]}} & \makecell{62.0\\{\tiny[56.7, 67.2]}} & \makecell{45.0\\{\tiny[40.1, 49.9]}} & \makecell{52.9\\{\tiny[47.7, 58.0]}} & \makecell{$-$2.8\\{\tiny[$-$6.9, 1.0]}} & \makecell{9.1\\{\tiny[3.4, 14.4]}} & \makecell{$-$7.9\\{\tiny[$-$12.7, $-$3.2]}} & \makecell{0.692\\{\tiny[0.642, 0.742]}} & \makecell{0.641\\{\tiny[0.595, 0.696]}} & \makecell{0.800\\{\tiny[0.755, 0.845]}} \\
- & Gemini 3.7 Flash & \makecell{60.8\\{\tiny[55.6, 65.9]}} & \makecell{74.5\\{\tiny[69.6, 79.1]}} & \makecell{57.8\\{\tiny[52.7, 62.7]}} & \makecell{83.7\\{\tiny[79.4, 87.8]}} & \makecell{$-$22.9\\{\tiny[$-$28.4, $-$17.5]}} & \makecell{$-$9.2\\{\tiny[$-$13.3, $-$5.2]}} & \makecell{$-$25.9\\{\tiny[$-$31.2, $-$20.4]}} & \makecell{0.811\\{\tiny[0.742, 0.866]}} & \makecell{0.715\\{\tiny[0.654, 0.770]}} & \makecell{0.880\\{\tiny[0.831, 0.927]}} \\
- & Claude Haiku 4.5 & \makecell{30.6\\{\tiny[25.6, 35.7]}} & \makecell{45.6\\{\tiny[40.0, 50.9]}} & \makecell{27.4\\{\tiny[22.6, 32.2]}} & \makecell{31.7\\{\tiny[26.3, 37.3]}} & \makecell{$-$1.1\\{\tiny[$-$5.9, 3.6]}} & \makecell{13.8\\{\tiny[7.8, 19.5]}} & \makecell{$-$4.4\\{\tiny[$-$9.0, $-$0.0]}} & \makecell{0.915\\{\tiny[0.876, 0.949]}} & \makecell{0.701\\{\tiny[0.644, 0.758]}} & \makecell{0.893\\{\tiny[0.857, 0.933]}} \\
+MedXpertQA-MM & GPT-5 mini & 50.1 & 62.0 & 45.0 & 52.9 & $-$2.8 & 9.1 & $-$7.9 & 0.692 & 0.641 & 0.800 \\
+ & Gemini 3.7 Flash & 60.8 & 74.5 & 57.8 & 83.7 & $-$22.9 & $-$9.2 & $-$25.9 & 0.811 & 0.715 & 0.880 \\
+ & Claude Haiku 4.5 & 30.6 & 45.6 & 27.4 & 31.7 & $-$1.1 & 13.8 & $-$4.4 & 0.915 & 0.701 & 0.893 \\
 \bottomrule
 \end{tabular}
 \par\medskip
@@ -183,19 +183,19 @@ Claude Haiku 4.5 & 26.5 & 29.9 & 26.7 & 47.1 & 30.8 & 42.9 \\
 \toprule
 \makecell{} & \makecell{VQA-RAD} & \makecell{SLAKE} & \makecell{MedXpertQA-MM} \\
 \midrule
-Self-consistency $\phi$, GPT-5 mini & \makecell{0.741\\{\tiny[0.676, 0.792]}} & \makecell{0.800\\{\tiny[0.751, 0.847]}} & \makecell{0.692\\{\tiny[0.642, 0.739]}} \\
-Self-consistency $\phi$, Gemini 3.7 Flash & \makecell{0.776\\{\tiny[0.714, 0.825]}} & \makecell{0.828\\{\tiny[0.754, 0.906]}} & \makecell{0.811\\{\tiny[0.743, 0.863]}} \\
-Self-consistency $\phi$, Claude Haiku 4.5 & \makecell{0.878\\{\tiny[0.836, 0.918]}} & \makecell{0.882\\{\tiny[0.836, 0.921]}} & \makecell{0.915\\{\tiny[0.885, 0.949]}} \\
-Self-consistency $\phi$, Qwen 3.8 Flash & \makecell{0.442\\{\tiny[0.378, 0.504]}} & \makecell{0.604\\{\tiny[0.530, 0.666]}} & \makecell{0.629\\{\tiny[0.570, 0.685]}} \\
+Self-consistency $\phi$, GPT-5 mini & 0.741 & 0.800 & 0.692 \\
+Self-consistency $\phi$, Gemini 3.7 Flash & 0.776 & 0.828 & 0.811 \\
+Self-consistency $\phi$, Claude Haiku 4.5 & 0.878 & 0.882 & 0.915 \\
+Self-consistency $\phi$, Qwen 3.8 Flash & 0.442 & 0.604 & 0.629 \\
 \midrule
-$\Delta\phi$, Role & \makecell{$-$0.048\\{\tiny[$-$0.071, $-$0.023]}} & \makecell{$-$0.060\\{\tiny[$-$0.087, $-$0.036]}} & \makecell{$-$0.033\\{\tiny[$-$0.051, $-$0.014]}} \\
-$\Delta\phi$, Contrast adjustment & \makecell{$-$0.092\\{\tiny[$-$0.123, $-$0.068]}} & \makecell{$-$0.094\\{\tiny[$-$0.123, $-$0.066]}} & \makecell{$-$0.045\\{\tiny[$-$0.062, $-$0.027]}} \\
-$\Delta\phi$, In-context examples & \makecell{$-$0.110\\{\tiny[$-$0.142, $-$0.084]}} & \makecell{$-$0.146\\{\tiny[$-$0.179, $-$0.117]}} & -- \\
-$\Delta\phi$, Report & \makecell{$-$0.199\\{\tiny[$-$0.233, $-$0.164]}} & \makecell{$-$0.204\\{\tiny[$-$0.247, $-$0.162]}} & \makecell{$-$0.172\\{\tiny[$-$0.211, $-$0.142]}} \\
+$\Delta\phi$, Role & $-$0.048 & $-$0.060 & $-$0.033 \\
+$\Delta\phi$, Contrast adjustment & $-$0.092 & $-$0.094 & $-$0.045 \\
+$\Delta\phi$, In-context examples & $-$0.110 & $-$0.146 & -- \\
+$\Delta\phi$, Report & $-$0.199 & $-$0.204 & $-$0.172 \\
 \midrule
-$\Delta\phi$, Perception module & \makecell{$-$0.311\\{\tiny[$-$0.362, $-$0.260]}} & \makecell{$-$0.275\\{\tiny[$-$0.334, $-$0.218]}} & \makecell{$-$0.263\\{\tiny[$-$0.294, $-$0.227]}} \\
-$\Delta\phi$, Reasoning module & \makecell{$-$0.108\\{\tiny[$-$0.132, $-$0.083]}} & \makecell{$-$0.167\\{\tiny[$-$0.222, $-$0.129]}} & \makecell{$-$0.430\\{\tiny[$-$0.477, $-$0.389]}} \\
-$\Delta\phi$, Model & \makecell{$-$0.470\\{\tiny[$-$0.522, $-$0.421]}} & \makecell{$-$0.473\\{\tiny[$-$0.544, $-$0.406]}} & \makecell{$-$0.492\\{\tiny[$-$0.536, $-$0.445]}} \\
+$\Delta\phi$, Perception module & $-$0.311 & $-$0.275 & $-$0.263 \\
+$\Delta\phi$, Reasoning module & $-$0.108 & $-$0.167 & $-$0.430 \\
+$\Delta\phi$, Model & $-$0.470 & $-$0.473 & $-$0.492 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -210,9 +210,9 @@ $\Delta\phi$, Model & \makecell{$-$0.470\\{\tiny[$-$0.522, $-$0.421]}} & \makece
 \toprule
 \makecell{Data set} & \makecell{Perception\\module} & \makecell{Image vs\\report} & \makecell{Contrast\\adjustment} & \makecell{Role} & \makecell{In-context\\examples} & \makecell{Report} & \makecell{Reasoning\\module} \\
 \midrule
-VQA-RAD & \makecell{$-$0.247\\{\tiny[$-$0.283, $-$0.210]}} & \makecell{$-$0.123\\{\tiny[$-$0.173, $-$0.078]}} & \makecell{$-$0.023\\{\tiny[$-$0.036, $-$0.009]}} & \makecell{$-$0.006\\{\tiny[$-$0.016, 0.005]}} & \makecell{$-$0.026\\{\tiny[$-$0.043, $-$0.011]}} & \makecell{0.150\\{\tiny[0.092, 0.218]}} & \makecell{$-$0.026\\{\tiny[$-$0.045, $-$0.004]}} \\
-SLAKE & \makecell{$-$0.193\\{\tiny[$-$0.232, $-$0.146]}} & \makecell{$-$0.094\\{\tiny[$-$0.135, $-$0.060]}} & \makecell{$-$0.017\\{\tiny[$-$0.032, $-$0.003]}} & \makecell{$-$0.004\\{\tiny[$-$0.015, 0.006]}} & \makecell{$-$0.040\\{\tiny[$-$0.053, $-$0.028]}} & \makecell{0.009\\{\tiny[$-$0.051, 0.059]}} & \makecell{$-$0.124\\{\tiny[$-$0.168, $-$0.086]}} \\
-MedXpertQA-MM & \makecell{$-$0.160\\{\tiny[$-$0.187, $-$0.131]}} & \makecell{$-$0.099\\{\tiny[$-$0.127, $-$0.071]}} & \makecell{$-$0.012\\{\tiny[$-$0.021, $-$0.003]}} & \makecell{$-$0.009\\{\tiny[$-$0.017, $-$0.002]}} & -- & \makecell{$-$0.066\\{\tiny[$-$0.104, $-$0.022]}} & \makecell{$-$0.194\\{\tiny[$-$0.228, $-$0.164]}} \\
+VQA-RAD & $-$0.247 & $-$0.123 & $-$0.023 & $-$0.006 & $-$0.026 & 0.150 & $-$0.026 \\
+SLAKE & $-$0.193 & $-$0.094 & $-$0.017 & $-$0.004 & $-$0.040 & 0.009 & $-$0.124 \\
+MedXpertQA-MM & $-$0.160 & $-$0.099 & $-$0.012 & $-$0.009 & -- & $-$0.066 & $-$0.194 \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -227,29 +227,29 @@ MedXpertQA-MM & \makecell{$-$0.160\\{\tiny[$-$0.187, $-$0.131]}} & \makecell{$-$
 \toprule
 \makecell{Data set} & \makecell{Model} & \makecell{} & \makecell{None} & \makecell{Shared,\\images} & \makecell{Private,\\images} & \makecell{Shared,\\text} & \makecell{Private,\\text} \\
 \midrule
-VQA-RAD & GPT-5 mini & Single agent & \makecell{72.0\\{\tiny[66.4, 77.2]}} & \makecell{73.6\\{\tiny[68.0, 78.8]}} & -- & \makecell{75.6\\{\tiny[70.0, 80.4]}} & -- \\
- &  & MAS accuracy & \makecell{73.6\\{\tiny[68.0, 78.8]}} & \makecell{74.8\\{\tiny[69.6, 80.4]}} & \makecell{75.2\\{\tiny[69.6, 80.4]}} & \makecell{76.4\\{\tiny[71.2, 81.6]}} & \makecell{74.8\\{\tiny[69.6, 80.0]}} \\
- &  & $\phi$ & \makecell{0.741\\{\tiny[0.683, 0.797]}} & \makecell{0.751\\{\tiny[0.694, 0.799]}} & \makecell{0.668\\{\tiny[0.608, 0.723]}} & \makecell{0.737\\{\tiny[0.681, 0.792]}} & \makecell{0.703\\{\tiny[0.637, 0.759]}} \\
+VQA-RAD & GPT-5 mini & Single agent & 72.0 & 73.6 & -- & 75.6 & -- \\
+ &  & MAS accuracy & 73.6 & 74.8 & 75.2 & 76.4 & 74.8 \\
+ &  & $\phi$ & 0.741 & 0.751 & 0.668 & 0.737 & 0.703 \\
 \midrule
- & Gemini 3.7 Flash & Single agent & \makecell{81.2\\{\tiny[76.4, 86.0]}} & \makecell{82.4\\{\tiny[77.2, 87.2]}} & -- & \makecell{83.6\\{\tiny[78.8, 88.0]}} & -- \\
- &  & MAS accuracy & \makecell{80.4\\{\tiny[75.2, 84.8]}} & \makecell{82.8\\{\tiny[78.4, 87.2]}} & \makecell{82.0\\{\tiny[77.2, 86.4]}} & \makecell{84.4\\{\tiny[80.0, 88.8]}} & \makecell{84.4\\{\tiny[79.6, 88.8]}} \\
- &  & $\phi$ & \makecell{0.776\\{\tiny[0.715, 0.836]}} & \makecell{0.708\\{\tiny[0.640, 0.772]}} & \makecell{0.673\\{\tiny[0.599, 0.744]}} & \makecell{0.743\\{\tiny[0.658, 0.816]}} & \makecell{0.692\\{\tiny[0.618, 0.763]}} \\
+ & Gemini 3.7 Flash & Single agent & 81.2 & 82.4 & -- & 83.6 & -- \\
+ &  & MAS accuracy & 80.4 & 82.8 & 82.0 & 84.4 & 84.4 \\
+ &  & $\phi$ & 0.776 & 0.708 & 0.673 & 0.743 & 0.692 \\
 \midrule
- & Claude Haiku 4.5 & Single agent & \makecell{60.8\\{\tiny[54.4, 66.8]}} & \makecell{68.8\\{\tiny[63.2, 74.0]}} & -- & \makecell{61.2\\{\tiny[54.8, 67.2]}} & -- \\
- &  & MAS accuracy & \makecell{62.0\\{\tiny[55.6, 68.0]}} & \makecell{65.2\\{\tiny[58.8, 71.2]}} & \makecell{64.4\\{\tiny[58.8, 70.0]}} & \makecell{62.4\\{\tiny[56.0, 68.4]}} & \makecell{62.4\\{\tiny[56.0, 68.0]}} \\
- &  & $\phi$ & \makecell{0.878\\{\tiny[0.835, 0.911]}} & \makecell{0.890\\{\tiny[0.849, 0.928]}} & \makecell{0.664\\{\tiny[0.612, 0.713]}} & \makecell{0.912\\{\tiny[0.878, 0.942]}} & \makecell{0.681\\{\tiny[0.630, 0.739]}} \\
+ & Claude Haiku 4.5 & Single agent & 60.8 & 68.8 & -- & 61.2 & -- \\
+ &  & MAS accuracy & 62.0 & 65.2 & 64.4 & 62.4 & 62.4 \\
+ &  & $\phi$ & 0.878 & 0.890 & 0.664 & 0.912 & 0.681 \\
 \midrule
-SLAKE & GPT-5 mini & Single agent & \makecell{80.8\\{\tiny[76.0, 85.6]}} & \makecell{79.2\\{\tiny[74.4, 84.0]}} & -- & \makecell{81.6\\{\tiny[76.8, 86.4]}} & -- \\
- &  & MAS accuracy & \makecell{78.4\\{\tiny[73.2, 83.6]}} & \makecell{81.6\\{\tiny[76.8, 86.4]}} & \makecell{84.0\\{\tiny[79.2, 88.4]}} & \makecell{82.0\\{\tiny[77.2, 86.8]}} & \makecell{81.6\\{\tiny[76.8, 86.4]}} \\
- &  & $\phi$ & \makecell{0.800\\{\tiny[0.746, 0.844]}} & \makecell{0.741\\{\tiny[0.667, 0.807]}} & \makecell{0.667\\{\tiny[0.600, 0.737]}} & \makecell{0.780\\{\tiny[0.718, 0.842]}} & \makecell{0.690\\{\tiny[0.620, 0.752]}} \\
+SLAKE & GPT-5 mini & Single agent & 80.8 & 79.2 & -- & 81.6 & -- \\
+ &  & MAS accuracy & 78.4 & 81.6 & 84.0 & 82.0 & 81.6 \\
+ &  & $\phi$ & 0.800 & 0.741 & 0.667 & 0.780 & 0.690 \\
 \midrule
- & Gemini 3.7 Flash & Single agent & \makecell{91.2\\{\tiny[87.6, 94.4]}} & \makecell{89.2\\{\tiny[85.2, 92.8]}} & -- & \makecell{90.8\\{\tiny[87.2, 94.4]}} & -- \\
- &  & MAS accuracy & \makecell{90.0\\{\tiny[86.4, 93.6]}} & \makecell{89.2\\{\tiny[85.6, 92.8]}} & \makecell{90.4\\{\tiny[86.8, 93.6]}} & \makecell{90.4\\{\tiny[86.4, 94.0]}} & \makecell{92.0\\{\tiny[88.8, 95.2]}} \\
- &  & $\phi$ & \makecell{0.828\\{\tiny[0.744, 0.895]}} & \makecell{0.836\\{\tiny[0.761, 0.894]}} & \makecell{0.722\\{\tiny[0.629, 0.797]}} & \makecell{0.823\\{\tiny[0.725, 0.891]}} & \makecell{0.716\\{\tiny[0.599, 0.804]}} \\
+ & Gemini 3.7 Flash & Single agent & 91.2 & 89.2 & -- & 90.8 & -- \\
+ &  & MAS accuracy & 90.0 & 89.2 & 90.4 & 90.4 & 92.0 \\
+ &  & $\phi$ & 0.828 & 0.836 & 0.722 & 0.823 & 0.716 \\
 \midrule
- & Claude Haiku 4.5 & Single agent & \makecell{72.4\\{\tiny[67.2, 78.0]}} & \makecell{67.6\\{\tiny[62.0, 73.2]}} & -- & \makecell{76.8\\{\tiny[71.6, 82.0]}} & -- \\
- &  & MAS accuracy & \makecell{73.6\\{\tiny[68.0, 79.2]}} & \makecell{70.4\\{\tiny[64.8, 76.0]}} & \makecell{68.8\\{\tiny[62.8, 74.8]}} & \makecell{78.0\\{\tiny[73.2, 83.2]}} & \makecell{78.0\\{\tiny[73.2, 82.8]}} \\
- &  & $\phi$ & \makecell{0.882\\{\tiny[0.838, 0.922]}} & \makecell{0.928\\{\tiny[0.894, 0.955]}} & \makecell{0.655\\{\tiny[0.608, 0.708]}} & \makecell{0.941\\{\tiny[0.907, 0.970]}} & \makecell{0.720\\{\tiny[0.657, 0.779]}} \\
+ & Claude Haiku 4.5 & Single agent & 72.4 & 67.6 & -- & 76.8 & -- \\
+ &  & MAS accuracy & 73.6 & 70.4 & 68.8 & 78.0 & 78.0 \\
+ &  & $\phi$ & 0.882 & 0.928 & 0.655 & 0.941 & 0.720 \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -265,25 +265,25 @@ SLAKE & GPT-5 mini & Single agent & \makecell{80.8\\{\tiny[76.0, 85.6]}} & \make
 \toprule
 \makecell{Model} & \makecell{Data set} & \makecell{Original} & \makecell{Blank} & \makecell{256 px} & \makecell{128 px} & \makecell{Visual\\reliance} \\
 \midrule
-MedGemma 4B & VQA-RAD & \makecell{80.0\\{\tiny[75.2, 84.8]}} & \makecell{60.8\\{\tiny[54.8, 66.8]}} & \makecell{80.4\\{\tiny[75.6, 85.2]}} & \makecell{76.0\\{\tiny[71.2, 81.2]}} & \makecell{6.43\\{\tiny[5.71, 7.17]}} \\
- & SLAKE & \makecell{88.8\\{\tiny[85.2, 92.4]}} & \makecell{40.0\\{\tiny[34.0, 46.4]}} & \makecell{86.8\\{\tiny[82.8, 91.2]}} & \makecell{84.0\\{\tiny[79.6, 88.4]}} & \makecell{11.23\\{\tiny[10.58, 11.95]}} \\
- & MedXpertQA-MM & \makecell{22.0\\{\tiny[16.8, 27.2]}} & \makecell{23.2\\{\tiny[18.0, 28.4]}} & \makecell{22.4\\{\tiny[17.2, 27.6]}} & \makecell{22.4\\{\tiny[17.2, 27.6]}} & \makecell{0.88\\{\tiny[0.65, 1.13]}} \\
+MedGemma 4B & VQA-RAD & 80.0 & 60.8 & 80.4 & 76.0 & 6.43 \\
+ & SLAKE & 88.8 & 40.0 & 86.8 & 84.0 & 11.23 \\
+ & MedXpertQA-MM & 22.0 & 23.2 & 22.4 & 22.4 & 0.88 \\
 \midrule
-Qwen3-VL 8B & VQA-RAD & \makecell{74.0\\{\tiny[68.4, 79.2]}} & \makecell{57.6\\{\tiny[51.6, 63.6]}} & \makecell{70.0\\{\tiny[64.0, 75.6]}} & \makecell{68.8\\{\tiny[62.8, 74.4]}} & \makecell{5.98\\{\tiny[5.36, 6.61]}} \\
- & SLAKE & \makecell{79.2\\{\tiny[74.0, 84.4]}} & \makecell{43.6\\{\tiny[37.6, 49.6]}} & \makecell{83.6\\{\tiny[78.8, 88.0]}} & \makecell{81.2\\{\tiny[76.4, 86.0]}} & \makecell{9.72\\{\tiny[8.95, 10.55]}} \\
- & MedXpertQA-MM & \makecell{24.4\\{\tiny[19.2, 30.0]}} & \makecell{23.6\\{\tiny[18.8, 28.8]}} & \makecell{25.6\\{\tiny[20.4, 31.2]}} & \makecell{25.2\\{\tiny[20.0, 30.4]}} & \makecell{0.72\\{\tiny[0.55, 0.93]}} \\
+Qwen3-VL 8B & VQA-RAD & 74.0 & 57.6 & 70.0 & 68.8 & 5.98 \\
+ & SLAKE & 79.2 & 43.6 & 83.6 & 81.2 & 9.72 \\
+ & MedXpertQA-MM & 24.4 & 23.6 & 25.6 & 25.2 & 0.72 \\
 \midrule
-Qwen2-VL 7B & VQA-RAD & \makecell{76.8\\{\tiny[71.6, 82.0]}} & \makecell{58.8\\{\tiny[53.2, 64.4]}} & \makecell{73.6\\{\tiny[68.4, 78.8]}} & \makecell{76.4\\{\tiny[70.8, 81.6]}} & \makecell{1.49\\{\tiny[1.33, 1.64]}} \\
- & SLAKE & \makecell{78.0\\{\tiny[73.2, 83.2]}} & \makecell{43.2\\{\tiny[36.8, 49.6]}} & \makecell{72.8\\{\tiny[67.6, 78.4]}} & \makecell{68.0\\{\tiny[62.4, 74.0]}} & \makecell{2.44\\{\tiny[2.21, 2.66]}} \\
- & MedXpertQA-MM & \makecell{20.8\\{\tiny[16.0, 26.0]}} & \makecell{21.6\\{\tiny[16.8, 26.8]}} & \makecell{21.2\\{\tiny[16.4, 26.4]}} & \makecell{21.2\\{\tiny[16.4, 26.4]}} & \makecell{0.11\\{\tiny[0.08, 0.14]}} \\
+Qwen2-VL 7B & VQA-RAD & 76.8 & 58.8 & 73.6 & 76.4 & 1.49 \\
+ & SLAKE & 78.0 & 43.2 & 72.8 & 68.0 & 2.44 \\
+ & MedXpertQA-MM & 20.8 & 21.6 & 21.2 & 21.2 & 0.11 \\
 \midrule
-HuatuoGPT-Vision 7B & VQA-RAD & \makecell{74.8\\{\tiny[69.6, 80.0]}} & \makecell{56.4\\{\tiny[50.4, 62.4]}} & \makecell{77.2\\{\tiny[72.0, 82.4]}} & \makecell{75.6\\{\tiny[70.4, 80.8]}} & \makecell{0.89\\{\tiny[0.77, 1.01]}} \\
- & SLAKE & \makecell{76.8\\{\tiny[72.0, 82.0]}} & \makecell{50.8\\{\tiny[44.4, 57.2]}} & \makecell{76.0\\{\tiny[70.8, 81.2]}} & \makecell{76.0\\{\tiny[70.8, 81.6]}} & \makecell{1.84\\{\tiny[1.66, 2.03]}} \\
- & MedXpertQA-MM & \makecell{20.0\\{\tiny[15.2, 25.2]}} & \makecell{20.0\\{\tiny[15.2, 25.2]}} & \makecell{19.6\\{\tiny[15.2, 24.4]}} & \makecell{20.4\\{\tiny[15.6, 25.2]}} & \makecell{0.10\\{\tiny[0.07, 0.13]}} \\
+HuatuoGPT-Vision 7B & VQA-RAD & 74.8 & 56.4 & 77.2 & 75.6 & 0.89 \\
+ & SLAKE & 76.8 & 50.8 & 76.0 & 76.0 & 1.84 \\
+ & MedXpertQA-MM & 20.0 & 20.0 & 19.6 & 20.4 & 0.10 \\
 \midrule
-LLaVA-1.5 7B & VQA-RAD & \makecell{56.0\\{\tiny[49.6, 62.0]}} & \makecell{54.0\\{\tiny[48.0, 60.0]}} & \makecell{56.4\\{\tiny[50.4, 62.4]}} & \makecell{56.0\\{\tiny[49.6, 62.0]}} & \makecell{1.10\\{\tiny[1.02, 1.18]}} \\
- & SLAKE & \makecell{66.0\\{\tiny[59.6, 72.0]}} & \makecell{50.0\\{\tiny[43.6, 56.4]}} & \makecell{66.4\\{\tiny[60.4, 72.4]}} & \makecell{66.0\\{\tiny[60.4, 72.0]}} & \makecell{1.40\\{\tiny[1.29, 1.52]}} \\
- & MedXpertQA-MM & \makecell{21.2\\{\tiny[16.4, 26.4]}} & \makecell{20.4\\{\tiny[15.6, 25.6]}} & \makecell{21.2\\{\tiny[16.4, 26.4]}} & \makecell{20.8\\{\tiny[16.0, 25.6]}} & \makecell{0.10\\{\tiny[0.07, 0.14]}} \\
+LLaVA-1.5 7B & VQA-RAD & 56.0 & 54.0 & 56.4 & 56.0 & 1.10 \\
+ & SLAKE & 66.0 & 50.0 & 66.4 & 66.0 & 1.40 \\
+ & MedXpertQA-MM & 21.2 & 20.4 & 21.2 & 20.8 & 0.10 \\
 \bottomrule
 \end{tabular}
 \par\medskip
