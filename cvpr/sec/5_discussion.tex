@@ -1,0 +1,16 @@
+\section{Discussion}\label{sec:discussion}
+
+Multi-agent systems should be sized by agent accuracy and error dependence, as captured by the beta-binomial analysis (\cref{fig:teaser,fig:supp-arithmetic}). Majority voting has little room to improve decisions when agents fail on the same items. Interventions that reduce $\phi$ should be assessed at matched mean agent accuracy, because majority accuracy depends on both quantities. The gain decomposition separates better agents from better aggregation: a multi-agent gain can reflect a change in mean agent accuracy rather than a benefit from voting.
+
+Shared perception exposes reasoning agents to common omissions, while a shared language prior can favor the same answer without visual support. The report comparisons isolate dependence on common findings (\cref{fig:report}). A query-agnostic report makes the extracted findings available for inspection before reasoning. Its omissions restrict the visual information available to every agent that reads it. On MedXpertQA-MM, agreement with blank-image majorities identifies shared errors that persist without the image (\cref{fig:prior}). Prism's perception--reasoning split makes each module available for model substitution~\cite{qiao2024prism}.
+
+Debate adds peer answers and reasoning to the evidence available to each agent~\cite{du2024debate}. Correct minority answers can be displaced during revision (\cref{fig:conformity}), consistent with conformity in multiagent debate~\cite{demystifying_mad}. Retaining initial answers permits evaluation of which errors communication corrects and which it introduces.
+
+An AI second reading in radiology should be assessed by its complementary errors, with clinical double reading as the reference~\cite{geijer2018double}. The model-substitution contrasts motivate testing a different VLM for this role (\cref{fig:contrasts}). Evaluation should measure joint errors before advice is exchanged: incorrect AI suggestions can alter radiologists' decisions~\cite{dratsch2023automation}.
+
+\paragraph{Limitations.}
+This controlled evaluation concerns closed questions from public data sets. Its scope includes neither human readers nor clinical reporting.
+
+\section{Conclusion}
+
+Across the original-image comparisons, nine agents from one VLM represented 1.17 to 1.99 effective independent agents. Shared-report error correlations were $0.800$--$0.990$; $64.2\%$--$76.2\%$ of shared wrong answers matched blank-image majorities on MedXpertQA-MM. Debate overturned $41.5\%$--$100.0\%$ of correct initial minority answers. Changing the model reduced error correlation by $0.470$--$0.492$, the largest reduction among the tested contrasts.

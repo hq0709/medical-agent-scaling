@@ -1,0 +1,39 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage[textwidth=6.875in,textheight=9.2in,top=0.8in]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[font=small,labelformat=empty]{caption}
+\setlength{\parindent}{0pt}
+\newlength{\colw}\setlength{\colw}{83.34mm}
+\newcommand{\two}[4]{\begin{figure}[H]\begin{minipage}[t]{\colw}\includegraphics[width=\colw]{#1}\caption{#2}\end{minipage}\hfill\begin{minipage}[t]{\colw}\includegraphics[width=\colw]{#3}\caption{#4}\end{minipage}\end{figure}}
+\newcommand{\one}[2]{\begin{figure}[H]\begin{minipage}[t]{\colw}\includegraphics[width=\colw]{#1}\caption{#2}\end{minipage}\end{figure}}
+\newcommand{\wide}[2]{\begin{figure}[H]\includegraphics[width=\textwidth]{#1}\caption{#2}\end{figure}}
+\begin{document}
+{\Large\bfseries Figure candidates, round 2}\\[2pt]
+{\small Print size: one-column figures at the CVPR \texttt{\textbackslash columnwidth} (83.3 mm), full-width figures at \texttt{\textbackslash textwidth} (174.6 mm). Codes (1A, 3B, ...) match the message.}
+\section*{Fig.~1 (teaser): why nine agents are worth fewer than two}
+\two{fig1_teaser_col.pdf}{\textbf{1A} Voting gain against error correlation; beta-binomial curves; top axis $N_{\mathrm{eff}}$.}{alt/T_phase.pdf}{\textbf{1B} Phase diagram: predicted voting gain over mean agent accuracy and $\phi$; the 108 systems sit in the near-zero band.}
+\one{alt/T_units.pdf}{\textbf{1C} Unit chart: nine agents per row, filled area $=N_{\mathrm{eff}}$.}
+\wide{alt/T_hist.pdf}{\textbf{1D} Correct agents per item (0 to 9): observed U shape against independent agents (binomial) and the beta-binomial with the observed $\phi$.}
+\wide{fig1_teaser_full.pdf}{\textbf{1E} Observed against predicted majority accuracy, with 1A.}
+\section*{Fig.~3: multi-agent gain and debate}
+\wide{fig3_panels.pdf}{\textbf{3A} Forest: gain, gain split, $\phi$ initial/final with $N_{\mathrm{eff}}$.}
+\wide{alt/A3_slope.pdf}{\textbf{3B} Slope chart: single agent, Independent and Decentralized accuracy.}
+\section*{Fig.~4: the language prior}
+\wide{fig4_prior.pdf}{\textbf{4A} Forest and diverging bars: accuracy and $\phi$ with blank images, answer cross-tabulation, shared wrong answers.}
+\wide{alt/A4_sankey.pdf}{\textbf{4B} Alluvial grid: correctness with the original image to correctness with the blank image.}
+\section*{Fig.~5: where the agents look}
+\two{fig5_region.pdf}{\textbf{5A} Forest: occlusion sensitivity and pair accuracy.}{alt/A5_scatter.pdf}{\textbf{5B} Scatter with 95\% CI crosshairs: occlusion sensitivity against pair accuracy.}
+\wide{alt/A5_example.pdf}{\textbf{5C} Qualitative: the occluded images as sent to the models, and a pair with opposite reference answers.}
+\section*{Fig.~6: perception and reasoning}
+\wide{fig6_report.pdf}{\textbf{6A} Heat map of accuracy by perception and reasoning module; $\phi$ by report condition.}
+\wide{alt/A6_bubble.pdf}{\textbf{6B} Bubble matrices: accuracy change from reading another module's report instead of the image.}
+\wide{alt/A6_example.pdf}{\textbf{6C} Qualitative: one image, three query-agnostic reports (verbatim excerpts), and how many reasoning agents answer correctly from each.}
+\section*{Fig.~7: what makes two agents err together}
+\two{fig7_contrasts.pdf}{\textbf{7A} Dot ladder of matched contrasts.}{alt/A7_bump.pdf}{\textbf{7B} Bump chart: rank of each component across data sets.}
+\section*{Fig.~8: conformity in debate}
+\one{fig8_discussion.pdf}{\textbf{8A} Forest: conformity by minority/majority and by blank-image agreement.}
+\wide{alt/A8_sankey.pdf}{\textbf{8B} Alluvial: every answer from its initial to its final state, summed over models.}
+\end{document}

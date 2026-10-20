@@ -1,0 +1,137 @@
+\clearpage
+\setcounter{page}{1}
+\maketitlesupplementary
+\setcounter{table}{0}\renewcommand{\thetable}{S\arabic{table}}
+\setcounter{figure}{0}\renewcommand{\thefigure}{S\arabic{figure}}
+
+\section{Protocol details}\label{sec:supp-protocol}
+
+\subsection{Exclusions and image preparation}
+Image eligibility was established before sampling. VQA-RAD used closed yes/no questions from its test split; SLAKE used closed yes/no questions from its English test split. Duplicate image--question combinations were removed from VQA-RAD. For MedXpertQA-MM, GPT-4.1 nano labeled image modality, and Claude Haiku 4.5 also labeled each candidate image as radiologic or not. Drawings and diagrams were excluded, as were photographs, pathology slides, charts and tables. Every attached image had to be radiologic for an item to be eligible.
+
+SLAKE-target required an annotated organ or lesion that was present in the image. It used the English training and test splits and excluded items in the SLAKE evaluation set. The target bounding box was expanded by 10\% on each side and clipped to the image boundaries; the expanded box occupied at most 40\% of the image. An equal-sized control box did not overlap the target and had at least 70\% of its area inside the body. Target and control occlusion used mid-gray fills before resizing. SLAKE-pairs contained the same question with opposite reference answers and allowed at most 5 pairs per question template.
+
+Sampling used stratified shuffling with seed 42. VQA-RAD strata used the reference answer; SLAKE strata also used modality. MedXpertQA-MM strata used body system and medical task. SLAKE-target strata used target type and modality; SLAKE-pairs strata used question template. Yes/no option order was randomized separately for each item from its identifier. Images were resized proportionally, without upsampling, to at most 1024 pixels on the long side. Reduced-resolution conditions capped that side at 256 or 128 pixels. Blank images were uniform gray images of the same dimensions~\cite{zafar2026see}.
+
+\subsection{Agent prompts and sampling}
+Role assignment used the question text to select subspecialties. GPT-4.1 nano selected and ranked the 9 most relevant roles from a roster of 12. The roster covered neuroradiology, head and neck, thoracic, cardiovascular, abdominal, genitourinary, musculoskeletal, breast, pediatric, nuclear medicine, interventional and emergency radiology. If fewer than 9 roles were returned, the remaining positions were filled in roster order. Systems of 1, 3 and 9 agents used the first members of this roster and reused their initial answers. The single agent and self-consistency baseline used a general-radiologist prompt, with instructions to reason briefly, step by step, before selecting an answer.
+
+Generation settings were fixed by model and condition. The configuration seed was 1; agent $i$ used seed $100+i$. Where supported, agents in a MAS, debate rounds and perception modules used temperature 0.7; the single agent used 0.3. GPT-5 mini accepted neither seed nor temperature and used low reasoning effort, with separate sampling for its agents. GPT-4.1 nano used temperature 0 for role assignment and modality screening. Decentralized MAS reused Independent MAS initial answers and allowed up to 3 subsequent rounds, with a stop at unanimity. Agents saw peer answers and reasoning; peer context was capped at 900 characters and peer order was shuffled by item and round.
+
+\subsection{Contrast adjustment}
+Contrast adjustment assigned different image versions to self-consistency samples. Agents 1--3 saw the original image; agents 4--6 saw a gamma-transformed image with gamma 0.7. Agents 7--9 saw contrast-limited adaptive histogram equalization (CLAHE)~\cite{zuiderveld1994clahe}. CLAHE used a clip limit of 2.0 and an $8\times8$ tile grid on the lightness channel. The corresponding contrast compared agents with different adjustments against self-consistency samples with the original image.
+
+\subsection{In-context example retrieval and selection}
+In-context examples came from training images with closed yes/no question--answer pairs. This condition used VQA-RAD and English SLAKE training data and was evaluated on VQA-RAD and SLAKE. The data sets carried no patient identifiers, so exclusions used image identity and similarity. SHA-256 hashes excluded images identical to any test image. For each query, candidates were also excluded within Hamming distance 8 of its 64-bit perceptual hash or at CLIP cosine similarity of at least 0.98.
+
+Retrieval used CLIP ViT-L/14-336 image embeddings~\cite{radford2021clip}. The 27 nearest eligible images were shuffled deterministically by question identifier into 9 groups of 3. In the shared condition, every agent received the first group; in the private condition, agent $i$ received group $i$. For each retrieved image, the question--answer pair with maximal term frequency--inverse document frequency (TF-IDF) cosine similarity to the current question was selected. Examples with images supplied that pair alongside its image. Text-only examples supplied the same question and answer without the image. The single agent also received shared examples with images or as text.
+
+\subsection{Query-agnostic reports and coverage}
+Query-agnostic reports separated perception from reasoning~\cite{qiao2024prism}. GPT-5 mini, Gemini 3.7 Flash and Claude Haiku 4.5 each served as a perception module and a reasoning module. Perception modules received neither the question nor its answer options. They were instructed to write at most 120 words that described modality and plane alongside visible anatomy, and to record every abnormal or notable finding with its location.
+
+Each perception module generated 9 reports per image or multi-image set, reused across questions about that image. All reasoning modules received identical reports for a given perception module, image and report index. Reasoning agents received the report, question and options without the image. Each agent used its own report in the own-report condition. All agents used the first report in the shared-report condition, which used matching perception and reasoning modules. Comparisons with direct image input used self-consistency samples from the same reasoning model.
+
+Report coverage on SLAKE used a synonym list based on the supplied organ and lesion labels. A report covered the queried target when it mentioned the target or a listed synonym. Accuracy and error correlation were evaluated by report condition, and errors were separated by target coverage.
+
+\subsection{Open-weight answer probabilities}
+Open-weight models used one forward pass per item and condition without sampling. They received the same rendered pixels as the proprietary models. Softmax normalized next-token logits over the answer words yes/no for binary items and over option letters for multiple-option items. Each answer used the highest logit among accepted capitalization and leading-space token variants. The validation comparison that fixed the yes/no readout appears in \cref{tab:supp-validation}.
+
+Visual reliance compared original-image and blank-image probability distributions. On yes/no items it was the absolute change in the log-odds of yes. On MedXpertQA-MM it was the Kullback--Leibler divergence from the original-image distribution to the blank-image distribution. Error correlation between models was also divided by its maximum given their marginal error rates, $\phi_{\max}$. Spearman correlation related shared wrong answers of proprietary models to open-weight visual reliance.
+
+\subsection{Matched contrasts of error correlation}
+The primary component analysis used matched differences in mean pairwise error correlation. Each contrast subtracted a condition in which agents shared the named component from one in which they did not:
+\begin{itemize}
+    \item \textbf{Role:} Independent MAS agents with subspecialty roles minus self-consistency samples with the same general-radiologist prompt.
+    \item \textbf{Contrast adjustment:} agents with different contrast adjustments minus self-consistency samples with original images.
+    \item \textbf{In-context examples:} agents with private examples minus agents with shared examples, matched by example format, with images or as text.
+    \item \textbf{Report:} the own-report condition minus the shared-report condition, with matching perception and reasoning modules.
+    \item \textbf{Perception module:} agents that read reports from different perception modules minus agents that read different reports from one perception module, within a reasoning model.
+    \item \textbf{Reasoning module:} agents from different reasoning models that read the same report minus agents from one reasoning model that read one shared report.
+    \item \textbf{Model:} self-consistency samples from different models minus self-consistency samples from one model.
+\end{itemize}
+
+Contrasts were computed within each reasoning model or model pair and then averaged over models or model pairs. For the reasoning-module and model contrasts, the subtracted mean averaged the separate within-model correlations of both models. Cross-model comparisons reused the existing self-consistency responses. Self-consistency error correlation from one model was the reference; it was reported as $\phi$, rather than $\Delta\phi$ (Tab.~S20--S22).
+
+\subsection{Regression and statistical inference}
+Ordinary least squares regression supplied an additive secondary summary of pairwise error correlation (Tab.~S23--S24). Predictors indicated components that two agents did not share, including image versus report input. The regression included one intercept per pair of reasoning models. Its coefficients were conditional on the other predictors; the matched contrasts were the primary component analysis.
+
+Error correlation was the mean Pearson correlation of binary error indicators over agent pairs. Pairs with constant error indicators were omitted. For yes/no systems, the beta-binomial majority prediction used mean agent accuracy and error correlation; a majority required at least 5 correct agents out of 9. Shared wrong answers required at least 7 of 9 agents to be wrong. Conformity was the share of initially correct agents whose final answer was wrong~\cite{asch1956conformity,demystifying_mad}. It was stratified by initial majority status and by agreement with the same agent's blank-image answer.
+
+Percentile bootstrap 95\% confidence intervals (CIs) retained all responses and matched conditions for each sampled item. Accuracy intervals used 2,000 item resamples with seed 0; error-correlation intervals used 500. Regression, matched contrasts and initial-to-final correlation comparisons used 300 resamples. Matched contrasts used the same resampled items as the regression. All differences were paired by item; paired-image measures resampled complete pairs. An increase or decrease required a difference CI that excluded zero.
+
+Unparsed answers counted as wrong. These abstentions were reported by condition and mostly reflected refusals to read blank images. A sensitivity analysis recomputed error correlation on items that both agents answered. Pair accuracy required both answers to be correct, with answers compared as option text, yes or no.
+
+\onecolumn
+\section{Validation before the main experiments}\label{sec:supp-validation}
+
+Validation fixed generation settings and the open-weight probability readout before the main experiments (\cref{tab:supp-validation}). Accuracy differences in this table use pp.
+
+\begin{table*}[!htbp]
+\centering
+\caption{\textbf{Validation fixed the settings used in the controlled evaluation.} V1--V6 cover answer parsing, image preparation, retrieval, localization, reports and open-weight readout. CLAHE denotes contrast-limited adaptive histogram equalization; CLIP denotes Contrastive Language--Image Pretraining; CT denotes computed tomography.}
+\label{tab:supp-validation}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{0.065\textwidth}p{0.59\textwidth}p{0.30\textwidth}@{}}
+\toprule
+Check & Result & Setting fixed \\
+\midrule
+V1 & Single-agent answer parsing was 100\% for all four proprietary models called through OpenRouter. On the same prompt, GPT-5 mini used 256 reasoning tokens at low effort and 2,304 at high effort. & GPT-5 mini used low reasoning effort. \\[3pt]
+V2 & Single-agent accuracy relative to the original image over 10 model-by-data-set cells: CLAHE averaged 0.0~pp (range $-6$ to 14); grayscale inversion averaged $-6.6$~pp (range $-12$ to 2). The changes at 256 and 128 pixels were $-1.0$ and $-5.6$~pp. & Inversion exceeded the 5~pp limit. Contrast adjustment used gamma 0.7 for agents 4--6 and CLAHE for agents 7--9. \\[3pt]
+V3 & Parsing was 100\% with four images per prompt: the query and three in-context examples. A CLIP threshold of 0.95 removed about 32 similar cases from different patients per query. Radiographs from different patients reached cosines of 0.91 to 0.95. A perceptual hash missed the same CT level and the same patient's chest radiograph (cosine 0.99). & In-context examples used the hash and similarity exclusion rules in \cref{sec:supp-protocol}, with CLIP threshold 0.98. \\[3pt]
+V4 & In 20 inspected SLAKE-target cases, the target box covered the queried organ or lesion. The control box did not overlap the target and lay within the body. & Target and control boxes were used as built. \\[3pt]
+V5 & Query-agnostic reports had median lengths of 72 to 77 words and a maximum of 109 words. Answer parsing was 100\%. & The report protocol was used as built. \\[3pt]
+V6 & With option-letter probabilities, the LLaVA family assigned 96--100\% probability to ``A'' regardless of the image. Pooled accuracy on 100 items, 50 each from VQA-RAD and SLAKE: MedGemma 84\%, HuatuoGPT-Vision 79\%, Qwen3-VL 78\%, Qwen2-VL 74\%, LLaVA-1.5 55\% and LLaVA-Med 53\%. & Binary items used yes/no token logits. LLaVA-Med was excluded by the 55\% pooled-accuracy threshold. \\[3pt]
+Runtime & Qwen 3.8 Flash used 250 to 6,400 reasoning tokens and 6 to 77 seconds per call. & Qwen 3.8 Flash used original, reduced-resolution and blank images, self-consistency and contrast adjustment. \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\section{Data collection}\label{sec:supp-collection}
+
+All proprietary-model calls used OpenRouter in October 2026. Perception modules generated reports before reasoning-module calls and were instructed to write at most 120 words. GPT-5 mini and Claude Haiku 4.5 each had a median report length of 75 words; Gemini 3.7 Flash had a median of 90. Maximum lengths were 118, 121 and 127 words, respectively. Provider routing and token budgets remained fixed. Transient service failures were retried until every item had a response. The automatic stop at more than 15\% unparsed answers was not applied to blank-image conditions.
+
+% Keep the generated tables at their native width without changing their source.
+\section{Detailed results}\label{sec:supp-tables}
+
+Tables S2--S31 report the detailed results with item-bootstrap 95\% CIs. Tables S2--S5 cover original-image systems; S6--S10 cover image resolution and blank-image comparisons. Tables S11--S14 cover occlusion and paired images; S15--S16 cover conformity. Tables S17--S19 cover the perception--reasoning split; S20--S24 cover component contrasts and regression. Tables S25--S28 cover in-context examples; S29--S31 cover open-weight models.
+
+\begingroup
+% Keep the longest generated tables within the page height.
+\linespread{0.94}\selectfont
+\input{sec/supp_tables}
+\endgroup
+
+\clearpage
+\section{Supplementary figures}\label{sec:supp-figures}
+
+\begin{figure*}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/fig1_teaser_full.pdf}
+\caption{\textbf{Mean agent accuracy and error correlation predict majority accuracy on yes/no items.} (a) Observed versus beta-binomial predicted majority accuracy for 108 systems of 9 agents; the dashed diagonal marks equality. Observed minus predicted accuracy averaged $-0.07$~pp, with standard deviation (SD) 0.84~pp. (b) Majority minus mean agent accuracy against error correlation $\phi$; gray curves give predictions at mean agent accuracy 60\% (dashed), 75\% (solid) and 90\% (dotted). The top axis gives $N_{\mathrm{eff}}=9/(1+8\phi)$. The systems used VQA-RAD, SLAKE and SLAKE-target (250 items each), and SLAKE-pairs (200 pairs). Model colors as in Fig.~1.}
+\label{fig:supp-arithmetic}
+\end{figure*}
+
+\begin{figure*}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/supp_resolution.pdf}
+\caption{\textbf{Reduced resolution changes error correlation in different directions across models.} (a) Single-agent accuracy and (b) error correlation $\phi$ of the Independent MAS across image conditions. Columns show VQA-RAD, SLAKE and MedXpertQA-MM, with 250 items each. Labels $\leq1024$, 256 and 128 cap the longest image side in pixels; Blank denotes a uniform gray image of unchanged dimensions. Lines join adjacent conditions. Dashed lines mark chance accuracy; vertical intervals are item-bootstrap 95\% CIs. Model colors as in Fig.~1.}
+\label{fig:supp-resolution}
+\end{figure*}
+
+\begin{figure*}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/supp_openweight.pdf}
+\caption{\textbf{Open-weight probes show visual reliance without sampling.} Each model used one forward pass per item on VQA-RAD, SLAKE and MedXpertQA-MM, with 250 items each. (a) Accuracy with the original image (filled) and blank image (open); dashed vertical lines mark chance. (b) Visual reliance on a log scale: absolute change in log-odds of yes on binary items, and Kullback--Leibler divergence from original-image to blank-image probabilities on MedXpertQA-MM. Points are means with item-bootstrap 95\% CIs. Dark gray markers in (a,b) identify the labeled open-weight models. (c) Between-model error correlation divided by its maximum given the marginal error rates, $\phi/\phi_{\max}$. Rose diamonds identify HuatuoGPT-Vision 7B and LLaVA-1.5 7B, which share the CLIP ViT-L/14-336 encoder; gray circles identify pairs with different encoders.}
+\label{fig:supp-openweight}
+\end{figure*}
+
+\clearpage
+\twocolumn
+\section{Text-only clinical questions}\label{sec:supp-text}
+
+An unpublished companion analysis evaluated language-model agents on text-only clinical questions. The data sets were MedQA, MedAgentsBench and the text set of MedXpertQA~\cite{jin2021medqa,medagentsbench,zuo2025medxpertqa}. The 8 models were Claude Haiku 4.5, Claude Sonnet 5, DeepSeek V4 Flash, Gemini 3.5 Flash Lite, Gemini 3.7 Flash, GPT-4.1 nano, GPT-5 mini and GPT-5 nano. They answered as single agents and in multi-agent systems with specialty roles. The 340 configurations comprised 96 Independent, 96 Centralized, 96 Decentralized and 52 Hybrid systems, with architecture names from Kim et al.~\cite{kim2026scaling}.
+
+Initial-answer error correlation in the companion analysis was within the imaging range. Across the 288 Independent, Centralized and Decentralized configurations with 3 to 9 agents, mean initial-answer $\phi$ was 0.758. These architectures shared initial answers and had identical initial-answer correlations by design. With 9 agents, $\phi$ was 0.762 and $N_{\mathrm{eff}}$ was 1.27.
+
+Debate increased error correlation in the companion Decentralized systems. Across the 96 configurations, mean $\phi$ was 0.758 (SD 0.117) before debate and 0.990 (SD 0.010) after debate. After debate, $N_{\mathrm{eff}}$ was 1.01.
