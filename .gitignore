@@ -5,3 +5,16 @@
 *.blg
 *.synctex.gz
 .env
+
+# ACL version of the paper: kept locally, not published
+/main.tex
+/main.pdf
+/acl.sty
+/acl_natbib.bst
+/refs.bib
+/sections/
+/tables/
+/figures/
+/icons/
+/PAPER_PLAN.md
+/README_acl.md
